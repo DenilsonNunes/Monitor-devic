@@ -10,7 +10,7 @@ const testConnectionSMTP = async () => {
     //secure: true,
     auth: {
       user: process.env.EMAIL_USER, 
-      pass: 'erico@vallendiag2024#'//process.env.EMAIL_PASSWORD
+      pass: process.env.EMAIL_PASSWORD
     },
   });
 
