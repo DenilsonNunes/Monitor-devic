@@ -78,7 +78,34 @@ const FormConfigMsgEmail = () => {
         setMailMsgTitAVenc(value);
     }
 
-    const handleEnviarEmailTeste = () => {
+    const handleEnviarEmailTeste = (event) => {
+        event.preventDefault();
+
+        api.post('configuracoes/envio-email/teste-titulos-a-vencer')
+
+            .then((response) => {
+
+                console.log('Email Teste Realizado com sucesso: ', response.data)
+               
+               
+                toast({
+                    title: response.data.message,
+                    status: 'success',
+                    duration: 4000,
+                    isClosable: true,
+                })
+            })
+            .catch((error) => {
+                // Adicione aqui a lógica para exibir uma mensagem de erro ou qualquer outra ação desejada em caso de falha no teste de conexão
+                console.log('Erro ao Enviar Email Teste:', error.response);
+               
+                toast({
+                    title: 'Erro ao Conectar com o servidor SMTP!',
+                    status: 'error',
+                    duration: 4000,
+                    isClosable: true,
+                })
+            });
         
     };
 
@@ -218,7 +245,7 @@ const FormConfigMsgEmail = () => {
                             <Button type='submit' size='sm' colorScheme='green' marginTop={2} marginLeft={2} isDisabled={!emEdicao} onClick={handleSalvarDados}>Salvar</Button>
                         </Box>
 
-                        <Button type='submit' size='sm' colorScheme='blue' marginTop={2} marginLeft={2} isDisabled={emEdicao} onClick={handleSalvarDados}>Enviar e-mail Teste</Button>
+                        <Button type='submit' size='sm' colorScheme='blue' marginTop={2} marginLeft={2} isDisabled={emEdicao} onClick={handleEnviarEmailTeste}>Enviar e-mail Teste</Button>
 
                     </Box>
 

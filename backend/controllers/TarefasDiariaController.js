@@ -1,6 +1,6 @@
 
 //serviços
-const sendEmailService = require('../services/sendEmailService')
+const emailAutomationService = require('../services/emailAutomationService')
 
 
 
@@ -12,7 +12,7 @@ class TarefasDiariaController {
 
         try {
 
-            const result = await sendEmailService();
+            const result = await emailAutomationService.titulosAVencer();
 
             res.status(200).json({ message: result });
 

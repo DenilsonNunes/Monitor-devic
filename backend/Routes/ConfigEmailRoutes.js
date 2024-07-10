@@ -19,6 +19,9 @@ router.patch('/envio-email/edit', ConfigEmailController.updateConfigEnvEmail);
 // Testa conexão com o servidor SMTP
 router.get('/envio-email/teste-conexao', ConfigEmailController.testConnection);
 
+router.post('/envio-email/teste-titulos-a-vencer', ConfigEmailController.envioEmailTeste);
+
+
 
     
 

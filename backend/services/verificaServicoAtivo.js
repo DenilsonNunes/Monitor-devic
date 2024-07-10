@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 
 const sqlQuery = require('../db/SQL/query/query');
-const sendEmailService = require('../services/sendEmailService');
+const emailAutomationService = require('../services/emailAutomationService');
 
 
 
@@ -24,7 +24,7 @@ const verificaServicoAtivo = async () =>{
     // Verifica se o envio de e-mail automatico para titulos a receber esta ATIVO, se tiver, envia os email de acordo com as configurações
     if(envioEmailAut.EnvEmailAutAVenc !== "N" && envioEmailAut.envioEmailAut !== null) {
         cron.schedule('03 22 * * *', () => {
-            sendEmailService();
+            emailAutomationService.titulosAVencer();
             console.log('Teste!!!');
         });
     }

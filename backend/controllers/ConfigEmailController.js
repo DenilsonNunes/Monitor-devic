@@ -5,6 +5,7 @@ const sqlUpdate = require('../db/SQL/query/queryUpdate');
 
 // Services
 const testConnectionSMTP = require('../services/testConnectionEmail');
+const { SendEmailTeste } = require('../services/sendEmailTeste')
 
 // Formats
 const filtraHoraMinutosDoDateTime = require('../utils/Formats/filtraHoraMinutosDoDateTime')
@@ -65,6 +66,24 @@ class ConfigEmailController {
     
 
     }
+
+        // Envia email teste
+        async envioEmailTeste(req, res) {
+            
+            try {
+    
+                const result = await SendEmailTeste.titulosAvencer();
+    
+                res.status(200).json({ message: result });
+    
+            } catch(err) {
+                console.log('Erro interno: ', err.message);
+                res.status(500).json({ message: err });
+            }
+        
+    
+        }
+    
 
 
     
