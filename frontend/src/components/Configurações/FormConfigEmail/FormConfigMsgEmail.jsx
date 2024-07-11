@@ -34,6 +34,8 @@ const FormConfigMsgEmail = () => {
 
     const [infoEmEdicao, setInfoEmEdicao] = useState(false);
     const [emEdicao, setEmedicao] = useState(false);
+    const [enviandoEmail, setEnviandoemail] = useState(false);
+
 
 
 
@@ -79,15 +81,19 @@ const FormConfigMsgEmail = () => {
     }
 
     const handleEnviarEmailTeste = (event) => {
+
         event.preventDefault();
+
+        setEnviandoemail(true);
 
         api.post('configuracoes/envio-email/teste-titulos-a-vencer')
 
             .then((response) => {
 
                 console.log('Email Teste Realizado com sucesso: ', response.data)
-               
-               
+
+                setEnviandoemail(false);
+                
                 toast({
                     title: response.data.message,
                     status: 'success',
@@ -98,9 +104,11 @@ const FormConfigMsgEmail = () => {
             .catch((error) => {
                 // Adicione aqui a lógica para exibir uma mensagem de erro ou qualquer outra ação desejada em caso de falha no teste de conexão
                 console.log('Erro ao Enviar Email Teste:', error.response);
+
+                setEnviandoemail(false);
                
                 toast({
-                    title: 'Erro ao Conectar com o servidor SMTP!',
+                    title: 'Erro ao enviar e-mail teste !!!',
                     status: 'error',
                     duration: 4000,
                     isClosable: true,
@@ -238,14 +246,25 @@ const FormConfigMsgEmail = () => {
                     <Box display='flex' justifyContent='space-between'>
 
                         <Box>
-                            <Button size='sm' colorScheme={emEdicao ? 'red' : 'yellow'} marginTop={2} onClick={handleEditar}>
+                            <Button size='sm' width='5.2rem' colorScheme={emEdicao ? 'red' : 'yellow'} marginTop={2} onClick={handleEditar}>
                                 {emEdicao ? 'Cancelar' : 'Editar'}    
                             </Button>
 
                             <Button type='submit' size='sm' colorScheme='green' marginTop={2} marginLeft={2} isDisabled={!emEdicao} onClick={handleSalvarDados}>Salvar</Button>
                         </Box>
 
-                        <Button type='submit' size='sm' colorScheme='blue' marginTop={2} marginLeft={2} isDisabled={emEdicao} onClick={handleEnviarEmailTeste}>Enviar e-mail Teste</Button>
+                        <Button 
+                            type='submit' 
+                            size='sm' 
+                            width='9.2rem'
+                            colorScheme='blue' 
+                            marginTop={2} marginLeft={2} 
+                            isLoading={enviandoEmail}
+                            loadingText='Enviando...' 
+                            onClick={handleEnviarEmailTeste}
+                        >
+                            Enviar e-mail Teste
+                        </Button>
 
                     </Box>
 

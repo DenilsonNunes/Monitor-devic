@@ -18,7 +18,7 @@ const ModalEnviarEmail = ({ isOpen, onClose, codEmpr, DtLctoCtRec, NrLctoCtRec }
   console.log('ModalProdutos', codEmpr, DtLctoCtRec, NrLctoCtRec);
   
     return (
-      <>  
+   
         <Modal onClose={onClose} isOpen={isOpen} isCentered size=''>
           <ModalOverlay />
             <ModalContent width={1500}>
@@ -38,7 +38,7 @@ const ModalEnviarEmail = ({ isOpen, onClose, codEmpr, DtLctoCtRec, NrLctoCtRec }
               </ModalFooter>
           </ModalContent>
         </Modal>
-      </>
+     
     )
 }
 

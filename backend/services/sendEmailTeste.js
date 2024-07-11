@@ -1,8 +1,7 @@
 const nodemailer = require('nodemailer');
-const mensagem = require('../Helpers/msgEmailTitulosAvencer');
+const mensagem = require('../Helpers/msgEmailTitulosAvencerTeste');
+const { SelectConfigEnvEmail } = require('../db/SQL/Configurações/Configurações-de-Email/SELECT/configuracoesEnvEmail');
 const sqlQuery = require('../db/SQL/query/query')
-
-
 
 
 
@@ -10,29 +9,37 @@ const sqlQuery = require('../db/SQL/query/query')
 
 class SendEmailTeste {
 
+    
+
     static cobranca = async (contasAreceber, mensagemCobranca) =>{
 
     }
     
     static titulosAvencer = async () => {
 
-            // Configurações do transporte SMTP 
+        // Query nas consfigurações de e-mail
+        const result = await sqlQuery(SelectConfigEnvEmail.configTitulosAvencer());
+
+        const configEmail = result[0];
+
+
+        // Configurações do transporte SMTP 
         const transporter = nodemailer.createTransport({
-            host: process.env.SERVER_EMAIL,
-            port: process.env.SERVER_PORT,
+            host: configEmail.SMTPServerTitAVenc,
+            port: configEmail.SMTPServerPort,
        
             auth: {
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASSWORD
+                user: configEmail.SMTPUsuarioTitAVenc, 
+                pass: configEmail.SMTPSenhaTitAVenc
             }
         });
     
         // Configurações do e-mail
         const opcaoEmail = {
-            from: 'denilsonnunes1605@gmail.com',
-            to: 'denilson.barauna@blueti.com.br',//cliente.EMailCli,
-            subject: 'TESTE APLICAÇÃO',
-            html: '<p>Email Teste Titulos a vencer</>'
+            from: configEmail.SMTPUsuarioTitAVenc, // Origem "De"
+            to: 'denilson.barauna@blueti.com.br', // Destino "Para"
+            subject: configEmail.MailAssuntoTitAVenc,
+            html: mensagem()
             //text:'Ola teste email'
         };
     
@@ -49,10 +56,17 @@ class SendEmailTeste {
 
     }
 
-    static aniversario = async (clientes, mensagem) => {
+    static aniversario = async () => {
 
     }
 
+    static marketing = async () => {
+
+    }
+
+    static gestor = async () => {
+
+    }
 
 }
 
