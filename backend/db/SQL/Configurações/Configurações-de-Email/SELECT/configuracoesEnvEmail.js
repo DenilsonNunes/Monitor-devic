@@ -48,6 +48,15 @@ class SelectConfigEnvEmail {
         return configEmail;
     }
 
+    static todasConfig(){
+
+        const configEmail = `
+            select * from tmConfigEmail
+        `;
+
+        return configEmail;
+    }
+
 
 
 }

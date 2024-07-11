@@ -260,6 +260,7 @@ const FormConfigMsgEmail = () => {
                             colorScheme='blue' 
                             marginTop={2} marginLeft={2} 
                             isLoading={enviandoEmail}
+                            isDisabled={emEdicao}
                             loadingText='Enviando...' 
                             onClick={handleEnviarEmailTeste}
                         >
