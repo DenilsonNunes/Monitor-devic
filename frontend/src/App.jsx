@@ -1,8 +1,9 @@
 import './App.css'
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 // Pages
+import Login from './pages/Login';
 import Home from './pages/Home';
 import Clientes from './pages/Clientes';
 import Financeiro from './pages/Financeiro/Financeiro';
@@ -22,14 +23,18 @@ function App() {
       <BrowserRouter>
 
         {/* <NavbarTeste/>*/}
-        <Navbar/>
+        
 
           <Routes>
+           
+            <Route path='/login' element={<Login/>}/>
             <Route path='/home' element={<Home/>}/>
             <Route path='/clientes' element={<Clientes/>}/>
             <Route path='/financeiro' element={<Financeiro/>}/>
             <Route path='/configurações' element={<Configuracoes/>}/>
             <Route path='/financeiro/contas-a-receber' element={<ContasAreceber/>}/>
+            <Route path='*' element={<Navigate to="/home"/>}/>
+
 
           </Routes>
       

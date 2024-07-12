@@ -1,10 +1,12 @@
 import TesteVizualizar from "../components/Testes/TesteVizualizar";
+import Navbar from "../components/Navbar/Navbar";
 
 
 const Home = () => {
 
   return (
     <div>
+       <Navbar/>
       <h1>Pagina Home</h1>
       {/*
       <TesteDrawer/>

@@ -1,4 +1,5 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box, Icon } from '@chakra-ui/react'
+import { FcBusinessman } from "react-icons/fc";
 import { SettingsIcon } from '@chakra-ui/icons'
 
 import FormConfigServidorSMTPemail from "../../src/components/Configurações/FormConfigEmail/FormConfigServidorSMTPemail";
@@ -21,7 +22,12 @@ const ConfiguracaoEmail = () => {
             <Tabs >
 
                 <TabList borderWidth="1px" borderColor="#cbd5e1" marginTop={5}>
-                    <Tab>Usuários</Tab>
+                        
+                    <Tab display='flex' alignItems='center'>
+                        <Icon as={FcBusinessman}/>
+                        Usuários
+                    </Tab>
+    
                     <Tab>Configurações Monitor</Tab>
                     <Tab>Configurações Envio de E-mails</Tab>
                     <Tab>Envio de E-mails automático</Tab>
