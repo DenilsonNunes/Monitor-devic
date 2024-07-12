@@ -9,9 +9,13 @@ import {
     Stack,
     RadioGroup,
     Radio,
-    Box
+    Box,
+    useDisclosure,
 
 } from '@chakra-ui/react'
+
+//componentes
+import ModalEnviarEmailTeste from './ModalEnviarEmailTeste';
 
 
 // instacia API
@@ -21,6 +25,8 @@ import MyEditor from '../../EditorDeTexto/MyEditor';
 
 
 const FormConfigMsgEmail = () => {
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const toast = useToast();
 
@@ -83,6 +89,11 @@ const FormConfigMsgEmail = () => {
     const handleEnviarEmailTeste = (event) => {
 
         event.preventDefault();
+        onOpen();
+
+        /*
+        
+         event.preventDefault();
 
         setEnviandoemail(true);
 
@@ -115,6 +126,10 @@ const FormConfigMsgEmail = () => {
                 })
             });
         
+        
+        */
+       
+        
     };
 
     const handleSalvarDados = (event) => {
@@ -146,7 +161,7 @@ const FormConfigMsgEmail = () => {
             console.log('Erro ao atualizar informações: ', error.response.data);
 
             toast({
-                title: error, // apresenta a mensagem enviada pelo backend
+                title:'erro ao conecar com o banco de dados', // apresenta a mensagem enviada pelo backend
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -254,13 +269,13 @@ const FormConfigMsgEmail = () => {
                         </Box>
 
                         <Button 
-                            type='submit' 
+                          
                             size='sm' 
                             width='9.2rem'
                             colorScheme='blue' 
                             marginTop={2} marginLeft={2} 
-                            isLoading={enviandoEmail}
-                            isDisabled={emEdicao}
+                            //isLoading={enviandoEmail}
+                            // isDisabled={emEdicao}
                             loadingText='Enviando...' 
                             onClick={handleEnviarEmailTeste}
                         >
@@ -275,8 +290,14 @@ const FormConfigMsgEmail = () => {
 
 
             </FormControl>
+            <ModalEnviarEmailTeste
+              
+                isOpen={isOpen}
+                onClose={onClose}
+            />
 
         </form>
+        
     )
 }
 

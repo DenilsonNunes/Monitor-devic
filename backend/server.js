@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
+
 const verificaServicoAtivo = require('../backend/services/verificaServicoAtivo');
 
 
@@ -19,7 +20,10 @@ const ClientesRoutes = require('./Routes/ClientesRoutes');
 const ConfigEmailRoutes = require('./Routes/ConfigEmailRoutes');
 const FinanceiroRoutes = require('./Routes/FinanceiroRoutes');
 const TarefasDiariaController = require('./Routes/TarefasDiariaRoutes');
-const TesteApiKey = require('./Routes/TesteApiKey');
+
+
+verificaServicoAtivo();
+
 
 
 
@@ -30,13 +34,10 @@ app.use('/clientes', ClientesRoutes);
 app.use('/configuracoes', ConfigEmailRoutes);
 app.use('/financeiro', FinanceiroRoutes);
 app.use('/tarefas-diaria', TarefasDiariaController);
-app.use('/teste-api-key', TesteApiKey);
 
 
 
     
-verificaServicoAtivo();
-
 
 
 // Inicia o servidor

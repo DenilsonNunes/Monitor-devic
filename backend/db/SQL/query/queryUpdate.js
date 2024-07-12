@@ -11,11 +11,13 @@ const query = async (dados) => {
     const result = await pool.request()
         .query(dados);
 
+    /*
     if (result.rowsAffected[0] > 0) {
         console.log('A consulta afetou pelo menos uma linha no banco de dados.');
     } else {
         console.log('A consulta não afetou nenhuma linha no banco de dados.');
     }
+    */
 
     const data = result.recordset;
 

@@ -24,7 +24,7 @@ const verificaServicoAtivo = async () =>{
         const horas = result[0]
         const minutos = result[1]
 
-        console.log(configEnvEmail.EnvEmailAutAVenc)
+       
 
         console.log(horas, minutos)
 

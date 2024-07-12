@@ -31,8 +31,7 @@ class EmailAutomationService {
             // Select na configuração de titulos a vencer
             const configTitulosAvencer = await sqlQuery(SelectConfigEnvEmail.configTitulosAvencer());
     
-            console.log('O que ta vindo:', configTitulosAvencer[0].DiasAVencEmailAutAVenc);
-    
+          
             // Faço um select no contas a receber que vai vencer
             const contasAreceber = await sqlQuery(queryContasAreceber( diasAVencer(configTitulosAvencer[0].DiasAVencEmailAutAVenc), diasAVencer(configTitulosAvencer[0].DiasAVencEmailAutAVenc)), filtros); // Data no formato MM-DD-AAAA
     
@@ -45,7 +44,7 @@ class EmailAutomationService {
                 return data;
     
             } else {
-    
+                console.log('Não tem titulos aberto no dia');
                 return 'Não tem titulos em aberto no dia';
     
             }

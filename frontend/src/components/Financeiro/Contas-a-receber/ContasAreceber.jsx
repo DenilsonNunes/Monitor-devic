@@ -37,7 +37,7 @@ import api from '../../../helpers/api-instance'
 
 import dataAtualMMDDAAAA from '../../../utils/dataAtualDDMMAAAA';
 
-import ModalEnviarEmail from '../ModalEnviarEmail';
+
 import ModalProdutos from '../ModalProdutos';
 
 

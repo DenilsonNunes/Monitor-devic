@@ -31,13 +31,13 @@ const FormLogin = () => {
         <FormControl  width={400} >
         
 
-        <FormLabel>Email</FormLabel>
-        <Input type='email'  />
+        <FormLabel>Usuário</FormLabel>
+        <Input type='email' placeholder='Digite seu usuário...' />
         {/*isErrorEmail && <FormErrorMessage>Email is required.</FormErrorMessage> */}
           
 
         <FormLabel marginTop={2}>Senha</FormLabel>
-        <Input type='password'/>
+        <Input type='password' placeholder='Digite sua senha...'/>
         {/*isErrorSenha && <FormErrorMessage>Informe a Senha</FormErrorMessage> */}
 
 
