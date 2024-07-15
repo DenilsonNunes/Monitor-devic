@@ -48,7 +48,7 @@ const FormLogin = () => {
             width='100%'  
             colorScheme='blue'
           >
-            Entrar
+            ENTRAR
           </Button>
       
 
