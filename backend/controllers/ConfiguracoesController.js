@@ -18,7 +18,7 @@ const { UpdateConfigEnvEmail } = require('../db/SQL/Configurações/Configuraç�
 
 
 
-class ConfigEmailController {
+class ConfiguracoesController {
 
     // Pesquisa todas configurações de e-mail
     async getConfigTitAvencer(req, res) {
@@ -67,23 +67,29 @@ class ConfigEmailController {
 
     }
 
-        // Envia email teste
-        async envioEmailTeste(req, res) {
-            
-            try {
-    
-                const result = await SendEmailTeste.titulosAvencer();
-    
-                res.status(200).json({ message: result });
-    
-            } catch(err) {
-                console.log('Erro interno: ', err.message);
-                res.status(500).json({ message: err });
-            }
+    // Envia email teste
+    async envioEmailTeste(req, res) {
+
+        const data = req.body;
+
+        const emailDestino = data.emailDestino;
         
-    
+        console.log('Email destino', data.emailDestino);
+        
+        try {
+
+            const result = await SendEmailTeste.titulosAvencer(emailDestino);
+
+            res.status(200).json({ message: result });
+
+        } catch(err) {
+            console.log('Erro interno: ', err.message);
+            res.status(500).json({ message: err });
         }
     
+
+    }
+
 
 
     
@@ -134,4 +140,4 @@ class ConfigEmailController {
 }
 
 
-module.exports = new ConfigEmailController();
+module.exports = new ConfiguracoesController();

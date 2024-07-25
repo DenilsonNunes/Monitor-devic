@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
   Modal,
@@ -24,7 +24,7 @@ import api from '../../../helpers/api-instance'
 
 const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
 
-  const [email, setEmail] = useState('');
+  const [emailDestino, setEmaildestino] = useState('');
 
   //Para o Loading no envio do e-mail
   const [isLoading, setIsLoading] = useState(false);
@@ -34,10 +34,23 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
   const [emailEnviado , setemailEnviado] = useState(true);
 
 
+  useEffect(() => {
+    if(!isOpen) {
+      setEmaildestino('');
+      setIsLoading(false);
+      setMsgEmailEnviado(false);
+      setemailEnviado(true);
+    }
+
+  }, [isOpen])
+
+
 
   const handleEnviarEmail = (event) => {
 
     event.preventDefault();
+
+    console.log('Email destino', event.target.value);
 
     setIsLoading(true);
 
@@ -58,7 +71,9 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
     
     
     */
-     api.post('configuracoes/envio-email/teste-titulos-a-vencer')
+     api.post('configuracoes/envio-email/teste-titulos-a-vencer', {
+      emailDestino,
+     })
      
      .then((response) => {
         console.log('Email Teste enviado com sucesso: ', response.data)
@@ -134,23 +149,25 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
         )
 
         ) : (
+        
+            <Box>
+              <ModalBody pb={2}>
 
-          <Box>
-            <ModalBody pb={2}>
+                <Input type='email' border='1px' borderColor='#cbd5e1'
+                  value={emailDestino}
+                  required
+                  onChange={(e) => setEmaildestino(e.target.value)}
+                />
+              </ModalBody>
 
-              <Input type='email' border='1px' borderColor='#cbd5e1'
-                //value={MailAssuntoTitAVenc}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </ModalBody>
+              <ModalFooter>
+                <Button colorScheme='red' mr={3} onClick={onClose}>Cancelar</Button>
+                <Button type='submit' colorScheme='blue' onClick={handleEnviarEmail}>Enviar</Button>
+              </ModalFooter>
 
-            <ModalFooter>
-              <Button colorScheme='red' mr={3} onClick={onClose}>Cancelar</Button>
-              <Button colorScheme='blue' onClick={handleEnviarEmail}>Enviar</Button>
-            </ModalFooter>
-
-          </Box>
-
+            </Box>
+            
+      
         )}
 
       </ModalContent>

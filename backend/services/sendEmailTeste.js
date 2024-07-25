@@ -15,7 +15,7 @@ class SendEmailTeste {
 
     }
     
-    static titulosAvencer = async () => {
+    static titulosAvencer = async (emailDestino) => {
 
         // Query nas consfigurações de e-mail
         const result = await sqlQuery(SelectConfigEnvEmail.configTitulosAvencer());
@@ -37,7 +37,7 @@ class SendEmailTeste {
         // Configurações do e-mail
         const opcaoEmail = {
             from: configEmail.SMTPUsuarioTitAVenc, // Origem "De"
-            to: 'denilson.barauna@blueti.com.br', // Destino "Para"
+            to: emailDestino, // Destino "Para"
             subject: configEmail.MailAssuntoTitAVenc,
             html: mensagem()
             //text:'Ola teste email'

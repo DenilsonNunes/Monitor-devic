@@ -1,6 +1,6 @@
 import './App.css'
 
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 // Pages
 import Login from './pages/Login';
@@ -14,19 +14,18 @@ import Configuracoes from './pages/Configuracoes';
 import Navbar from './components/Navbar/Navbar'
 
 
-function App() {
+function MainLayout () {
+
+  const location = useLocation();
+  const showNavbar = location.pathname !== '/login';
 
 
   return (
     <>
-
-      <BrowserRouter>
-
-        {/* <NavbarTeste/>*/}
+      { showNavbar && <Navbar/>} 
         
-
-          <Routes>
-           
+        <Routes>
+            
             <Route path='/login' element={<Login/>}/>
             <Route path='/home' element={<Home/>}/>
             <Route path='/clientes' element={<Clientes/>}/>
@@ -35,13 +34,18 @@ function App() {
             <Route path='/financeiro/contas-a-receber' element={<ContasAreceber/>}/>
             <Route path='*' element={<Navigate to="/home"/>}/>
 
-
-          </Routes>
-      
-      </BrowserRouter>
-      
+        </Routes>
     </>
   )
+}
+
+
+function App() {
+  return (
+    <BrowserRouter>
+      <MainLayout/>
+    </BrowserRouter>
+  );
 }
 
 export default App;

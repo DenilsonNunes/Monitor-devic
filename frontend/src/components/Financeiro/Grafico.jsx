@@ -9,13 +9,13 @@ const Grafico = () => {
           id: 'apexchart-example'
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+          categories: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
         }
     }   
         
     const series = [{
-        name: 'usuarios',
-        data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+        name: 'Faturamento',
+        data: [12000, 40000, 35000, 50000, 49300, 60100, 70500, 91000, 125000]
     }]
 
   
@@ -24,7 +24,7 @@ const Grafico = () => {
         <ApexChart 
             options={options} 
             series={series} 
-            type="bar" width={500} height={320} 
+            type="bar" width={900} height={320} 
         />
     )
 }

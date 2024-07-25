@@ -17,7 +17,7 @@ app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 
 // Impotando rotas
 const ClientesRoutes = require('./Routes/ClientesRoutes');
-const ConfigEmailRoutes = require('./Routes/ConfigEmailRoutes');
+const ConfiguracoesRoutes = require('./Routes/ConfiguracoesRoutes');
 const FinanceiroRoutes = require('./Routes/FinanceiroRoutes');
 const TarefasDiariaController = require('./Routes/TarefasDiariaRoutes');
 
@@ -31,7 +31,7 @@ verificaServicoAtivo();
 
 //Rotas
 app.use('/clientes', ClientesRoutes);
-app.use('/configuracoes', ConfigEmailRoutes);
+app.use('/configuracoes', ConfiguracoesRoutes);
 app.use('/financeiro', FinanceiroRoutes);
 app.use('/tarefas-diaria', TarefasDiariaController);
 
