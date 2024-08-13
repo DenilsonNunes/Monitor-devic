@@ -15,7 +15,10 @@ import {
   Box,
   Alert,
   AlertTitle,
-  AlertIcon
+  AlertIcon,
+  FormHelperText,
+  FormErrorMessage,
+  FormControl
 } from '@chakra-ui/react'
 
 
@@ -30,16 +33,20 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Msg Email foi enviado 
-  const [msgEmailEnviado , setMsgEmailEnviado] = useState(false);
-  const [emailEnviado , setemailEnviado] = useState(true);
+  const [msgEmailEnviado, setMsgEmailEnviado] = useState(false);
+  const [emailEnviado, setemailEnviado] = useState(true);
+
+  const [isError, setIsError] = useState(false);
+
 
 
   useEffect(() => {
-    if(!isOpen) {
+    if (!isOpen) {
       setEmaildestino('');
       setIsLoading(false);
       setMsgEmailEnviado(false);
       setemailEnviado(true);
+      setIsError(false);
     }
 
   }, [isOpen])
@@ -49,6 +56,12 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
   const handleEnviarEmail = (event) => {
 
     event.preventDefault();
+
+    if (emailDestino === '') {
+
+      setIsError(true)
+      return
+    }
 
     console.log('Email destino', event.target.value);
 
@@ -71,23 +84,23 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
     
     
     */
-     api.post('configuracoes/envio-email/teste-titulos-a-vencer', {
+    api.post('configuracoes/envio-email/teste-titulos-a-vencer', {
       emailDestino,
-     })
-     
-     .then((response) => {
+    })
+
+      .then((response) => {
         console.log('Email Teste enviado com sucesso: ', response.data)
         setIsLoading(false);
         setMsgEmailEnviado(true);
-     })
-     .catch((error) => {
-         // Adicione aqui a lógica para exibir uma mensagem de erro ou qualquer outra ação desejada em caso de falha no teste de conexão
+      })
+      .catch((error) => {
+        // Adicione aqui a lógica para exibir uma mensagem de erro ou qualquer outra ação desejada em caso de falha no teste de conexão
         console.log('Erro ao Enviar Email Teste:', error.response);
         setIsLoading(false);
         setMsgEmailEnviado(true);
         setemailEnviado(false);
-     });
-    
+      });
+
   }
 
 
@@ -96,7 +109,7 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Informe o e-mail</ModalHeader>
+        <ModalHeader>E-mail</ModalHeader>
         <ModalCloseButton />
 
         {/* Mostra snniper carregando ate enviar o e-mail*/}
@@ -105,69 +118,79 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
             <Spinner color='green' size='xl' thickness="4px" />
           </Box>
 
-        // Mostra o retorno da solicitação do envio de email
+          // Mostra o retorno da solicitação do envio de email
         ) : msgEmailEnviado ? (
 
           //Email Enviado mostra sucesso
           emailEnviado ? (
             <Box>
-            <ModalBody height={128}>
+              <ModalBody height={128}>
 
-              <Alert
-                status='success'
-                flexDirection='column'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-              >
-                <AlertIcon boxSize='30px' mr={0} />
-                <AlertTitle mt={4} mb={1} fontSize='lg'>
-                  E-mail enviado com sucesso !!!
-                </AlertTitle>
-              </Alert>
-            </ModalBody>
-          </Box>
-          //Email com falha mostra erro
+                <Alert
+                  status='success'
+                  flexDirection='column'
+                  alignItems='center'
+                  justifyContent='center'
+                  textAlign='center'
+                >
+                  <AlertIcon boxSize='30px' mr={0} />
+                  <AlertTitle mt={4} mb={1} fontSize='lg'>
+                    E-mail enviado com sucesso !!!
+                  </AlertTitle>
+                </Alert>
+              </ModalBody>
+            </Box>
+            //Email com falha mostra erro
           ) : (
             <Box>
-            <ModalBody height={128}>
+              <ModalBody height={128}>
 
-              <Alert
-                status='error'
-                flexDirection='column'
-                alignItems='center'
-                justifyContent='center'
-                textAlign='center'
-              >
-                <AlertIcon boxSize='30px' mr={0} />
-                <AlertTitle mt={4} mb={1} fontSize='lg'>
-                  E-mail não enviado !!!
-                </AlertTitle>
-              </Alert>
-            </ModalBody>
-          </Box>
-        )
+                <Alert
+                  status='error'
+                  flexDirection='column'
+                  alignItems='center'
+                  justifyContent='center'
+                  textAlign='center'
+                >
+                  <AlertIcon boxSize='30px' mr={0} />
+                  <AlertTitle mt={4} mb={1} fontSize='lg'>
+                    E-mail não enviado !!!
+                  </AlertTitle>
+                </Alert>
+              </ModalBody>
+            </Box>
+          )
 
         ) : (
-        
-            <Box>
-              <ModalBody pb={2}>
 
-                <Input type='email' border='1px' borderColor='#cbd5e1'
-                  value={emailDestino}
-                  required
-                  onChange={(e) => setEmaildestino(e.target.value)}
-                />
-              </ModalBody>
+          <FormControl isInvalid={isError}>
 
-              <ModalFooter>
-                <Button colorScheme='red' mr={3} onClick={onClose}>Cancelar</Button>
-                <Button type='submit' colorScheme='blue' onClick={handleEnviarEmail}>Enviar</Button>
-              </ModalFooter>
+            <ModalBody pb={2}>
 
-            </Box>
-            
-      
+              <Input type='email' border='1px' borderColor='#cbd5e1'
+                value={emailDestino}
+                required
+                onChange={(e) => setEmaildestino(e.target.value)}
+              />
+
+              {!isError ? (
+                <FormHelperText>
+                  Informe o e-mail que deseja receber o e-mail teste
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>Email é obrigatório.</FormErrorMessage>
+              )}
+
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme='red' mr={3} onClick={onClose}>Cancelar</Button>
+              <Button colorScheme='blue' onClick={handleEnviarEmail}>Enviar</Button>
+            </ModalFooter>
+
+          </FormControl>
+
+
         )}
 
       </ModalContent>

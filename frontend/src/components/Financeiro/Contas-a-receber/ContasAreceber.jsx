@@ -25,7 +25,8 @@ import {
     Menu,
     MenuButton,
     MenuList,
-    MenuItem 
+    MenuItem, 
+    Center
 
 } from '@chakra-ui/react'
 
@@ -147,8 +148,12 @@ const ContasAreceber = () => {
 
     return (
 
-        <Flex justifyContent='center' padding={5} flexDirection='column'>
-
+        <Box marginTop={20}>
+            <Box>
+                <Text>Filtros</Text>
+            </Box>
+            <Flex justifyContent='center' padding={5} flexDirection='column'>
+            
             {/* Formulário Pesquisa*/}
             <Box>
 
@@ -157,20 +162,21 @@ const ContasAreceber = () => {
 
                         <Text fontSize='3xl'>Período</Text>
 
-                        <Stack direction='row' width='100%' alignItems='center' marginTop={5}>
+                 
+                        <Stack direction='row' width='100%' alignItems='center' padding={0} marginTop={5} >
 
-                            <Stack direction='row' alignItems='end' >
+                            <Stack direction='row' alignItems='center'  >
 
-                                <FormLabel>De:</FormLabel>
-                                <Input type='date' border='1px' borderColor='#cbd5e1'  width="10rem" height={8}
-                         
+                                <FormLabel margin={0}>De:</FormLabel>
+                                <Input type='date' border='1px' borderColor='#cbd5e1' width="9rem" height={7}
+                            
                                     value={dataInicio}
                                     onChange={(e) => setDataInicio(e.target.value)}
                                     required
                                 />
 
-                                <FormLabel>Até:</FormLabel>
-                                <Input type='date' border='1px' borderColor='#cbd5e1' width="10rem" height={8}
+                                <FormLabel margin={0}>Até:</FormLabel>
+                                <Input type='date' border='1px' borderColor='#cbd5e1' width="9rem" height={7}
                                     value={dataFim}
                                     onChange={(e) => setDataFim(e.target.value)}
                                     required
@@ -179,7 +185,7 @@ const ContasAreceber = () => {
                             </Stack>
 
 
-                            <Button size='md' colorScheme='blue' isDisabled={isLoading} height={8} onClick={handleBuscarDados}>Buscar</Button>
+                            <Button size='md' colorScheme='blue' isDisabled={isLoading} height={7} onClick={handleBuscarDados}>Buscar</Button>
 
                         </Stack>
 
@@ -325,7 +331,9 @@ const ContasAreceber = () => {
                 />
             )}
 
-        </Flex>
+            </Flex>
+        </Box>
+
     )
 }
 

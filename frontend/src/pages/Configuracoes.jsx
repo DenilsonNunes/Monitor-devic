@@ -12,16 +12,16 @@ const ConfiguracaoEmail = () => {
 
     return (
 
-        <Box  margin={5}>
+        <Box  margin={5} marginTop="90px">
 
             <Box display='flex'  alignItems='center'>
                 <SettingsIcon w={8} h={8}/>
                 <Text fontSize='4xl' marginLeft={4}>Painel de Configuração</Text>
             </Box>    
-          
-            <Tabs >
+            
+            <Tabs  sx={{ position: 'static', display: 'initial' }}>
 
-                <TabList borderWidth="1px" borderColor="#cbd5e1" marginTop={5}>
+                <TabList borderWidth="1px" borderColor="#cbd5e1" marginTop={5} >
                         
                     <Tab display='flex' alignItems='center'>
                         <Icon as={FcBusinessman}/>
@@ -45,7 +45,7 @@ const ConfiguracaoEmail = () => {
                     {/*Configurações de E-mail*/}
                     <TabPanel>
         
-                        <Tabs variant='enclosed' p='2'>
+                        <Tabs variant='enclosed' p='2'  sx={{ position: 'static', display: 'initial' }}>
                             <TabList >
                                 <Tab fontWeight='bold' _selected={{ color: 'white', bg: '#0284c7' }} borderWidth="2px" borderColor="#cbd5e1" >Cobrança</Tab>
                                 <Tab fontWeight='bold' _selected={{ color: 'white', bg: '#0284c7' }} borderWidth="2px" borderColor="#cbd5e1" marginLeft="2px">Titulos a Vencer</Tab>

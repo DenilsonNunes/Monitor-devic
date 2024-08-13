@@ -61,6 +61,21 @@ const FormConfigEmail = () => {
 
         event.preventDefault();
 
+        if(server === '') {
+            toast({
+                title: 'O campo server deve ser preenchido', // apresenta a mensagem enviada pelo backend
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+            })
+
+            useEffect(() => {
+        
+            }, []);
+            
+            return
+        }
+
         api.patch('configuracoes/envio-email/edit/config-smtp', {
             server,
             email,
@@ -155,7 +170,6 @@ const FormConfigEmail = () => {
                             value={server}
                             onChange={(e) => setServer(e.target.value)}
                             placeholder="Informe o servidor SMTP"
-                            required
                         />
 
                     </Stack>

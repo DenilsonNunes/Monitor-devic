@@ -1,7 +1,25 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    background-color: #0284c7;
+    display: flex;
+    z-index: 1000;
+}
+
+
 .navbar ul {
     display: flex;
     align-items: center;
     list-style: none;
+    height: 100%;
+    margin: 0;
+}
+
+.navbar li {
+    margin-left: 10px;
 }
 
 .navbar li,
@@ -20,9 +38,5 @@
     color: #FFF;
 }
   
-.navbar li:hover > a {
-    color: #FFF;
-}
-
 
 
