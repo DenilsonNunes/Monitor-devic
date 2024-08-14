@@ -23,12 +23,13 @@ const Financeiro = () => {
 
   return (
 
-    <Box>
+    <Box marginLeft={5} marginRight={5}>
 
         <Box marginTop={20}>
             <CardRotinasFinanceiro/>
         </Box>
         
+        <Heading size='md'>Analise anual</Heading>
         
         
         
@@ -86,8 +87,11 @@ const Financeiro = () => {
             </Card>
         </Box>
     */}
+
+        <Box  boxShadow='md'>
+            <Grafico/>
+        </Box>
        
-        <Grafico/>
     </Box>
    
     

@@ -27,8 +27,8 @@ const CardRotinasFinanceiro = () => {
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/ClientesEmDebito-48.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody>
-                        <Heading textAlign='center' size='md'>Gestão de Cobrança / Clientes em Débito</Heading>
+                    <CardBody padding={0} paddingBottom={5} paddingLeft={5}>
+                        <Heading textAlign='center' size='sm'>Gestão de Cobrança / Clientes em Débito</Heading>
                     </CardBody>
 
                 </Card>
@@ -43,8 +43,8 @@ const CardRotinasFinanceiro = () => {
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/Gestão de Cobrança e Inadimplencia.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody>
-                        <Heading textAlign='center' size='md'>Gestão de Cobrança e Inadimplencia</Heading>
+                    <CardBody padding={0} paddingBottom={5}>
+                        <Heading textAlign='center' size='sm'>Gestão de Cobrança e Inadimplencia</Heading>
                     </CardBody>
 
                 </Card>
@@ -58,8 +58,8 @@ const CardRotinasFinanceiro = () => {
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/ResumoRecebimentoContasReceber-2-48.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody>
-                        <Heading textAlign='center' size='md'>Resumo de Recebimentos e Contas a Receber em Aberto</Heading>
+                    <CardBody padding={0} paddingBottom={5}>
+                        <Heading textAlign='center' size='sm'>Resumo de Recebimentos e Contas a Receber em Aberto</Heading>
                     </CardBody>
 
                 </Card>
@@ -74,8 +74,8 @@ const CardRotinasFinanceiro = () => {
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody>
-                        <Heading textAlign='center' size='md'>Análise de Recebimentos por Quitação</Heading>
+                    <CardBody padding={0} paddingBottom={5}>
+                        <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
                     </CardBody>
 
                 </Card>
