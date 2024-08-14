@@ -18,16 +18,16 @@ import {
 
 const CardRotinasFinanceiro = () => {
     return (
-        <SimpleGrid spacing={4} templateColumns='repeat(auto-fill, minmax(300px, 1fr))'>
+        <SimpleGrid spacing={4}  templateColumns='repeat(auto-fill, minmax(250px, 1fr))'>
 
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
+            <Link to="/financeiro/gestao-de-cobranca/clientes-em-debito">
 
                 <Card bg='#f1f5f9'>
 
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/ClientesEmDebito-48.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody padding={0} paddingBottom={5} paddingLeft={5}>
+                    <CardBody >
                         <Heading textAlign='center' size='sm'>Gestão de Cobrança / Clientes em Débito</Heading>
                     </CardBody>
 
@@ -43,7 +43,7 @@ const CardRotinasFinanceiro = () => {
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/Gestão de Cobrança e Inadimplencia.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody padding={0} paddingBottom={5}>
+                    <CardBody >
                         <Heading textAlign='center' size='sm'>Gestão de Cobrança e Inadimplencia</Heading>
                     </CardBody>
 
@@ -58,7 +58,7 @@ const CardRotinasFinanceiro = () => {
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/ResumoRecebimentoContasReceber-2-48.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody padding={0} paddingBottom={5}>
+                    <CardBody>
                         <Heading textAlign='center' size='sm'>Resumo de Recebimentos e Contas a Receber em Aberto</Heading>
                     </CardBody>
 
@@ -74,13 +74,19 @@ const CardRotinasFinanceiro = () => {
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody padding={0} paddingBottom={5}>
+                    <CardBody >
                         <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
                     </CardBody>
 
                 </Card>
 
             </Link>
+
+            
+
+
+
+       
 
          
         </SimpleGrid>

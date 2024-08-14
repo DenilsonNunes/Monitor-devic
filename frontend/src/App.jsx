@@ -3,12 +3,17 @@ import './App.css'
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 // Pages
-import Login from './pages/Login';
-import Home from './pages/Home';
-import Clientes from './pages/Clientes';
-import Financeiro from './pages/Financeiro/Financeiro';
+import Login from './pages/Login/Login';
+import Home from './pages/Home/Home';
+import Clientes from './pages/Clientes/Clientes';
+
+//Financeiro
+import Financeiro from './pages/Financeiro/HomeFinanceiro';
+import ClientesEmDebito from './pages/Financeiro/Gestao-de-cobranca/ClientesEmDebito';
 import ContasAreceber from './pages/Financeiro/ContasAreceber';
-import Configuracoes from './pages/Configuracoes';
+
+//Configuracoes
+import Configuracoes from './pages/Configuracoes/Configuracoes';
 
 //COMPONENTS
 import Navbar from './components/Navbar/Navbar'
@@ -29,11 +34,20 @@ function MainLayout () {
             <Route path='/login' element={<Login/>}/>
             <Route path='/home' element={<Home/>}/>
             <Route path='/clientes' element={<Clientes/>}/>
-            <Route path='/financeiro' element={<Financeiro/>}/>
-            <Route path='/configurações' element={<Configuracoes/>}/>
-            <Route path='/financeiro/contas-a-receber' element={<ContasAreceber/>}/>
-            <Route path='*' element={<Navigate to="/home"/>}/>
 
+            {/* FINANCEIRO */}
+            <Route path='/financeiro' element={<Financeiro/>}/>
+            <Route path='/financeiro/contas-a-receber' element={<ContasAreceber/>}/>
+            <Route path='/financeiro/gestao-de-cobranca/clientes-em-debito' element={<ClientesEmDebito/>}/>
+
+
+            {/* CONFIGURAÇÕES */}
+            <Route path='/configurações' element={<Configuracoes/>}/>
+
+
+
+
+            <Route path='*' element={<Navigate to="/home"/>}/>
         </Routes>
     </>
   )

@@ -1,5 +1,5 @@
-import TesteVizualizar from "../components/Testes/TesteVizualizar";
-import Navbar from "../components/Navbar/Navbar";
+import TesteVizualizar from "../../components/Testes/TesteVizualizar";
+import Navbar from "../../components/Navbar/Navbar";
 
 
 const Home = () => {

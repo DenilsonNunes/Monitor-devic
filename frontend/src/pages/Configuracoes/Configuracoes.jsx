@@ -2,8 +2,8 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box, Icon } from '@chakr
 import { FcBusinessman } from "react-icons/fc";
 import { SettingsIcon } from '@chakra-ui/icons'
 
-import FormConfigServidorSMTPemail from "../../src/components/Configurações/FormConfigEmail/FormConfigServidorSMTPemail";
-import FormConfigMsgEmail from '../../src/components/Configurações/FormConfigEmail/FormConfigMsgEmail';
+import FormConfigServidorSMTPemail from "../../components/Configurações/FormConfigEmail/FormConfigServidorSMTPemail";
+import FormConfigMsgEmail from '../../components/Configurações/FormConfigEmail/FormConfigMsgEmail';
 
 
 

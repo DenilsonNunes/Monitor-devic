@@ -29,10 +29,25 @@ const Financeiro = () => {
             <CardRotinasFinanceiro/>
         </Box>
         
+
         <Heading size='md'>Analise anual</Heading>
-        
-        
-        
+    
+        <Box boxShadow='md'>
+            <Grafico/>
+        </Box>
+       
+    </Box>
+   
+    
+  )
+}
+
+
+export default Financeiro;
+
+
+
+      
     {/*
         <Box display='flex' marginTop='5rem'>
             
@@ -87,16 +102,3 @@ const Financeiro = () => {
             </Card>
         </Box>
     */}
-
-        <Box  boxShadow='md'>
-            <Grafico/>
-        </Box>
-       
-    </Box>
-   
-    
-  )
-}
-
-
-export default Financeiro;
