@@ -17,7 +17,9 @@ import {
     Input,
     Button,
     Stack,
-    Heading
+    Heading,
+    VStack,
+    Text
 } from '@chakra-ui/react'
 
 import { SearchIcon, EmailIcon, PlusSquareIcon } from '@chakra-ui/icons';
@@ -38,9 +40,9 @@ const ClientesEmDebito = () => {
 
                     <form style={{ display: 'flex', alignItems: 'center' }}>
                         <Input variant='outline' placeholder='Busca Rápida' />
-                        <Button 
-                            type='submit' 
-                           
+                        <Button
+                            type='submit'
+
                             colorScheme='blue'
                         >
                             Buscar
@@ -70,7 +72,8 @@ const ClientesEmDebito = () => {
                             <Th>
                                 <Checkbox border='0.3px' borderColor='#cbd5e1' />
                             </Th>
-                            <Th className={styles.cabecalho_cliente}>Cliente</Th>
+                            <Th>Cod Cliente</Th>
+                            <Th >Cliente</Th>
                             <Th >Total Vencido</Th>
                             <Th >Total a Vencer</Th>
                             <Th >Total de Débito</Th>
@@ -90,6 +93,7 @@ const ClientesEmDebito = () => {
                             <Td padding={0} py={0} px={0}>
                                 <Checkbox border='0.3px' borderColor='#cbd5e1' />
                             </Td>
+                            <Td>1234</Td>
                             <Td >Cliente teste</Td>
                             <Td >150.000.000,00</Td>
                             <Td >450.000.000,00</Td>
@@ -135,7 +139,7 @@ const ClientesEmDebito = () => {
                                         icon={<PlusSquareIcon />}
                                     />
                                 </Tooltip>
-                    
+
                             </Td>
 
 
@@ -145,7 +149,12 @@ const ClientesEmDebito = () => {
                             <Td py={0} >
                                 <Checkbox border='0.3px' borderColor='#cbd5e1' />
                             </Td>
-                            <Td>ELETRICA PARANA - COUTO MAGALHAES</Td>
+                           <Td>1234</Td>
+                            <VStack align="start" spacing={0}>
+                                <Text margin={0}>ELETRICA PARANA - COUTO MAGALHAES</Text>
+                                <Text margin={0}>9 96855497</Text>
+                                <Text margin={0}>eleparana@blueti.com.br</Text>
+                            </VStack>
                             <Td>150.000.000,00</Td>
                             <Td>450.000.000,00</Td>
                             <Td>250.000.000,00</Td>
@@ -192,6 +201,7 @@ const ClientesEmDebito = () => {
                             <Td py={0} >
                                 <Checkbox border='0.3px' borderColor='#cbd5e1' />
                             </Td>
+                            <Td>1234</Td>
                             <Td>Cliente teste</Td>
                             <Td >150.000.000,00</Td>
                             <Td >0</Td>
@@ -235,8 +245,8 @@ const ClientesEmDebito = () => {
 
                         </Tr>
                     </Tbody>
-                 
-                    
+
+
                     <Tfoot className={styles.cabecalho_table}>
                         <Tr>
                             <Th></Th>
@@ -254,8 +264,8 @@ const ClientesEmDebito = () => {
                             <Th></Th>
                         </Tr>
                     </Tfoot>
-                    
-               
+
+
                 </Table>
             </TableContainer>
 

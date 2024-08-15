@@ -20,7 +20,7 @@ class FinanceiroController {
     async gestaoDeCobrancaClientesEmDebito(req, res) {
         try {
 
-            const result = await GestaoDeCobrancaClientesService.clientesEmDebito();
+            const result = await GestaoDeCobrancaClientesService.getClientesEmDebito();
 
             res.status(200).json({ message: result });
 
