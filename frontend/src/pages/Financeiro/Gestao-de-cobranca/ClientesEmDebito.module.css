@@ -1,0 +1,26 @@
+/* styles.css */
+.customtable td, 
+.customtable tr {
+    padding: 0;
+}
+
+.customtable td {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 0;
+    padding-right: 0;
+    border: 1px solid red;
+    text-align: center;
+}
+
+
+.cabecalho_table th {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    border: 1px solid red;
+}
+
+.cabecalho_cliente th {
+    text-align: left;
+}
