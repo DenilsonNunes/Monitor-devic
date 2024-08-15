@@ -13,7 +13,11 @@ import {
     IconButton,
     Tag,
     TagLabel,
-    Tooltip
+    Tooltip,
+    Input,
+    Button,
+    Stack,
+    Heading
 } from '@chakra-ui/react'
 
 import { SearchIcon, EmailIcon, PlusSquareIcon } from '@chakra-ui/icons';
@@ -24,10 +28,28 @@ import styles from './ClientesEmDebito.module.css'
 const ClientesEmDebito = () => {
     return (
 
-        <Box marginTop='60px' border='1px' borderColor='red'>
-            <Box display='flex' justifyContent='space-between'>
+        <Box marginTop='60px' border='1px' borderColor='red' marginX={5}>
 
-                <h2>Clientes em Débito</h2>
+            <Heading size='lg'>Clientes em Débito</Heading>
+
+            <Box display='flex' justifyContent='space-between' marginTop={5}>
+
+                <Stack direction='row'>
+
+                    <form style={{ display: 'flex', alignItems: 'center' }}>
+                        <Input variant='outline' placeholder='Busca Rápida' />
+                        <Button 
+                            type='submit' 
+                           
+                            colorScheme='blue'
+                        >
+                            Buscar
+                        </Button>
+                    </form>
+
+                </Stack>
+
+
                 <Box>
                     <h1>Ações em Lote</h1>
                     <IconButton
@@ -41,7 +63,7 @@ const ClientesEmDebito = () => {
 
             </Box>
 
-            <TableContainer >
+            <TableContainer marginTop={5}>
                 <Table size='md'>
                     <Thead className={styles.cabecalho_table}>
                         <Tr >
@@ -213,11 +235,11 @@ const ClientesEmDebito = () => {
 
                         </Tr>
                     </Tbody>
-                    {/*
+                 
                     
-                    
-                    <Tfoot>
+                    <Tfoot className={styles.cabecalho_table}>
                         <Tr>
+                            <Th></Th>
                             <Th></Th>
                             <Th></Th>
                             <Th></Th>
@@ -233,8 +255,7 @@ const ClientesEmDebito = () => {
                         </Tr>
                     </Tfoot>
                     
-                    
-                    */}
+               
                 </Table>
             </TableContainer>
 

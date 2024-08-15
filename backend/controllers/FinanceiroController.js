@@ -4,7 +4,8 @@ const sqlQuery = require('../db/SQL/query/query');
 // select
 const selectContasAreceber = require('../db/SQL/Financeiro/SELECT/contasAreceber');
 
-
+// Services
+const GestaoDeCobrancaClientesService = require('../services/gestaoDeCobrancaClientesService');
 
 // Utils
 const dataAtualMMDDAAAA = require('../utils/Formats/dataAtualMMDDAAAA');
@@ -15,6 +16,21 @@ const formataDataDDMMAAAA = require('../utils/Formats/formataDataDDMMAAAA')
 
 class FinanceiroController {
     
+
+    async gestaoDeCobrancaClientesEmDebito(req, res) {
+        try {
+
+            const result = await GestaoDeCobrancaClientesService.clientesEmDebito();
+
+            res.status(200).json({ message: result });
+
+
+        } catch(err) {
+            console.log('Erro interno: ', err);
+            res.status(500).json({ message: err.message });
+        }
+    
+    }
 
     async contasAreceber(req, res) {
 
