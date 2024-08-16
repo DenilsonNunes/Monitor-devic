@@ -17,20 +17,6 @@ const formataDataDDMMAAAA = require('../utils/Formats/formataDataDDMMAAAA')
 class FinanceiroController {
     
 
-    async gestaoDeCobrancaClientesEmDebito(req, res) {
-        try {
-
-            const result = await GestaoDeCobrancaClientesService.getClientesEmDebito();
-
-            res.status(200).json({ message: result });
-
-
-        } catch(err) {
-            console.log('Erro interno: ', err);
-            res.status(500).json({ message: err.message });
-        }
-    
-    }
 
     async contasAreceber(req, res) {
 

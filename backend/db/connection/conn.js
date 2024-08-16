@@ -2,7 +2,7 @@ const config = {
     user: 'blueti',
     password: 'driverBlue4@',
     server: '192.168.100.188',
-    database: 'Karzan',//DENILSONTREINAMENTO
+    database: 'eparana',//DENILSONTREINAMENTO
     options: {
         encrypt: false,
         trustServerCertificate: true,

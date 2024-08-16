@@ -19,6 +19,8 @@ app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 const ClientesRoutes = require('./Routes/ClientesRoutes');
 const ConfiguracoesRoutes = require('./Routes/ConfiguracoesRoutes');
 const FinanceiroRoutes = require('./Routes/FinanceiroRoutes');
+const FinanceiroGestaoDeCobrancaRoutes = require('./Routes/FinanceiroGestaoDeCobrancaRoutes');
+
 const TarefasDiariaController = require('./Routes/TarefasDiariaRoutes');
 
 
@@ -33,6 +35,7 @@ verificaServicoAtivo();
 app.use('/clientes', ClientesRoutes);
 app.use('/configuracoes', ConfiguracoesRoutes);
 app.use('/financeiro', FinanceiroRoutes);
+app.use('/financeiro/gestao-de-cobranca', FinanceiroGestaoDeCobrancaRoutes);
 app.use('/tarefas-diaria', TarefasDiariaController);
 
 
