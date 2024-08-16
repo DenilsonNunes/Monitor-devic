@@ -19,18 +19,11 @@
 
 .cabecalho_table th {
     text-align: center;
-    padding-left: 0;
-    padding-right: 0;
-    /*
-    border: 1px solid red;
+    padding-left: 2px;
+    padding-right: 2px;
     
-    */
+    border: 1px solid #dcdcdc;
+    
+    
 }
 
-.cabecalho_cliente th {
-    text-align: left;
-}
-
-.cabecalho_table tbody tr:hover { 
-    background-color: #075985;
-}

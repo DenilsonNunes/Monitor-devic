@@ -16,10 +16,8 @@ class FinanceiroGestaoDeCobrancaController {
             const result = await GestaoDeCobrancaRepository.getClientesEmDebito();
 
             const data = removeEspacoFinal(result);
-
-
+           
             res.status(200).json(data);
-
 
         } catch(err) {
             console.log('Erro interno: ', err);
@@ -27,6 +25,25 @@ class FinanceiroGestaoDeCobrancaController {
         }
     
     }
+
+    async titulosDoClienteEmDebito(req, res) {
+
+        try {
+
+            const result = await GestaoDeCobrancaRepository.titulosDoClienteEmDebito();
+
+            const data = removeEspacoFinal(result);
+
+            res.status(200).json(data);
+
+        } catch(err) {
+
+            res.status(500).json({ message: err.message });
+
+        }
+    }
+
+
 
     async criarCobranca(req, res) {
         

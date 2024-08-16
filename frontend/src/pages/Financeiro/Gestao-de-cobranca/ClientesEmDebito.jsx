@@ -20,10 +20,12 @@ import {
     Stack,
     Heading,
     VStack,
-    Text
+    Text,
+    Select,
+    Icon
 } from '@chakra-ui/react'
 
-import { SearchIcon, EmailIcon, PlusSquareIcon } from '@chakra-ui/icons';
+import { SearchIcon, EmailIcon, PlusSquareIcon, PhoneIcon } from '@chakra-ui/icons';
 
 
 // Instancia API
@@ -40,19 +42,14 @@ const ClientesEmDebito = () => {
 
     const [data, setData] = useState();
 
-    
-    useEffect(() => {
 
+    useEffect(() => {
 
         api.get('financeiro/gestao-de-cobranca/clientes-em-debito')
 
             .then((response) => {
 
-                console.log('Verificando chamado do effect');
-                console.log(response.data);
-
                 setData(response.data);
-
 
             })
             .catch((error) => {
@@ -71,23 +68,32 @@ const ClientesEmDebito = () => {
 
     return (
 
-        <Box marginTop='60px' border='1px' borderColor='red' marginX={5}>
+        <Box marginTop='60px'  marginX={2}>
 
-            <Heading size='lg'>Clientes em Débito</Heading>
+            <Text fontSize='2xl'>Gestão de Cobrança</Text>
 
             <Box display='flex' justifyContent='space-between' marginTop={5}>
 
                 <Stack direction='row'>
 
                     <form style={{ display: 'flex', alignItems: 'center' }}>
-                        <Input variant='outline' placeholder='Busca Rápida' />
+                        <Input size='sm' variant='outline' placeholder='Busca Rápida' />
                         <Button
+                            size='sm'
                             type='submit'
-
                             colorScheme='blue'
                         >
                             Buscar
                         </Button>
+                    </form>
+
+                    <form style={{ display: 'flex', alignItems: 'center' }}>
+                        <Select size='sm' placeholder='Visualizar'>
+                            <option value='option1'>10</option>
+                            <option value='option2'>20</option>
+                            <option value='option3'>30</option>
+                            <option value='option3'>Todos</option>
+                        </Select>
                     </form>
 
                 </Stack>
@@ -95,25 +101,29 @@ const ClientesEmDebito = () => {
 
                 <Box>
                     <h1>Ações em Lote</h1>
-                    <IconButton
-                        marginLeft={1}
-                        width={25}
-                        height={5}
-                        aria-label="Enviar Email"
-                        icon={<EmailIcon />}
-                    />
+                    <Tooltip label='Enviar email para os títulos selecionados'>
+                        <IconButton
+                            marginLeft={1}
+                            width={25}
+                            height={5}
+                            aria-label="Enviar Email"
+                            icon={<EmailIcon />}
+                        />
+                    </Tooltip>
                 </Box>
 
             </Box>
 
-            <TableContainer marginTop={5}>
+            <TableContainer marginTop={2}>
                 <Table size='md'>
                     <Thead className={styles.cabecalho_table}>
                         <Tr >
-                            <Th>
-                                <Checkbox border='0.3px' borderColor='#cbd5e1' />
-                            </Th>
-                            <Th>Cod Cliente</Th>
+                            <Tooltip label='Selecionar Todos'>
+                                <Th>    
+                                    <Checkbox border='0.3px' borderColor='#cbd5e1' />   
+                                </Th>
+                            </Tooltip>
+                            <Th >Cod Cliente</Th>
                             <Th >Cliente</Th>
                             <Th >Total Vencido</Th>
                             <Th >Total a Vencer</Th>
@@ -139,13 +149,19 @@ const ClientesEmDebito = () => {
                                 </Td>
                                 <Td>{item.CodRedCt}</Td>
                                 <Td>
-                                    <VStack align="start" spacing={0}>
-                                        <Text margin={0}>{item.cliente}</Text>
-                                        <Text margin={0}>9 96855497</Text>
-                                        <Text margin={0}>eleparana@blueti.com.br</Text>
+                                    <VStack align="start" spacing={0} marginTop={1} marginBottom={1}>
+                                        <Text marginTop={0} fontSize='sm'>{item.cliente}</Text>
+                                        <Text margin={0}>
+                                            <Icon as={PhoneIcon} boxSize={4} marginRight={1}/>
+                                            {item.Fone1Cli} / {item.Fone2Cli}
+                                        </Text>
+                                        <Text margin={0}>
+                                            <Icon as={EmailIcon} boxSize={4} marginRight={1}/>
+                                            {item.EMailCli}
+                                        </Text>
                                     </VStack>
                                 </Td>
-                               
+
                                 <Td color='#cc0000' fontWeight={600}>{item.ValCtRecVencido}</Td>
                                 <Td>{item.totalavencer}</Td>
                                 <Td color='#000099' >{item.TotalDebitoOrig}</Td>
@@ -202,7 +218,7 @@ const ClientesEmDebito = () => {
                             <Td py={0} >
                                 <Checkbox border='0.3px' borderColor='#cbd5e1' />
                             </Td>
-                           <Td>1234</Td>
+                            <Td>1234</Td>
                             <VStack >
                                 <Text margin={0}>ELETRICA PARANA - COUTO MAGALHAES</Text>
                                 <Text margin={0}>9 96855497</Text>
@@ -300,23 +316,6 @@ const ClientesEmDebito = () => {
                     </Tbody>
 
 
-                    <Tfoot className={styles.cabecalho_table}>
-                        <Tr>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                            <Th></Th>
-                        </Tr>
-                    </Tfoot>
 
 
                 </Table>

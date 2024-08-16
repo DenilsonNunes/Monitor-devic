@@ -30,9 +30,9 @@ const Financeiro = () => {
         </Box>
         
 
-        <Heading size='md'>Analise anual</Heading>
+        <Heading marginTop={5} size='md'>Analise anual</Heading>
     
-        <Box boxShadow='md'>
+        <Box marginTop={5} boxShadow='md'>
             <Grafico/>
         </Box>
        

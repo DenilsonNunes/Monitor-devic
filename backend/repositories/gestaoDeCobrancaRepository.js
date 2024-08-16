@@ -4,6 +4,8 @@ const sqlQuery = require('../db/SQL/query/query');
 class GestaoDeCobrancaRepository {
 
     static getClientesEmDebito = async () => {
+
+       
         
         const data = sqlQuery(
         `
@@ -49,6 +51,68 @@ class GestaoDeCobrancaRepository {
 
         return data;
     }
+
+    static titulosDoClienteEmDebito  = async () => {
+
+        const data = sqlQuery(
+        `
+            SELECT CodEmpr,
+                convert(char(23),
+                DtLctoCtRec,
+                121),
+                convert(char(23),
+                DtVctoCtRec,
+                121),
+                DiasAtr,
+                CodEspDocCtRec,
+                NrDocCtRec,
+                Parc,
+                ValCtRec,
+                Multa+Juros AS multajuros,
+                ValCtRec+Multa+Juros AS valorcorrigido,
+                CtDevCtRec,
+                TpCobrCtRec,
+                CtCredCtRec,
+                convert(char(23),
+                DtProrrogCtRec,
+                121),
+                TipoTitulo,
+                Multa,
+                Juros
+            FROM dbo.vmClientesComDebitoDocs
+            WHERE CtDevCtRec = 1942 -- INFORMAR O CLIENTE
+                AND Coalesce(DtProrrogCtRec, DtVctoCtRec) < Convert(Varchar, GETDATE(),111)
+                AND CodEmpr IN (0,'1','2','3')
+                AND CtCredCtRec NOT IN (8306,20768,8433,8400)
+            ORDER BY  TipoTitulo asc, DtVctoCtRec asc
+            
+
+            SELECT	
+                count(*),
+                sum(ValCtRec),
+                sum(Multa+Juros),
+                sum(ValCtRec+Multa+Juros)
+            FROM 
+                dbo.vmClientesComDebitoDocs
+            WHERE 
+                CtDevCtRec = 1942
+                AND Coalesce(DtProrrogCtRec, DtVctoCtRec) < Convert(Varchar, GETDATE(),111)
+                AND CodEmpr IN (0,'1','2','3')
+                AND CtCredCtRec NOT IN (8306,20768,8433,8400)
+            /*
+            1 - Coluna = quantidade de titulos
+            2 - Coluna = valor original dos titulos
+            3 - Coluna = multa e juros
+            4 - Coluna = valor corrigido
+            /*
+
+        `);
+
+        return data;
+    
+    }
+
+
 
     static criarCobranca = async () => {
         const insert = `
