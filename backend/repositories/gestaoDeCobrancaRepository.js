@@ -9,7 +9,7 @@ class GestaoDeCobrancaRepository {
         
         const data1 = await sqlQuery(
         `
-            SELECT top 22 
+            SELECT top 15
                 CodRedCt, 
                 RzsCli as cliente, 
                 0 as totalvencfiltro, 
