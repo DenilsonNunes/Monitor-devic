@@ -15,9 +15,12 @@ class FinanceiroGestaoDeCobrancaController {
 
             const result = await GestaoDeCobrancaRepository.getClientesEmDebito();
 
-            const data = removeEspacoFinal(result);
+
+            const data1 = removeEspacoFinal(result.data1);
+            const data2 = removeEspacoFinal(result.data2);
+
            
-            res.status(200).json(data);
+            res.status(200).json({data1, data2});
 
         } catch(err) {
             console.log('Erro interno: ', err);

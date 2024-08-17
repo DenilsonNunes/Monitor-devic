@@ -7,7 +7,7 @@ class GestaoDeCobrancaRepository {
 
        
         
-        const data = sqlQuery(
+        const data1 = await sqlQuery(
         `
             SELECT top 22 
                 CodRedCt, 
@@ -44,12 +44,63 @@ class GestaoDeCobrancaRepository {
                             and CodEmpr in (0,'1','2','3') and CtCredCtRec not in (8306,20768,8433,8400) -- verificar deve ser das outras empresas
                             GROUP by CtDevCtRec) 
             order by CodRedCt asc
-        
+            
+            
         `);
         
+        // Titulos do Cliente em aberto
+        const data2 = await sqlQuery(
+            `
+                SELECT CodEmpr,
+                    convert(char(23),
+                    DtLctoCtRec,
+                    121),
+                    convert(char(23),
+                    DtVctoCtRec,
+                    121),
+                    DiasAtr,
+                    CodEspDocCtRec,
+                    NrDocCtRec,
+                    Parc,
+                    ValCtRec,
+                    Multa+Juros AS multajuros,
+                    ValCtRec+Multa+Juros AS valorcorrigido,
+                    CtDevCtRec,
+                    TpCobrCtRec,
+                    CtCredCtRec,
+                    convert(char(23),
+                    DtProrrogCtRec,
+                    121),
+                    TipoTitulo,
+                    Multa,
+                    Juros
+                FROM dbo.vmClientesComDebitoDocs
+                WHERE CtDevCtRec = 1942 -- INFORMAR O CLIENTE
+                    AND Coalesce(DtProrrogCtRec, DtVctoCtRec) < Convert(Varchar, GETDATE(),111)
+                    AND CodEmpr IN (0,'1','2','3')
+                    AND CtCredCtRec NOT IN (8306,20768,8433,8400)
+                ORDER BY  TipoTitulo asc, DtVctoCtRec asc
+                
+    
+                SELECT	
+                    count(*),
+                    sum(ValCtRec),
+                    sum(Multa+Juros),
+                    sum(ValCtRec+Multa+Juros)
+                FROM 
+                    dbo.vmClientesComDebitoDocs
+                WHERE 
+                    CtDevCtRec = 1942
+                    AND Coalesce(DtProrrogCtRec, DtVctoCtRec) < Convert(Varchar, GETDATE(),111)
+                    AND CodEmpr IN (0,'1','2','3')
+                    AND CtCredCtRec NOT IN (8306,20768,8433,8400)
+         
+            `);
+    
+           
         
 
-        return data;
+        return { data1, data2 } ;
     }
 
     static titulosDoClienteEmDebito  = async () => {
