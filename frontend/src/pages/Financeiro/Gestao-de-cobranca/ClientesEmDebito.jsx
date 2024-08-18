@@ -22,7 +22,8 @@ import {
     VStack,
     Text,
     Select,
-    Icon
+    Icon,
+    useDisclosure
 } from '@chakra-ui/react'
 
 import { SearchIcon, EmailIcon, PlusSquareIcon, PhoneIcon } from '@chakra-ui/icons';
@@ -37,10 +38,20 @@ import formataData from '../../../utils/formataData';
 
 //CSS
 import styles from './ClientesEmDebito.module.css'
+import ModalTitulosEmDebito from './ModalTitulosDeClienteEmDebito';
 
 const ClientesEmDebito = () => {
 
     const [data, setData] = useState();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [selectedVerTitulos, setSelectedVerTitulos] = useState(false)
+    const [titulosDoCliente, setTitulosDoCliente] = useState();
+    const [buscaRapida, setBuscaRapida] = useState("");
+    const [qtdVisualizar, setQtdVisualizar] = useState("");
+
+
+
 
 
     useEffect(() => {
@@ -60,24 +71,70 @@ const ClientesEmDebito = () => {
     }, []);
 
 
+    const handleVisualizarTitulos = (item) => {
+
+        setSelectedVerTitulos(item)
+
+        setTitulosDoCliente(item)
+
+        onOpen();
+
+    };
+
+    const handleBuscaRapida = (event) => {
+        
+        console.log('quantidade visualizar', qtdVisualizar)
+
+        event.preventDefault();
 
 
 
+        api.get('financeiro/gestao-de-cobranca/clientes-em-debito', {
+            params:{
+                search: buscaRapida
+            }
+        })
+        .then((response) => {
+
+            setData(response.data);
+        
+
+        })
+        .catch((error) => {
+
+            console.log('Erro:', error.response.data);
+
+        });
+
+    
+
+    };
+
+    const handleQtdVisualizar = (event) => {
+        
+        console.log('quantidade visualizar', event.target.value)
+    
+    };
 
 
 
     return (
 
-        <Box marginTop='60px'  marginX={2}>
+        <Box marginTop='60px'  marginX={2} >
 
             <Text fontSize='2xl'>Gestão de Cobrança</Text>
 
-            <Box display='flex' justifyContent='space-between' marginTop={5}>
+            <Box display='flex' justifyContent='space-between' marginTop={5} border='1px' borderColor='red'>
 
                 <Stack direction='row'>
 
-                    <form style={{ display: 'flex', alignItems: 'center' }}>
-                        <Input size='sm' variant='outline' placeholder='Busca Rápida' />
+                    <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleBuscaRapida}>
+                        <Input 
+                            size='sm' 
+                            variant='outline' 
+                            placeholder='Busca Rápida' 
+                            onChange={(e) => setBuscaRapida(e.target.value)}
+                        />
                         <Button
                             size='sm'
                             type='submit'
@@ -85,18 +142,35 @@ const ClientesEmDebito = () => {
                         >
                             Buscar
                         </Button>
+
+                        
+                        
                     </form>
 
-                    <form style={{ display: 'flex', alignItems: 'center' }}>
-                        <Select size='sm' placeholder='Visualizar'>
-                            <option value='option1'>10</option>
-                            <option value='option2'>20</option>
-                            <option value='option3'>30</option>
-                            <option value='option3'>Todos</option>
+                    <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleQtdVisualizar}>
+                        <Select size='sm' placeholder='Visualizar'
+                            value={qtdVisualizar}
+                            onChange={(e) => setQtdVisualizar(e.target.value)}
+                        >
+                            <option value='10'>10</option>
+                            <option value='20'>20</option>
+                            <option value='30'>30</option>
+                            <option value='T'>Todos</option>
                         </Select>
                     </form>
 
                 </Stack>
+
+                
+                <form style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button
+                            size='sm'
+                            type='submit'
+                            colorScheme='blue'
+                        >
+                            Busca Avançada
+                        </Button>
+                </form>
 
 
                 <Box>
@@ -129,8 +203,10 @@ const ClientesEmDebito = () => {
                             <Th >Total a Vencer</Th>
                             <Th >Total de Débito</Th>
                             <Th >Multas e Juros</Th>
-                            <Th >Vencido + Correção</Th>
-                            <Th >Total Acumulado</Th>
+                            <Th >
+                                <Text>Vencido +</Text>
+                                <Text>Correção</Text>
+                            </Th>
                             <Th >Qtd de Títulos</Th>
                             <Th >Mais Antigo</Th>
                             <Th >Dias Vencido</Th>
@@ -143,20 +219,20 @@ const ClientesEmDebito = () => {
 
                         {data && data.map((item) => (
 
-                            <Tr padding={0}>
+                            <Tr padding={0} key={item.CodRedCt}>
                                 <Td padding={0} py={0} px={0}>
                                     <Checkbox border='0.3px' borderColor='#cbd5e1' />
                                 </Td>
                                 <Td>{item.CodRedCt}</Td>
                                 <Td>
-                                    <VStack align="start" spacing={0} marginTop={1} marginBottom={1}>
-                                        <Text marginTop={0} fontSize='sm'>{item.cliente}</Text>
-                                        <Text margin={0}>
-                                            <Icon as={PhoneIcon} boxSize={4} marginRight={1}/>
+                                    <VStack align="start" spacing={0} marginTop={1} marginBottom={1} >
+                                        <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal" >{item.cliente}</Text>
+                                        <Text margin={0} fontSize='14px'>
+                                            <Icon as={PhoneIcon} boxSize={3} marginRight={1}/>
                                             {item.Fone1Cli} / {item.Fone2Cli}
                                         </Text>
-                                        <Text margin={0}>
-                                            <Icon as={EmailIcon} boxSize={4} marginRight={1}/>
+                                        <Text margin={0} fontSize='14px'>
+                                            <Icon as={EmailIcon} boxSize={3} marginRight={1}/>
                                             {item.EMailCli}
                                         </Text>
                                     </VStack>
@@ -168,12 +244,21 @@ const ClientesEmDebito = () => {
                                 <Td>{item.multajuros}</Td>
                                 <Td>{item.TotalDebitoAtualiz}</Td>
                                 <Td>{item.QtdTit}</Td>
-                                <Td >{item.DiasVcto}</Td>
                                 <Td>{formataData(item.vencMaisAntigo)}</Td>
                                 <Td color='#cc0000'>{item.DiasVcto}</Td>
                                 <Td>
-                                    <Tag size='sm' variant='solid' colorScheme='green'>
-                                        <TagLabel fontWeight='bold'>Cobrança Realizada</TagLabel>
+                                    <Tag size='sm' variant='solid' colorScheme={
+                                        item.PrevVenc === 'N' ? 'green' :
+                                        item.PrevVenc === 'S' ? 'gray' : 
+                                        item.PrevVenc === 'H' ? 'red': 'yellow'
+                                        
+                                    }>
+                                        
+                                        <TagLabel fontWeight='bold'>
+                                            {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
+                                             item.PrevVenc === 'S' ? 'teste' : 
+                                             item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança' }
+                                        </TagLabel>
                                     </Tag>
                                 </Td>
 
@@ -184,6 +269,7 @@ const ClientesEmDebito = () => {
                                             height={5}
                                             aria-label="Visualizar"
                                             icon={<SearchIcon />}
+                                            onClick={() => handleVisualizarTitulos(item)}
                                         />
                                     </Tooltip>
 
@@ -212,116 +298,21 @@ const ClientesEmDebito = () => {
 
                             </Tr>
                         ))}
-
-
-                        <Tr>
-                            <Td py={0} >
-                                <Checkbox border='0.3px' borderColor='#cbd5e1' />
-                            </Td>
-                            <Td>1234</Td>
-                            <VStack >
-                                <Text margin={0}>ELETRICA PARANA - COUTO MAGALHAES</Text>
-                                <Text margin={0}>9 96855497</Text>
-                                <Text margin={0}>eleparana@blueti.com.br</Text>
-                            </VStack>
-                            <Td>150.000.000,00</Td>
-                            <Td>450.000.000,00</Td>
-                            <Td>250.000.000,00</Td>
-                            <Td>350.000.000,00</Td>
-                            <Td>350.000.000,00</Td>
-                            <Td>999.000.000,00</Td>
-                            <Td>999</Td>
-                            <Td>15/08/2022</Td>
-                            <Td>225</Td>
-                            <Td>
-                                <Tag size='sm' variant='solid' colorScheme='yellow'>
-                                    <TagLabel fontWeight='bold'>Realizar Cobrança</TagLabel>
-                                </Tag>
-                            </Td>
-
-                            <Td>
-                                <IconButton
-                                    width={25}
-                                    height={5}
-                                    aria-label="Visualizar"
-                                    icon={<SearchIcon />}
-                                />
-                                <IconButton
-                                    marginLeft={1}
-                                    width={25}
-                                    height={5}
-                                    aria-label="Enviar Email"
-                                    icon={<EmailIcon />}
-                                />
-                                <IconButton
-                                    marginLeft={1}
-                                    width={25}
-                                    height={5}
-                                    aria-label="Visualizar"
-                                    icon={<PlusSquareIcon />}
-                                />
-
-
-                            </Td>
-
-
-                        </Tr>
-                        <Tr>
-                            <Td py={0} >
-                                <Checkbox border='0.3px' borderColor='#cbd5e1' />
-                            </Td>
-                            <Td>1234</Td>
-                            <Td>Cliente teste</Td>
-                            <Td >150.000.000,00</Td>
-                            <Td >0</Td>
-                            <Td >1550</Td>
-                            <Td >50</Td>
-                            <Td >1550</Td>
-                            <Td >1550</Td>
-                            <Td >3</Td>
-                            <Td>15/08/2022</Td>
-                            <Td>1500</Td>
-                            <Td>
-                                <Tag size='sm' variant='solid' colorScheme='red'>
-                                    <TagLabel fontWeight='bold'>Agendado Hoje</TagLabel>
-                                </Tag>
-                            </Td>
-
-                            <Td>
-                                <IconButton
-                                    width={25}
-                                    height={5}
-                                    aria-label="Visualizar"
-                                    icon={<SearchIcon />}
-                                />
-                                <IconButton
-                                    marginLeft={1}
-                                    width={25}
-                                    height={5}
-                                    aria-label="Enviar Email"
-                                    icon={<EmailIcon />}
-                                />
-                                <IconButton
-                                    marginLeft={1}
-                                    width={25}
-                                    height={5}
-                                    aria-label="Visualizar"
-                                    icon={<PlusSquareIcon />}
-                                />
-
-
-                            </Td>
-
-                        </Tr>
+    
                     </Tbody>
 
-
-
-
                 </Table>
+
             </TableContainer>
-
-
+            
+            { selectedVerTitulos && 
+                <ModalTitulosEmDebito
+                    titulos={titulosDoCliente}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                />
+            }
+            
         </Box>
     )
 }
