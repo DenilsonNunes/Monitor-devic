@@ -11,21 +11,27 @@ class FinanceiroGestaoDeCobrancaController {
 
     async getClientesEmDebito(req, res) {
 
+        const search = req.query.search
+
+        console.log('Vem na pesquisa rapida: ', search);
+     
+        
         try {
-
-            const result = await GestaoDeCobrancaRepository.getClientesEmDebito();
-
-
-            const data1 = removeEspacoFinal(result.data1);
-            const data2 = removeEspacoFinal(result.data2);
-
-           
-            res.status(200).json({data1, data2});
-
+ 
+            const result = await GestaoDeCobrancaRepository.getClientesEmDebito(search);
+ 
+            const data = removeEspacoFinal(result);
+ 
+            res.status(200).json(data);
+ 
         } catch(err) {
             console.log('Erro interno: ', err);
             res.status(500).json({ message: err.message });
         }
+        
+        
+       
+
     
     }
 

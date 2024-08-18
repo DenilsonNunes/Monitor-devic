@@ -22,7 +22,8 @@ import {
     VStack,
     Text,
     Select,
-    Icon
+    Icon,
+    useDisclosure
 } from '@chakra-ui/react'
 
 import { SearchIcon, EmailIcon, PlusSquareIcon, PhoneIcon } from '@chakra-ui/icons';
@@ -37,10 +38,20 @@ import formataData from '../../../utils/formataData';
 
 //CSS
 import styles from './ClientesEmDebito.module.css'
+import ModalTitulosEmDebito from './ModalTitulosDeClienteEmDebito';
 
 const ClientesEmDebito = () => {
 
     const [data, setData] = useState();
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [selectedVerTitulos, setSelectedVerTitulos] = useState(false)
+    const [titulosDoCliente, setTitulosDoCliente] = useState();
+    const [buscaRapida, setBuscaRapida] = useState("");
+    const [qtdVisualizar, setQtdVisualizar] = useState("");
+
+
+
 
 
     useEffect(() => {
@@ -49,8 +60,7 @@ const ClientesEmDebito = () => {
 
             .then((response) => {
 
-                console.log(response.data.data1);
-                setData(response.data.data1);
+                setData(response.data);
 
             })
             .catch((error) => {
@@ -61,9 +71,50 @@ const ClientesEmDebito = () => {
     }, []);
 
 
+    const handleVisualizarTitulos = (item) => {
+
+        setSelectedVerTitulos(item)
+
+        setTitulosDoCliente(item)
+
+        onOpen();
+
+    };
+
+    const handleBuscaRapida = (event) => {
+        
+        console.log('quantidade visualizar', qtdVisualizar)
+
+        event.preventDefault();
 
 
 
+        api.get('financeiro/gestao-de-cobranca/clientes-em-debito', {
+            params:{
+                search: buscaRapida
+            }
+        })
+        .then((response) => {
+
+            setData(response.data);
+        
+
+        })
+        .catch((error) => {
+
+            console.log('Erro:', error.response.data);
+
+        });
+
+    
+
+    };
+
+    const handleQtdVisualizar = (event) => {
+        
+        console.log('quantidade visualizar', event.target.value)
+    
+    };
 
 
 
@@ -77,8 +128,13 @@ const ClientesEmDebito = () => {
 
                 <Stack direction='row'>
 
-                    <form style={{ display: 'flex', alignItems: 'center' }}>
-                        <Input size='sm' variant='outline' placeholder='Busca Rápida' />
+                    <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleBuscaRapida}>
+                        <Input 
+                            size='sm' 
+                            variant='outline' 
+                            placeholder='Busca Rápida' 
+                            onChange={(e) => setBuscaRapida(e.target.value)}
+                        />
                         <Button
                             size='sm'
                             type='submit'
@@ -86,14 +142,20 @@ const ClientesEmDebito = () => {
                         >
                             Buscar
                         </Button>
+
+                        
+                        
                     </form>
 
-                    <form style={{ display: 'flex', alignItems: 'center' }}>
-                        <Select size='sm' placeholder='Visualizar'>
-                            <option value='option1'>10</option>
-                            <option value='option2'>20</option>
-                            <option value='option3'>30</option>
-                            <option value='option3'>Todos</option>
+                    <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleQtdVisualizar}>
+                        <Select size='sm' placeholder='Visualizar'
+                            value={qtdVisualizar}
+                            onChange={(e) => setQtdVisualizar(e.target.value)}
+                        >
+                            <option value='10'>10</option>
+                            <option value='20'>20</option>
+                            <option value='30'>30</option>
+                            <option value='T'>Todos</option>
                         </Select>
                     </form>
 
@@ -141,7 +203,10 @@ const ClientesEmDebito = () => {
                             <Th >Total a Vencer</Th>
                             <Th >Total de Débito</Th>
                             <Th >Multas e Juros</Th>
-                            <Th >Vencido + Correção</Th>
+                            <Th >
+                                <Text>Vencido +</Text>
+                                <Text>Correção</Text>
+                            </Th>
                             <Th >Qtd de Títulos</Th>
                             <Th >Mais Antigo</Th>
                             <Th >Dias Vencido</Th>
@@ -154,7 +219,7 @@ const ClientesEmDebito = () => {
 
                         {data && data.map((item) => (
 
-                            <Tr padding={0}>
+                            <Tr padding={0} key={item.CodRedCt}>
                                 <Td padding={0} py={0} px={0}>
                                     <Checkbox border='0.3px' borderColor='#cbd5e1' />
                                 </Td>
@@ -204,6 +269,7 @@ const ClientesEmDebito = () => {
                                             height={5}
                                             aria-label="Visualizar"
                                             icon={<SearchIcon />}
+                                            onClick={() => handleVisualizarTitulos(item)}
                                         />
                                     </Tooltip>
 
@@ -238,8 +304,15 @@ const ClientesEmDebito = () => {
                 </Table>
 
             </TableContainer>
-
-
+            
+            { selectedVerTitulos && 
+                <ModalTitulosEmDebito
+                    titulos={titulosDoCliente}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                />
+            }
+            
         </Box>
     )
 }
