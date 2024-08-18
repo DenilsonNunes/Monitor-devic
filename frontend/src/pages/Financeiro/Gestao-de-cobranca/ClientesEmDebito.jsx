@@ -234,7 +234,7 @@ const ClientesEmDebito = () => {
                             <Td>15/08/2022</Td>
                             <Td>225</Td>
                             <Td>
-                                <Tag size='sm' variant='solid' colorScheme='yellow'>
+                                <Tag size='sm' variant='solid' colorScheme='yellow' color='#9a3412'>
                                     <TagLabel fontWeight='bold'>Realizar Cobrança</TagLabel>
                                 </Tag>
                             </Td>
