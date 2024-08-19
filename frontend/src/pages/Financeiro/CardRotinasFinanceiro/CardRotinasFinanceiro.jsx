@@ -4,11 +4,8 @@ import {
     Card,
     CardHeader,
     CardBody,
-    CardFooter,
     SimpleGrid,
     Heading,
-    Button,
-    Text,
     Image
 
 
@@ -81,12 +78,6 @@ const CardRotinasFinanceiro = () => {
                 </Card>
 
             </Link>
-
-            
-
-
-
-       
 
          
         </SimpleGrid>
