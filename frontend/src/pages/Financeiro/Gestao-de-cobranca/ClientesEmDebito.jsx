@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import  { useSearchParams } from 'react-router-dom'
 
 import {
     Box,
@@ -39,6 +40,7 @@ import formataData from '../../../utils/formataData';
 //CSS
 import styles from './ClientesEmDebito.module.css'
 import ModalTitulosEmDebito from './ModalTitulosDeClienteEmDebito';
+import Loader from '../../../components/Loading/Loader';
 
 const ClientesEmDebito = () => {
 
@@ -49,23 +51,32 @@ const ClientesEmDebito = () => {
     const [titulosDoCliente, setTitulosDoCliente] = useState();
     const [buscaRapida, setBuscaRapida] = useState("");
     const [qtdVisualizar, setQtdVisualizar] = useState("");
+    const [loading, setLoading] = useState(false);
 
 
+    const [searchParams, setSearchParams] = useSearchParams();
 
-
+    
 
     useEffect(() => {
+    
+        // Ao carregar o componete limpa a query params da url
+        setSearchParams({});
+
+        // Exibe carregando ao renderizar o componete
+        setLoading(true);
 
         api.get('financeiro/gestao-de-cobranca/clientes-em-debito')
 
             .then((response) => {
 
                 setData(response.data);
+                setLoading(false);
 
             })
             .catch((error) => {
 
-                console.log('Tela contas a receber: Erro ao buscar dados: ', error);
+                console.log('Houve um erro', error);
             });
 
     }, []);
@@ -82,36 +93,29 @@ const ClientesEmDebito = () => {
     };
 
     const handleBuscaRapida = (event) => {
-        
-        console.log('quantidade visualizar', qtdVisualizar)
 
         event.preventDefault();
 
 
+        api.get(`financeiro/gestao-de-cobranca/clientes-em-debito?nome=${buscaRapida}`)
 
-        api.get('financeiro/gestao-de-cobranca/clientes-em-debito', {
-            params:{
-                search: buscaRapida
-            }
-        })
-        .then((response) => {
+            .then((response) => {
 
-            setData(response.data);
-        
+                setData(response.data);
 
-        })
-        .catch((error) => {
+            })
+            .catch((error) => {
 
-            console.log('Erro:', error.response.data);
+                console.log('Houve um erro', error);
+            });
 
-        });
 
-    
+        setSearchParams({ search: buscaRapida})
 
     };
 
     const handleQtdVisualizar = (event) => {
-        
+   
         console.log('quantidade visualizar', event.target.value)
     
     };
@@ -124,7 +128,7 @@ const ClientesEmDebito = () => {
 
             <Text fontSize='2xl'>Gestão de Cobrança</Text>
 
-            <Box display='flex' justifyContent='space-between' marginTop={5} border='1px' borderColor='red'>
+            <Box display='flex' justifyContent='space-between' marginTop={5} >
 
                 <Stack direction='row'>
 
@@ -214,92 +218,103 @@ const ClientesEmDebito = () => {
                             <Th>Ações</Th>
                         </Tr>
                     </Thead>
+                    
+                    {!loading ?  (
 
-                    <Tbody className={styles.customtable}>
+                        <Loader/>
 
-                        {data && data.map((item) => (
+                    ) : (
 
-                            <Tr padding={0} key={item.CodRedCt}>
-                                <Td padding={0} py={0} px={0}>
-                                    <Checkbox border='0.3px' borderColor='#cbd5e1' />
-                                </Td>
-                                <Td>{item.CodRedCt}</Td>
-                                <Td>
-                                    <VStack align="start" spacing={0} marginTop={1} marginBottom={1} >
-                                        <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal" >{item.cliente}</Text>
-                                        <Text margin={0} fontSize='14px'>
-                                            <Icon as={PhoneIcon} boxSize={3} marginRight={1}/>
-                                            {item.Fone1Cli} / {item.Fone2Cli}
-                                        </Text>
-                                        <Text margin={0} fontSize='14px'>
-                                            <Icon as={EmailIcon} boxSize={3} marginRight={1}/>
-                                            {item.EMailCli}
-                                        </Text>
-                                    </VStack>
-                                </Td>
+                        <Tbody className={styles.customtable}>
 
-                                <Td color='#cc0000' fontWeight={600}>{item.ValCtRecVencido}</Td>
-                                <Td>{item.totalavencer}</Td>
-                                <Td color='#000099' >{item.TotalDebitoOrig}</Td>
-                                <Td>{item.multajuros}</Td>
-                                <Td>{item.TotalDebitoAtualiz}</Td>
-                                <Td>{item.QtdTit}</Td>
-                                <Td>{formataData(item.vencMaisAntigo)}</Td>
-                                <Td color='#cc0000'>{item.DiasVcto}</Td>
-                                <Td>
-                                    <Tag size='sm' variant='solid' colorScheme={
-                                        item.PrevVenc === 'N' ? 'green' :
-                                        item.PrevVenc === 'S' ? 'gray' : 
-                                        item.PrevVenc === 'H' ? 'red': 'yellow'
-                                        
-                                    }>
-                                        
-                                        <TagLabel fontWeight='bold'>
-                                            {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
-                                             item.PrevVenc === 'S' ? 'teste' : 
-                                             item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança' }
-                                        </TagLabel>
-                                    </Tag>
-                                </Td>
+                            {data && data.map((item) => (
 
-                                <Td>
-                                    <Tooltip label='Ver Títulos' >
-                                        <IconButton
-                                            width={25}
-                                            height={5}
-                                            aria-label="Visualizar"
-                                            icon={<SearchIcon />}
-                                            onClick={() => handleVisualizarTitulos(item)}
-                                        />
-                                    </Tooltip>
+                                <Tr padding={0} key={item.CodRedCt}>
+                                    <Td padding={0} py={0} px={0}>
+                                        <Checkbox border='0.3px' borderColor='#cbd5e1' />
+                                    </Td>
+                                    <Td>{item.CodRedCt}</Td>
+                                    <Td>
+                                        <VStack align="start" spacing={0} marginTop={1} marginBottom={1} >
+                                            <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal" >{item.cliente}</Text>
+                                            <Text margin={0} fontSize='14px'>
+                                                <Icon as={PhoneIcon} boxSize={3} marginRight={1}/>
+                                                {item.Fone1Cli} / {item.Fone2Cli}
+                                            </Text>
+                                            <Text margin={0} fontSize='14px'>
+                                                <Icon as={EmailIcon} boxSize={3} marginRight={1}/>
+                                                {item.EMailCli}
+                                            </Text>
+                                        </VStack>
+                                    </Td>
 
-                                    <Tooltip label='Enviar email'>
-                                        <IconButton
-                                            marginLeft={1}
-                                            width={25}
-                                            height={5}
-                                            aria-label="Enviar Email"
-                                            icon={<EmailIcon />}
-                                        />
-                                    </Tooltip>
+                                    <Td color='#cc0000' fontWeight={600}>{item.ValCtRecVencido}</Td>
+                                    <Td>{item.totalavencer}</Td>
+                                    <Td color='#000099' >{item.TotalDebitoOrig}</Td>
+                                    <Td>{item.multajuros}</Td>
+                                    <Td>{item.TotalDebitoAtualiz}</Td>
+                                    <Td>{item.QtdTit}</Td>
+                                    <Td>{formataData(item.vencMaisAntigo)}</Td>
+                                    <Td color='#cc0000'>{item.DiasVcto}</Td>
+                                    <Td>
+                                        <Tag size='sm' variant='solid' colorScheme={
+                                            item.PrevVenc === 'N' ? 'green' :
+                                            item.PrevVenc === 'S' ? 'gray' : 
+                                            item.PrevVenc === 'H' ? 'red': 'yellow'
+                                            
+                                        }>
+                                            
+                                            <TagLabel fontWeight='bold'>
+                                                {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
+                                                item.PrevVenc === 'S' ? 'teste' : 
+                                                item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança' }
+                                            </TagLabel>
+                                        </Tag>
+                                    </Td>
 
-                                    <Tooltip label='Registrar Cobrança'>
-                                        <IconButton
-                                            marginLeft={1}
-                                            width={25}
-                                            height={5}
-                                            aria-label="Registrar Cobrança"
-                                            icon={<PlusSquareIcon />}
-                                        />
-                                    </Tooltip>
+                                    <Td>
+                                        <Tooltip label='Ver Títulos' >
+                                            <IconButton
+                                                width={25}
+                                                height={5}
+                                                aria-label="Visualizar"
+                                                icon={<SearchIcon />}
+                                                onClick={() => handleVisualizarTitulos(item)}
+                                            />
+                                        </Tooltip>
 
-                                </Td>
+                                        <Tooltip label='Enviar email'>
+                                            <IconButton
+                                                marginLeft={1}
+                                                width={25}
+                                                height={5}
+                                                aria-label="Enviar Email"
+                                                icon={<EmailIcon />}
+                                            />
+                                        </Tooltip>
+
+                                        <Tooltip label='Registrar Cobrança'>
+                                            <IconButton
+                                                marginLeft={1}
+                                                width={25}
+                                                height={5}
+                                                aria-label="Registrar Cobrança"
+                                                icon={<PlusSquareIcon />}
+                                            />
+                                        </Tooltip>
+
+                                    </Td>
 
 
-                            </Tr>
-                        ))}
-    
-                    </Tbody>
+                                </Tr>
+                            ))}
+        
+                        </Tbody>
+                    )}
+                    
+                    
+                    
+                    
 
                 </Table>
 

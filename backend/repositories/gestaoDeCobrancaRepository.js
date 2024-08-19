@@ -5,8 +5,11 @@ class GestaoDeCobrancaRepository {
 
     static getClientesEmDebito = async (search) => {
 
-        let searchNew;
 
+        console.log('oque vem no search', typeof search);
+
+        let searchNew;
+        // se a pesquisa vir como undefined, colocar % para buscar todos
         if (search === undefined) {
             searchNew = '%';
         } else {

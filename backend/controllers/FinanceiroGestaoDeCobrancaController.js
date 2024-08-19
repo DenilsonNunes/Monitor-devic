@@ -11,9 +11,8 @@ class FinanceiroGestaoDeCobrancaController {
 
     async getClientesEmDebito(req, res) {
 
-        const search = req.query.search
+        const search = req.query.nome
 
-        console.log('Vem na pesquisa rapida: ', search);
      
         
         try {
