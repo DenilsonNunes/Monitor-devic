@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import {
     Modal,
     ModalOverlay,
@@ -8,13 +10,41 @@ import {
     ModalCloseButton,
     Button,
     Text,
-    Heading
+    Heading,
+    Box,
+    TableContainer,
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    Checkbox,
+    IconButton,
+    Tag,
+    TagLabel,
+    Tooltip,
+    Input,
+    Stack,
+    VStack,
+    Select,
+    Icon,
+    useDisclosure
   } from '@chakra-ui/react'
 
 
 
-
 const ModalTitulosEmDebito = ({ isOpen, onClose, titulos}) => {
+
+
+
+  useEffect(() => {
+
+
+
+
+  }, []);
 
     console.log('ModalTitulosEmDebito', titulos);
   
@@ -27,7 +57,52 @@ const ModalTitulosEmDebito = ({ isOpen, onClose, titulos}) => {
                 <ModalCloseButton />
 
                   <ModalBody>
-                    <Heading>Teste</Heading>
+                    
+                    <TableContainer >
+                      <Table size='md'>
+                          <Thead >
+                              <Tr >
+                                  <Th>Empresa</Th>
+                                  <Th>Data Lançamento</Th>
+                                  <Th>Data Vencimento</Th>
+                                  <Th>Dias Atraso</Th>
+                                  <Th>Espécie</Th>
+                                  <Th>Parcela</Th>
+                                  <Th>Valor Original</Th>
+                                  <Th >
+                                      <Text>Multa E</Text>
+                                      <Text>Juros</Text>
+                                  </Th>
+                                  <Th >Valor Corrigido</Th>
+                                  <Th >Tipo Cobrança</Th>
+                              </Tr>
+                          </Thead>
+
+
+                          <Tbody>
+                                        
+                            <Tr padding={0}>
+                          
+                                <Td>CodRedCt</Td>
+                                <Td>multajuros</Td>
+                                <Td>TotalDebitoAtualiz</Td>
+                                <Td>QtdTit</Td>
+                                <Td>QtdTit</Td>
+                                <Td>QtdTit</Td>
+                                <Td>QtdTit</Td>
+                                <Td>QtdTit</Td>
+                                <Td>QtdTit</Td>
+                                <Td>QtdTit</Td>
+                            </Tr>
+                             
+                          </Tbody>
+
+                      </Table>
+
+                  </TableContainer>
+
+
+
                   </ModalBody>
                   
                 <ModalFooter>

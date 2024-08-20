@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import  { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 
 import {
     Box,
@@ -56,17 +56,19 @@ const ClientesEmDebito = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    
+
 
     useEffect(() => {
-    
+
         // Ao carregar o componete limpa a query params da url
         setSearchParams({});
 
         // Exibe carregando ao renderizar o componete
         setLoading(true);
 
-        api.get('financeiro/gestao-de-cobranca/clientes-em-debito')
+        setTimeout(() => {
+
+            api.get('financeiro/gestao-de-cobranca/clientes-em-debito')
 
             .then((response) => {
 
@@ -78,6 +80,10 @@ const ClientesEmDebito = () => {
 
                 console.log('Houve um erro', error);
             });
+
+
+        }, 1000);
+
 
     }, []);
 
@@ -96,12 +102,17 @@ const ClientesEmDebito = () => {
 
         event.preventDefault();
 
+        //Exibe carregando ao renderizar o componete
+        setLoading(true);
 
-        api.get(`financeiro/gestao-de-cobranca/clientes-em-debito?nome=${buscaRapida}`)
+        setTimeout(() => {
+
+            api.get(`financeiro/gestao-de-cobranca/clientes-em-debito?nome=${buscaRapida}`)
 
             .then((response) => {
 
                 setData(response.data);
+                setLoading(false);
 
             })
             .catch((error) => {
@@ -110,21 +121,23 @@ const ClientesEmDebito = () => {
             });
 
 
-        setSearchParams({ search: buscaRapida})
+        }, 1000);
+
+        setSearchParams({ search: buscaRapida })
 
     };
 
     const handleQtdVisualizar = (event) => {
-   
+
         console.log('quantidade visualizar', event.target.value)
-    
+
     };
 
 
 
     return (
 
-        <Box marginTop='60px'  marginX={2} >
+        <Box marginTop='60px' marginX={2} >
 
             <Text fontSize='xl' marginTop={16}>Gestão de Cobrança / Clientes em debito</Text>
 
@@ -133,13 +146,13 @@ const ClientesEmDebito = () => {
                 <Stack direction='row'>
 
                     <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleBuscaRapida}>
-                        <Input 
-                            size='sm' 
-                            variant='outline' 
-                            placeholder='Busca Rápida' 
+                        <Input
+                            size='sm'
+                            variant='outline'
+                            placeholder='Busca Rápida'
                             onChange={(e) => setBuscaRapida(e.target.value)}
                         />
-                        
+
                         <Button
                             size='sm'
                             type='submit'
@@ -149,8 +162,8 @@ const ClientesEmDebito = () => {
                             Buscar
                         </Button>
 
-                        
-                        
+
+
                     </form>
 
                     <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleQtdVisualizar}>
@@ -168,15 +181,15 @@ const ClientesEmDebito = () => {
 
                 </Stack>
 
-                
+
                 <form style={{ display: 'flex', alignItems: 'center' }}>
-                        <Button
-                            size='sm'
-                            type='submit'
-                            colorScheme='gray'
-                        >
-                            Busca Avançada
-                        </Button>
+                    <Button
+                        size='sm'
+                        type='submit'
+                        colorScheme='gray'
+                    >
+                        Busca Avançada
+                    </Button>
                 </form>
 
 
@@ -195,17 +208,19 @@ const ClientesEmDebito = () => {
 
             </Box>
 
+
             <TableContainer marginTop={2}>
                 <Table size='md'>
                     <Thead className={styles.cabecalho_table}>
                         <Tr >
                             <Tooltip label='Selecionar Todos'>
-                                <Th>    
-                                    <Checkbox border='0.3px' borderColor='#cbd5e1' />   
+                                <Th>
+                                    <Checkbox border='0.3px' borderColor='#cbd5e1' />
                                 </Th>
                             </Tooltip>
                             <Th >Cod Cliente</Th>
                             <Th >Cliente</Th>
+                            <Th>Status</Th>
                             <Th >Total Vencido</Th>
                             <Th >Total a Vencer</Th>
                             <Th >Total de Débito</Th>
@@ -217,20 +232,23 @@ const ClientesEmDebito = () => {
                             <Th >Qtd de Títulos</Th>
                             <Th >Mais Antigo</Th>
                             <Th >Dias Vencido</Th>
-                            <Th >Status</Th>
                             <Th>Ações</Th>
                         </Tr>
                     </Thead>
-                    
-                    {!loading ?  (
 
-                        <Loader/>
 
-                    ) : (
+                    <Tbody className={styles.customtable}>
+                        {loading ? (
 
-                        <Tbody className={styles.customtable}>
+                            <Tr>
+                                <Td colSpan={13} border='none'>
+                                    <Loader />
+                                </Td>
+                            </Tr>
+            
 
-                            {data && data.map((item) => (
+                        ) : (
+                             data && data.map((item) => (
 
                                 <Tr padding={0} key={item.CodRedCt}>
                                     <Td padding={0} py={0} px={0}>
@@ -239,18 +257,32 @@ const ClientesEmDebito = () => {
                                     <Td>{item.CodRedCt}</Td>
                                     <Td>
                                         <VStack align="start" spacing={0} marginTop={1} marginBottom={1} >
-                                            <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal" >{item.cliente}</Text>
+                                            <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal">{item.cliente}</Text>
                                             <Text margin={0} fontSize='14px'>
-                                                <Icon as={PhoneIcon} boxSize={3} marginRight={1}/>
+                                                <Icon as={PhoneIcon} boxSize={3} marginRight={1} />
                                                 {item.Fone1Cli} / {item.Fone2Cli}
                                             </Text>
                                             <Text margin={0} fontSize='14px'>
-                                                <Icon as={EmailIcon} boxSize={3} marginRight={1}/>
+                                                <Icon as={EmailIcon} boxSize={3} marginRight={1} />
                                                 {item.EMailCli}
                                             </Text>
                                         </VStack>
                                     </Td>
+                                    <Td>
+                                        <Tag size='sm' variant='solid' colorScheme={
+                                            item.PrevVenc === 'N' ? 'green' :
+                                                item.PrevVenc === 'S' ? 'gray' :
+                                                    item.PrevVenc === 'H' ? 'red' : 'yellow'
 
+                                        }>
+
+                                            <TagLabel fontWeight='bold'>
+                                                {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
+                                                    item.PrevVenc === 'S' ? 'teste' :
+                                                        item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança'}
+                                            </TagLabel>
+                                        </Tag>
+                                    </Td>
                                     <Td color='#cc0000' fontWeight={600}>{item.ValCtRecVencido}</Td>
                                     <Td>{item.totalavencer}</Td>
                                     <Td color='#000099' >{item.TotalDebitoOrig}</Td>
@@ -259,22 +291,6 @@ const ClientesEmDebito = () => {
                                     <Td>{item.QtdTit}</Td>
                                     <Td>{formataData(item.vencMaisAntigo)}</Td>
                                     <Td color='#cc0000'>{item.DiasVcto}</Td>
-                                    <Td>
-                                        <Tag size='sm' variant='solid' colorScheme={
-                                            item.PrevVenc === 'N' ? 'green' :
-                                            item.PrevVenc === 'S' ? 'gray' : 
-                                            item.PrevVenc === 'H' ? 'red': 'yellow'
-                                            
-                                        }>
-                                            
-                                            <TagLabel fontWeight='bold'>
-                                                {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
-                                                item.PrevVenc === 'S' ? 'teste' : 
-                                                item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança' }
-                                            </TagLabel>
-                                        </Tag>
-                                    </Td>
-
                                     <Td>
                                         <Tooltip label='Ver Títulos' >
                                             <IconButton
@@ -310,27 +326,24 @@ const ClientesEmDebito = () => {
 
 
                                 </Tr>
-                            ))}
-        
-                        </Tbody>
-                    )}
-                    
-                    
-                    
-                    
+                            ))
+                        )}    
+                            
+                    </Tbody>
 
                 </Table>
 
             </TableContainer>
-            
-            { selectedVerTitulos && 
+
+
+            {selectedVerTitulos &&
                 <ModalTitulosEmDebito
                     titulos={titulosDoCliente}
                     isOpen={isOpen}
                     onClose={onClose}
                 />
             }
-            
+
         </Box>
     )
 }
