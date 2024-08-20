@@ -97,19 +97,9 @@ const ClientesEmDebito = () => {
         event.preventDefault();
 
 
-<<<<<<< HEAD
         api.get(`financeiro/gestao-de-cobranca/clientes-em-debito?nome=${buscaRapida}`)
 
             .then((response) => {
-=======
-        
-        api.get('financeiro/gestao-de-cobranca/clientes-em-debito', {
-            params:{
-                search: buscaRapida
-            }
-        })
-        .then((response) => {
->>>>>>> 52bdce9ad5a8a9b9f7551dbe664c46602d72d002
 
                 setData(response.data);
 
