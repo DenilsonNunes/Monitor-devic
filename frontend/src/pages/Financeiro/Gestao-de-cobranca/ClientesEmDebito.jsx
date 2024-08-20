@@ -97,9 +97,19 @@ const ClientesEmDebito = () => {
         event.preventDefault();
 
 
+<<<<<<< HEAD
         api.get(`financeiro/gestao-de-cobranca/clientes-em-debito?nome=${buscaRapida}`)
 
             .then((response) => {
+=======
+        
+        api.get('financeiro/gestao-de-cobranca/clientes-em-debito', {
+            params:{
+                search: buscaRapida
+            }
+        })
+        .then((response) => {
+>>>>>>> 52bdce9ad5a8a9b9f7551dbe664c46602d72d002
 
                 setData(response.data);
 
@@ -126,7 +136,7 @@ const ClientesEmDebito = () => {
 
         <Box marginTop='60px'  marginX={2} >
 
-            <Text fontSize='2xl'>Gestão de Cobrança</Text>
+            <Text fontSize='xl' marginTop={16}>Gestão de Cobrança / Clientes em debito</Text>
 
             <Box display='flex' justifyContent='space-between' marginTop={5} >
 
@@ -139,10 +149,12 @@ const ClientesEmDebito = () => {
                             placeholder='Busca Rápida' 
                             onChange={(e) => setBuscaRapida(e.target.value)}
                         />
+                        
                         <Button
                             size='sm'
                             type='submit'
                             colorScheme='blue'
+                            borderRadius={0}
                         >
                             Buscar
                         </Button>
@@ -152,7 +164,8 @@ const ClientesEmDebito = () => {
                     </form>
 
                     <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleQtdVisualizar}>
-                        <Select size='sm' placeholder='Visualizar'
+                        <Text fontSize='md'>Visualizar</Text>
+                        <Select size='sm' marginLeft={2}
                             value={qtdVisualizar}
                             onChange={(e) => setQtdVisualizar(e.target.value)}
                         >
@@ -170,7 +183,7 @@ const ClientesEmDebito = () => {
                         <Button
                             size='sm'
                             type='submit'
-                            colorScheme='blue'
+                            colorScheme='gray'
                         >
                             Busca Avançada
                         </Button>
@@ -178,7 +191,7 @@ const ClientesEmDebito = () => {
 
 
                 <Box>
-                    <h1>Ações em Lote</h1>
+                    <h1>ações em lote</h1>
                     <Tooltip label='Enviar email para os títulos selecionados'>
                         <IconButton
                             marginLeft={1}
