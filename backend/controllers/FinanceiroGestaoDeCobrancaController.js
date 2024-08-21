@@ -11,16 +11,15 @@ class FinanceiroGestaoDeCobrancaController {
 
     async getClientesEmDebito(req, res) {
 
-        const search = req.query.nome
-
+        const search = req.query.nome;
      
-        
         try {
  
             const result = await GestaoDeCobrancaRepository.getClientesEmDebito(search);
- 
+            
             const data = removeEspacoFinal(result);
- 
+            
+
             res.status(200).json(data);
  
         } catch(err) {
@@ -36,19 +35,24 @@ class FinanceiroGestaoDeCobrancaController {
 
     async titulosDoClienteEmDebito(req, res) {
 
+        const { codCliente } = req.params;
+
+
         try {
-
-            const result = await GestaoDeCobrancaRepository.titulosDoClienteEmDebito();
-
+ 
+            const result = await GestaoDeCobrancaRepository.titulosDoClienteEmDebito(codCliente);
+ 
             const data = removeEspacoFinal(result);
-
+ 
             res.status(200).json(data);
-
+ 
         } catch(err) {
-
+ 
             res.status(500).json({ message: err.message });
-
+ 
         }
+        
+     
     }
 
 

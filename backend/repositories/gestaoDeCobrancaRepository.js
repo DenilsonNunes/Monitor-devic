@@ -6,8 +6,6 @@ class GestaoDeCobrancaRepository {
     static getClientesEmDebito = async (search) => {
 
 
-        console.log('oque vem no search', typeof search);
-
         let searchNew;
         // se a pesquisa vir como undefined, colocar % para buscar todos
         if (search === undefined) {
@@ -79,7 +77,7 @@ class GestaoDeCobrancaRepository {
     
     */
 
-    static titulosDoClienteEmDebito = async () => {
+    static titulosDoClienteEmDebito = async (codCliente) => {
 
         // Titulos do Cliente em aberto
         const data = await sqlQuery(
@@ -105,7 +103,7 @@ class GestaoDeCobrancaRepository {
             FROM 
                 dbo.vmClientesComDebitoDocs
             WHERE 
-                CtDevCtRec = 1942 -- INFORMAR O CLIENTE
+                CtDevCtRec = ${codCliente} -- INFORMAR O CLIENTE
                 AND Coalesce(DtProrrogCtRec, DtVctoCtRec) < Convert(Varchar, GETDATE(),111)
                 AND CodEmpr IN (0,'1','2','3') -- INFORMAR EMPRESAS A SEREM ANALISADAS
                 AND CtCredCtRec NOT IN (8306,20768,8433,8400)

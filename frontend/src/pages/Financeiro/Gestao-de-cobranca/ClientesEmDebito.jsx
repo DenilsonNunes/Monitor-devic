@@ -52,6 +52,8 @@ const ClientesEmDebito = () => {
     const [buscaRapida, setBuscaRapida] = useState("");
     const [qtdVisualizar, setQtdVisualizar] = useState("");
     const [loading, setLoading] = useState(false);
+    const [msgInfo, setMsgInfo] = useState(false);
+
 
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -70,16 +72,18 @@ const ClientesEmDebito = () => {
 
             api.get('financeiro/gestao-de-cobranca/clientes-em-debito')
 
-            .then((response) => {
+                .then((response) => {
 
-                setData(response.data);
-                setLoading(false);
+                    setData(response.data);
+                    setLoading(false);
 
-            })
-            .catch((error) => {
+                })
+                .catch((error) => {
 
-                console.log('Houve um erro', error);
-            });
+                    console.log('Houve um erro', error);
+                    setLoading(false);
+
+                });
 
 
         }, 1000);
@@ -102,6 +106,9 @@ const ClientesEmDebito = () => {
 
         event.preventDefault();
 
+        // Define mensagem "Nenhum resultado encontrado como falso"
+        setMsgInfo(false);
+
         //Exibe carregando ao renderizar o componete
         setLoading(true);
 
@@ -109,19 +116,26 @@ const ClientesEmDebito = () => {
 
             api.get(`financeiro/gestao-de-cobranca/clientes-em-debito?nome=${buscaRapida}`)
 
-            .then((response) => {
+                .then((response) => {
 
-                setData(response.data);
-                setLoading(false);
+                    if(response.data.length === 0) {
+                        
+                        setMsgInfo(true)
+                        
+                    }
+                    setData(response.data);
+                    setLoading(false);
 
-            })
-            .catch((error) => {
+                })
+                .catch((error) => {
 
-                console.log('Houve um erro', error);
-            });
+                    setLoading(false);
+                    console.log('Houve um erro', error);
+                });
 
 
         }, 1000);
+
 
         setSearchParams({ search: buscaRapida })
 
@@ -245,10 +259,19 @@ const ClientesEmDebito = () => {
                                     <Loader />
                                 </Td>
                             </Tr>
-            
+
+
+                        ) : ( msgInfo ? (
+
+                            <Tr>
+                                <Td colSpan={13} textAlign="center">
+                                    <Text>Nenhum cliente encontrado</Text>
+                                </Td>
+                            </Tr>
 
                         ) : (
-                             data && data.map((item) => (
+
+                            data && data.map((item) => (
 
                                 <Tr padding={0} key={item.CodRedCt}>
                                     <Td padding={0} py={0} px={0}>
@@ -269,7 +292,7 @@ const ClientesEmDebito = () => {
                                         </VStack>
                                     </Td>
                                     <Td>
-                                        <Tag size='sm' variant='solid' colorScheme={
+                                        <Tag borderRadius={0} size='sm' variant='solid' colorScheme={
                                             item.PrevVenc === 'N' ? 'green' :
                                                 item.PrevVenc === 'S' ? 'gray' :
                                                     item.PrevVenc === 'H' ? 'red' : 'yellow'
@@ -278,7 +301,7 @@ const ClientesEmDebito = () => {
 
                                             <TagLabel fontWeight='bold'>
                                                 {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
-                                                    item.PrevVenc === 'S' ? 'teste' :
+                                                    item.PrevVenc === 'S' ? 'Agendamento não pago' :
                                                         item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança'}
                                             </TagLabel>
                                         </Tag>
@@ -327,8 +350,8 @@ const ClientesEmDebito = () => {
 
                                 </Tr>
                             ))
-                        )}    
-                            
+                        ))}
+
                     </Tbody>
 
                 </Table>
@@ -338,7 +361,7 @@ const ClientesEmDebito = () => {
 
             {selectedVerTitulos &&
                 <ModalTitulosEmDebito
-                    titulos={titulosDoCliente}
+                    cliente={titulosDoCliente}
                     isOpen={isOpen}
                     onClose={onClose}
                 />

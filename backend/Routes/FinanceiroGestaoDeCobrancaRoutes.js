@@ -7,6 +7,7 @@ const FinanceiroGestaoDeCobrancaController = require('../controllers/FinanceiroG
 
 
 router.get('/clientes-em-debito', FinanceiroGestaoDeCobrancaController.getClientesEmDebito);
+router.get('/clientes-em-debito/:codCliente/titulos', FinanceiroGestaoDeCobrancaController.titulosDoClienteEmDebito);
 router.post('/criar-cobranca', FinanceiroGestaoDeCobrancaController.criarCobranca);
 router.delete('/clientes-em-debito', FinanceiroGestaoDeCobrancaController.excluirCobranca);
 
