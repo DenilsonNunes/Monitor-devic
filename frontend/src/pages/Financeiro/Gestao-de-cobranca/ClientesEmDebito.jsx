@@ -53,6 +53,9 @@ const ClientesEmDebito = () => {
     const [qtdVisualizar, setQtdVisualizar] = useState("");
     const [loading, setLoading] = useState(false);
     const [msgInfo, setMsgInfo] = useState(false);
+    const [error, setError] = useState(null);
+
+
 
 
 
@@ -79,9 +82,20 @@ const ClientesEmDebito = () => {
 
                 })
                 .catch((error) => {
+                    if (error.message === 'Network Error') {
 
-                    console.log('Houve um erro', error);
-                    setLoading(false);
+                        setError("Não foi possível se conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
+                        setLoading(false);
+
+                    } else {
+
+                        setError(error.message);
+                        setLoading(false);
+
+                    }
+
+                    console.log('Houve um erro', error.message);
+
 
                 });
 
@@ -118,10 +132,10 @@ const ClientesEmDebito = () => {
 
                 .then((response) => {
 
-                    if(response.data.length === 0) {
-                        
+                    if (response.data.length === 0) {
+
                         setMsgInfo(true)
-                        
+
                     }
                     setData(response.data);
                     setLoading(false);
@@ -261,96 +275,110 @@ const ClientesEmDebito = () => {
                             </Tr>
 
 
-                        ) : ( msgInfo ? (
-
-                            <Tr>
-                                <Td colSpan={13} textAlign="center">
-                                    <Text>Nenhum cliente encontrado</Text>
-                                </Td>
-                            </Tr>
-
                         ) : (
-
-                            data && data.map((item) => (
-
-                                <Tr padding={0} key={item.CodRedCt}>
-                                    <Td padding={0} py={0} px={0}>
-                                        <Checkbox border='0.3px' borderColor='#cbd5e1' />
+                            
+                            error ? (
+                                <Tr>
+                                    <Td colSpan={13} textAlign="center">
+                                        <Text>{error}</Text>
                                     </Td>
-                                    <Td>{item.CodRedCt}</Td>
-                                    <Td>
-                                        <VStack align="start" spacing={0} marginTop={1} marginBottom={1} >
-                                            <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal">{item.cliente}</Text>
-                                            <Text margin={0} fontSize='14px'>
-                                                <Icon as={PhoneIcon} boxSize={3} marginRight={1} />
-                                                {item.Fone1Cli} / {item.Fone2Cli}
-                                            </Text>
-                                            <Text margin={0} fontSize='14px'>
-                                                <Icon as={EmailIcon} boxSize={3} marginRight={1} />
-                                                {item.EMailCli}
-                                            </Text>
-                                        </VStack>
-                                    </Td>
-                                    <Td>
-                                        <Tag borderRadius={0} size='sm' variant='solid' colorScheme={
-                                            item.PrevVenc === 'N' ? 'green' :
-                                                item.PrevVenc === 'S' ? 'gray' :
-                                                    item.PrevVenc === 'H' ? 'red' : 'yellow'
-
-                                        }>
-
-                                            <TagLabel fontWeight='bold'>
-                                                {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
-                                                    item.PrevVenc === 'S' ? 'Agendamento não pago' :
-                                                        item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança'}
-                                            </TagLabel>
-                                        </Tag>
-                                    </Td>
-                                    <Td color='#cc0000' fontWeight={600}>{item.ValCtRecVencido}</Td>
-                                    <Td>{item.totalavencer}</Td>
-                                    <Td color='#000099' >{item.TotalDebitoOrig}</Td>
-                                    <Td>{item.multajuros}</Td>
-                                    <Td>{item.TotalDebitoAtualiz}</Td>
-                                    <Td>{item.QtdTit}</Td>
-                                    <Td>{formataData(item.vencMaisAntigo)}</Td>
-                                    <Td color='#cc0000'>{item.DiasVcto}</Td>
-                                    <Td>
-                                        <Tooltip label='Ver Títulos' >
-                                            <IconButton
-                                                width={25}
-                                                height={5}
-                                                aria-label="Visualizar"
-                                                icon={<SearchIcon />}
-                                                onClick={() => handleVisualizarTitulos(item)}
-                                            />
-                                        </Tooltip>
-
-                                        <Tooltip label='Enviar email'>
-                                            <IconButton
-                                                marginLeft={1}
-                                                width={25}
-                                                height={5}
-                                                aria-label="Enviar Email"
-                                                icon={<EmailIcon />}
-                                            />
-                                        </Tooltip>
-
-                                        <Tooltip label='Registrar Cobrança'>
-                                            <IconButton
-                                                marginLeft={1}
-                                                width={25}
-                                                height={5}
-                                                aria-label="Registrar Cobrança"
-                                                icon={<PlusSquareIcon />}
-                                            />
-                                        </Tooltip>
-
-                                    </Td>
-
-
                                 </Tr>
-                            ))
-                        ))}
+                            ) : (
+
+                                msgInfo ? (
+                                    <Tr>
+                                        <Td colSpan={13} textAlign="center">
+                                            <Text>Nenhum cliente encontrado</Text>
+                                        </Td>
+                                    </Tr>
+
+                                ) : (
+                                        data && data.map((item) => (
+
+                                            <Tr padding={0} key={item.CodRedCt}>
+                                                <Td padding={0} py={0} px={0}>
+                                                    <Checkbox border='0.3px' borderColor='#cbd5e1' />
+                                                </Td>
+                                                <Td>{item.CodRedCt}</Td>
+                                                <Td>
+                                                    <VStack align="start" spacing={0} marginTop={1} marginBottom={1} >
+                                                        <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal">{item.cliente}</Text>
+                                                        <Text margin={0} fontSize='14px'>
+                                                            <Icon as={PhoneIcon} boxSize={3} marginRight={1} />
+                                                            {item.Fone1Cli} / {item.Fone2Cli}
+                                                        </Text>
+                                                        <Text margin={0} fontSize='14px'>
+                                                            <Icon as={EmailIcon} boxSize={3} marginRight={1} />
+                                                            {item.EMailCli}
+                                                        </Text>
+                                                    </VStack>
+                                                </Td>
+                                                <Td>
+                                                    <Tag borderRadius={0} size='sm' variant='solid' colorScheme={
+                                                        item.PrevVenc === 'N' ? 'green' :
+                                                            item.PrevVenc === 'S' ? 'gray' :
+                                                                item.PrevVenc === 'H' ? 'red' : 'yellow'
+
+                                                    }>
+
+                                                        <TagLabel fontWeight='bold'>
+                                                            {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
+                                                                item.PrevVenc === 'S' ? 'Agendamento não pago' :
+                                                                    item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança'}
+                                                        </TagLabel>
+                                                    </Tag>
+                                                </Td>
+                                                <Td color='#cc0000' fontWeight={600}>{item.ValCtRecVencido}</Td>
+                                                <Td>{item.totalavencer}</Td>
+                                                <Td color='#000099' >{item.TotalDebitoOrig}</Td>
+                                                <Td>{item.multajuros}</Td>
+                                                <Td>{item.TotalDebitoAtualiz}</Td>
+                                                <Td>{item.QtdTit}</Td>
+                                                <Td>{formataData(item.vencMaisAntigo)}</Td>
+                                                <Td color='#cc0000'>{item.DiasVcto}</Td>
+                                                <Td>
+                                                    <Tooltip label='Ver Títulos' >
+                                                        <IconButton
+                                                            width={25}
+                                                            height={5}
+                                                            aria-label="Visualizar"
+                                                            icon={<SearchIcon />}
+                                                            onClick={() => handleVisualizarTitulos(item)}
+                                                        />
+                                                    </Tooltip>
+
+                                                    <Tooltip label='Enviar email'>
+                                                        <IconButton
+                                                            marginLeft={1}
+                                                            width={25}
+                                                            height={5}
+                                                            aria-label="Enviar Email"
+                                                            icon={<EmailIcon />}
+                                                        />
+                                                    </Tooltip>
+
+                                                    <Tooltip label='Registrar Cobrança'>
+                                                        <IconButton
+                                                            marginLeft={1}
+                                                            width={25}
+                                                            height={5}
+                                                            aria-label="Registrar Cobrança"
+                                                            icon={<PlusSquareIcon />}
+                                                        />
+                                                    </Tooltip>
+
+                                                </Td>
+
+
+                                            </Tr>
+
+                                        ))
+
+                                    )
+
+                            )
+
+                        )}
 
                     </Tbody>
 
