@@ -39,8 +39,9 @@ import formataData from '../../../utils/formataData';
 
 //CSS
 import styles from './ClientesEmDebito.module.css'
-import ModalTitulosEmDebito from './ModalTitulosDeClienteEmDebito';
+import ModalTitulosEmDebito from './Modal/ModalTitulosDeClienteEmDebito';
 import Loader from '../../../components/Loading/Loader';
+import formataDinheiro from '../../../utils/formataDinheiro';
 
 const ClientesEmDebito = () => {
 
@@ -237,7 +238,16 @@ const ClientesEmDebito = () => {
             </Box>
 
 
-            <TableContainer marginTop={2}>
+            <TableContainer 
+                marginTop={2}
+                
+                
+                maxHeight="700px"   // Define a altura máxima da tabela
+                maxWidth="100%"     // Define a largura máxima da tabela
+                overflowX="auto"    // Ativa o scroll horizontal
+                overflowY="auto"    // Ativa o scroll vertical
+                
+            >
                 <Table size='md'>
                     <Thead className={styles.cabecalho_table}>
                         <Tr >
@@ -287,7 +297,7 @@ const ClientesEmDebito = () => {
 
                                 msgInfo ? (
                                     <Tr>
-                                        <Td colSpan={13} textAlign="center">
+                                        <Td colSpan={13} textAlign="center" >
                                             <Text>Nenhum cliente encontrado</Text>
                                         </Td>
                                     </Tr>
@@ -315,24 +325,24 @@ const ClientesEmDebito = () => {
                                                 </Td>
                                                 <Td>
                                                     <Tag borderRadius={0} size='sm' variant='solid' colorScheme={
-                                                        item.PrevVenc === 'N' ? 'green' :
-                                                            item.PrevVenc === 'S' ? 'gray' :
-                                                                item.PrevVenc === 'H' ? 'red' : 'yellow'
+                                                        item.PrevVenc === 'N' ? 'blue' :
+                                                            item.PrevVenc === 'S' ? 'red' :
+                                                                item.PrevVenc === 'H' ? 'green' : 'yellow'
 
                                                     }>
 
                                                         <TagLabel fontWeight='bold'>
                                                             {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
                                                                 item.PrevVenc === 'S' ? 'Agendamento não pago' :
-                                                                    item.PrevVenc === 'H' ? 'Agendado Hoje' : 'Realizar Cobrança'}
+                                                                    item.PrevVenc === 'H' ? 'Agendado para hoje' : 'Realizar Cobrança'}
                                                         </TagLabel>
                                                     </Tag>
                                                 </Td>
-                                                <Td color='#cc0000' fontWeight={600}>{item.ValCtRecVencido}</Td>
+                                                <Td color='#cc0000' fontWeight={600}>{formataDinheiro(item.ValCtRecVencido)}</Td>
                                                 <Td>{item.totalavencer}</Td>
-                                                <Td color='#000099' >{item.TotalDebitoOrig}</Td>
-                                                <Td>{item.multajuros}</Td>
-                                                <Td>{item.TotalDebitoAtualiz}</Td>
+                                                <Td color='#000099' >{formataDinheiro(item.TotalDebitoOrig)}</Td>
+                                                <Td>{formataDinheiro(item.multajuros)}</Td>
+                                                <Td>{formataDinheiro(item.TotalDebitoAtualiz)}</Td>
                                                 <Td>{item.QtdTit}</Td>
                                                 <Td>{formataData(item.vencMaisAntigo)}</Td>
                                                 <Td color='#cc0000'>{item.DiasVcto}</Td>

@@ -34,12 +34,17 @@ import {
 } from '@chakra-ui/react'
 
 
+//CSS
+import styles from './ModalTitulosDeClienteEmDebito.module.css'
+
 
 // Instancia API
-import api from '../../../helpers/api-instance'
-import Loader from '../../../components/Loading/Loader';
-import formataData from '../../../utils/formataData';
-import formataDinheiro from '../../../utils/formataDinheiro';
+import api from '../../../../helpers/api-instance'
+
+// Componentes
+import Loader from '../../../../components/Loading/Loader';
+import formataData from '../../../../utils/formataData';
+import formataDinheiro from '../../../../utils/formataDinheiro';
 
 
 const ModalTitulosEmDebito = ({ isOpen, onClose, cliente }) => {
@@ -50,13 +55,16 @@ const ModalTitulosEmDebito = ({ isOpen, onClose, cliente }) => {
 
   useEffect(() => {
 
+    setLoading(true);
+
 
     api.get(`financeiro/gestao-de-cobranca/clientes-em-debito/${cliente.CodRedCt}/titulos`)
 
       .then((response) => {
 
         setData(response.data);
-        //setLoading(false);
+        setLoading(false);
+
 
       })
       .catch((error) => {
@@ -81,17 +89,22 @@ const ModalTitulosEmDebito = ({ isOpen, onClose, cliente }) => {
 
           <ModalBody>
 
-            <Box display='flex' alignItems='end'>
-              <Text fontSize='xl'>Cliente:</Text>
-              <Text fontSize='md' marginLeft={2}>{cliente.cliente}</Text>
-            </Box>
-   
+        
+              <Text fontSize='md'><b>Cliente:   </b>{cliente.cliente}</Text>
 
 
-            <TableContainer >
+            <TableContainer 
+              maxHeight="600px"   // Define a altura máxima da tabela
+              maxWidth="100%"     // Define a largura máxima da tabela
+              overflowX="auto"    // Ativa o scroll horizontal
+              overflowY="auto"    // Ativa o scroll vertical
+              border='1px'
+              borderColor='#cbd5e1'
+            
+            >
               <Table size='md'>
-                <Thead >
-                  <Tr >
+                <Thead  className={styles.cabecalho_table}>
+                  <Tr>
                     <Th>Empresa</Th>
                     <Th>Espécie</Th>
                     <Th>Nr Documento</Th>
@@ -111,7 +124,7 @@ const ModalTitulosEmDebito = ({ isOpen, onClose, cliente }) => {
                 </Thead>
 
 
-                <Tbody>
+                <Tbody className={styles.custom_table_body}>
 
                   {loading ? (
 

@@ -15,8 +15,8 @@ import {
     Flex
 
 } from '@chakra-ui/react'
-import Grafico from "../../components/Financeiro/Grafico";
-import CardRotinasFinanceiro from "./CardRotinasFinanceiro/CardRotinasFinanceiro";
+import Grafico from "../../../components/Financeiro/Grafico";
+import CardRotinasFinanceiro from "../CardRotinasFinanceiro/CardRotinasFinanceiro";
 
 
 const Financeiro = () => {

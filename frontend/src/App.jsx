@@ -8,7 +8,7 @@ import Home from './pages/Home/Home';
 import Clientes from './pages/Clientes/Clientes';
 
 //Financeiro
-import Financeiro from './pages/Financeiro/HomeFinanceiro';
+import Financeiro from './pages/Financeiro/Home/HomeFinanceiro';
 import ClientesEmDebito from './pages/Financeiro/Gestao-de-cobranca/ClientesEmDebito';
 import ContasAreceber from './pages/Financeiro/ContasAreceber';
 
