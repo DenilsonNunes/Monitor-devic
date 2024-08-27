@@ -138,7 +138,7 @@ const ModalTitulosEmDebito = ({ isOpen, onClose, cliente }) => {
 
                     data && data.map((item) => (
 
-                      <Tr >
+                      <Tr key={item.NrDocCtRec}>
                         <Td>{item.CodEmpr}</Td>
                         <Td>{item.CodEspDocCtRec}</Td>
                         <Td>{item.NrDocCtRec}</Td>

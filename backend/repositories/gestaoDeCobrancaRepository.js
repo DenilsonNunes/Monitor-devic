@@ -118,7 +118,7 @@ class GestaoDeCobrancaRepository {
         const insert = `
         
             INSERT INTO dbo.tmHistCobranca (idLctoCobr, CodCli, CodFuncCobr, DtHrLcto, DtHrAlt, DtHrCobr, DtHrAgenda, NomeCnttCli, HistCobranca) 
-            VALUES (7, 1950, ''00001'', ''2024-08-15 19:17:09'', null, ''20240815 19:16:00:000'', ''20240816 00:00:00:000'', ''teste'', ''teste'')'
+            VALUES (7, 1950, ''00001'', ''2024-08-15 19:17:09'', null, ''20240815 19:16:00:000'', ''20240816 00:00:00:000'', ''teste'', ''teste'')
         
         
         `;
@@ -126,36 +126,33 @@ class GestaoDeCobrancaRepository {
 
     static excluirCobranca = async () => {
 
-        // Filtrando quais chaves desejo
-        let filtros = ['CtDevCtRec','DtLctoCtRec','NrLctoCtRec','NrDocCtRec','NomeFantCli','ValCtRec','NrParcDocCtRec','DtVctoCtRec','TotParcDocCtRec','CodEspDocCtRec', 'EMailCli'];
-    
-
-        try {
-           
-            
-        } catch (err) {
-    
-            throw new Error(err.message);
-    
-        }
-    
+       
     
     }
 
-    static consultarHistoricoDeCobranca = async () => {
+    static consultarHistoricoDeCobranca = async (codCliente) => {
 
-        // Filtrando quais chaves desejo
-        let filtros = ['CtDevCtRec','DtLctoCtRec','NrLctoCtRec','NrDocCtRec','NomeFantCli','ValCtRec','NrParcDocCtRec','DtVctoCtRec','TotParcDocCtRec','CodEspDocCtRec', 'EMailCli'];
-    
-
-        try {
-           
+        const data = await sqlQuery(
+        `
+            SELECT	
+                idLctoCobr,
+                CodFuncCobr,
+                NomeCnttCli,
+                HistCobranca,
+                convert(char(23), DtHrCobr, 121) AS DtHrCobr,
+                convert(char(23), DtHrAgenda, 121) AS DtHrAgenda,
+                convert(char(23), DtHrLcto, 121) AS DtHrLcto,
+                convert(char(23), DtHrAlt, 121) AS DtHrAlt,
+                CodCli
+            FROM 
+                dbo.tmHistCobranca
+            WHERE 
+                (CodCli = ${codCliente}) -- INFORMAR CLIENTE
+            ORDER BY  CodCli asc, DtHrCobr desc
             
-        } catch (err) {
-    
-            throw new Error(err.message);
-    
-        }
+        `);
+
+        return data;
     
     
     }

@@ -90,6 +90,25 @@ class FinanceiroGestaoDeCobrancaController {
     
     }
 
+        
+    async consultarHistoricoDeCobranca(req, res) {
+
+        const { codCliente } = req.params;
+        
+        try {
+
+            const result = await GestaoDeCobrancaRepository.consultarHistoricoDeCobranca(codCliente);
+
+            res.status(200).json(result);
+
+
+        } catch(err) {
+            console.log('Erro interno: ', err);
+            res.status(500).json({ message: err.message });
+        }
+    
+    }
+
 
 }
 

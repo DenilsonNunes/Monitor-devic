@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { LuHistory } from "react-icons/lu";
+import { LuHistory, LuFilter } from "react-icons/lu";
+
 
 //CSS
 import styles from './ClientesEmDebito.module.css'
 
 import {
+    Flex,
     Box,
     TableContainer,
     Table,
@@ -43,7 +45,9 @@ import formataData from '../../../utils/formataData';
 // Components
 import ModalHistoricoDeCobranca from './Modal/ModalHistoricoDeCobranca';
 import ModalTitulosEmDebito from './Modal/ModalTitulosDeClienteEmDebito';
+import ModalRegistrarCobranca from './Modal/ModalRegistrarCobranca/ModalRegistrarCobranca';
 import Loader from '../../../components/Loading/Loader';
+
 
 // Utils
 import formataDinheiro from '../../../utils/formataDinheiro';
@@ -63,8 +67,15 @@ const ClientesEmDebito = () => {
     const [data, setData] = useState();
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [selectedVerTitulos, setSelectedVerTitulos] = useState(false)
-    const [selectedHistoricoCobranca, setSelectedHistoricoCobranca] = useState(false)
+    const [isOpenVerTitulos, setIsOpenVerTitulos] = useState(false);
+    const [isOpenHistoricoCobranca, setIsOpenHistoricoCobranca] = useState(false);
+    const [isOpenRegistrarCobranca, setIsOpenRegistrarCobranca] = useState(false);
+
+
+    const onCloseVerTitulos = () => setIsOpenVerTitulos(false);
+    const onCloseHistoricoCobranca = () => setIsOpenHistoricoCobranca(false);
+    const onCloseRegistrarCobranca = () => setIsOpenRegistrarCobranca(false);
+
 
     const [titulosDoCliente, setTitulosDoCliente] = useState("");
     const [historicoDoCliente, setHistoricoDoCliente] = useState("");
@@ -128,13 +139,31 @@ const ClientesEmDebito = () => {
 
     const handleVisualizarTitulos = (item) => {
 
-        setSelectedVerTitulos(item)
+        setIsOpenVerTitulos(true);
 
         setTitulosDoCliente(item)
 
         onOpen();
 
     };
+
+    const handleVisualizarHistoricoCobranca = (item) => {
+
+        setIsOpenHistoricoCobranca(true)
+
+        setHistoricoDoCliente(item)
+
+        onOpen();
+
+    }
+
+    const handleRegistrarCobranca = (item) => {
+
+        setIsOpenRegistrarCobranca(true)
+
+        onOpen();
+    }
+
 
     const handleBuscaRapida = (event) => {
 
@@ -181,15 +210,6 @@ const ClientesEmDebito = () => {
 
     };
 
-    const handleVisualizarHistoricoCobranca  = (item) => {
-
-        setSelectedHistoricoCobranca(item)
-
-        setHistoricoDoCliente(item)
-
-        onOpen();
-
-    }
 
 
     return (
@@ -236,18 +256,23 @@ const ClientesEmDebito = () => {
                         </Select>
                     </form>
 
+
+                    <form style={{ display: 'flex', alignItems: 'center' }}>
+                        <Button
+                            size='sm'
+                            type='submit'
+                            colorScheme='gray'
+                        >
+                            <Flex align="center">
+                                <LuFilter />
+                                <Text ml={2}>Filtros</Text>
+                            </Flex>
+                        </Button>
+                    </form>
+
                 </Stack>
 
 
-                <form style={{ display: 'flex', alignItems: 'center' }}>
-                    <Button
-                        size='sm'
-                        type='submit'
-                        colorScheme='gray'
-                    >
-                        Busca Avançada
-                    </Button>
-                </form>
 
 
                 <Box>
@@ -266,15 +291,15 @@ const ClientesEmDebito = () => {
             </Box>
 
 
-            <TableContainer 
+            <TableContainer
                 marginTop={2}
-                
-                
+
+
                 maxHeight="700px"   // Define a altura máxima da tabela
                 maxWidth="100%"     // Define a largura máxima da tabela
                 overflowX="auto"    // Ativa o scroll horizontal
                 overflowY="auto"    // Ativa o scroll vertical
-                
+
             >
                 <Table size='md'>
                     <Thead className={styles.cabecalho_table}>
@@ -314,7 +339,7 @@ const ClientesEmDebito = () => {
 
 
                         ) : (
-                            
+
                             error ? (
                                 <Tr>
                                     <Td colSpan={13} textAlign="center">
@@ -331,103 +356,104 @@ const ClientesEmDebito = () => {
                                     </Tr>
 
                                 ) : (
-                                        data && data.map((item) => (
+                                    data && data.map((item) => (
 
-                                            <Tr padding={0} key={item.CodRedCt}>
-                                                <Td padding={0} py={0} px={0}>
-                                                    <Checkbox border='0.3px' borderColor='#cbd5e1' />
-                                                </Td>
-                                                <Td>{item.CodRedCt}</Td>
-                                                <Td>
-                                                    <VStack align="start" spacing={0} marginTop={1} marginBottom={1} >
-                                                        <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal">{item.cliente}</Text>
-                                                        <Text margin={0} fontSize='14px'>
-                                                            <Icon as={PhoneIcon} boxSize={3} marginRight={1} />
-                                                            {item.Fone1Cli} / {item.Fone2Cli}
-                                                        </Text>
-                                                        <Text margin={0} fontSize='14px'>
-                                                            <Icon as={EmailIcon} boxSize={3} marginRight={1} />
-                                                            {item.EMailCli}
-                                                        </Text>
-                                                    </VStack>
-                                                </Td>
-                                                <Td>
-                                                    <Tag borderRadius={0} size='sm' variant='solid' colorScheme={
-                                                        item.PrevVenc === 'N' ? 'blue' :
-                                                            item.PrevVenc === 'S' ? 'red' :
-                                                                item.PrevVenc === 'H' ? 'green' : 'yellow'
+                                        <Tr padding={0} key={item.CodRedCt}>
+                                            <Td padding={0} py={0} px={0}>
+                                                <Checkbox border='0.3px' borderColor='#cbd5e1' />
+                                            </Td>
+                                            <Td>{item.CodRedCt}</Td>
+                                            <Td>
+                                                <VStack align="start" spacing={0} marginTop={1} marginBottom={1} >
+                                                    <Text marginTop={0} fontSize='sm' textAlign='start' whiteSpace="normal">{item.cliente}</Text>
+                                                    <Text margin={0} fontSize='14px'>
+                                                        <Icon as={PhoneIcon} boxSize={3} marginRight={1} />
+                                                        {item.Fone1Cli} / {item.Fone2Cli}
+                                                    </Text>
+                                                    <Text margin={0} fontSize='14px'>
+                                                        <Icon as={EmailIcon} boxSize={3} marginRight={1} />
+                                                        {item.EMailCli}
+                                                    </Text>
+                                                </VStack>
+                                            </Td>
+                                            <Td>
+                                                <Tag borderRadius={0} size='sm' variant='solid' colorScheme={
+                                                    item.PrevVenc === 'N' ? 'blue' :
+                                                        item.PrevVenc === 'S' ? 'red' :
+                                                            item.PrevVenc === 'H' ? 'green' : 'yellow'
 
-                                                    }>
+                                                }>
 
-                                                        <TagLabel fontWeight='bold'>
-                                                            {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
-                                                                item.PrevVenc === 'S' ? 'Agendamento não pago' :
-                                                                    item.PrevVenc === 'H' ? 'Agendado para hoje' : 'Realizar Cobrança'}
-                                                        </TagLabel>
-                                                    </Tag>
-                                                </Td>
-                                                <Td color='#cc0000' fontWeight={600}>{formataDinheiro(item.ValCtRecVencido)}</Td>
-                                                <Td>{item.totalavencer}</Td>
-                                                <Td color='#000099' >{formataDinheiro(item.TotalDebitoOrig)}</Td>
-                                                <Td>{formataDinheiro(item.multajuros)}</Td>
-                                                <Td>{formataDinheiro(item.TotalDebitoAtualiz)}</Td>
-                                                <Td>{item.QtdTit}</Td>
-                                                <Td>{formataData(item.vencMaisAntigo)}</Td>
-                                                <Td color='#cc0000'>{item.DiasVcto}</Td>
-                                                <Td>
+                                                    <TagLabel fontWeight='bold'>
+                                                        {item.PrevVenc === 'N' ? 'Cobrança Realizada' :
+                                                            item.PrevVenc === 'S' ? 'Agendamento não pago' :
+                                                                item.PrevVenc === 'H' ? 'Agendado para hoje' : 'Realizar Cobrança'}
+                                                    </TagLabel>
+                                                </Tag>
+                                            </Td>
+                                            <Td color='#cc0000' fontWeight={600}>{formataDinheiro(item.ValCtRecVencido)}</Td>
+                                            <Td>{item.totalavencer}</Td>
+                                            <Td color='#000099' >{formataDinheiro(item.TotalDebitoOrig)}</Td>
+                                            <Td>{formataDinheiro(item.multajuros)}</Td>
+                                            <Td>{formataDinheiro(item.TotalDebitoAtualiz)}</Td>
+                                            <Td>{item.QtdTit}</Td>
+                                            <Td>{formataData(item.vencMaisAntigo)}</Td>
+                                            <Td color='#cc0000'>{item.DiasVcto}</Td>
+                                            <Td>
 
-                                                    <Tooltip label='Ver Títulos' >
-                                                        <IconButton
-                                                            width={25}
-                                                            height={5}
-                                                            aria-label="Visualizar"
-                                                            icon={<SearchIcon />}
-                                                            onClick={() => handleVisualizarTitulos(item)}
-                                                        />
-                                                    </Tooltip>
+                                                <Tooltip label='Ver Títulos' >
+                                                    <IconButton
+                                                        width={25}
+                                                        height={5}
+                                                        aria-label="Visualizar"
+                                                        icon={<SearchIcon />}
+                                                        onClick={() => handleVisualizarTitulos(item)}
+                                                    />
+                                                </Tooltip>
 
-                                                    <Tooltip label='Registrar Cobrança'>
-                                                        <IconButton
-                                                            marginLeft={1}
-                                                            width={25}
-                                                            height={5}
-                                                            aria-label="Registrar Cobrança"
-                                                            icon={<SmallAddIcon />}
-                                                        />
-                                                    </Tooltip>
-
-
-                                                    <Tooltip label='Histórico de cobrança'>
-                                                        <IconButton
-                                                            width={25}
-                                                            height={5}
-                                                            marginLeft={1}
-                                                            aria-label="Histórico de cobrança"
-                                                            icon={<LuHistory />}
-                                                            onClick={() => handleVisualizarHistoricoCobranca(item)}
-                                                        />
-                                                    </Tooltip>
+                                                <Tooltip label='Registrar Cobrança'>
+                                                    <IconButton
+                                                        marginLeft={1}
+                                                        width={25}
+                                                        height={5}
+                                                        aria-label="Registrar Cobrança"
+                                                        icon={<SmallAddIcon />}
+                                                        onClick={() => handleRegistrarCobranca(item)}
+                                                    />
+                                                </Tooltip>
 
 
-                                                    <Tooltip label='Enviar email'>
-                                                        <IconButton
-                                                            marginLeft={1}
-                                                            width={25}
-                                                            height={5}
-                                                            aria-label="Enviar Email"
-                                                            icon={<EmailIcon />}
-                                                        />
-                                                    </Tooltip>
-
-                                            
-                                                </Td>
+                                                <Tooltip label='Histórico de cobrança'>
+                                                    <IconButton
+                                                        width={25}
+                                                        height={5}
+                                                        marginLeft={1}
+                                                        aria-label="Histórico de cobrança"
+                                                        icon={<LuHistory />}
+                                                        onClick={() => handleVisualizarHistoricoCobranca(item)}
+                                                    />
+                                                </Tooltip>
 
 
-                                            </Tr>
+                                                <Tooltip label='Enviar email'>
+                                                    <IconButton
+                                                        marginLeft={1}
+                                                        width={25}
+                                                        height={5}
+                                                        aria-label="Enviar Email"
+                                                        icon={<EmailIcon />}
+                                                    />
+                                                </Tooltip>
 
-                                        ))
 
-                                    )
+                                            </Td>
+
+
+                                        </Tr>
+
+                                    ))
+
+                                )
 
                             )
 
@@ -438,21 +464,28 @@ const ClientesEmDebito = () => {
                 </Table>
 
             </TableContainer>
-                        
+
             {/* Modal */}
-            {selectedVerTitulos &&
+            {isOpenVerTitulos &&
                 <ModalTitulosEmDebito
                     cliente={titulosDoCliente}
-                    isOpen={isOpen}
-                    onClose={onClose}
+                    isOpen={isOpenVerTitulos}
+                    onClose={onCloseVerTitulos}
                 />
             }
 
-            {selectedHistoricoCobranca &&
+            {isOpenRegistrarCobranca &&
+                <ModalRegistrarCobranca
+                    isOpen={isOpenRegistrarCobranca}
+                    onClose={onCloseRegistrarCobranca}
+                />
+            }
+
+            {isOpenHistoricoCobranca &&
                 <ModalHistoricoDeCobranca
                     cliente={historicoDoCliente}
-                    isOpen={isOpen}
-                    onClose={onClose}
+                    isOpen={isOpenHistoricoCobranca}
+                    onClose={onCloseHistoricoCobranca}
                 />
             }
 

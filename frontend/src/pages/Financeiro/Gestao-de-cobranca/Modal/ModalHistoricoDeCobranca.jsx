@@ -33,6 +33,10 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 
+// Instancia API
+import api from '../../../../helpers/api-instance'
+
+
 // Components
 import Loader from '../../../../components/Loading/Loader';
 
@@ -42,6 +46,33 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+
+    setLoading(true);
+
+
+    api.get(`financeiro/gestao-de-cobranca/clientes-em-debito/historico-cobranca/${cliente.CodRedCt}`)
+
+      .then((response) => {
+
+        setData(response.data);
+        setLoading(false);
+
+
+      })
+      .catch((error) => {
+
+        console.log('Houve um erro', error);
+        setLoading(false);
+
+      });
+
+
+    }, [cliente]);
+
+
 
   return (
     <>
@@ -78,20 +109,6 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
 
                     <Tbody>
 
-                        <Tr >
-                            <Td>item.CodEmpr</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                          </Tr>
-
-                      {/*
-                      
-                      
-                      
                       {loading ? (
 
                         <Tr>
@@ -105,21 +122,19 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
                         data && data.map((item) => (
 
                           <Tr >
-                            <Td>item.CodEmpr</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
-                            <Td>item.CodEspDocCtRec</Td>
+                            <Td>{item.CodFuncCobr}</Td>
+                            <Td>{item.NomeCnttCli}</Td>
+                            <Td>{item.HistCobranca}</Td>
+                            <Td>{item.DtHrCobr}</Td>
+                            <Td>{item.DtHrAgenda}</Td>
+                            <Td>{item.DtHrLcto}</Td>
+                            <Td>{item.DtHrAlt}</Td>
                           </Tr>
 
                         ))
 
                       )}
-                      
-                      */}
-
+                                
 
                     </Tbody>
 
