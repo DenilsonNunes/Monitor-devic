@@ -10,7 +10,7 @@ router.get('/clientes-em-debito', FinanceiroGestaoDeCobrancaController.getClient
 router.get('/clientes-em-debito/:codCliente/titulos', FinanceiroGestaoDeCobrancaController.titulosDoClienteEmDebito);
 router.get('/clientes-em-debito/historico-cobranca/:codCliente', FinanceiroGestaoDeCobrancaController.consultarHistoricoDeCobranca);
 
-router.post('/criar-cobranca', FinanceiroGestaoDeCobrancaController.criarCobranca);
+router.post('/criar-cobranca/:codCliente', FinanceiroGestaoDeCobrancaController.criarCobranca);
 router.delete('/clientes-em-debito/historico-cobranca/excluir/:id', FinanceiroGestaoDeCobrancaController.excluirCobranca);
 
 

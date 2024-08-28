@@ -159,7 +159,10 @@ const ClientesEmDebito = () => {
 
     const handleRegistrarCobranca = (item) => {
 
-        setIsOpenRegistrarCobranca(true)
+        setIsOpenRegistrarCobranca(true);
+
+        setTitulosDoCliente(item)
+
 
         onOpen();
     }
@@ -476,6 +479,7 @@ const ClientesEmDebito = () => {
 
             {isOpenRegistrarCobranca &&
                 <ModalRegistrarCobranca
+                    cliente={titulosDoCliente}
                     isOpen={isOpenRegistrarCobranca}
                     onClose={onCloseRegistrarCobranca}
                 />

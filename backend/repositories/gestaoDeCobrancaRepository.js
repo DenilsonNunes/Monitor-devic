@@ -114,14 +114,19 @@ class GestaoDeCobrancaRepository {
         return data;
     }
 
-    static criarCobranca = async () => {
-        const insert = `
-        
+    static criarCobranca = async (codCliente) => {
+
+        const proxNumero = await sqlQuery(`
+            select MAX(idLctoCobr)+1 as maiorNumero  from tmHistCobranca
+        `);
+
+
+        const insert = await sqlQuery(
+        `
             INSERT INTO dbo.tmHistCobranca (idLctoCobr, CodCli, CodFuncCobr, DtHrLcto, DtHrAlt, DtHrCobr, DtHrAgenda, NomeCnttCli, HistCobranca) 
-            VALUES (7, 1950, ''00001'', ''2024-08-15 19:17:09'', null, ''20240815 19:16:00:000'', ''20240816 00:00:00:000'', ''teste'', ''teste'')
+            VALUES (${proxNumero}, 1950, ''00001'', ''2024-08-15 19:17:09'', null, ''20240815 19:16:00:000'', ''20240816 00:00:00:000'', ''teste'', ''teste'')
         
-        
-        `;
+        `);
     }
 
     static excluirCobranca = async () => {

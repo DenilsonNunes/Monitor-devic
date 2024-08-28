@@ -58,12 +58,14 @@ class FinanceiroGestaoDeCobrancaController {
 
 
     async criarCobranca(req, res) {
+
+        const { codCliente } = req.params;
         
         try {
 
-            const result = await GestaoDeCobrancaRepository.criarCobranca();
+            const result = await GestaoDeCobrancaRepository.criarCobranca(codCliente);
 
-            res.status(200).json({ message: result });
+            res.status(200).json(result);
 
 
         } catch(err) {

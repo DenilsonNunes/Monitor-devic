@@ -35,16 +35,37 @@ import {
 // Instancia API
 import api from '../../../../../helpers/api-instance'
 
-
 // Components
 import Loader from '../../../../../components/Loading/Loader';
 
+// Utils
+import dataAtualDDMMAAAA from '../../../../../utils/dataAtualDDMMAAAA';
 
 
-const ModalRegistrarCobranca = ({ isOpen, onClose }) => {
 
-  const [data, setData] = useState(null);
+const ModalRegistrarCobranca = ({ isOpen, onClose, cliente}) => {
+
+  const [funcCobranca, setFuncCobranca] = useState("");
+  const [nomeContatoCliente, setNomeContatoCliente] = useState("");
+  const [dataHrCobranca, setDataHrCobranca] = useState("")
+  const [agendarPara, setAgendarPara] = useState("");
+  const [historicoCobranca, setHistoricoCobranca] = useState("");
+
+
+
+
+
   const [loading, setLoading] = useState(false);
+  const [emEdicao, setEmEdicao] = useState(false);
+
+  
+
+  const handleRegistrarCobranca = (cliente) => {
+
+    setEmEdicao(!emEdicao);
+
+  }
+
 
 
 
@@ -58,20 +79,22 @@ const ModalRegistrarCobranca = ({ isOpen, onClose }) => {
 
           <ModalBody>
 
+            <form onSubmit={handleRegistrarCobranca}>
+
             <FormControl>
 
               <Flex flexDirection='column'>
 
                 <Stack direction='row' width='100%'>
 
-                  <Stack direction='column' width='11%' spacing={0}>
+                  <Stack direction='column' width='15%' spacing={0}>
                     <FormLabel>Cod Cliente</FormLabel>
-                    <Input type='text' />
+                    <Input type='text' isReadOnly={true}  value={cliente.CodRedCt}/>
                   </Stack>
 
-                  <Stack direction='column' width='90%' spacing={0}>
+                  <Stack direction='column' width='85%' spacing={0}>
                     <FormLabel>Cliente</FormLabel>
-                    <Input type='text' />
+                    <Input type='text'  isReadOnly={true} value={cliente.cliente}/>
                   </Stack>
 
 
@@ -90,7 +113,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose }) => {
                     <FormLabel>Data/Hora cobrança</FormLabel>
 
                     <Stack direction='row'>
-                      <Input type='date' padding={2} />
+                      <Input type='date' padding={2} value={dataAtualDDMMAAAA()}/>
                       <Input type='time' maxW='5.2em' padding={1} />
                     </Stack>
 
@@ -133,11 +156,18 @@ const ModalRegistrarCobranca = ({ isOpen, onClose }) => {
               </Flex>
 
               <Flex justifyContent='flex-end' marginTop={4}>
-                <Button colorScheme='blue'>Incluir</Button>
-                <Button colorScheme='green' marginLeft={2} isDisabled >Salvar</Button>
+               
+                <Button width='5.2rem' colorScheme={emEdicao ? 'red' : 'blue'} onClick={handleRegistrarCobranca}>
+                        {emEdicao ? 'Cancelar' : 'Incluir' }
+                </Button>
+                <Button colorScheme='green' marginLeft={2} isDisabled={!emEdicao} type='submit'>Salvar</Button>
+
               </Flex>
 
             </FormControl>
+
+            </form>
+
 
 
           </ModalBody>
