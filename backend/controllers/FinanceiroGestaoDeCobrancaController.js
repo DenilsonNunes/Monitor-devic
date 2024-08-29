@@ -59,19 +59,27 @@ class FinanceiroGestaoDeCobrancaController {
 
     async criarCobranca(req, res) {
 
-        const { codCliente } = req.params;
+        const data = req.body;
+        
+        console.log('no controller',  data);
+
+        /*
+        
         
         try {
-
-            const result = await GestaoDeCobrancaRepository.criarCobranca(codCliente);
-
-            res.status(200).json(result);
-
-
+ 
+            const result = await GestaoDeCobrancaRepository.criarCobranca(data);
+ 
+            res.status(200).json({message: result});
+ 
+ 
         } catch(err) {
             console.log('Erro interno: ', err);
             res.status(500).json({ message: err.message });
         }
+        
+        */
+        
     
     }
 

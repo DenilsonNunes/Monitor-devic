@@ -1,5 +1,8 @@
 const sqlQuery = require('../db/SQL/query/query');
 
+const sqlQueryInsert = require('../db/SQL/query/queryInsert');
+
+
 
 class GestaoDeCobrancaRepository {
 
@@ -61,21 +64,6 @@ class GestaoDeCobrancaRepository {
         return data;
     }
 
-    /*
-              SELECT	
-                    count(*),
-                    sum(ValCtRec),
-                    sum(Multa+Juros),
-                    sum(ValCtRec+Multa+Juros)
-                FROM 
-                    dbo.vmClientesComDebitoDocs
-                WHERE 
-                    CtDevCtRec = 1942
-                    AND Coalesce(DtProrrogCtRec, DtVctoCtRec) < Convert(Varchar, GETDATE(),111)
-                    AND CodEmpr IN (0,'1','2','3')
-                    AND CtCredCtRec NOT IN (8306,20768,8433,8400)
-    
-    */
 
     static titulosDoClienteEmDebito = async (codCliente) => {
 
@@ -114,19 +102,25 @@ class GestaoDeCobrancaRepository {
         return data;
     }
 
-    static criarCobranca = async (codCliente) => {
+    static criarCobranca = async (data) => {
 
-        const proxNumero = await sqlQuery(`
+        // pega o proximo numero do idLctoCobr
+        const [result] = await sqlQuery(
+        `
             select MAX(idLctoCobr)+1 as maiorNumero  from tmHistCobranca
+
         `);
-
-
-        const insert = await sqlQuery(
+    
+        // insere um novo registro na tmHistCobranca com o proximo numero obtido acima
+        const insert = await sqlQueryInsert(
         `
             INSERT INTO dbo.tmHistCobranca (idLctoCobr, CodCli, CodFuncCobr, DtHrLcto, DtHrAlt, DtHrCobr, DtHrAgenda, NomeCnttCli, HistCobranca) 
-            VALUES (${proxNumero}, 1950, ''00001'', ''2024-08-15 19:17:09'', null, ''20240815 19:16:00:000'', ''20240816 00:00:00:000'', ''teste'', ''teste'')
+            VALUES (${result.maiorNumero}, '${codCliente}', '00001', GETDATE(), null, '20240815 19:16:00:000', '20240816 00:00:00:000', 'Denilson', 'teste de hoje')
         
         `);
+        
+        return insert;
+       
     }
 
     static excluirCobranca = async () => {

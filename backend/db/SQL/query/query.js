@@ -28,6 +28,7 @@ const query = async (dados, filtros) => {
         const result = await pool.request()
             .query(dados);
 
+
         const data = result.recordset;
         //const data = removeEspaco(result.recordset);
 
