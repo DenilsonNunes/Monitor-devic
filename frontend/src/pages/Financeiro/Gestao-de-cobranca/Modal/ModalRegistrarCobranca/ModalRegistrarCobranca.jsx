@@ -14,8 +14,8 @@ import {
   Flex,
   Textarea,
   FormControl,
-  Text,
-  Tbody,
+  Code,
+  HStack,
   Box,
   Tr,
   Th,
@@ -32,6 +32,9 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 
+import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
+
+
 // Instancia API
 import api from '../../../../../helpers/api-instance'
 
@@ -43,7 +46,7 @@ import dataAtualDDMMAAAA from '../../../../../utils/dataAtualDDMMAAAA';
 
 
 
-const ModalRegistrarCobranca = ({ isOpen, onClose, cliente}) => {
+const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
 
   const [funcCobranca, setFuncCobranca] = useState("Denilson");
   const [nomeContatoCliente, setNomeContatoCliente] = useState("");
@@ -57,49 +60,40 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente}) => {
 
   const [loading, setLoading] = useState(false);
   const [emEdicao, setEmEdicao] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
-  
+
+
 
   const handleRegistrarCobranca = (event) => {
 
     event.preventDefault();
 
-    console.log('informações do input', dataCobranca, horaCobranca);
-    console.log('informações do input', agendarParaData, agendarParaHora + ':00.000');
-    console.log('informações do input', nomeContatoCliente);
-    console.log('informações do input', funcCobranca);
-    console.log('informações do input', msgHistoricoCobranca);
-
-
-    setEmEdicao(!emEdicao);
+    setLoading(!loading);
 
     api.post('financeiro/gestao-de-cobranca/clientes-em-debito/criar-cobranca', {
       codCliente: cliente.CodRedCt,
       nomeContatoCliente,
-      dataCobranca,
-      horaCobranca,
-      agendarParaData,
-      agendarParaHora,
+      dataCobranca: dataCobranca + ' ' + horaCobranca,
+      agendarParaData: agendarParaData + ' ' + agendarParaHora,
       msgHistoricoCobranca
-  })
+    })
       .then((response) => {
 
-      console.log('Cobrança criada com sucesso: ', response.data);
-          
-    
+        console.log('Cobrança criada com sucesso: ', response.data);
+        setSuccess(true);
 
       })
       .catch((error) => {
-          console.log('Erro ao atualizar informações: ', error.response.data);
 
-          
-
+        console.log('Erro ao atualizar informações: ', error.response.data);
+        setError(true);
+      
       });
 
 
   }
-
-
 
 
   return (
@@ -114,134 +108,154 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente}) => {
 
             <form onSubmit={handleRegistrarCobranca}>
 
-            <FormControl>
+              <FormControl>
 
-              <Flex flexDirection='column'>
+                <Flex flexDirection='column'>
 
-                <Stack direction='row' width='100%'>
+                  <Stack direction='row' width='100%'>
 
-                  <Stack direction='column' width='15%' spacing={0}>
-                    <FormLabel>Cod Cliente</FormLabel>
-                    <Input type='text' isReadOnly={true}  value={cliente.CodRedCt}/>
+                    <Stack direction='column' width='20%' spacing={0}>
+                      <FormLabel fontWeight='bold'>Cod Cliente</FormLabel>
+                      <Input type='text' isReadOnly={true} value={cliente.CodRedCt} />
+                    </Stack>
+
+                    <Stack direction='column' width='100%' spacing={0}>
+                      <FormLabel fontWeight='bold'>Cliente</FormLabel>
+                      <Input type='text' isReadOnly={true} value={cliente.cliente} />
+                    </Stack>
+
+
                   </Stack>
 
-                  <Stack direction='column' width='85%' spacing={0}>
-                    <FormLabel>Cliente</FormLabel>
-                    <Input type='text'  isReadOnly={true} value={cliente.cliente}/>
+                  <Stack direction='row' width='100%' marginTop={2}>
+
+                    <Stack direction='column' width='60%' spacing={0}>
+                      <FormLabel fontWeight='bold'>Funcionário Cobrança</FormLabel>
+                      <Input type='text' value={funcCobranca} />
+                    </Stack>
+
+
+                    <Stack direction='column' spacing={0}>
+                      <FormControl isRequired>
+
+                        <FormLabel fontWeight='bold'>Data/Hora cobrança</FormLabel>
+                        <Stack direction='row'>
+                          <Input
+                            type='date'
+                            padding={2}
+                            value={dataCobranca}
+                            onChange={(e) => setDataCobranca(e.target.value)}
+                          />
+                          <Input
+                            type='time'
+                            maxW='5.2em'
+                            padding={1}
+                            value={horaCobranca}
+                            onChange={(e) => setHoraCobranca(e.target.value)}
+                          />
+                        </Stack>
+
+                      </FormControl>
+
+                    </Stack>
+
                   </Stack>
 
+                  <Stack direction='row' width='100%' marginTop={2}>
 
-                </Stack>
+                    <Stack direction='column' width='60%' spacing={0}>
 
-                <Stack direction='row' width='100%' marginTop={2}>
-
-                  <Stack direction='column' width='60%' spacing={0}>
-                    <FormLabel>Funcionário Cobrança</FormLabel>
-                    <Input type='text' value={funcCobranca} />
-                  </Stack>
-
-
-                  <Stack direction='column' spacing={0}>
-                    <FormControl isRequired>
-
-                      <FormLabel>Data/Hora cobrança</FormLabel>
-                      <Stack direction='row'>
-                        <Input 
-                          type='date' 
-                          padding={2} 
-                          value={dataCobranca}
-                          onChange={(e) => setDataCobranca(e.target.value)}
+                      <FormControl isRequired>
+                        <FormLabel fontWeight='bold'>Nome Contato Cliente</FormLabel>
+                        <Input
+                          type='text'
+                          value={nomeContatoCliente}
+                          onChange={(e) => setNomeContatoCliente(e.target.value)}
                         />
-                        <Input 
-                          type='time' 
-                          maxW='5.2em' 
-                          padding={1}
-                          value={horaCobranca} 
-                          onChange={(e) => setHoraCobranca(e.target.value)}
-                        />
-                      </Stack>
+                      </FormControl>
 
-                    </FormControl>
+                    </Stack>
+
+
+                    <Stack direction='column' spacing={0}>
+
+                      <FormControl isRequired>
+
+                        <FormLabel fontWeight='bold'>Agendar para</FormLabel>
+
+                        <Stack direction='row'>
+                          <Input
+                            type='date'
+                            padding={2}
+                            value={agendarParaData}
+                            onChange={(e) => setAgendarParaData(e.target.value)}
+                          />
+                          <Input
+                            type='time'
+                            maxW='5.2em'
+                            padding={1}
+                            value={agendarParaHora}
+                            onChange={(e) => setAgendarParaHora(e.target.value)}
+                          />
+                        </Stack>
+
+                      </FormControl>
+                    </Stack>
 
                   </Stack>
 
-                </Stack>
-
-                <Stack direction='row' width='100%' marginTop={2}>
-
-                  <Stack direction='column' width='60%' spacing={0}>
+                  <Stack marginTop={2} spacing={0}>
 
                     <FormControl isRequired>
-                      <FormLabel>Nome Contato Cliente</FormLabel>
-                      <Input 
+                      <FormLabel fontWeight='bold'>Histórico da Cobrança</FormLabel>
+                      <Textarea
                         type='text'
-                        value={nomeContatoCliente} 
-                        onChange={(e) => setNomeContatoCliente(e.target.value)}
+                        placeholder='informe o histórico da cobrança. "Ex: Cliente informou que vai realizar o pagamento dia 01/01/2050" '
+                        value={msgHistoricoCobranca}
+                        onChange={(e) => setMsgHistoricoCobranca(e.target.value)}
                       />
-                    </FormControl>  
-                  
-                  </Stack>
-
-
-                  <Stack direction='column' spacing={0}>
-
-                    <FormControl isRequired>
-
-                      <FormLabel>Agendar para</FormLabel>
-
-                      <Stack direction='row'>
-                        <Input 
-                          type='date' 
-                          padding={2}
-                          value={agendarParaData} 
-                          onChange={(e) => setAgendarParaData(e.target.value)}
-                        />
-                        <Input 
-                          type='time' 
-                          maxW='5.2em' 
-                          padding={1}
-                          value={agendarParaHora} 
-                          onChange={(e) => setAgendarParaHora(e.target.value)}
-                        />
-                      </Stack>
-
                     </FormControl>
+
                   </Stack>
 
-                </Stack>
+                </Flex>
 
-                <Stack marginTop={2} spacing={0}>
+                <Flex justifyContent='flex-end' marginTop={4}>
 
-                  <FormControl isRequired>
-                    <FormLabel>Histórico da Cobrança</FormLabel>
-                    <Textarea 
-                      type='text' 
-                      placeholder='informe o histórico da cobrança. "Ex: Cliente informou que vai realizar o pagamento dia 01/01/2050" ' 
-                      value={msgHistoricoCobranca}
-                      onChange={(e) => setMsgHistoricoCobranca(e.target.value)}
-                    />
-                  </FormControl>
 
-                </Stack>
+                  {success &&
+                    <HStack marginRight={40}>
+                      <CheckCircleIcon color="green.500" />
+                      <Code height='50%' colorScheme='green'>
+                        Registro salvo com sucesso !!!
+                      </Code>
+                    </HStack>
+                  }
 
-              </Flex>
+                  {error &&
+                    <HStack marginRight={20}>
+                      <WarningIcon color="red.500" />
+                      <Code height='50%' colorScheme='red'>
+                        Erro ao salvar as informações !!!
+                      </Code>
+                    </HStack>
+                  }
 
-              <Flex justifyContent='flex-end' marginTop={4}>
-               
-                
-  
-                <Button 
-                  width='5.2rem' 
-                  colorScheme='red'
-                  onClick={onClose}  
-                >
-                  Cancelar
-                </Button>
-                <Button colorScheme='green' marginLeft={2}  type='submit'>Salvar</Button>
 
-              </Flex>
+                  <Button
+                    width='5.2rem'
+                    colorScheme='red'
+                    onClick={onClose}
+                    isDisabled={loading}
+                  >
+                    Cancelar
+                  </Button>
 
-            </FormControl>
+                  <Button colorScheme='green' marginLeft={2} type='submit'>Salvar</Button>
+
+                </Flex>
+
+              </FormControl>
 
             </form>
 

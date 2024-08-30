@@ -61,15 +61,11 @@ class FinanceiroGestaoDeCobrancaController {
 
         const data = req.body;
         
-        console.log('no controller',  data);
-
-        /*
-        
-        
+     
         try {
  
             const result = await GestaoDeCobrancaRepository.criarCobranca(data);
- 
+            
             res.status(200).json({message: result});
  
  
@@ -78,7 +74,7 @@ class FinanceiroGestaoDeCobrancaController {
             res.status(500).json({ message: err.message });
         }
         
-        */
+        
         
     
     }

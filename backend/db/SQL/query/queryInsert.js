@@ -12,9 +12,6 @@ const queryInsert = async (dados) => {
         const result = await pool.request()
             .query(dados);
 
-
-        console.log('na query', result)
-
         if (result.rowsAffected > 0) {
 
             return "insert realizado com sucesso"

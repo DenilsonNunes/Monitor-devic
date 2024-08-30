@@ -104,6 +104,8 @@ class GestaoDeCobrancaRepository {
 
     static criarCobranca = async (data) => {
 
+        const { codCliente, nomeContatoCliente, dataCobranca, agendarParaData,  msgHistoricoCobranca } = data;
+
         // pega o proximo numero do idLctoCobr
         const [result] = await sqlQuery(
         `
@@ -115,7 +117,7 @@ class GestaoDeCobrancaRepository {
         const insert = await sqlQueryInsert(
         `
             INSERT INTO dbo.tmHistCobranca (idLctoCobr, CodCli, CodFuncCobr, DtHrLcto, DtHrAlt, DtHrCobr, DtHrAgenda, NomeCnttCli, HistCobranca) 
-            VALUES (${result.maiorNumero}, '${codCliente}', '00001', GETDATE(), null, '20240815 19:16:00:000', '20240816 00:00:00:000', 'Denilson', 'teste de hoje')
+            VALUES (${result.maiorNumero}, '${codCliente}', '00001', GETDATE(), null, '${dataCobranca}', '${agendarParaData}', '${nomeContatoCliente}', '${msgHistoricoCobranca}')
         
         `);
         

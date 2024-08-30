@@ -227,9 +227,10 @@ const ClientesEmDebito = () => {
 
                     <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleBuscaRapida}>
                         <Input
+                            width={300}
                             size='sm'
                             variant='outline'
-                            placeholder='Busca Rápida'
+                            placeholder='Pesquise por código ou nome do cliente'
                             onChange={(e) => setBuscaRapida(e.target.value)}
                         />
 
