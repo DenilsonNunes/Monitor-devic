@@ -60,8 +60,8 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
 
   const [loading, setLoading] = useState(false);
   const [emEdicao, setEmEdicao] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(null);
+  const [error, setError] = useState(null);
 
 
 
@@ -70,27 +70,38 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
 
     event.preventDefault();
 
-    setLoading(!loading);
+    setLoading(true);
 
-    api.post('financeiro/gestao-de-cobranca/clientes-em-debito/criar-cobranca', {
-      codCliente: cliente.CodRedCt,
-      nomeContatoCliente,
-      dataCobranca: dataCobranca + ' ' + horaCobranca,
-      agendarParaData: agendarParaData + ' ' + agendarParaHora,
-      msgHistoricoCobranca
-    })
-      .then((response) => {
+    setTimeout(() => {
 
-        console.log('Cobrança criada com sucesso: ', response.data);
-        setSuccess(true);
-
+      api.post('financeiro/gestao-de-cobranca/clientes-em-debito/criar-cobranca', {
+        codCliente: cliente.CodRedCt,
+        nomeContatoCliente,
+        dataCobranca: dataCobranca + ' ' + horaCobranca,
+        agendarParaData: agendarParaData + ' ' + agendarParaHora,
+        msgHistoricoCobranca
       })
-      .catch((error) => {
+        .then((response) => {
+  
+          console.log('Cobrança criada com sucesso: ', response.data);
+          setLoading(false);
+          setSuccess('Registro salvo com sucesso !!!');
+  
+        })
+        .catch((error) => {
+  
+          console.log('Erro ao inserir as informações: ', error.message);
+  
+          if(error.message === 'Network Error') {
+            setError('Ocorreu um erro. Tente novamente mais tarde.');
+          } else {
+            setError('Erro ao salvar as informações !!!');
+          }
+          
+        });
 
-        console.log('Erro ao atualizar informações: ', error.response.data);
-        setError(true);
-      
-      });
+    },1000)
+
 
 
   }
@@ -227,7 +238,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                     <HStack marginRight={40}>
                       <CheckCircleIcon color="green.500" />
                       <Code height='50%' colorScheme='green'>
-                        Registro salvo com sucesso !!!
+                        {success}
                       </Code>
                     </HStack>
                   }
@@ -236,7 +247,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                     <HStack marginRight={20}>
                       <WarningIcon color="red.500" />
                       <Code height='50%' colorScheme='red'>
-                        Erro ao salvar as informações !!!
+                        {error}
                       </Code>
                     </HStack>
                   }
@@ -246,12 +257,20 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                     width='5.2rem'
                     colorScheme='red'
                     onClick={onClose}
-                    isDisabled={loading}
+                    isDisabled={success}
                   >
-                    Cancelar
+                    {error ? 'Fechar' : 'Cancelar'}
                   </Button>
 
-                  <Button colorScheme='green' marginLeft={2} type='submit'>Salvar</Button>
+                  <Button 
+                    colorScheme='green' 
+                    marginLeft={2} 
+                    type='submit'
+                    isLoading={loading}
+                    isDisabled={success}
+                  >
+                    Salvar
+                  </Button>
 
                 </Flex>
 
