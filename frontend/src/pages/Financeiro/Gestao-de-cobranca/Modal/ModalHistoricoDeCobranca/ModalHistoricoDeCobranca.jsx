@@ -34,11 +34,11 @@ import {
 } from '@chakra-ui/react'
 
 // Instancia API
-import api from '../../../../helpers/api-instance'
+import api from '../../../../../helpers/api-instance'
 
 
 // Components
-import Loader from '../../../../components/Loading/Loader';
+import Loader from '../../../../../components/Loading/Loader';
 
 
 

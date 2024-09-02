@@ -7,16 +7,6 @@ const sqlQueryInsert = require('../db/SQL/query/queryInsert');
 class GestaoDeCobrancaRepository {
 
     static getClientesEmDebito = async (search) => {
-
-
-        let searchNew;
-        // se a pesquisa vir como undefined, colocar % para buscar todos
-        if (search === undefined) {
-            searchNew = '%';
-        } else {
-            searchNew = search;
-        }
-
         
         const data = await sqlQuery(
         `
@@ -52,12 +42,11 @@ class GestaoDeCobrancaRepository {
                                 TbCtRec
                             where SitCtRec in ('R','T') 
                             and DtQuitCtRec is null
-                            and RzsCli like '%${searchNew}%' 
+                            and RzsCli like '%${search}%' 
                             and Coalesce(DtProrrogCtRec, DtVctoCtRec) < Convert(Varchar, GETDATE(),111)
                             and CodEmpr in (0,'1','2','3') and CtCredCtRec not in (8306,20768,8433,8400) -- verificar deve ser das outras empresas
                             GROUP by CtDevCtRec) 
             order by CodRedCt asc
-            
             
         `);
       

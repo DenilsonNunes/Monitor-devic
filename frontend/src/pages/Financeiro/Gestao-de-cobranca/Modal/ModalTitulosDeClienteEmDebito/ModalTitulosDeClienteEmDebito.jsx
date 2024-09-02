@@ -39,12 +39,12 @@ import styles from './ModalTitulosDeClienteEmDebito.module.css'
 
 
 // Instancia API
-import api from '../../../../helpers/api-instance'
+import api from '../../../../../helpers/api-instance'
 
 // Componentes
-import Loader from '../../../../components/Loading/Loader';
-import formataData from '../../../../utils/formataData';
-import formataDinheiro from '../../../../utils/formataDinheiro';
+import Loader from '../../../../../components/Loading/Loader';
+import formataData from '../../../../../utils/formataData';
+import formataDinheiro from '../../../../../utils/formataDinheiro';
 
 
 const ModalTitulosEmDebito = ({ isOpen, onClose, cliente }) => {

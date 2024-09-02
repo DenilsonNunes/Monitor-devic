@@ -31,15 +31,24 @@ const Login = () => {
         <FormControl  width={400} >
         
 
-        <FormLabel>Usuário</FormLabel>
-        <Input type='email' placeholder='Digite seu usuário Ex: João' />
+        <FormLabel  margin={0}>Usuário</FormLabel>
+        <Input 
+          variant='flushed'
+          type='email' 
+          placeholder='Digite seu usuário Ex: João' 
+        />
         {/*isErrorEmail && <FormErrorMessage>Email is required.</FormErrorMessage> */}
           
+        <Box marginTop={2}>
 
-        <FormLabel marginTop={2}>Senha</FormLabel>
-        <Input type='password' placeholder='Digite sua senha'/>
-        {/*isErrorSenha && <FormErrorMessage>Informe a Senha</FormErrorMessage> */}
-
+          <FormLabel margin={0} >Senha</FormLabel>
+          <Input
+            variant='flushed'
+            type='password' 
+            placeholder='Digite sua senha'
+          />
+          {/*isErrorSenha && <FormErrorMessage>Informe a Senha</FormErrorMessage> */}
+        </Box>
 
 
           <Button 
@@ -51,8 +60,8 @@ const Login = () => {
             ENTRAR
           </Button>
       
-
         </FormControl>
+
       </Box>
       
     )

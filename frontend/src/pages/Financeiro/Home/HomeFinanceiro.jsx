@@ -6,12 +6,11 @@ import {
     Box,
     CardBody,
     CardFooter,
-    Stack,
+    Text,
     Heading,
     Divider,
     ButtonGroup,
     Button,
-    Text,
     Flex
 
 } from '@chakra-ui/react'
@@ -24,8 +23,10 @@ const Financeiro = () => {
   return (
 
     <Box marginLeft={5} marginRight={5}>
+        
 
         <Box marginTop={20}>
+            <Heading marginBottom={4} size='md'>Monitor Financeiro</Heading>
             <CardRotinasFinanceiro/>
         </Box>
         

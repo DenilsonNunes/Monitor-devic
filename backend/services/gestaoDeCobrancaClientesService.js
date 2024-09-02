@@ -1,57 +1,37 @@
-const sqlQuery = require('../db/SQL/query/query')
-
-
+const GestaoDeCobrancaRepository = require('../repositories/gestaoDeCobrancaRepository');
 
 
 class GestaoDeCobrancaClientesService {
 
-    static getClientesEmDebito = async () => { 
+    static getClientesEmDebito = async (search) => { 
+
+        let searchNew;
+        // se a pesquisa vir como undefined, colocar % para buscar todos
+        if (search === undefined) {
+            searchNew = '%';
+        } else {
+            searchNew = search;
+        }
+
+        return await GestaoDeCobrancaRepository.getClientesEmDebito(searchNew);
 
     }
 
-    static criarCobranca = async () => {
-        const insert = `
-        
-            INSERT INTO dbo.tmHistCobranca (idLctoCobr, CodCli, CodFuncCobr, DtHrLcto, DtHrAlt, DtHrCobr, DtHrAgenda, NomeCnttCli, HistCobranca) 
-            VALUES (7, 1950, ''00001'', ''2024-08-15 19:17:09'', null, ''20240815 19:16:00:000'', ''20240816 00:00:00:000'', ''teste'', ''teste'')'
-        
-        
-        `;
+    static titulosDoClienteEmDebito = async (codCliente) => {
+        return await GestaoDeCobrancaRepository.titulosDoClienteEmDebito(codCliente);
+    }
+
+    static criarCobranca = async (data) => {
+        return await GestaoDeCobrancaRepository.criarCobranca(data);
     }
 
     static excluirCobranca = async () => {
-
-        // Filtrando quais chaves desejo
-        let filtros = ['CtDevCtRec','DtLctoCtRec','NrLctoCtRec','NrDocCtRec','NomeFantCli','ValCtRec','NrParcDocCtRec','DtVctoCtRec','TotParcDocCtRec','CodEspDocCtRec', 'EMailCli'];
-    
-
-        try {
-           
-            
-        } catch (err) {
-    
-            throw new Error(err.message);
-    
-        }
-    
-    
+        return await GestaoDeCobrancaRepository.excluirCobranca()
     }
 
-    static consultarHistoricoDeCobranca = async () => {
+    static consultarHistoricoDeCobranca = async (codCliente) => {
 
-        // Filtrando quais chaves desejo
-        let filtros = ['CtDevCtRec','DtLctoCtRec','NrLctoCtRec','NrDocCtRec','NomeFantCli','ValCtRec','NrParcDocCtRec','DtVctoCtRec','TotParcDocCtRec','CodEspDocCtRec', 'EMailCli'];
-    
-
-        try {
-           
-            
-        } catch (err) {
-    
-            throw new Error(err.message);
-    
-        }
-    
+        return await GestaoDeCobrancaRepository.consultarHistoricoDeCobranca(codCliente);
     
     }
 

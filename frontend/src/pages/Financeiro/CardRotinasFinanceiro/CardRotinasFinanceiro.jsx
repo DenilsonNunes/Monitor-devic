@@ -15,11 +15,11 @@ import {
 
 const CardRotinasFinanceiro = () => {
     return (
-        <SimpleGrid spacing={4}  templateColumns='repeat(auto-fill, minmax(250px, 1fr))'>
+        <SimpleGrid spacing={4} templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(auto-fill, minmax(250px, 1fr))' }}>
 
             <Link to="/financeiro/gestao-de-cobranca/clientes-em-debito">
 
-                <Card bg='#f1f5f9'>
+                <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/ClientesEmDebito-48.png' alt='Clientes em debito' />
@@ -35,12 +35,12 @@ const CardRotinasFinanceiro = () => {
 
             <Link to="/gestao-de-cobranca/inadimplencia">
 
-                <Card bg='#f1f5f9'>
+                <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/Gestão de Cobrança e Inadimplencia.png' alt='Clientes em debito' />
                     </CardHeader>
-                    <CardBody >
+                    <CardBody>
                         <Heading textAlign='center' size='sm'>Gestão de Cobrança e Inadimplencia</Heading>
                     </CardBody>
 
@@ -50,7 +50,7 @@ const CardRotinasFinanceiro = () => {
 
             <Link to="/gestao-de-cobranca/clientes-em-debito">
 
-                <Card bg='#f1f5f9'>
+                <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/ResumoRecebimentoContasReceber-2-48.png' alt='Clientes em debito' />
@@ -66,7 +66,7 @@ const CardRotinasFinanceiro = () => {
 
             <Link to="/gestao-de-cobranca/clientes-em-debito">
 
-                <Card bg='#f1f5f9'>
+                <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'>
                         <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
@@ -79,7 +79,53 @@ const CardRotinasFinanceiro = () => {
 
             </Link>
 
-         
+            <Link to="/gestao-de-cobranca/clientes-em-debito">
+
+                <Card bg='#f1f5f9' height='100%'>
+
+                    <CardHeader display='flex' justifyContent='center'>
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                    </CardHeader>
+                    <CardBody >
+                        <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
+                    </CardBody>
+
+                </Card>
+
+            </Link>
+
+            <Link to="/gestao-de-cobranca/clientes-em-debito">
+
+                <Card bg='#f1f5f9' height='100%'>
+
+                    <CardHeader display='flex' justifyContent='center'>
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                    </CardHeader>
+                    <CardBody >
+                        <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
+                    </CardBody>
+
+                </Card>
+
+            </Link>
+
+            <Link to="/gestao-de-cobranca/clientes-em-debito">
+
+                <Card bg='#f1f5f9' height='100%'>
+
+                    <CardHeader display='flex' justifyContent='center'>
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                    </CardHeader>
+                    <CardBody >
+                        <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
+                    </CardBody>
+
+                </Card>
+
+            </Link>
+
+
+
         </SimpleGrid>
     )
 }

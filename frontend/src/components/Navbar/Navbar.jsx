@@ -1,6 +1,7 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Icon  } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
+import { SearchIcon, EmailIcon, PlusSquareIcon, PhoneIcon, SmallAddIcon } from '@chakra-ui/icons';
 
 import styles from './Navbar.module.css';
 
@@ -9,7 +10,7 @@ const Navbar = () => {
 
   return (
 
-    <div className={styles.navbar} >
+    <Box className={styles.navbar} >
 
         <ul>
 
@@ -31,7 +32,9 @@ const Navbar = () => {
 
       </ul>
 
-    </div>
+      
+
+    </Box>
   )
 }
 

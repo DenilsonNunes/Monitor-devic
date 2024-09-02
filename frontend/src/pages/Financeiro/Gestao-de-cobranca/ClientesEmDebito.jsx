@@ -30,7 +30,8 @@ import {
     Text,
     Select,
     Icon,
-    useDisclosure
+    useDisclosure,
+    HStack
 } from '@chakra-ui/react'
 
 import { SearchIcon, EmailIcon, PlusSquareIcon, PhoneIcon, SmallAddIcon } from '@chakra-ui/icons';
@@ -295,14 +296,13 @@ const ClientesEmDebito = () => {
             </Box>
 
 
+
             <TableContainer
                 marginTop={2}
-
-
                 maxHeight="700px"   // Define a altura máxima da tabela
                 maxWidth="100%"     // Define a largura máxima da tabela
                 overflowX="auto"    // Ativa o scroll horizontal
-                overflowY="auto"    // Ativa o scroll vertical
+                overflowY={loading ? 'hidden' : 'auto'}// Ativa o scroll vertical
 
             >
                 <Table size='md'>
@@ -346,10 +346,10 @@ const ClientesEmDebito = () => {
 
                             error ? (
                                 <Tr>
-                                    <Td colSpan={13} textAlign="center">
+                                    <Td colSpan={13} textAlign="center" borderBottom='none' >
                                         <Text color='red'>{error}</Text>
                                     </Td>
-                                </Tr>
+                                </Tr >
                             ) : (
 
                                 msgInfo ? (

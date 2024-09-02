@@ -1,5 +1,6 @@
-// Repositories
-const GestaoDeCobrancaRepository = require('../repositories/gestaoDeCobrancaRepository')
+// Services
+const GestaoDeCobrancaService = require('../services/gestaoDeCobrancaClientesService');
+
 
 
 // Formats
@@ -15,7 +16,7 @@ class FinanceiroGestaoDeCobrancaController {
      
         try {
  
-            const result = await GestaoDeCobrancaRepository.getClientesEmDebito(search);
+            const result = await GestaoDeCobrancaService.getClientesEmDebito(search);
             
             const data = removeEspacoFinal(result);
             
@@ -40,7 +41,7 @@ class FinanceiroGestaoDeCobrancaController {
 
         try {
  
-            const result = await GestaoDeCobrancaRepository.titulosDoClienteEmDebito(codCliente);
+            const result = await GestaoDeCobrancaService.titulosDoClienteEmDebito(codCliente);
  
             const data = removeEspacoFinal(result);
  
@@ -64,7 +65,7 @@ class FinanceiroGestaoDeCobrancaController {
      
         try {
  
-            const result = await GestaoDeCobrancaRepository.criarCobranca(data);
+            const result = await GestaoDeCobrancaService.criarCobranca(data);
             
             res.status(200).json({message: result});
  
@@ -84,7 +85,7 @@ class FinanceiroGestaoDeCobrancaController {
         
         try {
 
-            const result = await GestaoDeCobrancaRepository.excluirCobranca();
+            const result = await GestaoDeCobrancaService.excluirCobranca();
 
             res.status(200).json({ message: result });
 
@@ -103,7 +104,7 @@ class FinanceiroGestaoDeCobrancaController {
         
         try {
 
-            const result = await GestaoDeCobrancaRepository.consultarHistoricoDeCobranca(codCliente);
+            const result = await GestaoDeCobrancaService.consultarHistoricoDeCobranca(codCliente);
 
             res.status(200).json(result);
 
