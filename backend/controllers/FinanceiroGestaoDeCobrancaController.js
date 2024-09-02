@@ -82,12 +82,14 @@ class FinanceiroGestaoDeCobrancaController {
 
     
     async excluirCobranca(req, res) {
+
+        const { codCliente, idLctoCobr } = req.params;
         
         try {
 
-            const result = await GestaoDeCobrancaService.excluirCobranca();
+            const result = await GestaoDeCobrancaService.excluirCobranca(codCliente, idLctoCobr);
 
-            res.status(200).json({ message: result });
+            res.status(200).json({message: result});
 
 
         } catch(err) {

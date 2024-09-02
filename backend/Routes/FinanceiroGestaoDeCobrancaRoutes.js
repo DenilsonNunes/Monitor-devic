@@ -8,10 +8,10 @@ const FinanceiroGestaoDeCobrancaController = require('../controllers/FinanceiroG
 
 router.get('/clientes-em-debito', FinanceiroGestaoDeCobrancaController.getClientesEmDebito);
 router.get('/clientes-em-debito/:codCliente/titulos', FinanceiroGestaoDeCobrancaController.titulosDoClienteEmDebito);
-router.get('/clientes-em-debito/historico-cobranca/:codCliente', FinanceiroGestaoDeCobrancaController.consultarHistoricoDeCobranca);
+router.get('/clientes-em-debito/:codCliente/historico-cobranca', FinanceiroGestaoDeCobrancaController.consultarHistoricoDeCobranca);
 
 router.post('/clientes-em-debito/criar-cobranca', FinanceiroGestaoDeCobrancaController.criarCobranca);
-router.delete('/clientes-em-debito/historico-cobranca/excluir/:id', FinanceiroGestaoDeCobrancaController.excluirCobranca);
+router.delete('/clientes-em-debito/:codCliente/historico-cobranca/:idLctoCobr', FinanceiroGestaoDeCobrancaController.excluirCobranca);
 
 
 

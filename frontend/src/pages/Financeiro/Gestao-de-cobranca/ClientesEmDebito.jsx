@@ -383,11 +383,11 @@ const ClientesEmDebito = () => {
                                                     </TagLabel>
                                                 </Tag>
                                             </Td>
-                                            <Td color='#cc0000' fontWeight={600}>{formataDinheiro(item.ValCtRecVencido)}</Td>
+                                            <Td color='#cc0000'>{formataDinheiro(item.ValCtRecVencido)}</Td>
                                             <Td>{item.totalavencer}</Td>
                                             <Td color='#000099' >{formataDinheiro(item.TotalDebitoOrig)}</Td>
                                             <Td>{formataDinheiro(item.multajuros)}</Td>
-                                            <Td>{formataDinheiro(item.TotalDebitoAtualiz)}</Td>
+                                            <Td color='#cc0000' fontWeight={600}>{formataDinheiro(item.TotalDebitoAtualiz)}</Td>
                                             <Td>{item.QtdTit}</Td>
                                             <Td>{formataData(item.vencMaisAntigo)}</Td>
                                             <Td color='#cc0000'>{item.DiasVcto}</Td>

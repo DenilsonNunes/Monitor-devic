@@ -63,7 +63,7 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
     setLoading(true);
 
 
-    api.get(`financeiro/gestao-de-cobranca/clientes-em-debito/historico-cobranca/${cliente.CodRedCt}`)
+    api.get(`financeiro/gestao-de-cobranca/clientes-em-debito/${cliente.CodRedCt}/historico-cobranca`)
 
       .then((response) => {
 
@@ -83,6 +83,36 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
   }, [cliente]);
 
 
+  const handleExcluirCobranca = (item) => {
+
+    console.log('Excluir', item);
+
+
+    
+    
+    api.delete(`financeiro/gestao-de-cobranca/clientes-em-debito/${item.CodCli}/historico-cobranca/${item.idLctoCobr}`)
+ 
+    .then((response) => {
+ 
+      setData(response.data);
+      setLoading(false);
+ 
+ 
+    })
+    .catch((error) => {
+ 
+      console.log('Houve um erro', error);
+      setLoading(false);
+ 
+    });
+    
+    
+
+    
+
+  }
+
+
 
   return (
     <>
@@ -90,15 +120,15 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
         <ModalOverlay />
         <ModalContent width='95%'>
           <ModalHeader
-            bg='primary' 
+            bg='primary'
             color='white'
             paddingY={2}
-            borderBottomRadius='10px' 
+            borderBottomRadius='10px'
           >
             Histórico de cobrança
           </ModalHeader>
 
-          <ModalCloseButton color='white'/>
+          <ModalCloseButton color='white' />
 
           <ModalBody marginTop={5}>
 
@@ -111,6 +141,11 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
               <Table size='md'>
                 <Thead className={styles.cabecalho_table}>
                   <Tr>
+                    <Tooltip label='Selecionar Todos'>
+                      <Th>
+                        <Checkbox border='0.3px' borderColor='#cbd5e1' />
+                      </Th>
+                    </Tooltip>
                     <Th border='1px' borderColor='red'>Funcionário</Th>
                     <Th>Nome Contato Cliente</Th>
                     <Th>Histórico</Th>
@@ -138,6 +173,9 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
                     data && data.map((item) => (
 
                       <Tr key={item.idLctoCobr}>
+                        <Td padding={0} py={0} px={0}>
+                          <Checkbox border='0.3px' borderColor='#cbd5e1' />
+                        </Td>
                         <Td >{item.CodFuncCobr}</Td>
                         <Td>{item.NomeCnttCli}</Td>
                         <Td isTruncated maxWidth="300px" >{item.HistCobranca}</Td>
@@ -150,19 +188,20 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
                         <Td>
 
                           <IconButton
-                              width={25}
-                              height={5}
-                              aria-label='Deletar'
-                              icon={<EditIcon/>}
-                            />
+                            width={25}
+                            height={5}
+                            aria-label='Editar'
+                            icon={<EditIcon />}
+                          />
 
-                            <IconButton
-                              width={25}
-                              height={5}
-                              marginLeft={1}
-                              aria-label='Deletar'
-                              icon={<DeleteIcon />}
-                            />
+                          <IconButton
+                            width={25}
+                            height={5}
+                            marginLeft={1}
+                            aria-label='Deletar'
+                            icon={<DeleteIcon />}
+                            onClick={() => handleExcluirCobranca(item)}
+                          />
 
                         </Td>
                       </Tr>

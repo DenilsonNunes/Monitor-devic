@@ -29,6 +29,8 @@ const query = async (dados, filtros) => {
             .query(dados);
 
 
+        console.log(result);
+
         const data = result.recordset;
         //const data = removeEspaco(result.recordset);
 

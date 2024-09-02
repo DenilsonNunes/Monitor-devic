@@ -83,15 +83,22 @@ const ModalTitulosEmDebito = ({ isOpen, onClose, cliente }) => {
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size=''>
         <ModalOverlay />
-        <ModalContent width={1500}>
-          <ModalHeader>Títulos em aberto</ModalHeader>
-          <ModalCloseButton />
+        <ModalContent width='90%'>
 
-          <ModalBody>
+          <ModalHeader
+            bg='primary' 
+            color='white'
+            paddingY={2}
+            borderBottomRadius='10px' 
+          >
+            Títulos em aberto
+          </ModalHeader>
 
-        
-              <Text fontSize='md'><b>Cliente:   </b>{cliente.cliente}</Text>
+          <ModalCloseButton color='white'/>
 
+          <ModalBody marginTop={5}>
+
+            <Text fontSize='md'><b>Cliente: </b>{cliente.cliente}</Text>
 
             <TableContainer 
               maxHeight="600px"   // Define a altura máxima da tabela

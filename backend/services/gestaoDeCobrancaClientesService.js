@@ -24,11 +24,15 @@ class GestaoDeCobrancaClientesService {
     }
 
     static criarCobranca = async (data) => {
+
         return await GestaoDeCobrancaRepository.criarCobranca(data);
+        
     }
 
-    static excluirCobranca = async () => {
-        return await GestaoDeCobrancaRepository.excluirCobranca()
+    static excluirCobranca = async (codCliente, idLctoCobr) => {
+
+        return await GestaoDeCobrancaRepository.excluirCobranca(codCliente, idLctoCobr);
+
     }
 
     static consultarHistoricoDeCobranca = async (codCliente) => {

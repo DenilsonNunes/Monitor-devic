@@ -1,6 +1,8 @@
 const sqlQuery = require('../db/SQL/query/query');
 
 const sqlQueryInsert = require('../db/SQL/query/queryInsert');
+const sqlQueryDelete = require('../db/SQL/query/queryDelete');
+
 
 
 
@@ -127,10 +129,18 @@ class GestaoDeCobrancaRepository {
        
     }
 
-    static excluirCobranca = async () => {
+    static excluirCobranca = async (CodCliente, idLctoCobr) => {
 
-       
+        const data = await sqlQueryDelete(
+        `
+            DELETE tmHistCobranca
+            WHERE idLctoCobr = ${idLctoCobr}
+            AND CodCli = ${CodCliente}
+                
+        `);
     
+        return data;
+       
     }
 
     static consultarHistoricoDeCobranca = async (codCliente) => {

@@ -23,7 +23,19 @@ const Navbar = () => {
           </li>
 
           <li>
+            <NavLink to="/Vendas">Vendas</NavLink>
+          </li>
+
+          <li>
             <NavLink to="/financeiro">Financeiro</NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/estoque">Estoque</NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/fiscal-contabil">Fiscal/Contábil</NavLink>
           </li>
 
           <li>

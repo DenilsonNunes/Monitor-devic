@@ -84,10 +84,10 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'>
-                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Posição Financeira'/>
                     </CardHeader>
                     <CardBody >
-                        <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
+                        <Heading textAlign='center' size='sm'>Posição Financeira</Heading>
                     </CardBody>
 
                 </Card>
@@ -102,7 +102,7 @@ const CardRotinasFinanceiro = () => {
                         <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
-                        <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
+                        <Heading textAlign='center' size='sm'>Disponível em Caixas e Bancos</Heading>
                     </CardBody>
 
                 </Card>
@@ -117,7 +117,82 @@ const CardRotinasFinanceiro = () => {
                         <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
-                        <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
+                        <Heading textAlign='center' size='sm'>Calendário Financeiro</Heading>
+                    </CardBody>
+
+                </Card>
+
+            </Link>
+
+            <Link to="/gestao-de-cobranca/clientes-em-debito">
+
+                <Card bg='#f1f5f9' height='100%'>
+
+                    <CardHeader display='flex' justifyContent='center'>
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                    </CardHeader>
+                    <CardBody >
+                        <Heading textAlign='center' size='sm'>Email informativo resumo diário</Heading>
+                    </CardBody>
+
+                </Card>
+
+            </Link>
+
+            <Link to="/gestao-de-cobranca/clientes-em-debito">
+
+                <Card bg='#f1f5f9' height='100%'>
+
+                    <CardHeader display='flex' justifyContent='center'>
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                    </CardHeader>
+                    <CardBody >
+                        <Heading textAlign='center' size='sm'>Resumo a Receber x Pagar</Heading>
+                    </CardBody>
+
+                </Card>
+
+            </Link>
+
+            <Link to="/gestao-de-cobranca/clientes-em-debito">
+
+                <Card bg='#f1f5f9' height='100%'>
+
+                    <CardHeader display='flex' justifyContent='center'>
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                    </CardHeader>
+                    <CardBody >
+                        <Heading textAlign='center' size='sm'>Análise Credito de Clientes</Heading>
+                    </CardBody>
+
+                </Card>
+
+            </Link>
+
+            <Link to="/gestao-de-cobranca/clientes-em-debito">
+
+                <Card bg='#f1f5f9' height='100%'>
+
+                    <CardHeader display='flex' justifyContent='center'>
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                    </CardHeader>
+                    <CardBody >
+                        <Heading textAlign='center' size='sm'>Movimento de Caixa / Banco</Heading>
+                    </CardBody>
+
+                </Card>
+
+            </Link>
+
+            <Link to="/gestao-de-cobranca/clientes-em-debito">
+
+                <Card bg='#f1f5f9' height='100%'>
+
+                    <CardHeader display='flex' justifyContent='center'>
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' alt='Clientes em debito' />
+                    </CardHeader>
+                    <CardBody >
+                        <Heading textAlign='center' size='sm'>Receber 20 x 20 Dias</Heading>
                     </CardBody>
 
                 </Card>
