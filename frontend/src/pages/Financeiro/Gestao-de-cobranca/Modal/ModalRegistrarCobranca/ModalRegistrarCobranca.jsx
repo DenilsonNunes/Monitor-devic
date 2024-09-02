@@ -89,9 +89,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
   
         })
         .catch((error) => {
-  
-          console.log('Erro ao inserir as informações: ', error.message);
-  
+
           if(error.message === 'Network Error') {
             setError('Ocorreu um erro. Tente novamente mais tarde.');
           } else {
@@ -112,10 +110,17 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
       <Modal onClose={onClose} isOpen={isOpen} isCentered size=''>
         <ModalOverlay />
         <ModalContent width='50%'>
-          <ModalHeader>Registro de cobrança</ModalHeader>
-          <ModalCloseButton />
+          <ModalHeader 
+            bg='primary' 
+            color='white'
+            paddingY={2}
+            borderBottomRadius='10px' 
+          >Registro de cobrança
+          </ModalHeader>
 
-          <ModalBody>
+          <ModalCloseButton color='white'/>
+
+          <ModalBody marginTop={5}>
 
             <form onSubmit={handleRegistrarCobranca}>
 
@@ -127,12 +132,22 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
 
                     <Stack direction='column' width='20%' spacing={0}>
                       <FormLabel fontWeight='bold'>Cod Cliente</FormLabel>
-                      <Input type='text' isReadOnly={true} value={cliente.CodRedCt} />
+                      <Input 
+                        type='text' 
+                        isDisabled={success}
+                        isReadOnly={true} 
+                        value={cliente.CodRedCt} 
+                        />
                     </Stack>
 
                     <Stack direction='column' width='100%' spacing={0}>
                       <FormLabel fontWeight='bold'>Cliente</FormLabel>
-                      <Input type='text' isReadOnly={true} value={cliente.cliente} />
+                      <Input 
+                        type='text'
+                        isDisabled={success} 
+                        isReadOnly={true} 
+                        value={cliente.cliente} 
+                        />
                     </Stack>
 
 
@@ -142,7 +157,10 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
 
                     <Stack direction='column' width='60%' spacing={0}>
                       <FormLabel fontWeight='bold'>Funcionário Cobrança</FormLabel>
-                      <Input type='text' value={funcCobranca} />
+                      <Input 
+                        type='text' 
+                        isDisabled={success}
+                        value={funcCobranca} />
                     </Stack>
 
 
@@ -154,6 +172,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                           <Input
                             type='date'
                             padding={2}
+                            isDisabled={success}
                             value={dataCobranca}
                             onChange={(e) => setDataCobranca(e.target.value)}
                           />
@@ -161,6 +180,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                             type='time'
                             maxW='5.2em'
                             padding={1}
+                            isDisabled={success}
                             value={horaCobranca}
                             onChange={(e) => setHoraCobranca(e.target.value)}
                           />
@@ -180,6 +200,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                         <FormLabel fontWeight='bold'>Nome Contato Cliente</FormLabel>
                         <Input
                           type='text'
+                          isDisabled={success}
                           value={nomeContatoCliente}
                           onChange={(e) => setNomeContatoCliente(e.target.value)}
                         />
@@ -198,6 +219,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                           <Input
                             type='date'
                             padding={2}
+                            isDisabled={success}
                             value={agendarParaData}
                             onChange={(e) => setAgendarParaData(e.target.value)}
                           />
@@ -205,6 +227,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                             type='time'
                             maxW='5.2em'
                             padding={1}
+                            isDisabled={success}
                             value={agendarParaHora}
                             onChange={(e) => setAgendarParaHora(e.target.value)}
                           />
@@ -221,7 +244,8 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                       <FormLabel fontWeight='bold'>Histórico da Cobrança</FormLabel>
                       <Textarea
                         type='text'
-                        placeholder='informe o histórico da cobrança. "Ex: Cliente informou que vai realizar o pagamento dia 01/01/2050" '
+                        placeholder='informe o histórico da cobrança. "Ex: Cliente informou que vai realizar o pagamento dia 01/01/2050"'
+                        isDisabled={success}
                         value={msgHistoricoCobranca}
                         onChange={(e) => setMsgHistoricoCobranca(e.target.value)}
                       />
@@ -257,7 +281,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
                     width='5.2rem'
                     colorScheme='red'
                     onClick={onClose}
-                    isDisabled={success}
+                    isDisabled={success || loading}
                   >
                     {error ? 'Fechar' : 'Cancelar'}
                   </Button>

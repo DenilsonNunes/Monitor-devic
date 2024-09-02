@@ -9,6 +9,8 @@ class GestaoDeCobrancaClientesService {
         // se a pesquisa vir como undefined, colocar % para buscar todos
         if (search === undefined) {
             searchNew = '%';
+        } else if (!isNaN(search)) {
+            searchNew = Number(search);
         } else {
             searchNew = search;
         }

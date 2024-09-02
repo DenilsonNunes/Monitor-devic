@@ -33,12 +33,22 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+
+//CSS
+import styles from './ModalHistoricoDeCobranca.module.css'
+
+
 // Instancia API
 import api from '../../../../../helpers/api-instance'
+
+// Utils
+import formatDateTime from '../../../../../utils/formataDateTimeDDMMAAAAHHMM';
 
 
 // Components
 import Loader from '../../../../../components/Loading/Loader';
+
 
 
 
@@ -70,7 +80,7 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
       });
 
 
-    }, [cliente]);
+  }, [cliente]);
 
 
 
@@ -78,72 +88,98 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size=''>
         <ModalOverlay />
-        <ModalContent width={1500}>
-          <ModalHeader>Histórico de cobrança</ModalHeader>
-          <ModalCloseButton />
+        <ModalContent width='95%'>
+          <ModalHeader
+            bg='primary' 
+            color='white'
+            paddingY={2}
+            borderBottomRadius='10px' 
+          >
+            Histórico de cobrança
+          </ModalHeader>
 
-            <ModalBody>
+          <ModalCloseButton color='white'/>
 
-                <TableContainer
-                  maxHeight="600px"   // Define a altura máxima da tabela
-                  maxWidth="100%"     // Define a largura máxima da tabela
-                  overflowX="auto"    // Ativa o scroll horizontal
-                  overflowY="auto"    // Ativa o scroll vertical
-                  border='1px'
-                  borderColor='#cbd5e1'
+          <ModalBody marginTop={5}>
 
-                >
-                  <Table size='md'>
-                    <Thead>
-                      <Tr>
-                        <Th>Funcionário</Th>
-                        <Th>Nome Contato Cliente</Th>
-                        <Th>Histórico</Th>
-                        <Th>Data Hora Cobrança</Th>
-                        <Th>Data Hora Agenda</Th>
-                        <Th>Data Hora Lançamento</Th>
-                        <Th>Data Hora Alteração</Th>
+            <TableContainer
+              maxHeight="600px"   // Define a altura máxima da tabela
+              maxWidth="100%"     // Define a largura máxima da tabela
+              overflowX="auto"    // Ativa o scroll horizontal
+              overflowY="auto"    // Ativa o scroll vertical
+            >
+              <Table size='md'>
+                <Thead className={styles.cabecalho_table}>
+                  <Tr>
+                    <Th border='1px' borderColor='red'>Funcionário</Th>
+                    <Th>Nome Contato Cliente</Th>
+                    <Th>Histórico</Th>
+                    <Th>Data Hora Cobrança</Th>
+                    <Th>Data Hora Agenda</Th>
+                    {/*<Th>Data Hora Lançamento</Th>*/}
+                    <Th>Data Hora Alteração</Th>
+                    <Th>Ações</Th>
+                  </Tr>
+                </Thead>
+
+
+                <Tbody className={styles.customtable}>
+
+                  {loading ? (
+
+                    <Tr>
+                      <Td colSpan={13} border='none'>
+                        <Loader />
+                      </Td>
+                    </Tr>
+
+                  ) : (
+
+                    data && data.map((item) => (
+
+                      <Tr key={item.idLctoCobr}>
+                        <Td >{item.CodFuncCobr}</Td>
+                        <Td>{item.NomeCnttCli}</Td>
+                        <Td isTruncated maxWidth="300px" >{item.HistCobranca}</Td>
+                        <Td>{formatDateTime(item.DtHrCobr)}</Td>
+                        <Td>{formatDateTime(item.DtHrAgenda)}</Td>
+                        {/*<Td>{formatDateTime(item.DtHrLcto)}</Td>*/}
+                        <Td>
+                          {item.DtHrAlt === null ? 'sem alteração' : formatDateTime(item.DtHrAlt)}
+                        </Td>
+                        <Td>
+
+                          <IconButton
+                              width={25}
+                              height={5}
+                              aria-label='Deletar'
+                              icon={<EditIcon/>}
+                            />
+
+                            <IconButton
+                              width={25}
+                              height={5}
+                              marginLeft={1}
+                              aria-label='Deletar'
+                              icon={<DeleteIcon />}
+                            />
+
+                        </Td>
                       </Tr>
-                    </Thead>
+
+                    ))
+
+                  )}
 
 
-                    <Tbody>
+                </Tbody>
 
-                      {loading ? (
+              </Table>
 
-                        <Tr>
-                          <Td colSpan={13} border='none'>
-                            <Loader />
-                          </Td>
-                        </Tr>
-
-                      ) : (
-
-                        data && data.map((item) => (
-
-                          <Tr >
-                            <Td>{item.CodFuncCobr}</Td>
-                            <Td>{item.NomeCnttCli}</Td>
-                            <Td>{item.HistCobranca}</Td>
-                            <Td>{item.DtHrCobr}</Td>
-                            <Td>{item.DtHrAgenda}</Td>
-                            <Td>{item.DtHrLcto}</Td>
-                            <Td>{item.DtHrAlt}</Td>
-                          </Tr>
-
-                        ))
-
-                      )}
-                                
-
-                    </Tbody>
-
-                  </Table>
-
-                </TableContainer>
+            </TableContainer>
 
 
-            </ModalBody>
+          </ModalBody>
 
           <ModalFooter>
             <Button onClick={onClose}>Fechar</Button>

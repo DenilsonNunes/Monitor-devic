@@ -7,7 +7,17 @@ const sqlQueryInsert = require('../db/SQL/query/queryInsert');
 class GestaoDeCobrancaRepository {
 
     static getClientesEmDebito = async (search) => {
-        
+
+        let CodCliente;
+        let linhaSql;
+        // Verifica se o que vem na pesquisa é um número. Se for, busco somente pelo código do cliente; se não, busco pelo nome.
+        if(typeof search === 'number') {
+            CodCliente = search;
+            linhaSql = `CodRedCt = ${CodCliente}`
+        } else {
+            linhaSql = `RzsCli like '%${search}%'`
+        }
+    
         const data = await sqlQuery(
         `
             SELECT 
@@ -42,7 +52,8 @@ class GestaoDeCobrancaRepository {
                                 TbCtRec
                             where SitCtRec in ('R','T') 
                             and DtQuitCtRec is null
-                            and RzsCli like '%${search}%' 
+                            and CodRedCt not in (87) -- REMOVE CONSUMIDOR FINAL
+                            and ${linhaSql}
                             and Coalesce(DtProrrogCtRec, DtVctoCtRec) < Convert(Varchar, GETDATE(),111)
                             and CodEmpr in (0,'1','2','3') and CtCredCtRec not in (8306,20768,8433,8400) -- verificar deve ser das outras empresas
                             GROUP by CtDevCtRec) 
@@ -98,8 +109,10 @@ class GestaoDeCobrancaRepository {
         // pega o proximo numero do idLctoCobr
         const [result] = await sqlQuery(
         `
-            select MAX(idLctoCobr)+1 as maiorNumero  from tmHistCobranca
-
+            SELECT 
+                COALESCE(MAX(idLctoCobr) + 1, 1) AS maiorNumero 
+            FROM 
+                tmHistCobranca
         `);
     
         // insere um novo registro na tmHistCobranca com o proximo numero obtido acima

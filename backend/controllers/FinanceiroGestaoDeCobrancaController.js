@@ -106,6 +106,7 @@ class FinanceiroGestaoDeCobrancaController {
 
             const result = await GestaoDeCobrancaService.consultarHistoricoDeCobranca(codCliente);
 
+
             res.status(200).json(result);
 
 

@@ -7,6 +7,10 @@ const theme = extendTheme({
     body: `'Roboto', sans-serif`,     // Usar Roboto para o corpo do texto
     Text: `'Roboto', sans-serif`, //
   },
+
+  colors: {
+    primary: '#0284c7',
+  }
 });
 
 export default theme;

@@ -1,0 +1,15 @@
+.customtable td, 
+.customtable tr {
+    padding: 4px;
+    text-align: center;
+
+}
+
+.cabecalho_table th {
+    text-align: center;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    border: 1px solid #dcdcdc;
+    
+}

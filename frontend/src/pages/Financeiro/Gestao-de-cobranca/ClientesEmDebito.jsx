@@ -43,22 +43,15 @@ import api from '../../../helpers/api-instance'
 //Formats
 import formataData from '../../../utils/formataData';
 
-// Components
-import ModalHistoricoDeCobranca from './Modal/ModalHistoricoDeCobranca';
-import ModalTitulosEmDebito from './Modal/ModalTitulosDeClienteEmDebito';
+// Modal
+import ModalHistoricoDeCobranca from './Modal/ModalHistoricoDeCobranca/ModalHistoricoDeCobranca';
+import ModalTitulosEmDebito from './Modal/ModalTitulosDeClienteEmDebito/ModalTitulosDeClienteEmDebito';
 import ModalRegistrarCobranca from './Modal/ModalRegistrarCobranca/ModalRegistrarCobranca';
 import Loader from '../../../components/Loading/Loader';
 
 
 // Utils
 import formataDinheiro from '../../../utils/formataDinheiro';
-
-
-
-
-
-
-
 
 
 
@@ -86,8 +79,6 @@ const ClientesEmDebito = () => {
     const [loading, setLoading] = useState(false);
     const [msgInfo, setMsgInfo] = useState(false);
     const [error, setError] = useState(null);
-
-
 
 
 
@@ -125,9 +116,6 @@ const ClientesEmDebito = () => {
                         setLoading(false);
 
                     }
-
-                    console.log('Houve um erro', error.message);
-
 
                 });
 
@@ -252,7 +240,7 @@ const ClientesEmDebito = () => {
                         <Text fontSize='md'>Visualizar</Text>
                         <Select size='sm' marginLeft={2}
                             value={qtdVisualizar}
-                            onChange={(e) => setQtdVisualizar(e.target.value)}
+                            onChange={(e) => handleQtdVisualizar(e)}
                         >
                             <option value='10'>10</option>
                             <option value='20'>20</option>
@@ -355,7 +343,7 @@ const ClientesEmDebito = () => {
                                 msgInfo ? (
                                     <Tr>
                                         <Td colSpan={13} textAlign="center" >
-                                            <Text>Nenhum cliente encontrado</Text>
+                                            <Text color='red'>Nenhum cliente encontrado</Text>
                                         </Td>
                                     </Tr>
 
