@@ -85,11 +85,9 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
 
   const handleExcluirCobranca = (item) => {
 
-    console.log('Excluir', item);
+    console.log('Excluir', onClose);
 
 
-    
-    
     api.delete(`financeiro/gestao-de-cobranca/clientes-em-debito/${item.CodCli}/historico-cobranca/${item.idLctoCobr}`)
  
     .then((response) => {
@@ -106,8 +104,6 @@ const ModalHistoricoDeCobranca = ({ isOpen, onClose, cliente }) => {
  
     });
     
-    
-
     
 
   }

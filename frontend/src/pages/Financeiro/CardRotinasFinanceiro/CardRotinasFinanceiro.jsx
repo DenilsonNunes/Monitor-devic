@@ -22,7 +22,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'>
-                        <Image src='/img/ClientesEmDebito-48.png' alt='Clientes em debito' />
+                        <Image src='/img/ClientesEmDebito-48.png' maxH={20} maxW={20}  alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Gestão de Cobrança / Clientes em Débito</Heading>
@@ -38,7 +38,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'>
-                        <Image src='/img/Gestão de Cobrança e Inadimplencia.png' alt='Clientes em debito' />
+                        <Image src='/img/Gestão de Cobrança e Inadimplencia.png' maxH={20} maxW={20} alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody>
                         <Heading textAlign='center' size='sm'>Gestão de Cobrança e Inadimplencia</Heading>
