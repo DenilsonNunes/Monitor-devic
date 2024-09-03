@@ -37,6 +37,10 @@ function MainLayout () {
             <Route path='/home' element={<Home/>}/>
             <Route path='/clientes' element={<Clientes/>}/>
 
+            {/* VENDAS */}
+            <Route path='/vendas' element={<Clientes/>}/>
+
+
             {/* FINANCEIRO */}
             <Route path='/financeiro' element={<Financeiro/>}/>
             <Route path='/financeiro/contas-a-receber' element={<ContasAreceber/>}/>
@@ -44,7 +48,11 @@ function MainLayout () {
             <Route path='/financeiro/gestao-de-cobranca/inadimplencia' element={<HomeGestaoDeCobrancaInadimplencia/>}/>
             <Route path='/financeiro/resumo-de-Recebimentos-e-contas-a-receber-em-aberto' element={<ResumoRecebimentosEcontasAreceberEmAberto/>}/>
 
+            {/* ESTOQUE */}
+            <Route path='/estoque' element={<ContasAreceber/>}/>
 
+            {/* FISCAL/CONTÁBIL */}
+            <Route path='/fiscal-contábil' element={<ContasAreceber/>}/>
 
 
             {/* CONFIGURAÇÕES */}

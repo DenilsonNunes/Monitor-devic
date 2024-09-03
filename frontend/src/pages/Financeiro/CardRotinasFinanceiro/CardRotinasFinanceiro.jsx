@@ -15,7 +15,7 @@ import {
 
 const CardRotinasFinanceiro = () => {
     return (
-        <SimpleGrid spacing={4} templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(auto-fill, minmax(250px, 1fr))' }}>
+        <SimpleGrid spacing={4} templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
 
             <Link to="/financeiro/gestao-de-cobranca/clientes-em-debito">
 
@@ -84,7 +84,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Posição Financeira'/>
+                        <Image src='/img/posicao-financeira.png' maxH='4rem' maxW='4rem' alt='Posição Financeira'/>
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Posição Financeira</Heading>
@@ -99,7 +99,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Clientes em debito' />
+                        <Image src='/img/disponivel-caixa-bancos.png' maxH='4rem' maxW='4rem'  alt='Disponível em caixa e banco'/>
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Disponível em Caixas e Bancos</Heading>
@@ -114,7 +114,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Clientes em debito' />
+                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem'  alt='Calendário Financeiro' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Calendário Financeiro</Heading>
@@ -129,7 +129,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Clientes em debito' />
+                        <Image src='/img/email-informativo-diario.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Email informativo resumo diário</Heading>
@@ -144,7 +144,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Clientes em debito' />
+                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Resumo a Receber x Pagar</Heading>
@@ -159,7 +159,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Clientes em debito' />
+                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Análise Credito de Clientes</Heading>
@@ -174,7 +174,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Clientes em debito' />
+                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Movimento de Caixa / Banco</Heading>
@@ -189,7 +189,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/PosicaoFinanceira-2-48.png' alt='Clientes em debito' />
+                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Receber 20 x 20 Dias</Heading>
