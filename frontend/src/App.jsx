@@ -11,6 +11,8 @@ import Clientes from './pages/Clientes/Clientes';
 import Financeiro from './pages/Financeiro/Home/HomeFinanceiro';
 import ClientesEmDebito from './pages/Financeiro/Gestao-de-cobranca/ClientesEmDebito';
 import ContasAreceber from './pages/Financeiro/ContasAreceber';
+import HomeGestaoDeCobrancaInadimplencia from './pages/Financeiro/GestaoDeCobrancaInadimplencia/HomeGestaoDeCobrancaInadimplencia';
+import ResumoRecebimentosEcontasAreceberEmAberto from './pages/Financeiro/ResumoRecebimentosEcontasAreceberEmAberto/ResumoRecebimentosEcontasAreceberEmAberto';
 
 //Configuracoes
 import Configuracoes from './pages/Configuracoes/Configuracoes';
@@ -39,6 +41,10 @@ function MainLayout () {
             <Route path='/financeiro' element={<Financeiro/>}/>
             <Route path='/financeiro/contas-a-receber' element={<ContasAreceber/>}/>
             <Route path='/financeiro/gestao-de-cobranca/clientes-em-debito' element={<ClientesEmDebito/>}/>
+            <Route path='/financeiro/gestao-de-cobranca/inadimplencia' element={<HomeGestaoDeCobrancaInadimplencia/>}/>
+            <Route path='/financeiro/resumo-de-Recebimentos-e-contas-a-receber-em-aberto' element={<ResumoRecebimentosEcontasAreceberEmAberto/>}/>
+
+
 
 
             {/* CONFIGURAÇÕES */}
