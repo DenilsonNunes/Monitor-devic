@@ -22,7 +22,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/ClientesEmDebito-48.png' maxH={20} maxW={20}  alt='Clientes em debito' />
+                        <Image src='/img/ClientesEmDebito-48.png' maxH='4rem' maxW='4rem'  alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Gestão de Cobrança / Clientes em Débito</Heading>
@@ -38,7 +38,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/Gestão de Cobrança e Inadimplencia.png' maxH={20} maxW={20} alt='Clientes em debito' />
+                        <Image src='/img/Gestão de Cobrança e Inadimplencia.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody>
                         <Heading textAlign='center' size='sm'>Gestão de Cobrança e Inadimplencia</Heading>
@@ -53,7 +53,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/ResumoRecebimentoContasReceber-2-48.png' maxH={20} maxW={20}  alt='Clientes em debito' />
+                        <Image src='/img/ResumoRecebimentoContasReceber-2-48.png' maxH='4rem' maxW='4rem'  alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody>
                         <Heading textAlign='center' size='sm'>Resumo de Recebimentos e Contas a Receber em Aberto</Heading>
@@ -69,7 +69,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' maxH={20} maxW={20} alt='Clientes em debito' />
+                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
