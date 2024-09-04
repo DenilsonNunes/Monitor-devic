@@ -5,7 +5,7 @@ const sqlQuery = require('../db/SQL/query/query');
 const selectContasAreceber = require('../db/SQL/Financeiro/SELECT/contasAreceber');
 
 // Services
-const GestaoDeCobrancaClientesService = require('../services/gestaoDeCobrancaClientesService');
+const FinanceiroService = require('../services/FinanceiroService');
 
 // Utils
 const dataAtualMMDDAAAA = require('../utils/Formats/dataAtualMMDDAAAA');
@@ -69,6 +69,25 @@ class FinanceiroController {
 
     async contasApagar() {
 
+    }
+
+    async disponivelEmCaixaEbanco(req, res) {
+
+        try {
+ 
+            const result = await FinanceiroService.disponivelEmCaixaEbanco();
+ 
+            //const data = removeEspacoFinal(result);
+ 
+            res.status(200).json(result);
+ 
+        } catch(err) {
+ 
+            res.status(500).json({ message: err.message });
+ 
+        }
+        
+     
     }
 
 }

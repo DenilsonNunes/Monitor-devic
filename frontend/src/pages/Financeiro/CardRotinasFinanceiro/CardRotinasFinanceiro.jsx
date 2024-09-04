@@ -144,7 +144,7 @@ const CardRotinasFinanceiro = () => {
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/receber_x_pagar.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
+                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody >
                         <Heading textAlign='center' size='sm'>Resumo a Receber x Pagar</Heading>
