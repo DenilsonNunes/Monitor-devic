@@ -99,7 +99,7 @@ const ClientesEmDebito = () => {
             api.get('financeiro/gestao-de-cobranca/clientes-em-debito')
 
                 .then((response) => {
-
+                    console.log(response.data);
                     setData(response.data);
                     setLoading(false);
 

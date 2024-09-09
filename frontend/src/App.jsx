@@ -19,6 +19,7 @@ import Configuracoes from './pages/Configuracoes/Configuracoes';
 
 //COMPONENTS
 import Navbar from './components/Navbar/Navbar'
+import HomeDisponivelEmCaixasEbancos from './pages/Financeiro/DisponivelEmCaixasEbancos/HomeDisponivelEmCaixasEbancos';
 
 
 function MainLayout () {
@@ -47,6 +48,8 @@ function MainLayout () {
             <Route path='/financeiro/gestao-de-cobranca/clientes-em-debito' element={<ClientesEmDebito/>}/>
             <Route path='/financeiro/gestao-de-cobranca/inadimplencia' element={<HomeGestaoDeCobrancaInadimplencia/>}/>
             <Route path='/financeiro/resumo-de-Recebimentos-e-contas-a-receber-em-aberto' element={<ResumoRecebimentosEcontasAreceberEmAberto/>}/>
+            <Route path='/financeiro/disponivel-em-caixas-e-bancos' element={<HomeDisponivelEmCaixasEbancos/>}/>
+
 
             {/* ESTOQUE */}
             <Route path='/estoque' element={<ContasAreceber/>}/>

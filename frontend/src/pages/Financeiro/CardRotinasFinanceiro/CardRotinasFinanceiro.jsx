@@ -94,7 +94,7 @@ const CardRotinasFinanceiro = () => {
 
             </Link>
 
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
+            <Link to="/financeiro/disponivel-em-caixas-e-bancos">
 
                 <Card bg='#f1f5f9' height='100%'>
 

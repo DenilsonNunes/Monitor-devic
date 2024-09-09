@@ -5,9 +5,11 @@ class GestaoDeCobrancaClientesService {
 
     static getClientesEmDebito = async (search) => { 
 
+  
+
         let searchNew;
         // se a pesquisa vir como undefined, colocar % para buscar todos
-        if (search === undefined) {
+        if (search === undefined  || search === ''){
             searchNew = '%';
         } else if (!isNaN(search)) {
             searchNew = Number(search);
