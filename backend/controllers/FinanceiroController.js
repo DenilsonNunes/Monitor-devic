@@ -76,6 +76,8 @@ class FinanceiroController {
         try {
  
             const result = await FinanceiroService.disponivelEmCaixaEbanco();
+
+          
  
             //const data = removeEspacoFinal(result);
  

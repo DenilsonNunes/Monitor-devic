@@ -3,9 +3,6 @@ import { useEffect, useState } from 'react'
 import {
   Box,
   Text,
-  Card,
-  CardHeader,
-  CardBody,
   Heading,
   Stack,
   StackDivider,
@@ -14,7 +11,11 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
-  CardFooter
+  Card, 
+  CardHeader, 
+  CardBody, 
+  CardFooter,
+  Button
 } from "@chakra-ui/react"
 
 // Instancia API
@@ -37,8 +38,8 @@ const HomeDisponivelEmCaixasEbancos = () => {
         .then((response) => {
 
             console.log(response.data);
-            setData(response.data.totalTodasEmpresas);
-            setDataPorEmpresa(response.data.totalPorEmpresa);
+            setData(response.data);
+
 
             setLoading(false);
 
@@ -59,6 +60,10 @@ const HomeDisponivelEmCaixasEbancos = () => {
         });
 
 
+
+      
+
+
 }, []);
 
 
@@ -70,79 +75,53 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
       <Text>Disponivel em caixas e bancos</Text>
 
+      
+
 
       {data && data.map((item) => (
 
-        <Card maxW='50%' marginTop={10}>
+        <Card maxW='50%' marginTop={10} key={item.UndEmpresa}>
           <CardHeader paddingY={2}  bg='#e5e7eb'>
             <Heading size='md'>{item.UndEmpresa}</Heading>
           </CardHeader>
 
           <CardBody padding={0}>
             <Accordion allowMultiple>
-              <AccordionItem>
+
+              {item.Contas.map((item) => (
+                     
+                <AccordionItem>
                 <h2>
-                  <AccordionButton>
+                  <AccordionButton >
 
                     <Box as='span' flex='1' textAlign='left'>
-                      Contas caixas
+                      {item.TipoCt.toLowerCase()}
                     </Box>
                     <Box as='span' flex='1' textAlign='end' marginRight={2}>
-                      R$ 985.511.321,85
+                      {formataDinheiro(item.SaldoDisp)}
                     </Box>
 
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
-                  <Text>Caixa diario mtz 85</Text>
-                  <Text>Caixa tesouraria mtz 86</Text>
-                  <Text>Caixa financeiro mtz 26872</Text>
-                  <Text>Caixa partidas dobradas</Text>
-                  <Text>Caixa diario</Text>
-                </AccordionPanel>
-              </AccordionItem>
 
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box as='span' flex='1' textAlign='left'>
-                      Contas Bancárias
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                   veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
                   commodo consequat.
+
                 </AccordionPanel>
               </AccordionItem>
 
-              <AccordionItem>
-                <h2>
-                  <AccordionButton>
-                    <Box as='span' flex='1' textAlign='left'>
-                      Aplicações Financeiras
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
-                </AccordionPanel>
-              </AccordionItem>
+              ))}
 
             </Accordion>
 
             <CardFooter paddingY={2}>
               <Box display='flex' width='100%' justifyContent='space-between'>
                 <Heading size='md'>Total</Heading>
-                <Heading size='md'>R$ {formataDinheiro(item.SaldoDisp)}</Heading>
+                <Heading size='md'>{formataDinheiro(item.SaldoTotal)}</Heading>
               </Box>
             </CardFooter>
 
@@ -151,6 +130,18 @@ const HomeDisponivelEmCaixasEbancos = () => {
         </Card>
 
       ))}
+
+      <Card bg='gray' w='50%'>
+          <CardHeader>
+            <Heading size='md'>1-MATRIZ</Heading>
+          </CardHeader>
+          <CardBody>
+            <Text>View a summary of all your customers over the last month.</Text>
+          </CardBody>
+          <CardFooter>
+            <Button>View here</Button>
+          </CardFooter>
+        </Card>
 
     </Box>
   )
