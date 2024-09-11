@@ -90,12 +90,12 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
               {item.Contas.map((item) => (
                      
-                <AccordionItem>
+                <AccordionItem key={item.Contas}>
                 <h2>
                   <AccordionButton >
 
                     <Box as='span' flex='1' textAlign='left'>
-                      {item.TipoCt.toLowerCase()}
+                      {item.TipoCt.toLowerCase().slice(2)}
                     </Box>
                     <Box as='span' flex='1' textAlign='end' marginRight={2}>
                       {formataDinheiro(item.SaldoDisp)}

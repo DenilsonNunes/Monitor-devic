@@ -1,7 +1,7 @@
-const FinanceiroRepository = require('../repositories/financeiroRepository');
+const FinanceiroRepository = require('../../repositories/financeiro/DisponivelEmCaixaBancoRepository');
 
 
-class FinanceiroService {
+class DisponivelEmCaixaBancoService {
 
 
     static disponivelEmCaixaEbanco = async () => {
@@ -52,4 +52,4 @@ class FinanceiroService {
 
 
 
-module.exports = FinanceiroService;
+module.exports = DisponivelEmCaixaBancoService;

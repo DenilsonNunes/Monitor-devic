@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 
+// Importa rotas principais
+const routes = require('./routes/index');
+
 
 const verificaServicoAtivo = require('../backend/services/verificaServicoAtivo');
 
@@ -15,7 +18,9 @@ app.use(express.json());
 app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 
 
-// Impotando rotas
+
+/*
+
 const ClientesRoutes = require('./Routes/ClientesRoutes');
 const ConfiguracoesRoutes = require('./Routes/ConfiguracoesRoutes');
 const FinanceiroRoutes = require('./Routes/FinanceiroRoutes');
@@ -24,19 +29,28 @@ const FinanceiroGestaoDeCobrancaRoutes = require('./Routes/FinanceiroGestaoDeCob
 const TarefasDiariaController = require('./Routes/TarefasDiariaRoutes');
 
 
-verificaServicoAtivo();
+*/
 
 
 
+//verificaServicoAtivo();
 
 
+//Rota principal
+app.use('/api', routes);
 
-//Rotas
+/*
+
 app.use('/clientes', ClientesRoutes);
 app.use('/configuracoes', ConfiguracoesRoutes);
 app.use('/financeiro', FinanceiroRoutes);
 app.use('/financeiro/gestao-de-cobranca', FinanceiroGestaoDeCobrancaRoutes);
 app.use('/tarefas-diaria', TarefasDiariaController);
+
+
+
+*/
+
 
 
 

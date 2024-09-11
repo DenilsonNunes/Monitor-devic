@@ -1,16 +1,16 @@
-const sqlQuery = require('../db/SQL/query/query');
+const sqlQuery = require('../../db/SQL/query/query');
 
 
 // select
-const selectContasAreceber = require('../db/SQL/Financeiro/SELECT/contasAreceber');
+const selectContasAreceber = require('../../db/SQL/Financeiro/SELECT/contasAreceber');
 
 // Services
-const FinanceiroService = require('../services/FinanceiroService');
+const FinanceiroService = require('../../services/financeiro/FinanceiroService');
 
 // Utils
-const dataAtualMMDDAAAA = require('../utils/Formats/dataAtualMMDDAAAA');
-const formataDataMMDDAAAA = require('../utils/Formats/formataDataMMDDAAAA');
-const formataDataDDMMAAAA = require('../utils/Formats/formataDataDDMMAAAA')
+const dataAtualMMDDAAAA = require('../../utils/Formats/dataAtualMMDDAAAA');
+const formataDataMMDDAAAA = require('../../utils/Formats/formataDataMMDDAAAA');
+const formataDataDDMMAAAA = require('../../utils/Formats/formataDataDDMMAAAA')
 
 
 

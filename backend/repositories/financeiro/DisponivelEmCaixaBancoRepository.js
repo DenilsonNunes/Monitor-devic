@@ -1,10 +1,7 @@
-const sqlQuery = require('../db/SQL/query/query');
-
-const sqlQueryInsert = require('../db/SQL/query/queryInsert');
-const sqlQueryDelete = require('../db/SQL/query/queryDelete');
+const sqlQuery = require('../../db/SQL/query/query');
 
 
-class FinanceiroRepository {
+class DisponivelEmCaixaBancoRepository {
 
     static disponivelEmCaixaEbanco = async () => {
     
@@ -80,4 +77,4 @@ class FinanceiroRepository {
 
 
 
-module.exports = FinanceiroRepository;
+module.exports = DisponivelEmCaixaBancoRepository;
