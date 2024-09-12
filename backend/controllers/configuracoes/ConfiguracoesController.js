@@ -1,19 +1,19 @@
-const query = require('../db/SQL/query/query');
-const sqlUpdate = require('../db/SQL/query/queryUpdate');
+const query = require('../../db/SQL/query/query');
+const sqlUpdate = require('../../db/SQL/query/queryUpdate');
 
 
 
 // Services
-const testConnectionSMTP = require('../services/testConnectionEmail');
-const { SendEmailTeste } = require('../services/sendEmailTeste')
+const testConnectionSMTP = require('../../services/testConnectionEmail');
+const { SendEmailTeste } = require('../../services/sendEmailTeste')
 
 // Formats
-const filtraHoraMinutosDoDateTime = require('../utils/Formats/filtraHoraMinutosDoDateTime')
+const filtraHoraMinutosDoDateTime = require('../../utils/Formats/filtraHoraMinutosDoDateTime')
 
 
-const { SelectConfigEnvEmail } = require('../db/SQL/Configurações/Configurações-de-Email/SELECT/configuracoesEnvEmail');
-const { UpdateConfigServerSMTPEmail } = require('../db/SQL/Configurações/Configurações-de-Email/UPDATE/updateConfigServerSMTPEmail');
-const { UpdateConfigEnvEmail } = require('../db/SQL/Configurações/Configurações-de-Email/UPDATE/updateConfigEnvEmail');
+const { SelectConfigEnvEmail } = require('../../db/SQL/Configurações/Configurações-de-Email/SELECT/configuracoesEnvEmail');
+const { UpdateConfigServerSMTPEmail } = require('../../db/SQL/Configurações/Configurações-de-Email/UPDATE/updateConfigServerSMTPEmail');
+const { UpdateConfigEnvEmail } = require('../../db/SQL/Configurações/Configurações-de-Email/UPDATE/updateConfigEnvEmail');
 
 
 

@@ -1,7 +1,7 @@
-const sqlQuery = require('../db/SQL/query/query');
+const sqlQuery = require('../../db/SQL/query/query');
 
-const sqlQueryInsert = require('../db/SQL/query/queryInsert');
-const sqlQueryDelete = require('../db/SQL/query/queryDelete');
+const sqlQueryInsert = require('../../db/SQL/query/queryInsert');
+const sqlQueryDelete = require('../../db/SQL/query/queryDelete');
 
 
 
@@ -65,7 +65,6 @@ class GestaoDeCobrancaRepository {
       
         return data;
     }
-
 
     static titulosDoClienteEmDebito = async (codCliente) => {
 

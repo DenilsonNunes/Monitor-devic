@@ -1,8 +1,5 @@
-
-
 // Services
-const FinanceiroService = require('../../services/financeiro/FinanceiroService');
-
+const DisponivelEmCaixaBancoService = require('../../services/financeiro/DisponivelEmCaixaBancoService');
 
 
 
@@ -13,7 +10,7 @@ class DisponivelEmCaixaBancoController {
 
         try {
  
-            const result = await FinanceiroService.disponivelEmCaixaEbanco();
+            const result = await DisponivelEmCaixaBancoService.disponivelEmCaixaEbanco();
 
           
  
