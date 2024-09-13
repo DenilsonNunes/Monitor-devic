@@ -1,4 +1,4 @@
-const FinanceiroRepository = require('../../repositories/financeiro/DisponivelEmCaixaBancoRepository');
+const DisponivelEmCaixaBancoRepository = require('../../repositories/financeiro/DisponivelEmCaixaBancoRepository');
 
 
 class DisponivelEmCaixaBancoService {
@@ -7,7 +7,7 @@ class DisponivelEmCaixaBancoService {
     static consultarSaldoCaixaEbanco = async () => {
 
 
-        const {totalPorEmpresa, totalTodasEmpresas} = await FinanceiroRepository.disponivelEmCaixaEbanco();
+        const {totalPorEmpresa, totalTodasEmpresas} = await DisponivelEmCaixaBancoRepository.disponivelEmCaixaEbancoTodasEmpresas();
 
 
         // Função para combinar os dados
@@ -31,7 +31,7 @@ class DisponivelEmCaixaBancoService {
             });
         };
 
-        return combinarDados(totalTodasEmpresas, totalPorEmpresa);
+        return combinarDados(totalPorEmpresa,totalTodasEmpresas);
 
         
     }

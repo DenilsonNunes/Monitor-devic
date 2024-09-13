@@ -37,9 +37,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
         .then((response) => {
 
-            console.log(response.data);
             setData(response.data);
-
 
             setLoading(false);
 
@@ -59,9 +57,32 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
         });
 
-
-
       
+    api.get('financeiro/disponivel-em-caixa-')
+
+        .then((response) => {
+
+            setData(response.data);
+
+            setLoading(false);
+
+        })
+        .catch((error) => {
+            if (error.message === 'Network Error') {
+
+                setError("Não foi possível se conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
+                setLoading(false);
+
+            } else {
+
+                setError(error.message);
+                setLoading(false);
+
+            }
+
+        });
+
+        
 
 
 }, []);
@@ -106,6 +127,8 @@ const HomeDisponivelEmCaixasEbancos = () => {
                 </h2>
                 <AccordionPanel pb={4}>
 
+                <Text>{item.Contas}</Text>
+
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
                   veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -118,10 +141,10 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
             </Accordion>
 
-            <CardFooter paddingY={2}>
+            <CardFooter paddingY={2} bg='#e5e7eb'>
               <Box display='flex' width='100%' justifyContent='space-between'>
                 <Heading size='md'>Total</Heading>
-                <Heading size='md'>{formataDinheiro(item.SaldoTotal)}</Heading>
+                <Heading size='md'marginRight={6}>{formataDinheiro(item.SaldoTotal)}</Heading>
               </Box>
             </CardFooter>
 
@@ -138,7 +161,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
           <CardBody>
             <Text>View a summary of all your customers over the last month.</Text>
           </CardBody>
-          <CardFooter>
+          <CardFooter >
             <Button>View here</Button>
           </CardFooter>
         </Card>

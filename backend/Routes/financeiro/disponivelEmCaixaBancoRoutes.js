@@ -6,9 +6,9 @@ const DisponivelEmCaixaBancoController = require('../../controllers/financeiro/D
 
 // Define as rotas da subrotina Gestão de Cobrança
 router.get('/', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);
-router.get('/caixas', DisponivelEmCaixaBancoController.disponivelEmCaixaEbanco);
-router.get('/bancos', DisponivelEmCaixaBancoController.disponivelEmCaixaEbanco);
-router.get('/aplicacao-financeira', DisponivelEmCaixaBancoController.disponivelEmCaixaEbanco);   
+router.get('/caixas', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);
+router.get('/bancos', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);
+router.get('/aplicacao-financeira', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);   
 
 
 

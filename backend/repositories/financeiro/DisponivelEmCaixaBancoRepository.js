@@ -3,7 +3,7 @@ const sqlQuery = require('../../db/SQL/query/query');
 
 class DisponivelEmCaixaBancoRepository {
 
-    // Rotina de para verificar saldo disponível em Caixas e Bancos (Todas as empresas)
+    // Rotina de para verificar saldo disponível em Caixas e Bancos (Total todas as empresas)
     static disponivelEmCaixaEbancoTodasEmpresas = async () => {
 
         const totalPorEmpresa = await sqlQuery(
@@ -21,22 +21,22 @@ class DisponivelEmCaixaBancoRepository {
         `);
 
         const totalTodasEmpresas = await sqlQuery(
-            `
-                SELECT count(*),
-                        sum(SaldoDinh+ChqDisp) as SaldoDisp,
-                        rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) as UndEmpresa,
-                        TipoCt
-                    FROM tbSaldoCxBcoTmp
-                JOIN TbEmpr
-                    ON (TbEmpr.CodEmpr=tbSaldoCxBcoTmp.CodEmpr)
-                    WHERE tbSaldoCxBcoTmp.CodEmpr IN (0, '1','2','3')
-                    GROUP BY  rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)), TipoCt
-                ORDER BY  rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)), TipoCt
+        `
+            SELECT count(*),
+                    sum(SaldoDinh+ChqDisp) as SaldoDisp,
+                    rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) as UndEmpresa,
+                    TipoCt
+                FROM tbSaldoCxBcoTmp
+            JOIN TbEmpr
+                ON (TbEmpr.CodEmpr=tbSaldoCxBcoTmp.CodEmpr)
+                WHERE tbSaldoCxBcoTmp.CodEmpr IN (0, '1','2','3')
+                GROUP BY  rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)), TipoCt
+            ORDER BY  rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)), TipoCt
                 
-            `);
+         `);
             
 
-        return { totalPorEmpresa, totalTodasEmpresas }
+        return { totalPorEmpresa, totalTodasEmpresas}
     } 
     
 
@@ -63,7 +63,7 @@ class DisponivelEmCaixaBancoRepository {
     }
 
     //Visualiza caixas por empresa
-    static DisponivelEmCaixasPorEmpresa = async (undEmpresa, tipoCt) => {
+    static disponivelEmCaixasPorEmpresa1 = async (undEmpresa, tipoCt) => {
         
         const data = await sqlQuery(
         `
@@ -87,7 +87,7 @@ class DisponivelEmCaixaBancoRepository {
     }
 
     //Visualiza caixas por empresa
-    static DisponivelEmBancosPorEmpresa = async (undEmpresa, tipoCt) => {
+    static DisponivelEmBancosPorEmpresa1 = async (undEmpresa, tipoCt) => {
     
         const data = await sqlQuery(
         `
