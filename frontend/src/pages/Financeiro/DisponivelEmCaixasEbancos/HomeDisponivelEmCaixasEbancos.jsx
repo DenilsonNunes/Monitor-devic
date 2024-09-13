@@ -5,6 +5,7 @@ import {
   Text,
   Heading,
   Stack,
+  HStack,
   StackDivider,
   Accordion,
   AccordionItem,
@@ -15,7 +16,9 @@ import {
   CardHeader, 
   CardBody, 
   CardFooter,
-  Button
+  Button,
+  FormLabel,
+  Input
 } from "@chakra-ui/react"
 
 // Instancia API
@@ -95,6 +98,58 @@ const HomeDisponivelEmCaixasEbancos = () => {
     <Box marginTop='60px' marginX={2}>
 
       <Text>Disponivel em caixas e bancos</Text>
+
+      <Box>
+        <Accordion allowToggle >
+          <AccordionItem>
+            <h2>
+              <AccordionButton bg='primary' >
+                <Box as='span' flex='1' textAlign='left' color='white'>
+                  Filtros
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+
+
+            <HStack>
+
+              <Stack direction='row' width='100%'>
+
+                <Stack direction='column' width='20%' spacing={0}>
+                  <FormLabel fontWeight='bold'>Empresa</FormLabel>
+                  <Input 
+                    type='text' 
+                    />
+                </Stack>
+
+                <Stack direction='column' width='20%' spacing={0}>
+                  <FormLabel fontWeight='bold'>Tipo</FormLabel>
+                  <Input 
+                    type='text' 
+                    />
+                </Stack>
+
+                <Stack direction='column' width='20%' spacing={0}>
+                  <FormLabel fontWeight='bold'>Banco</FormLabel>
+                  <Input 
+                    type='text' 
+                    />
+                </Stack>
+
+              </Stack>
+
+            </HStack>
+
+
+
+            </AccordionPanel>
+          </AccordionItem>
+
+        </Accordion>
+
+      </Box>
 
       
 
