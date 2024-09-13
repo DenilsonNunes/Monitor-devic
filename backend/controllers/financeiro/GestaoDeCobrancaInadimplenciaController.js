@@ -1,13 +1,13 @@
 
 // Services
-const GestaoDeCobrancaClientesEmDebitoService = require('../../services/financeiro/GestaoDeCobrancaClientesEmDebitoService');
+const GestaoDeCobrancaInadimplenciaService = require('../../services/financeiro/GestaoDeCobrancaInadimplenciaService');
 
 // Utils
 
 const removeEspacoFinal = require('../../utils/formats/removeEspacoFinal');
 
 
-class GestaoDeCobrancaClientesEmDebitoController {
+class GestaoDeCobrancaInadimplenciaController {
     
     async getClientesEmDebito(req, res) {
 
@@ -15,7 +15,7 @@ class GestaoDeCobrancaClientesEmDebitoController {
      
         try {
  
-            const result = await GestaoDeCobrancaClientesEmDebitoService.getClientesEmDebito(search);
+            const result = await GestaoDeCobrancaInadimplenciaService.getClientesEmDebito(search);
             
             const data = removeEspacoFinal(result);
             
@@ -38,7 +38,7 @@ class GestaoDeCobrancaClientesEmDebitoController {
 
         try {
  
-            const result = await GestaoDeCobrancaClientesEmDebitoService.titulosDoClienteEmDebito(codCliente);
+            const result = await GestaoDeCobrancaInadimplenciaService.titulosDoClienteEmDebito(codCliente);
  
             const data = removeEspacoFinal(result);
  
@@ -62,7 +62,7 @@ class GestaoDeCobrancaClientesEmDebitoController {
      
         try {
  
-            const result = await GestaoDeCobrancaClientesEmDebitoService.criarCobranca(data);
+            const result = await GestaoDeCobrancaInadimplenciaService.criarCobranca(data);
             
             res.status(200).json({message: result});
  
@@ -84,7 +84,7 @@ class GestaoDeCobrancaClientesEmDebitoController {
         
         try {
 
-            const result = await GestaoDeCobrancaClientesEmDebitoService.excluirCobranca(codCliente, idLctoCobr);
+            const result = await GestaoDeCobrancaInadimplenciaService.excluirCobranca(codCliente, idLctoCobr);
 
             res.status(200).json({message: result});
 
@@ -103,7 +103,7 @@ class GestaoDeCobrancaClientesEmDebitoController {
         
         try {
 
-            const result = await GestaoDeCobrancaClientesEmDebitoService.consultarHistoricoDeCobranca(codCliente);
+            const result = await GestaoDeCobrancaInadimplenciaService.consultarHistoricoDeCobranca(codCliente);
 
 
             res.status(200).json(result);
@@ -120,4 +120,4 @@ class GestaoDeCobrancaClientesEmDebitoController {
 
 
 
-module.exports = new GestaoDeCobrancaClientesEmDebitoController();
+module.exports = new GestaoDeCobrancaInadimplenciaController();

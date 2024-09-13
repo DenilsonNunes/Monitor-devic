@@ -1,7 +1,7 @@
 const GestaoDeCobrancaRepository = require('../../repositories/financeiro/gestaoDeCobrancaRepository');
 
 
-class GestaoDeCobrancaClientesEmDebitoService {
+class GestaoDeCobrancaInadimplenciaService {
 
     static getClientesEmDebito = async (search) => { 
 
@@ -49,4 +49,4 @@ class GestaoDeCobrancaClientesEmDebitoService {
 
 
 
-module.exports = GestaoDeCobrancaClientesEmDebitoService;
+module.exports = GestaoDeCobrancaInadimplenciaService;
