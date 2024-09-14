@@ -12,23 +12,28 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionPanel,
-  Card, 
-  CardHeader, 
-  CardBody, 
+  Card,
+  CardHeader,
+  CardBody,
   CardFooter,
   Button,
   FormLabel,
-  Input
+  Input,
+  ScaleFade,
+  useDisclosure
 } from "@chakra-ui/react"
+
+import { SmallCloseIcon, Search2Icon  } from '@chakra-ui/icons'
 
 // Instancia API
 import api from '../../../helpers/api-instance'
 import formataDinheiro from '../../../utils/formataDinheiro';
 
 const HomeDisponivelEmCaixasEbancos = () => {
+  const { isOpen, onToggle } = useDisclosure();
 
   const [data, setData] = useState(null);
-  const [dataPorEmpresa, setDataPorEmpresa] = useState(null);
+  const [dataContaCaixa, setDataContaCaixa] = useState(null);
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -38,57 +43,57 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
     api.get('financeiro/disponivel-em-caixa-e-banco')
 
-        .then((response) => {
+      .then((response) => {
 
-            setData(response.data);
+        setData(response.data);
 
-            setLoading(false);
+        setLoading(false);
 
-        })
-        .catch((error) => {
-            if (error.message === 'Network Error') {
+      })
+      .catch((error) => {
+        if (error.message === 'Network Error') {
 
-                setError("Não foi possível se conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
-                setLoading(false);
+          setError("Não foi possível se conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
+          setLoading(false);
 
-            } else {
+        } else {
 
-                setError(error.message);
-                setLoading(false);
+          setError(error.message);
+          setLoading(false);
 
-            }
+        }
 
-        });
+      });
 
-      
+
     api.get('financeiro/disponivel-em-caixa-')
 
-        .then((response) => {
+      .then((response) => {
 
-            setData(response.data);
+        setData(response.data);
 
-            setLoading(false);
+        setLoading(false);
 
-        })
-        .catch((error) => {
-            if (error.message === 'Network Error') {
+      })
+      .catch((error) => {
+        if (error.message === 'Network Error') {
 
-                setError("Não foi possível se conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
-                setLoading(false);
+          setError("Não foi possível se conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
+          setLoading(false);
 
-            } else {
+        } else {
 
-                setError(error.message);
-                setLoading(false);
+          setError(error.message);
+          setLoading(false);
 
-            }
+        }
 
-        });
-
-        
+      });
 
 
-}, []);
+
+
+  }, []);
 
 
 
@@ -99,127 +104,61 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
       <Text>Disponivel em caixas e bancos</Text>
 
-      <Box>
-        <Accordion allowToggle >
-          <AccordionItem>
-            <h2>
-              <AccordionButton bg='primary' >
-                <Box as='span' flex='1' textAlign='left' color='white'>
-                  Filtros
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
-            <AccordionPanel pb={4}>
+      <Box >
+        
+        {data && data.map((item) => (
 
+          <Box>
 
-            <HStack>
+            <Card w='50%' border="1px solid #d1d5db" marginTop={5}>
 
-              <Stack direction='row' width='100%'>
+              <CardHeader borderBottom="1px solid #d1d5db" bg='#0369a1' padding={2}>
+                <Heading size='md' color='white'>{item.UndEmpresa}</Heading>
+              </CardHeader>
 
-                <Stack direction='column' width='20%' spacing={0}>
-                  <FormLabel fontWeight='bold'>Empresa</FormLabel>
-                  <Input 
-                    type='text' 
-                    />
-                </Stack>
+              <CardBody padding={0}>
 
-                <Stack direction='column' width='20%' spacing={0}>
-                  <FormLabel fontWeight='bold'>Tipo</FormLabel>
-                  <Input 
-                    type='text' 
-                    />
-                </Stack>
+                {item.Contas.map((item) => (
+                  <Box display='flex'  alignItems='center' justifyContent='space-between'
+                  _hover={{ bg: "#e5e7eb"}}
+                  >
+                    
+                    <Text marginLeft={5}>{item.TipoCt.toLowerCase().slice(2)}</Text>
 
-                <Stack direction='column' width='20%' spacing={0}>
-                  <FormLabel fontWeight='bold'>Banco</FormLabel>
-                  <Input 
-                    type='text' 
-                    />
-                </Stack>
-
-              </Stack>
-
-            </HStack>
-
-
-
-            </AccordionPanel>
-          </AccordionItem>
-
-        </Accordion>
-
-      </Box>
-
-      
-
-
-      {data && data.map((item) => (
-
-        <Card maxW='50%' marginTop={10} key={item.UndEmpresa}>
-          <CardHeader paddingY={2}  bg='#e5e7eb'>
-            <Heading size='md'>{item.UndEmpresa}</Heading>
-          </CardHeader>
-
-          <CardBody padding={0}>
-            <Accordion allowMultiple>
-
-              {item.Contas.map((item) => (
-                     
-                <AccordionItem key={item.Contas}>
-                <h2>
-                  <AccordionButton >
-
-                    <Box as='span' flex='1' textAlign='left'>
-                      {item.TipoCt.toLowerCase().slice(2)}
-                    </Box>
                     <Box as='span' flex='1' textAlign='end' marginRight={2}>
                       {formataDinheiro(item.SaldoDisp)}
                     </Box>
 
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={4}>
+                    <Button colorScheme='blue' size='xs' margin={1}>Visualizar</Button>
 
-                <Text>{item.Contas}</Text>
+                  </Box>
+                ))}
 
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
+              </CardBody>
 
-                </AccordionPanel>
-              </AccordionItem>
+              <CardFooter paddingY={2} bg='#e5e7eb'>
+                <Box display='flex' width='100%' justifyContent='space-between'>
+                  <Heading size='md'>Total</Heading>
+                  <Heading size='md' marginRight={16}>{formataDinheiro(item.SaldoTotal)}</Heading>
+                </Box>
+              </CardFooter>
 
-              ))}
+            </Card>
 
-            </Accordion>
+          </Box>
 
-            <CardFooter paddingY={2} bg='#e5e7eb'>
-              <Box display='flex' width='100%' justifyContent='space-between'>
-                <Heading size='md'>Total</Heading>
-                <Heading size='md'marginRight={6}>{formataDinheiro(item.SaldoTotal)}</Heading>
-              </Box>
-            </CardFooter>
+        ))}
 
-          </CardBody>
+        <Box>
+          Teste
+        </Box>
 
-        </Card>
 
-      ))}
+      </Box>
 
-      <Card bg='gray' w='50%'>
-          <CardHeader>
-            <Heading size='md'>1-MATRIZ</Heading>
-          </CardHeader>
-          <CardBody>
-            <Text>View a summary of all your customers over the last month.</Text>
-          </CardBody>
-          <CardFooter >
-            <Button>View here</Button>
-          </CardFooter>
-        </Card>
+
+
+
 
     </Box>
   )
