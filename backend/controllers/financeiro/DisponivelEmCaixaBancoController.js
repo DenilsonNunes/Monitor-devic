@@ -1,6 +1,8 @@
 // Services
 const DisponivelEmCaixaBancoService = require('../../services/financeiro/DisponivelEmCaixaBancoService');
 
+// Utils
+const removeEspacoFinal = require('../../utils/formats/removeEspacoFinal');
 
 
 class DisponivelEmCaixaBancoController {
@@ -69,6 +71,28 @@ class DisponivelEmCaixaBancoController {
             res.status(500).json({ message: err.message });
  
         }
+        
+     
+    }
+
+    async consultaSaldoDetalhadoConta(req, res) {
+
+        const { CodCxBco } = req.params
+
+
+            try {
+        
+                const result = await DisponivelEmCaixaBancoService.consultaSaldoDetalhadoConta(CodCxBco);
+
+                const data = removeEspacoFinal(result);
+        
+                res.status(200).json(data);
+        
+            } catch(err) {
+        
+                res.status(500).json({ message: err.message });
+        
+            }
         
      
     }

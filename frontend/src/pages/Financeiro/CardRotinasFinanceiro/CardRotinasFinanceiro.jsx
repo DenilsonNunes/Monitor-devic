@@ -17,28 +17,12 @@ const CardRotinasFinanceiro = () => {
     return (
         <SimpleGrid spacing={4} templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
 
-            <Link to="/financeiro/gestao-de-cobranca/clientes-em-debito">
+            <Link to="/financeiro/gestao-de-cobranca-inadimplencia">
 
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
                         <Image src='/img/ClientesEmDebito-48.png' maxH='4rem' maxW='4rem'  alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody padding={2}>
-                        <Heading textAlign='center' size='sm'>Gestão de Cobrança / Clientes em Débito</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-
-            <Link to="/financeiro/gestao-de-cobranca/inadimplencia">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/Gestão de Cobrança e Inadimplencia.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody padding={2}>
                         <Heading textAlign='center' size='sm'>Gestão de Cobrança e Inadimplencia</Heading>
@@ -47,6 +31,7 @@ const CardRotinasFinanceiro = () => {
                 </Card>
 
             </Link>
+
 
             <Link to="/financeiro/resumo-de-Recebimentos-e-contas-a-receber-em-aberto">
 

@@ -5,10 +5,12 @@ const router = express.Router();
 const DisponivelEmCaixaBancoController = require('../../controllers/financeiro/DisponivelEmCaixaBancoController');
 
 // Define as rotas da subrotina Gestão de Cobrança
+
+//disponivel-em-caixa-e-banco/
 router.get('/', DisponivelEmCaixaBancoController.consultaSaldoGeralContas);
-router.get('/caixas', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);
-router.get('/bancos', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);
-router.get('/aplicacao-financeira', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);   
+router.get('/caixa/:CodCxBco', DisponivelEmCaixaBancoController.consultaSaldoDetalhadoConta);
+router.get('/banco/:CodCxBco', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);
+router.get('/aplicacao-financeira/:CodCxBco', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);   
 
 
 

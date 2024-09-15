@@ -114,7 +114,7 @@ class DisponivelEmCaixaBancoService {
 
     static consultarSaldoContasBancarias = async () => {
 
-
+        
   
         return;
 
@@ -129,6 +129,13 @@ class DisponivelEmCaixaBancoService {
         return;
 
         
+    }
+
+    static consultaSaldoDetalhadoConta = async (CodCxBco) => {
+
+        const data = await DisponivelEmCaixaBancoRepository.consultaSaldoDetalhadoConta(CodCxBco);
+
+        return data;
     }
 
 

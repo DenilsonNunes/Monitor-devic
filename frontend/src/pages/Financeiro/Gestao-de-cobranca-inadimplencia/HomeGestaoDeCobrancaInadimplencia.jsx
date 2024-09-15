@@ -52,6 +52,7 @@ import Loader from '../../../components/Loading/Loader';
 
 // Utils
 import formataDinheiro from '../../../utils/formataDinheiro';
+import MenuDrawer from './MenuDrawer/MenuDrawer';
 
 
 
@@ -208,7 +209,9 @@ const ClientesEmDebito = () => {
 
         <Box marginTop='60px' marginX={2} >
 
-            <Text fontSize='xl' marginTop={16}>Gestão de Cobrança / Clientes em debito</Text>
+
+            <Text fontSize='xl' marginTop={16}>Gestão de Cobrança / Inadimplencia</Text>
+            <MenuDrawer/>
 
             <Box display='flex' justifyContent='space-between' marginTop={5} >
 

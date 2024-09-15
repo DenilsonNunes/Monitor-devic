@@ -63,23 +63,31 @@ class DisponivelEmCaixaBancoRepository {
 
     }
 
-    //Visualiza caixas por empresa
-    static disponivelEmCaixasPorEmpresa1 = async (undEmpresa, tipoCt) => {
+    //Visualiza o saldo por tipo de cada conta ex: dinheiro e cheque
+    static consultaSaldoDetalhadoConta = async (CodCxBco) => {
         
         const data = await sqlQuery(
         `
-            SELECT 
-                DescrCxBco, 
-                SaldoDinh+ChqDisp as dinh_chqdisp, 
-                CodCxBco, 
-                SaldoCxBco, 
-                SaldoDinh, 
-                TipoCt, 
-                rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) as empresa 
-            from tbSaldoCxBcoTmp 
-                Join TbEmpr on (TbEmpr.CodEmpr=tbSaldoCxBcoTmp.CodEmpr) 
-                where tbSaldoCxBcoTmp.CodEmpr in (0,'1','2','3') 
-                order by rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) asc, TipoCt asc       
+            SELECT TipoCt,
+                    rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) AS empresa,
+                    CodCxBco,
+                    DescrCxBco,
+                    SaldoCxBco,
+                    SaldoDinh,
+                    SaldoDinh+ChqDisp AS dinh_chqdisp,
+                    TotalChq,
+                    ChqAVista,
+                    ChqPre,
+                    ChqDev,
+                    ChqSusp,
+                    ChqJurid,
+                    ChqParc,
+                    ChqCustod,
+                    ChqCtpParcial
+                FROM tbSaldoCxBcoTmp
+            JOIN TbEmpr
+                ON (TbEmpr.CodEmpr=tbSaldoCxBcoTmp.CodEmpr)
+                WHERE CodCxBco = ${CodCxBco}    
         `)
 
         return data;
