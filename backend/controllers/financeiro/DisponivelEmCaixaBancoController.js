@@ -22,11 +22,11 @@ class DisponivelEmCaixaBancoController {
      
     }
 
-    async consultarSaldoCaixas(req, res) {
+    async consultaSaldoGeralContas(req, res) {
 
         try {
  
-            const result = await DisponivelEmCaixaBancoService.consultarSaldoCaixas();
+            const result = await DisponivelEmCaixaBancoService.consultaSaldoGeralContas();
  
             res.status(200).json(result);
  

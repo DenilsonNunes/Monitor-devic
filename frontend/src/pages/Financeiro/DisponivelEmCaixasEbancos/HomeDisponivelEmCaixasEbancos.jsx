@@ -20,7 +20,10 @@ import {
   FormLabel,
   Input,
   ScaleFade,
-  useDisclosure
+  useDisclosure,
+  Collapse,
+  VStack,
+  
 } from "@chakra-ui/react"
 
 import { SmallCloseIcon, Search2Icon  } from '@chakra-ui/icons'
@@ -33,7 +36,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
   const { isOpen, onToggle } = useDisclosure();
 
   const [data, setData] = useState(null);
-  const [dataContaCaixa, setDataContaCaixa] = useState(null);
+  const [dataSaldoGeral, setDataSaldoGeral] = useState(null);
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -45,7 +48,11 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
       .then((response) => {
 
+        console.log(response.data);
+
+
         setData(response.data);
+
 
         setLoading(false);
 
@@ -66,102 +73,163 @@ const HomeDisponivelEmCaixasEbancos = () => {
       });
 
 
-    api.get('financeiro/disponivel-em-caixa-')
-
-      .then((response) => {
-
-        setData(response.data);
-
-        setLoading(false);
-
-      })
-      .catch((error) => {
-        if (error.message === 'Network Error') {
-
-          setError("Não foi possível se conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.");
-          setLoading(false);
-
-        } else {
-
-          setError(error.message);
-          setLoading(false);
-
-        }
-
-      });
-
-
+   
 
 
   }, []);
 
 
 
-
-
   return (
     <Box marginTop='60px' marginX={2}>
 
-      <Text>Disponivel em caixas e bancos</Text>
+    <Text>Disponivel em caixas e bancos</Text>
 
-      <Box >
-        
-        {data && data.map((item) => (
-
-          <Box>
-
-            <Card w='50%' border="1px solid #d1d5db" marginTop={5}>
-
-              <CardHeader borderBottom="1px solid #d1d5db" bg='#0369a1' padding={2}>
-                <Heading size='md' color='white'>{item.UndEmpresa}</Heading>
-              </CardHeader>
-
-              <CardBody padding={0}>
-
-                {item.Contas.map((item) => (
-                  <Box display='flex'  alignItems='center' justifyContent='space-between'
-                  _hover={{ bg: "#e5e7eb"}}
-                  >
-                    
-                    <Text marginLeft={5}>{item.TipoCt.toLowerCase().slice(2)}</Text>
-
-                    <Box as='span' flex='1' textAlign='end' marginRight={2}>
-                      {formataDinheiro(item.SaldoDisp)}
-                    </Box>
-
-                    <Button colorScheme='blue' size='xs' margin={1}>Visualizar</Button>
-
-                  </Box>
-                ))}
-
-              </CardBody>
-
-              <CardFooter paddingY={2} bg='#e5e7eb'>
-                <Box display='flex' width='100%' justifyContent='space-between'>
-                  <Heading size='md'>Total</Heading>
-                  <Heading size='md' marginRight={16}>{formataDinheiro(item.SaldoTotal)}</Heading>
-                </Box>
-              </CardFooter>
-
-            </Card>
-
-          </Box>
-
-        ))}
-
-        <Box>
-          Teste
-        </Box>
+    <Box>
+      <Accordion allowToggle >
+        <AccordionItem>
+          <h2>
+            <AccordionButton >
+              <Box as='span' flex='1' textAlign='left' >
+                Filtros
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
 
 
-      </Box>
+          <HStack>
+
+            <Stack direction='row' width='100%'>
+
+              <Stack direction='column' width='20%' spacing={0}>
+                <FormLabel fontWeight='bold'>Empresa</FormLabel>
+                <Input 
+                  type='text' 
+                  />
+              </Stack>
+
+              <Stack direction='column' width='20%' spacing={0}>
+                <FormLabel fontWeight='bold'>Tipo</FormLabel>
+                <Input 
+                  type='text' 
+                  />
+              </Stack>
+
+              <Stack direction='column' width='20%' spacing={0}>
+                <FormLabel fontWeight='bold'>Banco</FormLabel>
+                <Input 
+                  type='text' 
+                  />
+              </Stack>
+
+            </Stack>
+
+          </HStack>
 
 
 
+          </AccordionPanel>
+        </AccordionItem>
 
+      </Accordion>
 
     </Box>
-  )
+
+    
+
+
+    {data && data.map((item) => (
+
+      <Card maxW='40%' marginTop={10} key={item.UndEmpresa}  borderTopRadius={10}>
+        <CardHeader paddingY={2}  bg='#0369a1' borderTopRadius={10}>
+          <Heading size='md' color='white'>{item.UndEmpresa}</Heading>
+        </CardHeader>
+
+        <CardBody padding={0}>
+          <Accordion allowMultiple>
+
+            {item.Contas.map((item) => (
+                   
+              <AccordionItem key={item.Contas} >
+              <h2>
+                <AccordionButton _hover={{bg:'#d1d5db'}}>
+
+                  <Box as='span' flex='1' textAlign='left' fontWeight='bold'>
+                    {item.TipoCt.toLowerCase().slice(2)}
+                  </Box>
+                  <Box as='span' flex='1' textAlign='end' marginRight={2}>
+                    125.696,25
+                  </Box>
+
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+
+              <AccordionPanel p={0}  marginX={5}>
+
+              {item.ContasDetalhadas.map((item) => (
+
+               
+                <Box>
+
+                  <HStack justifyContent='space-between' border='1px solid #e2e8f0' marginBottom={1} borderRadius={5}>
+  
+                    <VStack  alignItems="flex-start" spacing={0} marginLeft={2}>
+                      <Text>{item.Conta.toLowerCase()}</Text>
+                      <Text fontSize='xs' color={ item.SaldoDisp < 0 ? 'red': 'green'} >R$ {formataDinheiro(item.SaldoDisp)}</Text>
+                    </VStack>
+  
+                    <Button size='xs' colorScheme='blue' variant='outline' onClick={onToggle}>Visualizar</Button>
+  
+                  </HStack>
+  
+                  <Collapse in={isOpen} animateOpacity>
+                      <Box
+                        p='40px'
+                        color='white'
+                        mt='4'
+                        bg='teal.500'
+                        rounded='md'
+                        shadow='md'
+                      >
+                        Teste
+                      </Box>
+                    </Collapse>
+
+                  </Box>
+
+              ))}
+  
+              
+
+              </AccordionPanel>
+
+            </AccordionItem>
+
+            ))}
+
+          </Accordion>
+
+          <CardFooter paddingY={2}  bg='#0369a1'>
+            <Box display='flex' width='100%' justifyContent='space-between'>
+              <Heading size='md' color='white'>Total</Heading>
+              <Heading size='md' color='white' marginRight={6}>{formataDinheiro(item.SaldoTotal)}</Heading>
+            </Box>
+          </CardFooter>
+
+        </CardBody>
+
+      </Card>
+
+    ))}
+
+  
+  </Box>
+)
+
+  
 }
 
 export default HomeDisponivelEmCaixasEbancos
