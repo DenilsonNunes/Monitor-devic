@@ -36,79 +36,90 @@ class DisponivelEmCaixaBancoService {
         
     }
 
-    static consultaSaldoGeralContas = async () => {
+    static consultaSaldoGeralContas = async (empresa, tipoConta) => {
 
-        const data = await DisponivelEmCaixaBancoRepository.consultaSaldoGeralContas();
+  
+      if(empresa === undefined || empresa === '') {
+        empresa = '1, 2, 3'
+
+      } else {
+        empresa = empresa[0]
+      }
+
+      if(tipoConta === undefined) {
+        tipoConta = 'Todas'
+      }
+
+      const data = await DisponivelEmCaixaBancoRepository.consultaSaldoGeralContas(empresa, tipoConta);
 
 
-        // Função para agrupar os dados por empresa e tipo de conta
-        const agruparPorEmpresa = (dados) => {
-          // Primeiro, agrupa por empresa
-          const empresasAgrupadas = dados.reduce((acc, item) => {
-            const { empresa, TipoCt, DescrCxBco, SaldoCxBco, CodCxBco, SaldoDinhChqDisp } = item;
-        
-            // Verifica se a empresa já existe no agrupamento
-            const empresaExistente = acc.find(e => e.UndEmpresa === empresa);
-        
-            if (!empresaExistente) {
-              // Se a empresa não existe, adiciona com o saldo total e suas contas
-              acc.push({
-                UndEmpresa: empresa,
-                SaldoTotal: item.SaldoCxBco,
-                Contas: [
+      // Função para agrupar os dados por empresa e tipo de conta
+      const agruparPorEmpresa = (dados) => {
+        // Primeiro, agrupa por empresa
+        const empresasAgrupadas = dados.reduce((acc, item) => {
+          const { empresa, TipoCt, DescrCxBco, SaldoCxBco, CodCxBco, SaldoDinhChqDisp } = item;
+      
+          // Verifica se a empresa já existe no agrupamento
+          const empresaExistente = acc.find(e => e.UndEmpresa === empresa);
+      
+          if (!empresaExistente) {
+            // Se a empresa não existe, adiciona com o saldo total e suas contas
+            acc.push({
+              UndEmpresa: empresa,
+              SaldoTotal: item.SaldoCxBco,
+              Contas: [
+                {
+                  TipoCt: TipoCt,
+                  ContasDetalhadas: [
+                      {
+                          CodCxBco: CodCxBco,
+                          Conta: DescrCxBco.trim(),
+                          SaldoDisp: SaldoCxBco
+                      }
+                  ]
+                }
+              ]
+            });
+
+          } else {
+            // Se a empresa existe, verifica se o TipoCt já está nas contas
+            const tipoExistente = empresaExistente.Contas.find(conta => conta.TipoCt === TipoCt);
+      
+            if (!tipoExistente) {
+              // Se o TipoCt não existe, adiciona um novo tipo com a conta detalhada
+              empresaExistente.Contas.push({
+                TipoCt: TipoCt,
+                ContasDetalhadas: [
                   {
-                    TipoCt: TipoCt,
-                    ContasDetalhadas: [
-                        {
-                            CodCxBco: CodCxBco,
-                            Conta: DescrCxBco.trim(),
-                            SaldoDisp: SaldoCxBco
-                        }
-                    ]
+                      CodCxBco: CodCxBco,
+                      Conta:  DescrCxBco.trim(),
+                      SaldoDisp: SaldoCxBco
                   }
                 ]
               });
-
             } else {
-              // Se a empresa existe, verifica se o TipoCt já está nas contas
-              const tipoExistente = empresaExistente.Contas.find(conta => conta.TipoCt === TipoCt);
-        
-              if (!tipoExistente) {
-                // Se o TipoCt não existe, adiciona um novo tipo com a conta detalhada
-                empresaExistente.Contas.push({
-                  TipoCt: TipoCt,
-                  ContasDetalhadas: [
-                    {
-                        CodCxBco: CodCxBco,
-                        Conta:  DescrCxBco.trim(),
-                        SaldoDisp: SaldoCxBco
-                    }
-                  ]
-                });
-              } else {
-                // Se o TipoCt já existe, adiciona a conta detalhada ao tipo
-                tipoExistente.ContasDetalhadas.push({
-                    CodCxBco: CodCxBco,
-                    Conta: DescrCxBco.trim(),
-                    SaldoDisp: SaldoCxBco
-                });
-              }
-        
-              // Atualiza o saldo total da empresa
-              empresaExistente.SaldoTotal += SaldoCxBco;
-
+              // Se o TipoCt já existe, adiciona a conta detalhada ao tipo
+              tipoExistente.ContasDetalhadas.push({
+                  CodCxBco: CodCxBco,
+                  Conta: DescrCxBco.trim(),
+                  SaldoDisp: SaldoCxBco
+              });
             }
-        
-            return acc;
-          }, []);
-        
-          return empresasAgrupadas;
-        };
-        
-       
-        
-  
-        return agruparPorEmpresa(data);
+      
+            // Atualiza o saldo total da empresa
+            empresaExistente.SaldoTotal += SaldoCxBco;
+
+          }
+      
+          return acc;
+        }, []);
+      
+        return empresasAgrupadas;
+      };
+      
+      
+
+      return agruparPorEmpresa(data);
 
         
     }

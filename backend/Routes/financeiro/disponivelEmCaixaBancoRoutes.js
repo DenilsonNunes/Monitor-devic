@@ -8,14 +8,7 @@ const DisponivelEmCaixaBancoController = require('../../controllers/financeiro/D
 
 //disponivel-em-caixa-e-banco/
 router.get('/', DisponivelEmCaixaBancoController.consultaSaldoGeralContas);
-router.get('/filtros', DisponivelEmCaixaBancoController.consultaSaldoGeralContasFiltro);
 router.get('/caixa/:CodCxBco', DisponivelEmCaixaBancoController.consultaSaldoDetalhadoConta);
-router.get('/banco/:CodCxBco', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);
-router.get('/aplicacao-financeira/:CodCxBco', DisponivelEmCaixaBancoController.consultarSaldoCaixaEbanco);   
-
-
-
-
 
 
 

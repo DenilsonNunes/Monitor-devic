@@ -41,7 +41,20 @@ class DisponivelEmCaixaBancoRepository {
     
 
     // Rotina de para verificar saldo disponível em Caixas, Bancos e Aplicações (Total por empresa)
-    static consultaSaldoGeralContas = async () => {
+    static consultaSaldoGeralContas = async (empresa, tipoCt) => {
+
+        let sqlFiltros;
+
+        if(tipoCt === '' || tipoCt === 'Todas') {
+
+            sqlFiltros = '--'
+
+        } else {
+
+            sqlFiltros = `AND TipoCt = '${tipoCt}' `;
+
+        }
+
 
         const data = await sqlQuery(
         `
@@ -55,11 +68,11 @@ class DisponivelEmCaixaBancoRepository {
                 rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) as empresa 
             from tbSaldoCxBcoTmp 
                 Join TbEmpr on (TbEmpr.CodEmpr=tbSaldoCxBcoTmp.CodEmpr) 
-                where tbSaldoCxBcoTmp.CodEmpr in (0,'1','2','3') -- FILTRO POR EMPRESA
-                --and TipoCt = '1-CONTAS CAIXAS' -- FILTRO POR TIPO DE CONTA
-                order by rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) asc, TipoCt asc    
-        `);
-        
+                where tbSaldoCxBcoTmp.CodEmpr in (${empresa}) -- FILTRO POR EMPRESA
+                ${sqlFiltros} -- FILTRO POR TIPO DE CONTA
+                order by rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) asc, TipoCt asc        
+        `)
+
         return data;
 
     }
@@ -94,39 +107,7 @@ class DisponivelEmCaixaBancoRepository {
         return data;
     }
 
-    // Consulta por filtro
-    static consultaSaldoGeralContasFiltro = async (empresa, tipoCt) => {
-
-        let sqlFiltros;
-
-        if(tipoCt === '') {
-            sqlFiltros = '--'
-        } else {
-            sqlFiltros = ` AND TipoCt = '${tipoCt}' `;
-        }
-
-        const data = await sqlQuery(
-        `
-            SELECT 
-                DescrCxBco, 
-                SaldoDinh+ChqDisp as SaldoDinhChqDisp,
-                CodCxBco, 
-                SaldoCxBco, 
-                SaldoDinh, 
-                TipoCt, 
-                rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) as empresa 
-            from tbSaldoCxBcoTmp 
-                Join TbEmpr on (TbEmpr.CodEmpr=tbSaldoCxBcoTmp.CodEmpr) 
-                where tbSaldoCxBcoTmp.CodEmpr in (${empresa}) -- FILTRO POR EMPRESA
-                ${sqlFiltros} -- FILTRO POR TIPO DE CONTA
-                order by rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) asc, TipoCt asc        
-        `)
-
-        return data;
-    }
-
-
-
+ 
 }
 
 

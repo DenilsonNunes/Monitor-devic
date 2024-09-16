@@ -50,8 +50,8 @@ const HomeDisponivelEmCaixasEbancos = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
 
+  useEffect(() => {
 
     api.get('financeiro/disponivel-em-caixa-e-banco')
 
@@ -75,10 +75,6 @@ const HomeDisponivelEmCaixasEbancos = () => {
         }
 
       });
-
-
-
-
 
   }, []);
 
@@ -119,7 +115,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
   const handleConsultarSaldoDetalhadoContaFiltro = () => {
 
-    api.get(`financeiro/disponivel-em-caixa-e-banco/filtros`, {
+    api.get(`financeiro/disponivel-em-caixa-e-banco`, {
       params: {
         empresa: filtroEmpresa,
         tipoConta: filtroTpConta
@@ -128,7 +124,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
     .then((response) => {
 
-      console.log('resposta', response.data);
+      setData(response.data);
 
     })
     .catch((error) => {
@@ -145,13 +141,12 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
     });
 
-    console.log('Filtros', filtroTpConta, filtroEmpresa);
-
   }
 
   const handleLimparFiltros = () => {
     setFiltroEmpresa('');
     setFiltroTpConta('');
+
   };
 
 

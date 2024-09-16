@@ -31,31 +31,31 @@ const MenuDrawer = () => {
             <DrawerHeader borderBottomWidth='1px'>Gestão de Cobrança</DrawerHeader>
             <DrawerBody padding={0} >
 
-                <Box borderBottom='1px solid white' paddingLeft={2}>
+                <Box borderBottom='1px solid white' paddingLeft={2}  display='flex' alignItems='center'  height="50px">
                     <a href="">Análise de inadimplência mensal</a>
                 </Box>
 
-                <Box borderBottom='1px solid white'  paddingLeft={2}>  
+                <Box borderBottom='1px solid white'  paddingLeft={2}  display='flex' alignItems='center'  height="50px">  
                     <a href="">Análise de inadimplência geral / titulos pendentes</a>
                 </Box>
                 
-                <Box borderBottom='1px solid white'  paddingLeft={2}>  
+                <Box borderBottom='1px solid white'  paddingLeft={2}  display='flex' alignItems='center'  height="50px">  
                     <a href="">Acompanhamento evolução da inadimplência</a>
                 </Box>
 
-                <Box borderBottom='1px solid white'  paddingLeft={2}>  
+                <Box borderBottom='1px solid white'  paddingLeft={2}  display='flex' alignItems='center'  height="50px">  
                     <a href="">Análise para cobrança / contas a receber x recebido</a>
                 </Box>
 
-                <Box borderBottom='1px solid white'  paddingLeft={2}>  
+                <Box borderBottom='1px solid white'  paddingLeft={2}  display='flex' alignItems='center'  height="50px">  
                     <a href="">Gestão de cobrança / clientes em débito</a>
                 </Box>
 
-                <Box borderBottom='1px solid white'  paddingLeft={2}>  
+                <Box borderBottom='1px solid white'  paddingLeft={2}  display='flex' alignItems='center'  height="50px">  
                     <a href="">Previsão de cobrança</a>
                 </Box>
 
-                <Box borderBottom='1px solid white'  paddingLeft={2}>  
+                <Box borderBottom='1px solid white'  paddingLeft={2}  display='flex' alignItems='center'  height="50px">  
                     <a href="">Histórico de cobrança</a>
                 </Box>
 

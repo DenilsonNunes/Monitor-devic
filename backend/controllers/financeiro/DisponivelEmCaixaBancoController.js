@@ -7,28 +7,15 @@ const removeEspacoFinal = require('../../utils/formats/removeEspacoFinal');
 
 class DisponivelEmCaixaBancoController {
     
-    async consultarSaldoCaixaEbanco(req, res) {
-
-        try {
- 
-            const result = await DisponivelEmCaixaBancoService.consultarSaldoCaixaEbanco();
- 
-            res.status(200).json(result);
- 
-        } catch(err) {
- 
-            res.status(500).json({ message: err.message });
- 
-        }
-        
-     
-    }
 
     async consultaSaldoGeralContas(req, res) {
 
+        const { empresa, tipoConta } = req.query
+
+
         try {
  
-            const result = await DisponivelEmCaixaBancoService.consultaSaldoGeralContas();
+            const result = await DisponivelEmCaixaBancoService.consultaSaldoGeralContas(empresa, tipoConta);
  
             res.status(200).json(result);
  
@@ -97,30 +84,7 @@ class DisponivelEmCaixaBancoController {
      
     }
     
-    async consultaSaldoGeralContasFiltro(req, res) {
 
-        const { empresa, tipoConta } = req.query
-
-            console.log('filtros', tipoConta, empresa)
-
-
-            try {
-        
-                const result = await DisponivelEmCaixaBancoService.consultaSaldoGeralContasFiltro(empresa, tipoConta);
-
-                const data = removeEspacoFinal(result);
-
-        
-                res.status(200).json(data);
-        
-            } catch(err) {
-        
-                res.status(500).json({ message: err.message });
-        
-            }
-        
-     
-    }
 
 }
 
