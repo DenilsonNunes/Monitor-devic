@@ -44,6 +44,9 @@ const HomeDisponivelEmCaixasEbancos = () => {
   const [data, setData] = useState(null);
   const [dataSaldoDetalhadoConta, setDataSaldoDetalhadoConta] = useState(null);
 
+  const [filtroEmpresa, setFiltroEmpresa] = useState('');
+  const [filtroTpConta, setFiltroTpConta] = useState('');
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -54,12 +57,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
       .then((response) => {
 
-        console.log(response.data);
-
-
         setData(response.data);
-
-
         setLoading(false);
 
       })
@@ -97,7 +95,6 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
       .then((response) => {
 
-        console.log(response.data[0]);
         setDataSaldoDetalhadoConta(response.data[0]);
 
 
@@ -120,9 +117,46 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
   }
 
+  const handleConsultarSaldoDetalhadoContaFiltro = () => {
+
+    api.get(`financeiro/disponivel-em-caixa-e-banco/filtros`, {
+      params: {
+        empresa: filtroEmpresa,
+        tipoConta: filtroTpConta
+      }
+    })
+
+    .then((response) => {
+
+      console.log('resposta', response.data);
+
+    })
+    .catch((error) => {
+
+      console.log('erro', error);
+
+
+      if (error.message === 'Network Error') {
+
+      } else {
+
+
+      }
+
+    });
+
+    console.log('Filtros', filtroTpConta, filtroEmpresa);
+
+  }
+
+  const handleLimparFiltros = () => {
+    setFiltroEmpresa('');
+    setFiltroTpConta('');
+  };
+
 
   return (
-    <Box marginTop='60px' marginX={2} >
+    <Box marginTop='60px' marginX={2} key={1}>
 
       <Text>Disponivel em caixas e bancos</Text>
 
@@ -142,44 +176,76 @@ const HomeDisponivelEmCaixasEbancos = () => {
       </Box>
 
       <Box>
-      <Collapse in={isOpen} animateOpacity>
+        <Collapse in={isOpen} animateOpacity>
           <Box
             p='10px'
             mt='4'
-            rounded='md'
             shadow='md'
             border='1px solid #e2e8f0'
           >
-            <HStack>
+           
+            <VStack>
 
-              <Stack direction='row' width='100%' spacing={0}>
+                <Stack direction='row' width='100%' spacing={0} justifyContent='center'>
 
-                <Stack direction='column' width='20%' spacing={0}>
+                  <Stack direction='column' spacing={0}>
 
-                  <FormLabel margin={0}>Empresa</FormLabel>
-                  <Select placeholder='--Selecione--' size='xs'>
-                    <option value='option1'>Empresa 1</option>
-                    <option value='option1'>Empresa 2</option>
-                    <option value='option1'>Empresa 3</option>
+                    <FormLabel margin={0}>Empresa</FormLabel>
+                    <Select placeholder='--Selecione--' size='xs' value={filtroEmpresa} onChange={(e) => setFiltroEmpresa(e.target.value)}>
 
-                  </Select>
+                      {data && data.map((item, index) => (
+
+                        <option value={item.UndEmpresa} key={index}>{item.UndEmpresa}</option>
+
+                      ))}
+
+                    </Select>
+                  </Stack>
+
+                  <Stack direction='column'  spacing={0} marginLeft={2}>
+
+                    <FormLabel margin={0}>Tipo Conta</FormLabel>
+
+                    <Select placeholder='--Selecione--' size='xs' value={filtroTpConta} onChange={(e)=> setFiltroTpConta(e.target.value)}>
+                        <option value='1-CONTAS CAIXAS'>1-CONTAS CAIXAS</option>
+                        <option value='2-CONTAS BANCÁRIAS'>2-CONTAS BANCÁRIAS</option>                
+                        <option value='3-APLICAÇÕES FINANCEIRAS'>3-APLICAÇÕES FINANCEIRAS</option>                
+                    </Select>
+                  </Stack>
+
                 </Stack>
 
-                <Stack direction='column' width='20%' spacing={0} marginLeft={2}>
+                <HStack>
 
-                  <FormLabel margin={0}>Tipo Conta</FormLabel>
-                  <Select placeholder='--Selecione--' size='xs'>
-                    <option value='option1'>Caixas</option>
-                    <option value='option1'>Contas Bancarias</option>
-                    <option value='option1'>Applicação Financeira</option>
+                  <Button 
+                    size='sm' 
+                    bg='primary' 
+                    color='white' 
+                    _hover={{bg: '#0369a1'}}
+                    borderRadius={0}
+                    onClick={handleConsultarSaldoDetalhadoContaFiltro}
+                  >
+                  Aplicar
+                  </Button>
 
-                  </Select>
-                </Stack>
+                  <Button 
+                    size='sm' 
+                    bg='primary' 
+                    color='white' 
+                    _hover={{bg: '#0369a1'}}
+                    borderRadius={0}
+                    onClick={handleLimparFiltros}
+                  >
+                  Limpar
+                  </Button>
 
-              </Stack>
+                </HStack>
 
-            </HStack>
 
+
+            </VStack>
+
+           
           </Box>
         </Collapse>
       </Box>
@@ -200,9 +266,9 @@ const HomeDisponivelEmCaixasEbancos = () => {
             <CardBody padding={0}>
               <Accordion allowMultiple>
 
-                {item.Contas.map((item) => (
+                {item.Contas.map((item, index) => (
 
-                  <AccordionItem key={item.Contas} >
+                  <AccordionItem key={index} >
 
                     {({ isExpanded }) => (
                       <>
@@ -222,12 +288,12 @@ const HomeDisponivelEmCaixasEbancos = () => {
                             </Box>
                           </AccordionButton>
                         </h2>
-                        <AccordionPanel p={0} marginX={5} >
+                        <AccordionPanel p={0} marginX={5} marginTop={1}>
 
-                          {item.ContasDetalhadas.map((item) => (
+                          {item.ContasDetalhadas.map((item, index) => (
 
 
-                            <Box >
+                            <Box key={index}>
 
                               <HStack justifyContent='space-between' border='1px solid #e2e8f0' marginBottom={1} borderRadius={5}>
 
@@ -240,6 +306,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
                                   size='xs'
                                   colorScheme='blue'
                                   variant='outline'
+                                  marginRight={2}
                                   onClick={() => handleConsultarSaldoDetalhadoConta(item)}
                                 >
                                   Visualizar
@@ -251,21 +318,24 @@ const HomeDisponivelEmCaixasEbancos = () => {
                                 <Box
                                   mt='1'
                                   mb='2'
+                                  p='2'
                                   bg='#f1f5f9'
                                   rounded='md'
                                   shadow='md'
                                 >
                                   {dataSaldoDetalhadoConta && (
                                     <Box>
-                                      <Text>Saldo Detalhado</Text>
-                                      <Text>Dinheiro: {dataSaldoDetalhadoConta.SaldoDinh}</Text>
-                                      <Text>Cheque à vista: {dataSaldoDetalhadoConta.ChqAVista}</Text>
-                                      <Text>Cheque Pre-Datado: {dataSaldoDetalhadoConta.ChqPre}</Text>
-                                      <Text>Cheque Devolvido: {dataSaldoDetalhadoConta.ChqDev}</Text>
-                                      <Text>Cheque Suspenso: {dataSaldoDetalhadoConta.ChqSusp}</Text>
-                                      <Text>Cheque Juridico: {dataSaldoDetalhadoConta.ChqJurid}</Text>
-                                      <Text>Cheque Custódia: {dataSaldoDetalhadoConta.ChqCustod}</Text>
-                                      <Text>Cheque Contas a pagar parcial: {dataSaldoDetalhadoConta.ChqCtpParcial}</Text>
+                                      <Text textAlign='center' fontWeight='bold'>Saldo Detalhado</Text>
+                                      <Text><strong>Total:</strong> {formataDinheiro(dataSaldoDetalhadoConta.SaldoCxBco)}</Text>
+                                      <Text><strong>Dinheiro:</strong> {formataDinheiro(dataSaldoDetalhadoConta.SaldoDinh)}</Text>
+                                      <Text fontWeight='bold'>Cheques</Text>
+                                      <Text> À vista: {dataSaldoDetalhadoConta.ChqAVista}</Text>
+                                      <Text> Pre-Datado: {dataSaldoDetalhadoConta.ChqPre}</Text>
+                                      <Text> Devolvido: {dataSaldoDetalhadoConta.ChqDev}</Text>
+                                      <Text> Suspenso: {dataSaldoDetalhadoConta.ChqSusp}</Text>
+                                      <Text> Juridico: {dataSaldoDetalhadoConta.ChqJurid}</Text>
+                                      <Text> Custódia: {dataSaldoDetalhadoConta.ChqCustod}</Text>
+                                      <Text> Contas a pagar parcial: {dataSaldoDetalhadoConta.ChqCtpParcial}</Text>
                                     </Box>
                                   )}
                                 </Box>
@@ -289,8 +359,8 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
               <CardFooter paddingY={2} bg='#0369a1' borderBottomRadius={10}>
                 <Box display='flex' width='100%' justifyContent='space-between'>
-                  <Heading size='md' color='white'>Total (R$)</Heading>
-                  <Heading size='md' color='white' marginRight={6}>{formataDinheiro(item.SaldoTotal)}</Heading>
+                  <Heading size='sm' color='white'>Total R$  </Heading>
+                  <Heading size='sm' color='white' marginRight={2} marginLeft={2}>{formataDinheiro(item.SaldoTotal)}</Heading>
                 </Box>
               </CardFooter>
 

@@ -47,7 +47,7 @@ class DisponivelEmCaixaBancoRepository {
         `
             SELECT 
                 DescrCxBco, 
-                SaldoDinh+ChqDisp as dinh_chqdisp, 
+                SaldoDinh+ChqDisp as SaldoDinhChqDisp,
                 CodCxBco, 
                 SaldoCxBco, 
                 SaldoDinh, 
@@ -55,7 +55,8 @@ class DisponivelEmCaixaBancoRepository {
                 rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) as empresa 
             from tbSaldoCxBcoTmp 
                 Join TbEmpr on (TbEmpr.CodEmpr=tbSaldoCxBcoTmp.CodEmpr) 
-                where tbSaldoCxBcoTmp.CodEmpr in (0,'1','2','3') 
+                where tbSaldoCxBcoTmp.CodEmpr in (0,'1','2','3') -- FILTRO POR EMPRESA
+                --and TipoCt = '1-CONTAS CAIXAS' -- FILTRO POR TIPO DE CONTA
                 order by rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) asc, TipoCt asc    
         `);
         
@@ -93,14 +94,22 @@ class DisponivelEmCaixaBancoRepository {
         return data;
     }
 
-    //Visualiza caixas por empresa
-    static DisponivelEmBancosPorEmpresa1 = async (undEmpresa, tipoCt) => {
-    
+    // Consulta por filtro
+    static consultaSaldoGeralContasFiltro = async (empresa, tipoCt) => {
+
+        let sqlFiltros;
+
+        if(tipoCt === '') {
+            sqlFiltros = '--'
+        } else {
+            sqlFiltros = ` AND TipoCt = '${tipoCt}' `;
+        }
+
         const data = await sqlQuery(
         `
             SELECT 
                 DescrCxBco, 
-                SaldoDinh+ChqDisp as dinh_chqdisp, 
+                SaldoDinh+ChqDisp as SaldoDinhChqDisp,
                 CodCxBco, 
                 SaldoCxBco, 
                 SaldoDinh, 
@@ -108,10 +117,9 @@ class DisponivelEmCaixaBancoRepository {
                 rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) as empresa 
             from tbSaldoCxBcoTmp 
                 Join TbEmpr on (TbEmpr.CodEmpr=tbSaldoCxBcoTmp.CodEmpr) 
-                where tbSaldoCxBcoTmp.CodEmpr in (0,'1','2','3') 
-                and (rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) = '1-MATRIZ' -- PASSAR VARIAVEL AQUI 
-                and TipoCt = '1-CONTAS CAIXAS') -- PASSAR VARIAVEL AQUI 
-                order by rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) asc, TipoCt asc       
+                where tbSaldoCxBcoTmp.CodEmpr in (${empresa}) -- FILTRO POR EMPRESA
+                ${sqlFiltros} -- FILTRO POR TIPO DE CONTA
+                order by rtrim(ltrim(tbSaldoCxBcoTmp.CodEmpr))+'-'+rtrim(ltrim(UndEmpr)) asc, TipoCt asc        
         `)
 
         return data;

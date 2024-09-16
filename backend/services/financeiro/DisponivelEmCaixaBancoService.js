@@ -45,7 +45,7 @@ class DisponivelEmCaixaBancoService {
         const agruparPorEmpresa = (dados) => {
           // Primeiro, agrupa por empresa
           const empresasAgrupadas = dados.reduce((acc, item) => {
-            const { empresa, TipoCt, DescrCxBco, SaldoCxBco, CodCxBco } = item;
+            const { empresa, TipoCt, DescrCxBco, SaldoCxBco, CodCxBco, SaldoDinhChqDisp } = item;
         
             // Verifica se a empresa já existe no agrupamento
             const empresaExistente = acc.find(e => e.UndEmpresa === empresa);
@@ -96,6 +96,7 @@ class DisponivelEmCaixaBancoService {
         
               // Atualiza o saldo total da empresa
               empresaExistente.SaldoTotal += SaldoCxBco;
+
             }
         
             return acc;
@@ -134,6 +135,19 @@ class DisponivelEmCaixaBancoService {
     static consultaSaldoDetalhadoConta = async (CodCxBco) => {
 
         const data = await DisponivelEmCaixaBancoRepository.consultaSaldoDetalhadoConta(CodCxBco);
+
+        return data;
+    }
+    
+    static consultaSaldoGeralContasFiltro = async (empresa, tipoConta) => {
+
+        if(empresa === undefined) {
+          empresa = '1, 2, 3'
+        }
+
+        empresa = empresa[0]
+
+        const data = await DisponivelEmCaixaBancoRepository.consultaSaldoGeralContasFiltro(empresa, tipoConta);
 
         return data;
     }
