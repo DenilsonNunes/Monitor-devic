@@ -2,6 +2,12 @@ import './App.css'
 
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
+
+//COMPONENTS
+import Navbar from './components/Navbar/Navbar'
+
+
+
 // Pages
 import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
@@ -12,13 +18,24 @@ import Financeiro from './pages/Financeiro/Home/HomeFinanceiro';
 import HomeGestaoDeCobrancaInadimplencia from './pages/Financeiro/Gestao-de-cobranca-inadimplencia/HomeGestaoDeCobrancaInadimplencia';
 import ContasAreceber from './pages/Financeiro/ContasAreceber';
 import ResumoRecebimentosEcontasAreceberEmAberto from './pages/Financeiro/ResumoRecebimentosEcontasAreceberEmAberto/ResumoRecebimentosEcontasAreceberEmAberto';
+import HomeDisponivelEmCaixasEbancos from './pages/Financeiro/DisponivelEmCaixasEbancos/HomeDisponivelEmCaixasEbancos';
+
+
+// Estoque
+import HomeEstoque from './pages/Estoque/HomeEstoque';
+import HomeEstoqueObsoletoDesncessario from './pages/Estoque/EstoqueObsoletoDesnecessario/HomeEstoqueObsoletoDesncessario';
+
+
+
 
 //Configuracoes
 import Configuracoes from './pages/Configuracoes/Configuracoes';
 
-//COMPONENTS
-import Navbar from './components/Navbar/Navbar'
-import HomeDisponivelEmCaixasEbancos from './pages/Financeiro/DisponivelEmCaixasEbancos/HomeDisponivelEmCaixasEbancos';
+
+
+
+
+
 
 
 function MainLayout () {
@@ -50,7 +67,9 @@ function MainLayout () {
 
 
             {/* ESTOQUE */}
-            <Route path='/estoque' element={<ContasAreceber/>}/>
+            <Route path='/estoque' element={<HomeEstoque/>}/>
+            <Route path='/estoque/analise-estoque-obsoleto-desnecessario' element={<HomeEstoqueObsoletoDesncessario/>}/>
+
 
             {/* FISCAL/CONTÁBIL */}
             <Route path='/fiscal-contábil' element={<ContasAreceber/>}/>
