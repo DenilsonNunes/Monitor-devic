@@ -207,7 +207,7 @@ const ClientesEmDebito = () => {
 
     return (
 
-        <Box marginTop='60px' marginX={2} >
+        <Box marginTop='60px' marginX={2} marginBottom='1000px'>
 
 
             <Text fontSize='xl' marginTop={16}>Gestão de Cobrança / Inadimplencia</Text>
@@ -297,8 +297,8 @@ const ClientesEmDebito = () => {
 
             >
                 <Table size='md'>
-                    <Thead className={styles.cabecalho_table}>
-                        <Tr >
+                    <Thead className={styles.cabecalho_table} bg='red'>
+                        <Tr  >
                             <Tooltip label='Selecionar Todos'>
                                 <Th>
                                     <Checkbox border='0.3px' borderColor='#cbd5e1' />
