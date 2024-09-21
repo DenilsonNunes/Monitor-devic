@@ -1,4 +1,5 @@
 // Services
+const { password } = require('../db/connection/conn');
 const AuthService = require('../services/authService');
 
 
@@ -7,15 +8,14 @@ class AuthController {
 
     async login(req, res) {
 
-        const { user }  = req.body;
+        const { user, password }  = req.body;
 
-        console.log(user);
 
         try {
 
             console.log('chegou aqui controller', user);
 
-            const  result = await AuthService.login(user);
+            const  result = await AuthService.login(user, password);
  
             res.json({ message: 'Login realizado com sucesso', result });
  

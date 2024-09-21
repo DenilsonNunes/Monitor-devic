@@ -1,30 +1,57 @@
 const sqlQuery = require('../db/SQL/query/query')
 
 class UserRepository {
-
+    
     async findByUser(user) {
-
-        console.log('chegou aqui repository', user);
-
-
+        
+        
         return await sqlQuery(
         `
             SELECT 
-                IdFunc
+                IdFunc,
+                CodFunc
             FROM 
                 Tbfunc
             WHERE 
                 IdFunc = '${user}'
         
         `);
+        
+    }
+
+
+    async checkPassword(user, password) {
+
+        console.log('Checking passwor', user, password);
+
+        return await sqlQuery(
+        `
+            Declare
+            @CodFunc  char(5),
+            @Senha  Varchar(8)
+
+
+            Set @CodFunc = '${user}'  --'00042'
+            Set @Senha = '${password}'  --'qw'
+
+            Set @Senha = UPPER(@Senha)
+
+
+            If (    SELECT CodFunc FROM Tbfunc
+                    where CodFunc = @CodFunc and 
+                    PWDCOMPARE(@Senha, SenhaFunc) = 1 ) = @CodFunc
+
+            Select password  = 'TRUE'
+            else
+            Select password  = 'FALSE'                            
+            
+        `);
+    
+    
+
 
     }
   
-    async createUser(data) {
-      const user = new User(data);
-      return await user.save();
-    }
-
     
 }
   
