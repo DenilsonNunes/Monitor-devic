@@ -4,12 +4,12 @@ class UserRepository {
     
     async findByUser(user) {
         
-        
         return await sqlQuery(
         `
             SELECT 
                 IdFunc,
-                CodFunc
+                CodFunc,
+                Ativo
             FROM 
                 Tbfunc
             WHERE 
@@ -21,8 +21,6 @@ class UserRepository {
 
 
     async checkPassword(user, password) {
-
-        console.log('Checking passwor', user, password);
 
         return await sqlQuery(
         `

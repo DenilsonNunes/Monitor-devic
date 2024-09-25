@@ -7,25 +7,37 @@ class AuthService {
 
   async login(user, password) {
 
-    // Procura o usuário no repositório
-    const userIdFunc = await userRepository.findByUser(user);
 
+
+    // Verifica se usuário existe
+    const userIdFunc = await userRepository.findByUser(user);
 
   
     if (Object.keys(userIdFunc).length === 0) {
 
-      throw new Error('Usuário não encontrado');
+      throw new Error('Usuário não encontrado!');
       
+    }
+
+    if(userIdFunc[0].Ativo === 'N') {
+
+      throw new Error('Usuário inativo!');
+
+    }
+
+    if(!password) {
+
+      throw new Error('A Senha é obrigatória!');
+
     }
 
     const userCodFunc = userIdFunc[0].CodFunc;
 
 
-
-    // Verifica a senha
+    // Verifica a senha é correta
     const isMatch = await userRepository.checkPassword(userCodFunc, password);
 
-    console.log('e compativel', isMatch[0].password)
+    //console.log('e compativel', isMatch[0].password)
 
     if (isMatch[0].password === 'FALSE') {
 
@@ -35,9 +47,17 @@ class AuthService {
 
 
     // Gera o token JWT
-    const token = jwt.sign({ id: userCodFunc }, 'secret_key', { expiresIn: '1h' });
+    const token = jwt.sign(
+      { 
+        userCodFunc: userCodFunc 
+      }, 
+      process.env.SECRET,
+      { 
+        expiresIn: '1h' 
+      }
+    );
 
-    return { token, userIdFunc };
+    return { token };
 
   }
 }
