@@ -23,12 +23,15 @@ const Login = () => {
   const toast = useToast();
 
   const [user, setUser] = useState(null);
-  const [password, SetPassword] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [loading, setLoading] = useState(false);
+
 
 
   const handleSubmit = (event) => {
-
     event.preventDefault();
+
+    setLoading(true);
 
     api.post('auth/login', {
       user: user,
@@ -38,6 +41,8 @@ const Login = () => {
   
       localStorage.setItem('@Auth:token', response.data.token);
       localStorage.setItem('@Auth:user', response.data.token);
+
+      setLoading(false);
 
       toast({
         title: response.data.message, // apresenta a mensagem enviada pelo backend
@@ -49,7 +54,20 @@ const Login = () => {
     })
     .catch((error) => {
       
-      console.log(error.response.data);
+      if (error.message === 'Network Error') {
+
+        setLoading(false);
+
+        toast({
+          title: 'Erro na rede, por favor tente mais tarde', // apresenta a mensagem enviada pelo backend
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+        })
+      }
+
+      console.log('o erro', error.message);
+
       toast({
         title: error.response.data.error, // apresenta a mensagem enviada pelo backend
         status: 'error',
@@ -81,6 +99,7 @@ const Login = () => {
             <FormLabel  margin={0}>Usuário</FormLabel>
             <Input 
               variant='flushed'
+              isDisabled={loading}
               type='text' 
               placeholder='Digite seu usuário Ex: João'
               value={user}
@@ -94,16 +113,18 @@ const Login = () => {
               <FormLabel margin={0} >Senha</FormLabel>
               <Input
                 variant='flushed'
+                isDisabled={loading}
                 type='password' 
                 placeholder='Digite sua senha'
                 value={password}
-                onChange={(e) => SetPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
               />
               {/*isErrorSenha && <FormErrorMessage>Informe a Senha</FormErrorMessage> */}
             </Box>
 
               <Button 
                 marginTop={10} 
+                isLoading={loading}
                 type='submit' 
                 width='100%'  
                 colorScheme='blue'
