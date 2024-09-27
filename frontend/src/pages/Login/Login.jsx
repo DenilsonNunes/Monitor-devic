@@ -29,8 +29,8 @@ const Login = () => {
 
 
   const handleSubmit = (event) => {
-    event.preventDefault();
 
+    event.preventDefault();
     setLoading(true);
 
     api.post('auth/login', {

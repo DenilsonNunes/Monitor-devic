@@ -13,6 +13,10 @@ import Login from './pages/Login/Login';
 import Home from './pages/Home/Home';
 import Clientes from './pages/Clientes/Clientes';
 
+// Vendas
+import HomeVendas from './pages/Vendas/HomeVendas';
+
+
 //Financeiro
 import Financeiro from './pages/Financeiro/Home/HomeFinanceiro';
 import HomeGestaoDeCobrancaInadimplencia from './pages/Financeiro/Gestao-de-cobranca-inadimplencia/HomeGestaoDeCobrancaInadimplencia';
@@ -27,15 +31,8 @@ import HomeEstoqueObsoletoDesncessario from './pages/Estoque/EstoqueObsoletoDesn
 
 
 
-
 //Configuracoes
 import Configuracoes from './pages/Configuracoes/Configuracoes';
-
-
-
-
-
-
 
 
 function MainLayout () {
@@ -55,7 +52,7 @@ function MainLayout () {
             <Route path='/clientes' element={<Clientes/>}/>
 
             {/* VENDAS */}
-            <Route path='/vendas' element={<Clientes/>}/>
+            <Route path='/vendas' element={<HomeVendas/>}/>
 
 
             {/* FINANCEIRO */}
