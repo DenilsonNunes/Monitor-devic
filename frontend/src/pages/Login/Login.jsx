@@ -14,6 +14,8 @@ import {
 from '@chakra-ui/react'
 
 
+import { useAuth } from '../../hooks/auth';
+
 // Instancia API
 import api from '../../helpers/api-instance'
 
@@ -26,13 +28,17 @@ const Login = () => {
   const [password, setPassword] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const { signIn } = useAuth();
 
-
-  const handleSubmit = (event) => {
+  const handleSignIn = (event) => {
 
     event.preventDefault();
     setLoading(true);
 
+    signIn({ user, password })
+
+    /*
+    
     api.post('auth/login', {
       user: user,
       password: password
@@ -41,9 +47,9 @@ const Login = () => {
   
       localStorage.setItem('@Auth:token', response.data.token);
       localStorage.setItem('@Auth:user', response.data.token);
-
+ 
       setLoading(false);
-
+ 
       toast({
         title: response.data.message, // apresenta a mensagem enviada pelo backend
         status: 'success',
@@ -55,9 +61,9 @@ const Login = () => {
     .catch((error) => {
       
       if (error.message === 'Network Error') {
-
+ 
         setLoading(false);
-
+ 
         toast({
           title: 'Erro na rede, por favor tente mais tarde', // apresenta a mensagem enviada pelo backend
           status: 'error',
@@ -65,17 +71,21 @@ const Login = () => {
           isClosable: true,
         })
       }
-
+ 
       console.log('o erro', error.message);
-
+ 
       toast({
         title: error.response.data.error, // apresenta a mensagem enviada pelo backend
         status: 'error',
         duration: 4000,
         isClosable: true,
       })
-
+ 
     });
+    
+    
+    */
+
 
   }
 
@@ -93,7 +103,7 @@ const Login = () => {
       >
         <Text fontSize={80}>DeVIC</Text>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSignIn}>
           <FormControl width={400} >
             
             <FormLabel  margin={0}>Usuário</FormLabel>

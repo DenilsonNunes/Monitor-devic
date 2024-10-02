@@ -16,33 +16,40 @@ import Home from '../pages/Home/Home';
 import Navbar from '../components/Navbar/Navbar'
 
 
+import { useAuth  } from '../hooks/auth';
+
 const MainRoutes = () => {
+
+  const { user } = useAuth();
 
   const location = useLocation();
   const showNavbar = location.pathname !== '/login';
 
+  console.log('Router', user)
+
+
   return (
 
     <>
-          { showNavbar && <Navbar/>} 
-    
-          <Routes>
+      { showNavbar && <Navbar/>} 
 
-            <Route path='/login' element={<Login/>}/>
+      
+      <Routes>      
+        <Route path='/login' element={<Login/>}/>
 
-            <Route path="/home" element={<Home/>}/>
-            <Route path="/vendas/*" element={<VendasRoutes/>}/>
-            <Route path="/financeiro/*" element={<FinanceiroRoutes/>}/>
-            <Route path="/estoque/*" element={<EstoqueoRoutes/>}/>
-            <Route path="/fiscal-contabil/*" element={<FiscalContabilRoutes/>}/>
-            <Route path="/comissao-outros/*" element={<ComissaoOutrosRoutes/>}/>
-            <Route path="/configuracoes/*" element={<ConfiguracoesRoutes/>}/>
+        <Route path="/home" element={<Home/>}/>
+        <Route path="/vendas/*" element={<VendasRoutes/>}/>
+        <Route path="/financeiro/*" element={<FinanceiroRoutes/>}/>
+        <Route path="/estoque/*" element={<EstoqueoRoutes/>}/>
+        <Route path="/fiscal-contabil/*" element={<FiscalContabilRoutes/>}/>
+        <Route path="/comissao-outros/*" element={<ComissaoOutrosRoutes/>}/>
+        <Route path="/configuracoes/*" element={<ConfiguracoesRoutes/>}/>
 
 
-            <Route path="*" element={<NotFound/>}/>
+        <Route path="*" element={<NotFound/>}/>
 
-            
-          </Routes>  
+        
+      </Routes>  
     
     
     </>
