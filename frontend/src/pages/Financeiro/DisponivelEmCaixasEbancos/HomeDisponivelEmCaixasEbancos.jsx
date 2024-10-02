@@ -246,14 +246,12 @@ const HomeDisponivelEmCaixasEbancos = () => {
       </Box>
 
 
+      {data && data.map((item, index) => (
+
+        <Box display='flex' key={index} justifyContent='center'>
 
 
-      {data && data.map((item) => (
-
-        <Box display='flex' justifyContent='center'>
-
-
-          <Card w='90%' marginTop={10} key={item.UndEmpresa} borderTopRadius={10} borderBottomRadius={10}>
+          <Card w='90%' marginTop={10}  borderTopRadius={10} borderBottomRadius={10}>
             <CardHeader paddingY={2} bg='#0369a1' borderTopRadius={10}>
               <Heading size='md' color='white'>{item.UndEmpresa}</Heading>
             </CardHeader>

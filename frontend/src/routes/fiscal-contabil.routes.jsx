@@ -13,7 +13,7 @@ const FiscalContabilRoutes = () => {
       <Routes>
   
         {/* FISCAL/CONTÁBIL */}
-        <Route path='/fiscal-contabil' element={<HomeFiscalContabil/>}/>
+        <Route path='/' element={<HomeFiscalContabil/>}/>
         
       </Routes>
   

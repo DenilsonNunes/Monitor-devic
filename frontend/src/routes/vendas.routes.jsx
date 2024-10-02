@@ -13,7 +13,7 @@ const VendasRoutes = () => {
     <Routes>
 
         {/* VENDAS */}
-        <Route path='/vendas' element={<HomeVendas/>}/>
+        <Route path="/" element={<HomeVendas/>}/>
 
     </Routes>
     

@@ -13,7 +13,7 @@ const HomeRoutes = () => {
       <Routes>
   
         {/* CONFIGURAÇÕES */}
-        <Route path="/home" element={<Home/>}/>
+        <Route path="/" element={<Home/>}/>
         
       </Routes>
   

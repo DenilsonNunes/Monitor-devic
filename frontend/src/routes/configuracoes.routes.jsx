@@ -13,7 +13,7 @@ const ConfiguracoesRoutes = () => {
       <Routes>
   
         {/* CONFIGURAÇÕES */}
-        <Route path='/configurações' element={<Configuracoes/>}/>
+        <Route path='/' element={<Configuracoes/>}/>
         
       </Routes>
   

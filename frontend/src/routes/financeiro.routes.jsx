@@ -16,11 +16,11 @@ const FinanceiroRoutes = () => {
     <Routes>
 
         {/* FINANCEIRO */}
-        <Route path='/financeiro' element={<Financeiro/>}/>
+        <Route path='/' element={<Financeiro/>}/>
         <Route path='/financeiro/contas-a-receber' element={<ContasAreceber/>}/>
-        <Route path='/financeiro/gestao-de-cobranca-inadimplencia' element={<HomeGestaoDeCobrancaInadimplencia/>}/>
-        <Route path='/financeiro/resumo-de-Recebimentos-e-contas-a-receber-em-aberto' element={<ResumoRecebimentosEcontasAreceberEmAberto/>}/>
-        <Route path='/financeiro/disponivel-em-caixas-e-bancos' element={<HomeDisponivelEmCaixasEbancos/>}/>
+        <Route path='/gestao-de-cobranca-inadimplencia' element={<HomeGestaoDeCobrancaInadimplencia/>}/>
+        <Route path='/resumo-de-Recebimentos-e-contas-a-receber-em-aberto' element={<ResumoRecebimentosEcontasAreceberEmAberto/>}/>
+        <Route path='/disponivel-em-caixas-e-bancos' element={<HomeDisponivelEmCaixasEbancos/>}/>
       
     </Routes>
 
