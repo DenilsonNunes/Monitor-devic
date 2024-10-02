@@ -35,7 +35,33 @@ const Login = () => {
     event.preventDefault();
     setLoading(true);
 
-    signIn({ user, password })
+
+    try {
+      
+      signIn({ user, password })
+
+      toast({
+        title: 'Login realizado com sucesso!', // apresenta a mensagem enviada pelo backend
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      })
+
+    } catch (err) {
+
+      toast({
+        title: 'Erro na rede, por favor tente mais tarde', // apresenta a mensagem enviada pelo backend
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
+      
+
+    }
+    
+
+    
+
 
     /*
     

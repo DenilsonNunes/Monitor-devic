@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
             
 
         } catch (err) { 
-            console.error(err);
+            console.log('Erro dentro do hook', err);
         }
     }
 
