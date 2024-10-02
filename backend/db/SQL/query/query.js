@@ -24,6 +24,7 @@ const query = async (dados, filtros) => {
         
         // Conecta ao banco de dados
         const pool = await sql.connect(configDb);
+
         // Executa a consulta
         const result = await pool.request()
             .query(dados);

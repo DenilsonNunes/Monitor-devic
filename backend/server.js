@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(cors({ 
 
     credentials: true, 
-    origin: 'http://192.168.100.80:5173',
+    origin: process.env.SERVER_PORT_FRONT,
     methods: ["GET", "POST", 'PUT', "PATCH", "DELETE"] 
 
 }));

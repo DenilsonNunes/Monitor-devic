@@ -1,7 +1,7 @@
 const config = {
     user: process.env.USER_SERVER,
     password: process.env.PASSWORD_SERVER,
-    server: '192.168.100.188',
+    server: process.env.SERVER,
     database: process.env.NAME_DATABASE,//DENILSONTREINAMENTO
     options: {
         encrypt: false,
