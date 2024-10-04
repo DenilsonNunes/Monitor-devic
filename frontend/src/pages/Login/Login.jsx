@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 
 import {
@@ -16,13 +17,12 @@ from '@chakra-ui/react'
 
 import { useAuth } from '../../hooks/auth';
 
-// Instancia API
-import api from '../../helpers/api-instance'
 
 
 const Login = () => {
 
   const toast = useToast();
+  const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
   const [password, setPassword] = useState(null);
@@ -30,87 +30,45 @@ const Login = () => {
 
   const { signIn } = useAuth();
 
-  const handleSignIn = (event) => {
+  const handleSignIn = async (event) => {
 
   event.preventDefault();
+
     setLoading(true);
 
-
-    try {
-      
-      signIn({ user, password })
-
-      toast({
-        title: 'Login realizado com sucesso!', // apresenta a mensagem enviada pelo backend
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-      })
-
-    } catch (err) {
-
-      toast({
-        title: 'Erro na rede, por favor tente mais tarde', // apresenta a mensagem enviada pelo backend
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-      })
-      
-
-    }
-    
-
-    
-
-
-    /*
-    
-    api.post('auth/login', {
-      user: user,
-      password: password
-    })
-    .then((response) => {
   
-      localStorage.setItem('@Auth:token', response.data.token);
-      localStorage.setItem('@Auth:user', response.data.token);
- 
+    try {
+
+      await signIn({ user, password })
+
+      toast({
+        title: "Login realizado com sucesso.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+
+      setTimeout(() => {
+
+        navigate("/financeiro");
+
+      }, 2000);
+
+
+    } catch (error) {
+
+
       setLoading(false);
- 
+      setPassword("");
+
       toast({
-        title: response.data.message, // apresenta a mensagem enviada pelo backend
-        status: 'success',
-        duration: 4000,
+        title: error.data.message, // A mensagem de erro da API
+        status: "error",
+        duration: 5000,
         isClosable: true,
-      })
-    
-    })
-    .catch((error) => {
-      
-      if (error.message === 'Network Error') {
- 
-        setLoading(false);
- 
-        toast({
-          title: 'Erro na rede, por favor tente mais tarde', // apresenta a mensagem enviada pelo backend
-          status: 'error',
-          duration: 4000,
-          isClosable: true,
-        })
-      }
- 
-      console.log('o erro', error.message);
- 
-      toast({
-        title: error.response.data.error, // apresenta a mensagem enviada pelo backend
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-      })
- 
-    });
-    
-    
-    */
+      });
+    }
+
 
 
   }

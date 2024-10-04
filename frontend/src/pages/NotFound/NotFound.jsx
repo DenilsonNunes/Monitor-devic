@@ -6,6 +6,7 @@ import {
 
 
 import Navbar from '../../components/Navbar/Navbar'
+import { Link } from 'react-router-dom'
 
 const NotFound = () => {
   return (
@@ -13,6 +14,11 @@ const NotFound = () => {
       <Navbar/>
       <Box marginTop={20}>
         <Heading marginBottom={4} size='md'>Pagina não encontrada</Heading>
+
+        <Link to='/home' style={{ color: 'blue', textDecoration: 'underline' }}>
+          Voltar para home
+        </Link>
+        
       </Box>
     </Box>
   )

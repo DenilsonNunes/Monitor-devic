@@ -17,7 +17,7 @@ class AuthController {
 
       } catch (error) {
 
-          res.status(422).json({ error: error.message });
+          res.status(422).json({ message: error.message });
       }              
         
      

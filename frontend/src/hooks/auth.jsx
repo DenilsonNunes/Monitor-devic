@@ -4,8 +4,6 @@ import api from "../helpers/api-instance"
 
 
 
-
-
 export const AuthContext = createContext({});
 
 
@@ -21,16 +19,27 @@ export const AuthProvider = ({ children }) => {
                 user, 
                 password
             })
+    
 
-            const { token, userCodFunc } = response.data;
+            if (response.status === 200) {
+
+                const { token, userCodFunc } = response.data;
           
-            localStorage.setItem('@Auth:user', userCodFunc);
-            localStorage.setItem('@Auth:token', token);
-            
+                localStorage.setItem('@Auth:user', userCodFunc);
+                localStorage.setItem('@Auth:token', token);
+               
 
-        } catch (err) { 
-            console.log('Erro dentro do hook', err);
+            } else {
+                throw new Error(response.data.error)
+            }
+          
+
+
+        } catch (error) { 
+         
+            throw error.response
         }
+
     }
 
 
