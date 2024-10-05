@@ -8,7 +8,7 @@ import FormConfigMsgEmail from '../../components/Configurações/FormConfigEmail
 
 
 
-const ConfiguracaoEmail = () => {
+const HomeConfiguracoes = () => {
 
     return (
 
@@ -100,4 +100,4 @@ const ConfiguracaoEmail = () => {
     )
 }
 
-export default ConfiguracaoEmail;
+export default HomeConfiguracoes;
