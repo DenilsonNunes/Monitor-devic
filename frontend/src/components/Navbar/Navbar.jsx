@@ -1,12 +1,17 @@
 import { Box, Icon  } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
-import { SearchIcon} from '@chakra-ui/icons';
-
 import styles from './Navbar.module.css';
+
+import { useAuth } from "../../hooks/auth";
+
+
+
 
 
 const Navbar = () => {
+
+  const { name } = useAuth();
 
   return (
 
@@ -37,6 +42,10 @@ const Navbar = () => {
           <li>
             <NavLink to="/configuracoes">Configurações</NavLink>
           </li>
+
+       
+          <p>{name}</p>
+       
 
       </ul>
 
