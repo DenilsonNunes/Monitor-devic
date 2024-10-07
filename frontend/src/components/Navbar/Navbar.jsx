@@ -1,11 +1,9 @@
-import { Box, Icon  } from "@chakra-ui/react";
+import { Box, Heading, HStack, Icon  } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 
 import styles from './Navbar.module.css';
 
 import { useAuth } from "../../hooks/auth";
-
-
 
 
 
@@ -17,39 +15,44 @@ const Navbar = () => {
 
     <Box className={styles.navbar} bg='primary'>
 
-        <ul>
+      <Box display='flex' justifyContent='space-between' alignItems='center'  w='100%' >
 
-          <li>
-            <NavLink to="/home">Home</NavLink>
-          </li>
+          <ul>
+              <li>
+                <NavLink to="/home">Home</NavLink>
+              </li>
 
-          <li>
-            <NavLink to="/vendas">Vendas</NavLink>
-          </li>
+              <li>
+                <NavLink to="/vendas">Vendas</NavLink>
+              </li>
 
-          <li>
-            <NavLink to="/financeiro">Financeiro</NavLink>
-          </li>
+              <li>
+                <NavLink to="/financeiro">Financeiro</NavLink>
+              </li>
 
-          <li>
-            <NavLink to="/estoque">Estoque</NavLink>
-          </li>
+              <li>
+                <NavLink to="/estoque">Estoque</NavLink>
+              </li>
 
-          <li>
-            <NavLink to="/fiscal-contabil">Fiscal/Contábil</NavLink>
-          </li>
+              <li>
+                <NavLink to="/fiscal-contabil">Fiscal/Contábil</NavLink>
+              </li>
 
-          <li>
-            <NavLink to="/configuracoes">Configurações</NavLink>
-          </li>
+              <li>
+                <NavLink to="/configuracoes">Configurações</NavLink>
+              </li>        
 
-       
-          <p>{name}</p>
-       
+          </ul>
 
-      </ul>
+        <Box>
+          <Heading size='sm' justifyContent='center'>{name}</Heading>
 
-      
+        </Box>
+
+
+      </Box>
+
+
 
     </Box>
   )
