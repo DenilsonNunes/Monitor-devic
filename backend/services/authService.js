@@ -36,7 +36,7 @@ class AuthService {
     // Verifica a senha é correta
     const isMatch = await userRepository.checkPassword(userCodFunc, password);
 
-    //console.log('e compativel', isMatch[0].password)
+   
 
     if (isMatch[0].password === 'FALSE') {
 

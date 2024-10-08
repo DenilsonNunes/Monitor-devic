@@ -6,6 +6,7 @@ const router = express.Router()
 const financeiroRoutes = require('./financeiro/index');
 const estoqueRoutes = require('./estoque/index');
 const authRoutes = require('./auth/authRoutes');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 
 //const vendasRoutes = require('./vendas');

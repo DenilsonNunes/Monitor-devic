@@ -1,9 +1,10 @@
-import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box, Icon } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Text, Box, Icon, Heading } from '@chakra-ui/react'
 import { FcBusinessman } from "react-icons/fc";
 import { SettingsIcon } from '@chakra-ui/icons'
 
 import FormConfigServidorSMTPemail from "../../components/Configurações/FormConfigEmail/FormConfigServidorSMTPemail";
 import FormConfigMsgEmail from '../../components/Configurações/FormConfigEmail/FormConfigMsgEmail';
+import PageLayout from '../../components/PageLayout/PageLayout';
 
 
 
@@ -12,13 +13,14 @@ const HomeConfiguracoes = () => {
 
     return (
 
-        <Box  margin={5} marginTop="90px">
+        <PageLayout>
 
             <Box display='flex'  alignItems='center'>
-                <SettingsIcon w={8} h={8}/>
-                <Text fontSize='4xl' marginLeft={4}>Painel de Configuração</Text>
-            </Box>    
-            
+                <SettingsIcon w={5} h={5}/>
+                <Heading size='md' >Painel de Configuração</Heading>
+            </Box>
+
+                
             <Tabs  sx={{ position: 'static', display: 'initial' }}>
 
                 <TabList borderWidth="1px" borderColor="#cbd5e1" marginTop={5} >
@@ -27,7 +29,7 @@ const HomeConfiguracoes = () => {
                         <Icon as={FcBusinessman}/>
                         Usuários
                     </Tab>
-    
+
                     <Tab>Configurações Monitor</Tab>
                     <Tab>Configurações Envio de E-mails</Tab>
                     <Tab>Envio de E-mails automático</Tab>
@@ -95,8 +97,8 @@ const HomeConfiguracoes = () => {
                 </TabPanels>
 
             </Tabs>
-
-        </Box>
+                    
+        </PageLayout>
     )
 }
 

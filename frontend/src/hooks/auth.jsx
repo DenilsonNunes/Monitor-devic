@@ -19,6 +19,8 @@ export const AuthProvider = ({ children }) => {
                 user, 
                 password
             })
+
+            console.log('No Provider', response);
     
 
             if (response.status === 200) {

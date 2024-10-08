@@ -46,7 +46,6 @@ const Navbar = () => {
 
         <Box>
           <Heading size='sm' justifyContent='center'>{name}</Heading>
-
         </Box>
 
 
