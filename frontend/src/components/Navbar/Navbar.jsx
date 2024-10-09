@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/auth";
 
 const Navbar = () => {
 
-  const { name } = useAuth();
+  const { user } = useAuth();
 
   return (
 
@@ -44,8 +44,8 @@ const Navbar = () => {
 
           </ul>
 
-        <Box>
-          <Heading size='sm' justifyContent='center'>{name}</Heading>
+        <Box>      
+          {user &&  <Heading size='sm' justifyContent='center'>Bem vindo, {user}!</Heading> }
         </Box>
 
 

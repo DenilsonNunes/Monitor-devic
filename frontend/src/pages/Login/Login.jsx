@@ -50,7 +50,7 @@ const Login = () => {
 
       setTimeout(() => {
 
-        navigate("/financeiro");
+        navigate("/home");
 
       }, 2000);
 

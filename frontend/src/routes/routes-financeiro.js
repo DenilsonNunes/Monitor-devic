@@ -23,7 +23,7 @@ export const routesFinanceiro = [
       title: 'Home'
     },
     {
-      path: '/financeiro/resumo-de-Recebimentos-e-contas-a-receber-em-aberto',
+      path: '/financeiro/resumo-de-recebimentos-e-contas-a-receber-em-aberto',
       component: ResumoRecebimentosEcontasAreceberEmAberto,
       private: true,
       title: 'Home'

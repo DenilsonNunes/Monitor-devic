@@ -32,6 +32,7 @@ const MainRoutes = () => {
       })}
 
     <Route path="*" element={<NotFound/>} />
+    
     </Routes>
   )
  

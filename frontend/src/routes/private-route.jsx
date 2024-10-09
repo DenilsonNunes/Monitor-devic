@@ -1,14 +1,22 @@
+import { useAuth  } from "../hooks/auth";
+
+
 import Navbar from "../components/Navbar/Navbar";
+import NotAuthenticated from "../pages/notAuthenticated/NotAuthenticated";
+
+
 
 export function PrivateRouter({children}) {
 
-    const isAuthenticated = true;
+    const { user } = useAuth()
+
+
+    const isAuthenticated = user;
 
     if (!isAuthenticated) {
-        return (
 
-        <h1>Nao autorizado</h1>
-        
+        return (
+            <NotAuthenticated/>
         )
     }
 

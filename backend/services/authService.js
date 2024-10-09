@@ -11,6 +11,7 @@ class AuthService {
     // Verifica se usuário existe
     const userIdFunc = await userRepository.findByUser(user);
 
+
   
     if (Object.keys(userIdFunc).length === 0) {
 
@@ -30,19 +31,18 @@ class AuthService {
 
     }
 
-    const userCodFunc = userIdFunc[0].CodFunc;
-
-
     // Verifica a senha é correta
-    const isMatch = await userRepository.checkPassword(userCodFunc, password);
+    const isMatch = await userRepository.checkPassword(userIdFunc[0].CodFunc, password);
 
-   
 
     if (isMatch[0].password === 'FALSE') {
 
       throw new Error('Senha incorreta');
 
     }
+
+    const userCodFunc = userIdFunc[0].CodFunc;
+    const nameUser = userIdFunc[0].IdFunc;
 
 
     // Gera o token JWT
@@ -56,7 +56,7 @@ class AuthService {
       }
     );
 
-    return { token, userCodFunc };
+    return { token, userCodFunc, nameUser };
 
   }
 }
