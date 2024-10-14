@@ -6,15 +6,12 @@ import NotAuthenticated from "../pages/notAuthenticated/NotAuthenticated";
 
 
 
-export function PrivateRouter({children}) {
+export function PrivateRouter({children, rules}) {
 
-    const { user } = useAuth()
+    const { isAuthenticated } = useAuth()
 
-
-    const isAuthenticated = user;
-
-    if (!isAuthenticated) {
-
+    
+    if (!isAuthenticated()) {
         return (
             <NotAuthenticated/>
         )

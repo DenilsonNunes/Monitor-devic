@@ -14,35 +14,36 @@ export const AuthProvider = ({ children }) => {
 
     const signIn = async ({user, password}) => {
 
-
         try {
-            
+
             const response = await api.post('/auth/login', { 
                 user, 
                 password
             })
 
-            console.log('No Provider', response);
-    
-
             if (response.status === 200) {
 
-                const { nameUser, userCodFunc, token } = response.data;
+                const { dataUser } = response.data;
 
+                console.log('No Provider', dataUser.nameUser);
           
-                localStorage.setItem('@Auth:user', userCodFunc);
-                localStorage.setItem('@Auth:token', token);
+                localStorage.setItem('@Auth:user', dataUser.userCodFunc); 
+                localStorage.setItem('@Auth:nameUser', dataUser.nameUser); 
+                localStorage.setItem('@Auth:token', dataUser.token);
 
                 // colocar padrão no cabeçalho das requisições
-                api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                api.defaults.headers.common['Authorization'] = `Bearer ${dataUser.token}`;
+                
 
-                setData({ nameUser, userCodFunc, token });
+                setData({
+                    nameUser: dataUser.nameUser
+                });
+
 
             } else {
                 throw new Error(response.data.error)
             }
           
-
 
         } catch (error) { 
          
@@ -51,25 +52,57 @@ export const AuthProvider = ({ children }) => {
 
     }
 
-    useEffect(() => {
-          
+    const signOut = () => {
+
+        localStorage.removeItem('@Auth:user');
+        localStorage.removeItem('@Auth:nameUser');
+        localStorage.removeItem('@Auth:token');
+
+        setData({});
+        api.defaults.headers.common['Authorization'] = '';
+
+    }
+
+
+    const isAuthenticated = () => {
+
         const userCodFunc = localStorage.getItem('@Auth:user');
         const token = localStorage.getItem('@Auth:token');
 
+        console.log('isAuthenticated como vem',  userCodFunc, token);
+
+
         if (userCodFunc && token) {
+            
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+            return  userCodFunc !== null && token !== null
+        } 
+        
+    }
+
+    useEffect(() => {
+ 
+        const nameUser = localStorage.getItem('@Auth:nameUser');
+        const userCodFunc = localStorage.getItem('@Auth:user');
+        const token = localStorage.getItem('@Auth:token');
+
+        if (nameUser && userCodFunc && token) {
+
+            setData({ nameUser, userCodFunc });
+            // Configurar token no cabeçalho
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         }
-
-        setData({ userCodFunc, token });
-
     }, []);
 
 
+
     return (
-        <AuthContext.Provider value={{ signIn, name: "Denilson", user: data.nameUser }}>
+        <AuthContext.Provider value={{ signIn, signOut, isAuthenticated, nameUser: data.nameUser, userCodFunc: data.userCodFunc }}>
             {children}
         </AuthContext.Provider>
     )
+
 }
 
 

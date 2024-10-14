@@ -7,7 +7,7 @@ import {
   
     return (
 
-      <Box  marginTop='60px' marginLeft={5} marginRight={5}>
+      <Box  marginTop='60px' marginLeft={5} marginRight={5} >
        
         {children}
   

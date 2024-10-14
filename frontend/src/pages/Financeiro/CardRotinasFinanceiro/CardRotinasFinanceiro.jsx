@@ -13,19 +13,88 @@ import {
 
 
 
+const rotinasFinanceiro = [
+    {
+        label: 'Gestão de Cobrança e Inadimplencia',
+        path: '/financeiro/gestao-de-cobranca-inadimplencia',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Resumo de Recebimentos e Contas a Receber em Aberto',
+        path: '/financeiro/resumo-de-recebimentos-e-contas-a-receber-em-aberto',
+        image: '/img/ResumoRecebimentoContasReceber-2-48.png'
+    },
+    {
+        label: 'Disponivel em Caixas e Bancos',
+        path: '/financeiro/disponivel-em-caixas-e-bancos',
+        image: '/img/Disponivel-caixa-banco.png'
+    },
+    {
+        label: 'Análise de Recebimentos por Quitação',
+        path: '/financeiro/analise-recebimento-quitacao',
+        image: '/img/AnaliseRecebimentoQuitacao-48.png'
+    },
+    {
+        label: 'Posição Financeira',
+        path: '/financeiro/posicao-financeira',
+        image: '/img/posicao-financeira.png'
+    },
+    {
+        label: 'Calendário Financeiro',
+        path: '/financeiro/calendario-financeiro',
+        image: '/img/calendario-financeiro.png'
+    },
+    {
+        label: 'Email informativo resumo diário',
+        path: '/financeiro/email-informativo-resumo-diario',
+        image: '/img/email-informativo-diario.png'
+    },
+    {
+        label: 'Resumo a Receber x Pagar',
+        path: '/financeiro/resumo-receber-x-pagar',
+        image: '/img/calendario-financeiro.png'
+    },
+    {
+        label: 'Análise Credito de Clientes',
+        path: '/financeiro/analise-credito-clientes',
+        image: '/img/credito-de-cliente.png'
+    },
+    {
+        label: 'Movimento de Caixa / Banco',
+        path: '/financeiro/movimento-caixa-banco',
+        image: '/img/movimento-caixa-banco.png'
+    },
+    {
+        label: 'Receber 20 x 20 Dias',
+        path: '/financeiro/receber-20-x-20-dias',
+        image: '/img/calendario-financeiro.png'
+    },
+    
+]
+
+
+
+
+
+
 const CardRotinasFinanceiro = () => {
+
     return (
+
         <SimpleGrid spacing={4} templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
 
-            <Link to="/financeiro/gestao-de-cobranca-inadimplencia">
+            {rotinasFinanceiro.map((item, index) => (
+
+
+            <Link to={item.path}>
 
                 <Card bg='#f1f5f9' height='100%'>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/ClientesEmDebito-48.png' maxH='4rem' maxW='4rem'  alt='Clientes em debito' />
+                        <Image src={item.image} maxH='4rem' maxW='4rem'  alt='Clientes em debito' />
                     </CardHeader>
                     <CardBody padding={2}>
-                        <Heading textAlign='center' size='sm'>Gestão de Cobrança e Inadimplencia</Heading>
+                        <Heading textAlign='center' size='sm'>{item.label}</Heading>
                     </CardBody>
 
                 </Card>
@@ -33,158 +102,7 @@ const CardRotinasFinanceiro = () => {
             </Link>
 
 
-            <Link to="/financeiro/resumo-de-Recebimentos-e-contas-a-receber-em-aberto">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/ResumoRecebimentoContasReceber-2-48.png' maxH='4rem' maxW='4rem'  alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody padding={2}>
-                        <Heading textAlign='center' size='sm'>Resumo de Recebimentos e Contas a Receber em Aberto</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody padding={2}>
-                        <Heading textAlign='center' size='sm'>Análise de Recebimentos por Quitação</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/posicao-financeira.png' maxH='4rem' maxW='4rem' alt='Posição Financeira'/>
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Posição Financeira</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/financeiro/disponivel-em-caixas-e-bancos">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/disponivel-caixa-bancos.png' maxH='4rem' maxW='4rem'  alt='Disponível em caixa e banco'/>
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Disponível em Caixas e Bancos</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem'  alt='Calendário Financeiro' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Calendário Financeiro</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/email-informativo-diario.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Email informativo resumo diário</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Resumo a Receber x Pagar</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/credito-de-cliente.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Análise Credito de Clientes</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/movimento-caixa-banco.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Movimento de Caixa / Banco</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Receber 20 x 20 Dias</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-
+            ))}
 
         </SimpleGrid>
     )

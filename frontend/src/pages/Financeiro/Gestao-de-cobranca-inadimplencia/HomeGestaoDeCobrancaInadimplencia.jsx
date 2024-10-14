@@ -31,7 +31,9 @@ import {
     Select,
     Icon,
     useDisclosure,
-    HStack
+    HStack,
+    Collapse,
+    FormLabel
 } from '@chakra-ui/react'
 
 import { SearchIcon, EmailIcon, PlusSquareIcon, PhoneIcon, SmallAddIcon } from '@chakra-ui/icons';
@@ -48,6 +50,9 @@ import ModalHistoricoDeCobranca from './Modal/ModalHistoricoDeCobranca/ModalHist
 import ModalTitulosEmDebito from './Modal/ModalTitulosDeClienteEmDebito/ModalTitulosDeClienteEmDebito';
 import ModalRegistrarCobranca from './Modal/ModalRegistrarCobranca/ModalRegistrarCobranca';
 import Loader from '../../../components/Loading/Loader';
+import PageLayout from '../../../components/PageLayout/PageLayout';
+
+
 
 
 // Utils
@@ -61,7 +66,7 @@ const ClientesEmDebito = () => {
 
     const [data, setData] = useState();
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
     const [isOpenVerTitulos, setIsOpenVerTitulos] = useState(false);
     const [isOpenHistoricoCobranca, setIsOpenHistoricoCobranca] = useState(false);
     const [isOpenRegistrarCobranca, setIsOpenRegistrarCobranca] = useState(false);
@@ -207,11 +212,13 @@ const ClientesEmDebito = () => {
 
     return (
 
-        <Box marginTop='60px' marginX={2} marginBottom='1000px'>
+        <PageLayout>
+
+
 
 
             <Text fontSize='xl' marginTop={16}>Gestão de Cobrança / Inadimplencia</Text>
-            <MenuDrawer/>
+            <MenuDrawer />
 
             <Box display='flex' justifyContent='space-between' marginTop={5} >
 
@@ -252,23 +259,18 @@ const ClientesEmDebito = () => {
                         </Select>
                     </form>
 
-
-                    <form style={{ display: 'flex', alignItems: 'center' }}>
                         <Button
                             size='sm'
-                            type='submit'
                             colorScheme='gray'
+                            onClick={onToggle}
                         >
                             <Flex align="center">
                                 <LuFilter />
                                 <Text ml={2}>Filtros</Text>
                             </Flex>
                         </Button>
-                    </form>
 
                 </Stack>
-
-
 
 
                 <Box>
@@ -284,6 +286,78 @@ const ClientesEmDebito = () => {
                     </Tooltip>
                 </Box>
 
+
+
+            </Box>
+
+            <Box>
+                <Collapse in={isOpen} animateOpacity>
+                    <Box
+                        p='10px'
+                        mt='4'
+                        shadow='md'
+                        border='1px solid #e2e8f0'
+                    >
+
+                        <VStack>
+
+                            <Stack direction='row' width='100%' spacing={0} justifyContent='center'>
+
+                                <Stack direction='column' spacing={0}>
+
+                                    <FormLabel margin={0}>Status</FormLabel>
+                                    <Select placeholder='--Selecione--' size='xs'>
+
+                                        <option>Cobrança realizada</option>
+                                        <option>Realizar cobrança</option>
+                                        <option>Agendamento não pago</option>
+
+                                    </Select>
+                                </Stack>
+
+                                <Stack direction='column' spacing={0} marginLeft={2}>
+
+                                    <FormLabel margin={0}>Tipo Conta</FormLabel>
+
+                                    <Select placeholder='--Selecione--' size='xs'>
+                                        <option value='1-CONTAS CAIXAS'>1-CONTAS CAIXAS</option>
+                                        <option value='2-CONTAS BANCÁRIAS'>2-CONTAS BANCÁRIAS</option>
+                                        <option value='3-APLICAÇÕES FINANCEIRAS'>3-APLICAÇÕES FINANCEIRAS</option>
+                                    </Select>
+                                </Stack>
+
+                            </Stack>
+
+                            <HStack>
+
+                                <Button
+                                    size='sm'
+                                    bg='primary'
+                                    color='white'
+                                    _hover={{ bg: '#0369a1' }}
+                                    borderRadius={0}
+                                >
+                                    Aplicar
+                                </Button>
+
+                                <Button
+                                    size='sm'
+                                    bg='primary'
+                                    color='white'
+                                    _hover={{ bg: '#0369a1' }}
+                                    borderRadius={0}
+                                >
+                                    Limpar
+                                </Button>
+
+                            </HStack>
+
+
+                        </VStack>
+
+
+                    </Box>
+                </Collapse>
             </Box>
 
 
@@ -485,7 +559,10 @@ const ClientesEmDebito = () => {
                 />
             }
 
-        </Box>
+       
+
+        </PageLayout>
+
     )
 }
 

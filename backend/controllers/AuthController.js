@@ -11,9 +11,11 @@ class AuthController {
 
       try {
 
-          const { nameUser, userCodFunc, token } = await AuthService.login(user, password);
+          //const { nameUser, userCodFunc, token } = await AuthService.login(user, password);
 
-          res.status(200).json({message: 'Login realizado com sucesso', nameUser, userCodFunc, token});
+          const dataUser = await AuthService.login(user, password);
+
+          res.status(200).json({message: 'Login realizado com sucesso', dataUser});
 
       } catch (error) {
 

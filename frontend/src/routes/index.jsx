@@ -14,6 +14,7 @@ const MainRoutes = () => {
 
 
   return  ( 
+    
     <Routes>
       {routes.map((route, index) => {
         if (route.private) {
@@ -35,7 +36,6 @@ const MainRoutes = () => {
     
     </Routes>
   )
- 
 
 }
 

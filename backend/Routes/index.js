@@ -14,7 +14,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 
 // Define as rotas principais para cada rotina
-router.use('/financeiro', financeiroRoutes);
+router.use('/financeiro', authMiddleware, financeiroRoutes);
 router.use('/estoque', estoqueRoutes);
 
 

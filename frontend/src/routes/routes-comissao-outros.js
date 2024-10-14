@@ -32,7 +32,8 @@ export const routesComissaoOutros = [
       path: '/comissao-outros/disponivel-em-caixas-e-bancos',
       component: HomeDisponivelEmCaixasEbancos,
       private: true,
-      title: 'Home'
+      title: 'Home',
+      rules: ["ADMIN", "MANAGER"]
     }
 
 ]

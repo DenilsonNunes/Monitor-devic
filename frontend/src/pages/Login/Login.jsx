@@ -28,7 +28,21 @@ const Login = () => {
   const [password, setPassword] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const { signIn } = useAuth();
+  const { signIn, isAuthenticated } = useAuth();
+
+
+  useEffect(() => {
+
+    
+    if(isAuthenticated()) {
+
+      navigate("/home");
+      return;
+
+    }
+
+  }, [])
+
 
   const handleSignIn = async (event) => {
 
