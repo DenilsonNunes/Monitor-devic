@@ -16,20 +16,8 @@ import {
   FormControl,
   Code,
   HStack,
-  Box,
-  Tr,
-  Th,
-  Td,
-  Checkbox,
-  IconButton,
-  Tag,
-  TagLabel,
-  Tooltip,
   Stack,
-  VStack,
-  Select,
-  Icon,
-  useDisclosure
+
 } from '@chakra-ui/react'
 
 import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';

@@ -1,5 +1,3 @@
-// Services
-const { password } = require('../db/connection/conn');
 const AuthService = require('../services/authService');
 
 
@@ -10,8 +8,6 @@ class AuthController {
     const { user, password }  = req.body;
 
       try {
-
-          //const { nameUser, userCodFunc, token } = await AuthService.login(user, password);
 
           const dataUser = await AuthService.login(user, password);
 

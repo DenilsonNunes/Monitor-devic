@@ -79,6 +79,7 @@ const Navbar = () => {
         <Box>
           {nameUser && <Heading size='sm' justifyContent='center' color='white'>Bem vindo, {nameUser}!</Heading>}
         </Box>
+        
         <Box>
           <Menu>
             <MenuButton>

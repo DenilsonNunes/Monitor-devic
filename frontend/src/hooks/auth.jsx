@@ -25,8 +25,6 @@ export const AuthProvider = ({ children }) => {
 
                 const { dataUser } = response.data;
 
-                console.log('No Provider', dataUser.nameUser);
-          
                 localStorage.setItem('@Auth:user', dataUser.userCodFunc); 
                 localStorage.setItem('@Auth:nameUser', dataUser.nameUser); 
                 localStorage.setItem('@Auth:token', dataUser.token);
@@ -68,8 +66,6 @@ export const AuthProvider = ({ children }) => {
 
         const userCodFunc = localStorage.getItem('@Auth:user');
         const token = localStorage.getItem('@Auth:token');
-
-        console.log('isAuthenticated como vem',  userCodFunc, token);
 
 
         if (userCodFunc && token) {

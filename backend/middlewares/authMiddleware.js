@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const userRepository = require('../repositories/userRepository');
+
+
 
 
 const authMiddleware = async (req, res, next) => {
@@ -14,11 +15,11 @@ const authMiddleware = async (req, res, next) => {
 
     try {
 
-        //const decoded = jwt.verify(token, '8dIe08j9SqfYUNsE1wuYwrUMjslVMfJ45f1aa232268d'); //  process.env.SECRET
-        const decoded = jwt.verify(token, process.env.SECRET); //  
+        const decoded = jwt.verify(token, process.env.SECRET); 
 
+        const { userCodFunc } = decoded;
 
-        console.log('decoded', decoded);
+        req.userCodFunc = userCodFunc;
 
         next();
 

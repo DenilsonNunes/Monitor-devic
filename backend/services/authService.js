@@ -52,7 +52,7 @@ class AuthService {
       }, 
       process.env.SECRET,
       { 
-        expiresIn: '1h' 
+        expiresIn: '5h' 
       }
     );
 

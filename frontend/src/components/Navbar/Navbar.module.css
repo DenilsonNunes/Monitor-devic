@@ -6,7 +6,7 @@
     width: 100%;
     display: flex;
     z-index: 1000;
-    padding: 20px 20px;
+    padding-inline: 2px 8px;
 }
 
 

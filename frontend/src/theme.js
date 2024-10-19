@@ -1,18 +1,23 @@
 // theme.js
 import { extendTheme } from '@chakra-ui/react';
 
+import  { tableTheme } from './theme/tableTheme'
+
 
 const theme = extendTheme({
 
   styles: {
+
     global: {
       body: {
         bg: '#EFF0F3'
-      }
+      },
     }
   },
 
-
+  components: {
+    Table: tableTheme
+  },
 
   fonts: {
     heading: `'Roboto', sans-serif`,  // Usar Roboto para títulos

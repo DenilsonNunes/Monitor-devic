@@ -36,7 +36,7 @@ import {
     FormLabel
 } from '@chakra-ui/react'
 
-import { SearchIcon, EmailIcon, PlusSquareIcon, PhoneIcon, SmallAddIcon } from '@chakra-ui/icons';
+import { SearchIcon, EmailIcon, HamburgerIcon, PhoneIcon, SmallAddIcon } from '@chakra-ui/icons';
 
 
 // Instancia API
@@ -213,14 +213,17 @@ const ClientesEmDebito = () => {
     return (
 
         <PageLayout>
+            
+            <HStack>
+                <HamburgerIcon/>
+                <Text fontSize='xl'>Gestão de Cobrança / Inadimplencia</Text>   
+            </HStack>
 
-
-
-
-            <Text fontSize='xl' marginTop={16}>Gestão de Cobrança / Inadimplencia</Text>
+    
+  
             <MenuDrawer />
 
-            <Box display='flex' justifyContent='space-between' marginTop={5} >
+            <Box display='flex' justifyContent='space-between' alignItems='center' marginTop={5}>
 
                 <Stack direction='row'>
 
@@ -229,6 +232,7 @@ const ClientesEmDebito = () => {
                             width={300}
                             size='sm'
                             variant='outline'
+                            borderColor='#B9BBC6'
                             placeholder='Pesquise por código ou nome do cliente'
                             onChange={(e) => setBuscaRapida(e.target.value)}
                         />
@@ -248,7 +252,10 @@ const ClientesEmDebito = () => {
 
                     <form style={{ display: 'flex', alignItems: 'center' }} onSubmit={handleQtdVisualizar}>
                         <Text fontSize='md'>Visualizar</Text>
-                        <Select size='sm' marginLeft={2}
+                        <Select 
+                            size='sm' 
+                            marginLeft={2}
+                            borderColor='#B9BBC6'
                             value={qtdVisualizar}
                             onChange={(e) => handleQtdVisualizar(e)}
                         >
@@ -261,6 +268,8 @@ const ClientesEmDebito = () => {
 
                         <Button
                             size='sm'
+                            variant='outline'
+                            borderColor='#B9BBC6'
                             colorScheme='gray'
                             onClick={onToggle}
                         >
@@ -296,7 +305,7 @@ const ClientesEmDebito = () => {
                         p='10px'
                         mt='4'
                         shadow='md'
-                        border='1px solid #e2e8f0'
+                        border='1px solid #B9BBC6'
                     >
 
                         <VStack>
@@ -358,8 +367,8 @@ const ClientesEmDebito = () => {
 
                     </Box>
                 </Collapse>
+                
             </Box>
-
 
 
             <TableContainer
@@ -371,7 +380,7 @@ const ClientesEmDebito = () => {
 
             >
                 <Table size='md'>
-                    <Thead className={styles.cabecalho_table} bg='red'>
+                    <Thead className={styles.cabecalho_table}>
                         <Tr  >
                             <Tooltip label='Selecionar Todos'>
                                 <Th>

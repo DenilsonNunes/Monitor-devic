@@ -8,7 +8,7 @@ import {
     Heading,
     CardBody,
     SimpleGrid,
-    Image
+    Image,
 } from '@chakra-ui/react'
 
 
@@ -19,196 +19,144 @@ import PageLayout from '../../components/PageLayout/PageLayout';
 
 
 
+
+
+const rotinasVendas = [
+    {
+        label: 'Vendas por vendedor',
+        path: '/financeiro/gestao-de-cobranca-inadimplencia',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Comparativo de vendas diário',
+        path: '/financeiro/gestao-de-cobranca-inadimplencia',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Vendas por plano de vendas',
+        path: '/financeiro/gestao-de-cobranca-inadimplencia',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Vendas por conta de receita',
+        path: '/financeiro/gestao-de-cobranca-inadimplencia',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Vendas por centro de custo',
+        path: '/financeiro/gestao-de-cobranca-inadimplencia',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Análise de vendas por produto',
+        path: '/financeiro/gestao-de-cobranca-inadimplencia',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Vendas por forma de pagamento',
+        path: '/financeiro/gestao-de-cobranca-inadimplencia',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Top Vendas Produtos',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Acompanhamento de meta por empresa X vendedor',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Meta x realizado por vendedor',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Meta x Realizado da Empresa',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Comparativo de vendas anual / mês',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Análise de lucro líquido',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Análise de clientes sem movimentação',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Análise de clientes mensal',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+    {
+        label: 'Analise de picos de vendas Hora/Dia semana/Mês',
+        path: '/vendas/top-vendas-produtos',
+        image: '/img/ClientesEmDebito-48.png'
+    },
+
+
+]
+
+
+
+
+
+
+
+
+
+
 const HomeVendas = () => {
 
-  return (
+    return (
 
-    <PageLayout>
+        <PageLayout>
 
+            <Heading marginBottom={4} size='md'>Monitor de Vendas</Heading>
 
 
-        <Heading marginBottom={4} size='md'>Monitor de Vendas</Heading>
+            <SimpleGrid spacing={4} templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
 
-        <SimpleGrid spacing={4} templateColumns={{ base: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
+                {rotinasVendas.map((item, index) => (
 
-            <Link to="/estoque/analise-estoque-obsoleto-desnecessario">
 
-                <Card bg='#f1f5f9' height='100%'>
+                    <Link to={item.path} key={index}>
 
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/ClientesEmDebito-48.png' maxH='4rem' maxW='4rem'  alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody padding={2}>
-                        <Heading textAlign='center' size='sm'>Vendas por vendedor</Heading>
-                    </CardBody>
+                        <Card bg='#f1f5f9' height='100%' >
 
-                </Card>
+                            <CardHeader display='flex' justifyContent='center' padding={2}>
+                                <Image src={item.image} maxH='4rem' maxW='4rem' alt='Clientes em debito' />
+                            </CardHeader>
+                            <CardBody padding={2}>
+                                <Heading textAlign='center' size='xs'>{item.label}</Heading>
+                            </CardBody>
 
-            </Link>
+                        </Card>
 
+                    </Link>
 
-            <Link to="">
 
-                <Card bg='#f1f5f9' height='100%'>
+                ))}
 
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/ResumoRecebimentoContasReceber-2-48.png' maxH='4rem' maxW='4rem'  alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody padding={2}>
-                        <Heading textAlign='center' size='sm'>Comparativo de vendas diário</Heading>
-                    </CardBody>
+            </SimpleGrid>
 
-                </Card>
 
-            </Link>
+        </PageLayout>
 
 
-            <Link to="">
 
-                <Card bg='#f1f5f9' height='100%'>
 
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/AnaliseRecebimentoQuitacao-48.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody padding={2}>
-                        <Heading textAlign='center' size='sm'>Vendas por plano de vendas</Heading>
-                    </CardBody>
 
-                </Card>
-
-            </Link>
-
-            <Link to="">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/posicao-financeira.png' maxH='4rem' maxW='4rem' alt='Posição Financeira'/>
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Vendas por conta de receita</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/disponivel-caixa-bancos.png' maxH='4rem' maxW='4rem'  alt='Disponível em caixa e banco'/>
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Vendas por centro de custo</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center' padding={2}>
-                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem'  alt='Calendário Financeiro' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Análise de vendas por produto</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/email-informativo-diario.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Vendas por forma de pagamento</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Acompanhamento de meta por empresa x vendedor</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/credito-de-cliente.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Meta x realizado por vendedor</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="/gestao-de-cobranca/clientes-em-debito">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/movimento-caixa-banco.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Meta x realizado da empresa</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-            <Link to="">
-
-                <Card bg='#f1f5f9' height='100%'>
-
-                    <CardHeader display='flex' justifyContent='center'  padding={2}>
-                        <Image src='/img/calendario-financeiro.png' maxH='4rem' maxW='4rem' alt='Clientes em debito' />
-                    </CardHeader>
-                    <CardBody >
-                        <Heading textAlign='center' size='sm'>Comparativo de Vendas Anual / Mês</Heading>
-                    </CardBody>
-
-                </Card>
-
-            </Link>
-
-
-        </SimpleGrid>
-        
-
-    </PageLayout>
-
-
-
-   
-    
-  )
+    )
 }
 
 
