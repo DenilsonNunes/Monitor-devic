@@ -61,9 +61,6 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
   const handleBuscar = () => {
 
-
-    console.log('Dentro do buscar', empresa, periodo)
-    
     const params = {};
 
 
@@ -91,11 +88,15 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
     if (dataInicio) params.dataInicio = dataInicio;
 
+    if(unidadeProd.length > 0) {
+      
+      const undProd = unidadeProd.map(und => `'${und}'`).join(', '); 
+      params.undProd = undProd;
+
+    } 
 
     if(dataInicio && dataFim) {
-
       params.dataFim = dataFim;
-
     } 
 
 
@@ -119,10 +120,10 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
 
 
-  const handleSelectedUndProd = (selected) => {
+  const handleSelectedUndProd = (newValues) => {
 
-    setUnidadeProd(selected);
-    console.log('Valores selecionados dualist:', unidadeProd);
+    setUnidadeProd(newValues);
+    console.log('Valores selecionados dualist modal filtro:', unidadeProd);
 
   
   }
@@ -130,7 +131,6 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
   
 
   const renderSwitchContent = (selecionado) => {
-
 
     console.log('Qual selecionado no switch',  selecionado);
 
@@ -277,7 +277,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
             color='white'
             paddingY={2}
             borderBottomRadius='10px'
-          >Filtros
+          >Filtros (Top vendas produtos)
           </ModalHeader>
 
           <ModalCloseButton color='white' />
@@ -309,7 +309,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
                   <Select size='sm' onChange={(e) => setEmpresa(e.target.value)}>
 
-                    <option value="">--Todos--</option>
+                    <option value="">--Todas--</option>
 
                     {dataFiltroRel.codUndEmpr.map((item) => (
                       <option value={item.CodEmpr}>

@@ -13,15 +13,10 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   Box,
-  Collapse,
   useDisclosure,
   VStack,
-  Stack,
-  FormLabel,
-  CircularProgress,
   HStack,
   Button,
   Flex,
@@ -49,7 +44,6 @@ const HomeTopVendasProdutos = () => {
 
   const { isOpen, onClose, onToggle } = useDisclosure();
 
-
   const [searchParams] = useSearchParams();
 
   // Extrai os filtros da URL
@@ -58,6 +52,8 @@ const HomeTopVendasProdutos = () => {
   const codFunc = searchParams.get('CodFunc');
   const dataInicio = searchParams.get('dataInicio') || '2024-08-01';
   const dataFim = searchParams.get('dataFim') || '2999-01-01';
+  const undProd = searchParams.get('undProd');
+
 
 
 
@@ -79,13 +75,14 @@ const HomeTopVendasProdutos = () => {
 
   const { data, error, isLoading } = useQuery({
 
-    queryKey: ['TopVendasProdutos',codFunc, top, empresa, dataInicio, dataFim], // se os valore mudar, busca novamente
+    queryKey: ['TopVendasProdutos',codFunc, top, empresa, dataInicio, dataFim, undProd], // se os valore mudar, busca novamente
     queryFn: () => fetchTopVendasProdutos({
       top,
       empresa, 
       codFunc,
       dataInicio,
-      dataFim
+      dataFim,
+      undProd
     }),
     enabled: !!top
   });
@@ -191,7 +188,7 @@ const HomeTopVendasProdutos = () => {
             </Tfoot>
           </Table>
         </TableContainer>
-
+    
       }
 
       <HStack spacing={0} alignItems='start' marginTop={2}>

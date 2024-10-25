@@ -4,13 +4,11 @@ import DualListBox from 'react-dual-listbox';
 import 'react-dual-listbox/lib/react-dual-listbox.css';
 
 
-const DualList = ({filtros, onSelectedChange }) => {
+const DualList = ({filtros, onSelectedChange}) => {
 
     const [selected, setSelected] = useState([]);
 
     console.log('No dual list ', selected)
-
-
 
 
     // Atualiza o estado local e também chama a função passada pelo componente pai

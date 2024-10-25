@@ -7,7 +7,7 @@ class TopVendasProdutosRepository {
    
     static consultaTopVendasProdutosGeral = async (userCodFunc, filtroRel) => {
 
-        const { top, codFunc, dataInicio, dataFim } = filtroRel;
+        const { top, codFunc, dataInicio, dataFim, undProd } = filtroRel;
 
         let queryAddFiltros = ''
 
@@ -20,9 +20,11 @@ class TopVendasProdutosRepository {
         if (codFunc) {
             queryAddFiltros += ` AND CodVend = '${codFunc}'`;
         }
-        
 
-        console.log('No repository', queryAddFiltros, top)
+        if (undProd) {
+            queryAddFiltros += ` AND UndItem IN (${undProd})`;
+        }
+        
 
         try {
 
