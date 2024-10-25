@@ -30,7 +30,7 @@ import api from '../../../../../helpers/api-instance'
 import Loader from '../../../../../components/Loading/Loader';
 
 // Utils
-import dataAtualDDMMAAAA from '../../../../../utils/dataAtualDDMMAAAA';
+import dataAtualInputAAAAMMDD from '../../../../../utils/dataAtualInputAAAAMMDD';
 
 
 
@@ -38,7 +38,7 @@ const ModalRegistrarCobranca = ({ isOpen, onClose, cliente }) => {
 
   const [funcCobranca, setFuncCobranca] = useState("Denilson");
   const [nomeContatoCliente, setNomeContatoCliente] = useState("");
-  const [dataCobranca, setDataCobranca] = useState(dataAtualDDMMAAAA())
+  const [dataCobranca, setDataCobranca] = useState(dataAtualInputAAAAMMDD())
   const [horaCobranca, setHoraCobranca] = useState("")
   const [agendarParaData, setAgendarParaData] = useState("");
   const [agendarParaHora, setAgendarParaHora] = useState("");

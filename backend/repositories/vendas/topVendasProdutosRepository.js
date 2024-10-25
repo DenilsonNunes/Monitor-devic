@@ -5,8 +5,24 @@ const sqlQueryDelete = require('../../db/SQL/query/queryDelete');
 class TopVendasProdutosRepository {
 
    
-    static consultaTopVendasProdutosGeral = async (userCodFunc) => {
+    static consultaTopVendasProdutosGeral = async (userCodFunc, filtroRel) => {
 
+        const { top, codFunc, dataInicio, dataFim } = filtroRel;
+
+        let queryAddFiltros = ''
+
+        if (dataInicio) {
+            queryAddFiltros += `dtVnd >= '${dataInicio}'`;
+        }
+        if (dataFim) {
+            queryAddFiltros += `AND dtVnd <= '${dataFim}'`;
+        }
+        if (codFunc) {
+            queryAddFiltros += ` AND CodVend = '${codFunc}'`;
+        }
+        
+
+        console.log('No repository', queryAddFiltros, top)
 
         try {
 
@@ -16,7 +32,6 @@ class TopVendasProdutosRepository {
     
                 DELETE FROM MonitorBlue..TOP10_Produtos
                 WHERE CodFuncLogin = '${userCodFunc}'; -- PASSAR VARIAVEL AQUI
-    
     
                 -- Insere os novos dados
                 INSERT INTO MonitorBlue..TOP10_Produtos
@@ -33,8 +48,7 @@ class TopVendasProdutosRepository {
                     FROM 
                         dbo.vmVndItemDoc
                     WHERE 
-                        dtVnd >= '2023-01-01' -- PASSAR VARIAVEL AQUI
-                        AND dtVnd <= '2999-01-01'
+                        ${queryAddFiltros}            
                         AND CodPlanoVnd NOT IN (0) -- PASSAR VARIAVEL AQUI
                         AND 1 = 1
                     GROUP BY 
@@ -42,7 +56,7 @@ class TopVendasProdutosRepository {
                         DescrItem, 
                         UndItem
                 ) AS TbTopCliAux
-                WHERE Ordem <= 10 -- PASSAR VARIAVEL AQUI EX.: TOP 10, 20, 30 E ASSIM POR DIANTE
+                WHERE Ordem <= ${top} -- PASSAR VARIAVEL AQUI EX.: TOP 10, 20, 30 E ASSIM POR DIANTE
                 ORDER BY PrecoVndTotItem DESC;
                 
             `);
@@ -61,9 +75,61 @@ class TopVendasProdutosRepository {
                     where 
                         (CodFuncLogin = '${userCodFunc}') 
                     order by Ordem asc                    
+            `);
+
+
+
+            const filtroRel = async () => {
+
+                const codUndEmpr = await sqlQuery(
+                `                   
+                    SELECT 
+                        rtrim(ltrim(Convert(Varchar, CodEmpr))) as CodEmpr, 
+                        UndEmpr  
+                    FROM TbEmpr  
+                        ORDER BY CodEmpr                
+                `);
+    
+                const codNomeFunc = await sqlQuery(
+                `                   
+                    select 
+                        CodFunc, 
+                        NomeFunc
+                    from 
+                        TbFunc 
+                    where 
+                        CodFunc in ( Select CodFunc from TbFuncVnd) 
+                        and  Ativo = 'S' order by NomeFunc            
                 `);
 
-            return data;
+                const codFuncaoFunc = await sqlQuery(
+                `                   
+                    SELECT 
+                        CodFuncaoFunc, 
+                        NomeFuncaoFunc  
+                    FROM 
+                        TbFuncaoFunc  
+                    ORDER BY 
+                        NomeFuncaoFunc         
+                `);
+
+                const unidadeProd = await sqlQuery(
+                `           
+                    SELECT 
+                        CodUnd, 
+                        DescrUnd  
+                    FROM
+                        TbUnd  
+                    ORDER BY DescrUnd      
+                `);
+
+                return { codUndEmpr, codNomeFunc, codFuncaoFunc, unidadeProd }
+    
+            }
+
+            const dataFiltroRel=  await filtroRel();
+
+            return {data, dataFiltroRel};
 
             
         } catch (error) {

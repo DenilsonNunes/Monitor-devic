@@ -4,9 +4,9 @@ const TopVendasProdutosRepository = require('../../repositories/vendas/topVendas
 class TopVendasProdutosService {
 
 
-    static consultaTopVendasProdutosGeral = async (userCodFunc) => {
+    static consultaTopVendasProdutosGeral = async (userCodFunc, filtroRel) => {
 
-        return  await TopVendasProdutosRepository.consultaTopVendasProdutosGeral(userCodFunc);
+        return  await TopVendasProdutosRepository.consultaTopVendasProdutosGeral(userCodFunc, filtroRel);
 
         
     }

@@ -7,17 +7,18 @@ const TopVendasProdutosService = require('../../services/vendas/topVendasProduto
 class TopVendasProdutosController {
     
 
-    async consultaTopVendasGeral(req, res) {
-
+    async consultaTopVendasProdutosGeral(req, res) {
 
         const userCodFunc = (req.userCodFunc)
 
+        const filtrosRel = req.query;
+
+
         try {
  
-            const data = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc);
+            const { data, dataFiltroRel } = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc, filtrosRel);
 
- 
-            res.status(200).json(data);
+            res.status(200).json({ data, dataFiltroRel });
  
         } catch(err) {
  

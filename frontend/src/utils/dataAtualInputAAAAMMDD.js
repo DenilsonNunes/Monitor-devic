@@ -1,4 +1,4 @@
-const dataAtualDDMMAAAA = () => {
+const dataAtualInputAAAAMMDD = () => {
     const data = new Date()
 
     const dia = String(data.getDate()).padStart(2, '0');
@@ -11,4 +11,4 @@ const dataAtualDDMMAAAA = () => {
 }
 
 
-export default dataAtualDDMMAAAA;
+export default dataAtualInputAAAAMMDD;

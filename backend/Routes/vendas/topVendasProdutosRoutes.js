@@ -6,7 +6,7 @@ const TopVendasProdutosController = require('../../controllers/vendas/TopVendasP
 
 
 // Vendas/
-router.get('/', TopVendasProdutosController.consultaTopVendasGeral);
+router.get('/', TopVendasProdutosController.consultaTopVendasProdutosGeral);
 
 
 

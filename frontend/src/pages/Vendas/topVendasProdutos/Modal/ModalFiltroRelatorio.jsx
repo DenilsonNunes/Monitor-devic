@@ -26,35 +26,118 @@ import {
   Box
 } from '@chakra-ui/react'
 
+import { useSearchParams } from "react-router-dom";
+
+
 
 import DualList from '../../../../components/DualListBox/DualList';
+import dataAtualInputAAAAMMDD from '../../../../utils/dataAtualInputAAAAMMDD';
 
 
+const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
+  let [searchParams, setSearchParams] = useSearchParams();
 
-const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
-
-  const [value, setValue] = useState('1')
+  const [calcularPor, setCalcularPor] = useState('Q')
 
   const [selectedValue, setSelectedValue] = useState('');
-  const [isFadeIn, setIsFadeIn] = useState(false);
 
 
-  const handleSelectChange = (event) => {
+  const [empresa, setEmpresa] = useState("");
+  const [top, setTop] = useState(10);
+  const [dataInicio, setDataInicio] = useState("");
+  const [dataFim, setDataFim] = useState("");
+  const [dataHoje, setDataHoje] = useState(dataAtualInputAAAAMMDD());
 
-    const selecionado = event.target.value;
-    console.log('Valor selecionado:', event.target.value);
+  const [vendedor, setVendedor] = useState("");
+  const [periodo, setPeriodo] = useState("");
+
+  const [unidadeProd, setUnidadeProd] = useState([]);
 
 
-    setSelectedValue(selecionado);
 
-    // Ativa o efeito de fade-in sempre que o valor mudar
-    setIsFadeIn(true);
+
+
+
+  const handleBuscar = () => {
+
+
+    console.log('Dentro do buscar', empresa, periodo)
+    
+    const params = {};
+
+
+    if (empresa) {
+
+      params.empresa = empresa;
+
+    } else {
+
+      const empresas = dataFiltroRel.codUndEmpr.map(empresa => `'${empresa.CodEmpr}'`).join(', ');
+      params.empresa = empresas;
+
+      console.log('params', params.empresa);
+
+    }
+
+    if (vendedor) params.CodFunc = vendedor;
+    if (top) params.top = top;
+
+
+    if (dataHoje) {
+      params.dataInicio = dataHoje
+      params.dataFim = dataHoje
+    } 
+
+    if (dataInicio) params.dataInicio = dataInicio;
+
+
+    if(dataInicio && dataFim) {
+
+      params.dataFim = dataFim;
+
+    } 
+
+
+    // Setando os parâmetros de busca com useSearchParams
+    setSearchParams(params);
+
+    onClose()
 
   }
 
 
+
+
+
+
+  const handleSelectChange = (selecionado) => {
+
+    setSelectedValue(selecionado);
+
+  }
+
+
+
+  const handleSelectedUndProd = (selected) => {
+
+    setUnidadeProd(selected);
+    console.log('Valores selecionados dualist:', unidadeProd);
+
+  
+  }
+
+  
+
   const renderSwitchContent = (selecionado) => {
+
+
+    console.log('Qual selecionado no switch',  selecionado);
+
+    if (selecionado === '') {
+      selecionado = 'MaiorOuIgual'
+    }
+
 
 
     switch (selecionado) {
@@ -64,12 +147,25 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
           <HStack marginTop={1}>
 
             <VStack spacing={0} alignItems='start'>
+
               <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-              <Input type='date' size='sm' />
+              <Input 
+                type='date' 
+                size='sm' 
+                onChange={(e)=> setDataInicio(e.target.value)}
+                />
+
             </VStack>
+
             <VStack spacing={0} alignItems='start'>
+
               <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-              <Input type='date' size='sm' />
+              <Input 
+                type='date' 
+                size='sm' 
+                onChange={(e)=> setDataFim(e.target.value)}
+              />
+
             </VStack>
 
           </HStack>
@@ -77,15 +173,27 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
 
       case 'MaiorOuIgual':
 
+
         return (
-          <Input marginTop={6} maxW='150px' type='date' size='sm' />
+          <Input 
+            marginTop={6}  
+            maxW='150px' 
+            type='date' 
+            size='sm' 
+            onChange={(e)=> setDataInicio(e.target.value)}
+          />
         )
 
 
       case 'Hoje':
 
+       
         return (
-          <Input marginTop={6} maxW='150px' type='date' size='sm' />
+          <Input 
+            marginTop={6} 
+            value={dataHoje}
+            maxW='150px' type='date' size='sm' 
+            />
         )
 
 
@@ -163,7 +271,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size=''>
         <ModalOverlay />
-        <ModalContent width='60%'>
+        <ModalContent width='70%'>
           <ModalHeader
             bg='primary'
             color='white'
@@ -184,7 +292,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
 
                   <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Top</FormLabel>
 
-                  <NumberInput defaultValue={15} min={1} max={30} size='sm' maxW={24}>
+                  <NumberInput  onChange={(value) => setTop(value)}  value={top} min={1} max={30} size='sm' maxW={24}>
                     <NumberInputField />
                     <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -199,10 +307,15 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
 
                   <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Empresa</FormLabel>
 
-                  <Select size='sm'>
-                    <option value='1-CONTAS CAIXAS'>Todas</option>
-                    <option value='2-CONTAS BANCÁRIAS'>2-CONTAS BANCÁRIAS</option>
-                    <option value='3-APLICAÇÕES FINANCEIRAS'>3-APLICAÇÕES FINANCEIRAS</option>
+                  <Select size='sm' onChange={(e) => setEmpresa(e.target.value)}>
+
+                    <option value="">--Todos--</option>
+
+                    {dataFiltroRel.codUndEmpr.map((item) => (
+                      <option value={item.CodEmpr}>
+                        {item.CodEmpr}-{item.UndEmpr}
+                      </option>
+                    ))}
                   </Select>
                 </Stack>
 
@@ -212,7 +325,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
 
                   <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Período de venda</FormLabel>
 
-                  <Select size='sm' onChange={handleSelectChange}>
+                  <Select size='sm' onChange={(e) => handleSelectChange(e.target.value)}>
                     <option value='MaiorOuIgual'>Maior ou igual a</option>
                     <option value='Intervalo'>Intevalo</option>
                     <option value='Hoje'>Hoje</option>
@@ -238,46 +351,56 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
 
               </Stack>
 
+
+
               <Stack direction='row' width='100%' spacing={0} marginTop={5} justifyContent='start' gap={2}>
 
                 <Stack direction='column' spacing={0}>
 
                   <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Vendedor</FormLabel>
 
-                  <Select placeholder='--Todos--' size='sm'>
-                    <option value='1-CONTAS CAIXAS'>1-CONTAS CAIXAS</option>
-                    <option value='2-CONTAS BANCÁRIAS'>2-CONTAS BANCÁRIAS</option>
-                    <option value='3-APLICAÇÕES FINANCEIRAS'>3-APLICAÇÕES FINANCEIRAS</option>
+                  <Select size='sm' onChange={(e) => setVendedor(e.target.value)}>
+
+                    <option value='T'>--Todos--</option>
+
+                    {dataFiltroRel.codNomeFunc.map((item) => (
+                      <option value={item.CodFunc}>
+                        {item.NomeFunc}
+                      </option>
+                    ))}
+
                   </Select>
-
-                </Stack>
-
-                <Stack direction='column' spacing={0}>
 
                   <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Função do vendedor</FormLabel>
 
-                  <Select placeholder='--Todos--' size='sm'>
-                    <option value='1-CONTAS CAIXAS'>1-CONTAS CAIXAS</option>
-                    <option value='2-CONTAS BANCÁRIAS'>2-CONTAS BANCÁRIAS</option>
-                    <option value='3-APLICAÇÕES FINANCEIRAS'>3-APLICAÇÕES FINANCEIRAS</option>
+                  <Select size='sm' >
+
+                    <option value='T'>--Todos--</option>
+                    {dataFiltroRel.codFuncaoFunc.map((item) => (
+                      <option >
+                        {item.NomeFuncaoFunc}
+                      </option>
+                    ))}
+                  
                   </Select>
+
+
+
                 </Stack>
 
 
-                <Stack direction='column' spacing={0} >
+
+                <Stack direction='column' spacing={0} width='300px'>
 
                   <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Unidade</FormLabel>
-
-                  <Select placeholder='--Selecione--' size='sm'>
-                    <option value='1-CONTAS CAIXAS'>1-CONTAS CAIXAS</option>
-                    <option value='2-CONTAS BANCÁRIAS'>2-CONTAS BANCÁRIAS</option>
-                    <option value='3-APLICAÇÕES FINANCEIRAS'>3-APLICAÇÕES FINANCEIRAS</option>
-                  </Select>
-
-                  
-                  <DualList/>
+                  <DualList
+                    filtros={dataFiltroRel.unidadeProd}
+                    onSelectedChange={handleSelectedUndProd}
+                  />
 
                 </Stack>
+
+
 
               </Stack>
 
@@ -286,10 +409,10 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
                 <Stack direction='column' spacing={0}>
 
                   <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Calcular por</FormLabel>
-                  <RadioGroup onChange={setValue} value={value}>
+                  <RadioGroup onChange={setCalcularPor} value={calcularPor}>
                     <Stack direction='column'>
-                      <Radio value='1' size='sm'>Quantidade</Radio>
-                      <Radio value='2' size='sm'>Valor</Radio>
+                      <Radio value='Q' size='sm'>Quantidade</Radio>
+                      <Radio value='V' size='sm'>Valor</Radio>
                     </Stack>
                   </RadioGroup>
 
@@ -306,6 +429,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose }) => {
                   color='white'
                   _hover={{ bg: '#0369a1' }}
                   borderRadius={0}
+                  onClick={handleBuscar}
                 >
                   Buscar
                 </Button>
