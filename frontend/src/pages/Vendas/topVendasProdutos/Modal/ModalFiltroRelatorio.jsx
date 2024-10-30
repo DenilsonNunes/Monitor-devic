@@ -38,7 +38,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
   let [searchParams, setSearchParams] = useSearchParams();
 
-  const [calcularPor, setCalcularPor] = useState('Q')
+  const [calculaPor, setCalculaPor] = useState("V")
 
   const [selectedValue, setSelectedValue] = useState('');
 
@@ -58,7 +58,6 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
 
 
-
   const handleBuscar = () => {
 
     const params = {};
@@ -72,8 +71,6 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
       const empresas = dataFiltroRel.codUndEmpr.map(empresa => `'${empresa.CodEmpr}'`).join(', ');
       params.empresa = empresas;
-
-      console.log('params', params.empresa);
 
     }
 
@@ -93,7 +90,9 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
       const undProd = unidadeProd.map(und => `'${und}'`).join(', '); 
       params.undProd = undProd;
 
-    } 
+    }
+    
+    if(calculaPor) params.calculaPor = calculaPor;
 
     if(dataInicio && dataFim) {
       params.dataFim = dataFim;
@@ -409,7 +408,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
                 <Stack direction='column' spacing={0}>
 
                   <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Calcular por</FormLabel>
-                  <RadioGroup onChange={setCalcularPor} value={calcularPor}>
+                  <RadioGroup onChange={setCalculaPor} value={calculaPor}>
                     <Stack direction='column'>
                       <Radio value='Q' size='sm'>Quantidade</Radio>
                       <Radio value='V' size='sm'>Valor</Radio>

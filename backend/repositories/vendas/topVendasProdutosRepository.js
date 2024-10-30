@@ -7,40 +7,80 @@ class TopVendasProdutosRepository {
    
     static consultaTopVendasProdutosGeral = async (userCodFunc, filtroRel) => {
 
-        const { top, codFunc, dataInicio, dataFim, undProd } = filtroRel;
+        const { top, empresa, codFunc, dataInicio, dataFim, undProd, calculaPor } = filtroRel;
 
-        let queryAddFiltros = ''
+
+        let calcularPorAddFiltros = ''
+        let queryAddFiltros = '';
+
+
+
 
         if (dataInicio) {
             queryAddFiltros += `dtVnd >= '${dataInicio}'`;
         }
         if (dataFim) {
-            queryAddFiltros += `AND dtVnd <= '${dataFim}'`;
+            queryAddFiltros += ` AND dtVnd <= '${dataFim}'`;
         }
         if (codFunc) {
             queryAddFiltros += ` AND CodVend = '${codFunc}'`;
         }
-
+        if (empresa) {
+            queryAddFiltros += ` AND Empresa IN (${empresa})`;
+        }
         if (undProd) {
             queryAddFiltros += ` AND UndItem IN (${undProd})`;
         }
-        
+
+        // Verifica se o Calulcar por é "VALOR" ou "QUANTIDADE"
+        if(calculaPor === "V") {
+            calcularPorAddFiltros = "PrecoVndTotItem"
+        } else {
+            calcularPorAddFiltros = "QtdItem"
+        }
+
+
+        // Busca no parametros do monitor regras para a pesquisa, codigo de plano de venda
+        const planoVnd = await sqlQuery(
+        `    
+            SELECT
+                Idconfig,
+                DescrConfig,
+                ValorConfigText
+            FROM 
+                tmConfig
+            WHERE 
+                idConfig = 24                
+        `
+        );
+
+
+        // Se o plano de venda possui regras para exclusão, adiciona esse filtro na query
+        if(planoVnd[0].ValorConfigText.length > 0) {
+
+            queryAddFiltros += `AND CodPlanoVnd NOT IN(${planoVnd[0].ValorConfigText})`;
+            
+        } 
+
 
         try {
 
            await sqlQueryDelete(
             `
                 -- Deleta os dados existentes na tabela TOP10_Produtos para o usuário específico
-    
+
                 DELETE FROM MonitorBlue..TOP10_Produtos
                 WHERE CodFuncLogin = '${userCodFunc}'; -- PASSAR VARIAVEL AQUI
     
+
+                
                 -- Insere os novos dados
+
                 INSERT INTO MonitorBlue..TOP10_Produtos
                 SELECT * 
                 FROM (
                     SELECT 
-                        ROW_NUMBER() OVER (ORDER BY SUM(PrecoVndTotItem) DESC) AS Ordem, 
+                        ROW_NUMBER() OVER (ORDER BY SUM(${calcularPorAddFiltros}) DESC) AS Ordem, 
                         CodItem, 
                         DescrItem, 
                         UndItem, 
@@ -50,19 +90,19 @@ class TopVendasProdutosRepository {
                     FROM 
                         dbo.vmVndItemDoc
                     WHERE 
-                        ${queryAddFiltros}            
-                        AND CodPlanoVnd NOT IN (0) -- PASSAR VARIAVEL AQUI
-                        AND 1 = 1
+                        ${queryAddFiltros}           
                     GROUP BY 
                         CodItem, 
                         DescrItem, 
                         UndItem
                 ) AS TbTopCliAux
                 WHERE Ordem <= ${top} -- PASSAR VARIAVEL AQUI EX.: TOP 10, 20, 30 E ASSIM POR DIANTE
-                ORDER BY PrecoVndTotItem DESC;
+                ORDER BY ${calcularPorAddFiltros} DESC;
                 
             `);
 
+
+            // Retorna os dados para o Front
             const data = await sqlQuery(
                 `                   
                     SELECT 
@@ -80,7 +120,7 @@ class TopVendasProdutosRepository {
             `);
 
 
-
+            // Preenche os dados de filtros do relatório no front
             const filtroRel = async () => {
 
                 const codUndEmpr = await sqlQuery(

@@ -35,7 +35,7 @@ import ModalFiltroRelatorio from '../Modal/ModalFiltroRelatorio';
 import api from '../../../../helpers/api-instance';
 import Loader from '../../../../components/Loading/Loader';
 import formataDinheiro from '../../../../utils/formataDinheiro';
-import DualList from '../../../../components/DualListBox/DualList';
+
 
 
 
@@ -53,6 +53,8 @@ const HomeTopVendasProdutos = () => {
   const dataInicio = searchParams.get('dataInicio') || '2024-08-01';
   const dataFim = searchParams.get('dataFim') || '2999-01-01';
   const undProd = searchParams.get('undProd');
+  const calculaPor = searchParams.get('calculaPor') || "V";
+
 
 
 
@@ -75,14 +77,15 @@ const HomeTopVendasProdutos = () => {
 
   const { data, error, isLoading } = useQuery({
 
-    queryKey: ['TopVendasProdutos',codFunc, top, empresa, dataInicio, dataFim, undProd], // se os valore mudar, busca novamente
+    queryKey: ['TopVendasProdutos',codFunc, top, empresa, dataInicio, dataFim, undProd, calculaPor], // se os valore mudar, busca novamente
     queryFn: () => fetchTopVendasProdutos({
       top,
       empresa, 
       codFunc,
       dataInicio,
       dataFim,
-      undProd
+      undProd,
+      calculaPor
     }),
     enabled: !!top
   });

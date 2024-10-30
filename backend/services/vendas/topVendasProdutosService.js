@@ -6,8 +6,13 @@ class TopVendasProdutosService {
 
     static consultaTopVendasProdutosGeral = async (userCodFunc, filtroRel) => {
 
-        return  await TopVendasProdutosRepository.consultaTopVendasProdutosGeral(userCodFunc, filtroRel);
+        const data  = await TopVendasProdutosRepository.consultaTopVendasProdutosGeral(userCodFunc, filtroRel);
 
+
+        console.log('no service do top 10', data);
+
+
+        return data
         
     }
 

@@ -5,6 +5,7 @@ import { SettingsIcon } from '@chakra-ui/icons'
 import FormConfigServidorSMTPemail from "../../components/Configurações/FormConfigEmail/FormConfigServidorSMTPemail";
 import FormConfigMsgEmail from '../../components/Configurações/FormConfigEmail/FormConfigMsgEmail';
 import PageLayout from '../../components/PageLayout/PageLayout';
+import HomeConfigUsuario from './configuracao-usurio/HomeConfigUsuario';
 
 
 
@@ -17,10 +18,11 @@ const HomeConfiguracoes = () => {
 
             <Box display='flex'  alignItems='center'>
                 <SettingsIcon w={5} h={5}/>
-                <Heading size='md' >Painel de Configuração</Heading>
+                <Heading size='md' color='#4a5568'>Top vendas produtos</Heading>
             </Box>
 
-                
+
+              
             <Tabs  sx={{ position: 'static', display: 'initial' }}>
 
                 <TabList borderWidth="1px" borderColor="#cbd5e1" marginTop={5} >
@@ -35,9 +37,14 @@ const HomeConfiguracoes = () => {
                     <Tab>Envio de E-mails automático</Tab>
                 </TabList>
 
+
+
+
+
+
                 <TabPanels borderWidth="1px" borderColor="#cbd5e1" marginTop={2}>
                     <TabPanel>
-                        <p>Configurações de usuários</p>
+                        <HomeConfigUsuario/>
                     </TabPanel>
 
                     <TabPanel>
