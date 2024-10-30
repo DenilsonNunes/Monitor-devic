@@ -21,7 +21,72 @@ import { AddIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons'
 
 
 
+
+
 const HomeConfigUsuario = () => {
+
+
+    /*
+    
+    
+    
+    
+    const fetchFuncionariosMonitor = async (filters) => {
+ 
+        console.log('Dentro do Fetch', filters)
+    
+        const response = await api.get('/vendas/top-vendas-produtos', {
+    
+          params: filters
+    
+        });
+    
+        return response.data;
+    
+      };
+    
+ 
+ 
+ 
+ 
+        
+    const { data, error, isLoading } = useQuery({
+ 
+        queryKey: ['FuncionariosMonitor'], // se os valore mudar, busca novamente
+        queryFn: fetchFuncionariosMonitor,
+ 
+    });
+    
+    
+    
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <Box>
             <HStack justifyContent='end'>

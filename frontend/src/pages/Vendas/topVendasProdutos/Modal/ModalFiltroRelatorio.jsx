@@ -28,10 +28,12 @@ import {
 
 import { useSearchParams } from "react-router-dom";
 
-
-
-import DualList from '../../../../components/DualListBox/DualList';
+// Utils
 import dataAtualInputAAAAMMDD from '../../../../utils/dataAtualInputAAAAMMDD';
+
+//Components
+import DualList from '../../../../components/DualListBox/DualList';
+import InputDataFiltros from '../../../../components/InputDataFiltros/InputDataFiltros';
 
 
 const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
@@ -122,9 +124,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
   const handleSelectedUndProd = (newValues) => {
 
     setUnidadeProd(newValues);
-    console.log('Valores selecionados dualist modal filtro:', unidadeProd);
 
-  
   }
 
   
@@ -270,7 +270,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size=''>
         <ModalOverlay />
-        <ModalContent width='70%'>
+        <ModalContent width='fit-content'>
           <ModalHeader
             bg='primary'
             color='white'
@@ -336,7 +336,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
                 </Stack>
 
-                <Stack spacing={0}>
+                <Stack spacing={0} >
                   <Fade in={true}>
                     <Box
                       rounded='md'
@@ -347,6 +347,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
                     </Box>
                   </Fade>
                 </Stack>
+
 
               </Stack>
 
@@ -364,7 +365,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
                     {dataFiltroRel.codNomeFunc.map((item) => (
                       <option value={item.CodFunc}>
-                        {item.NomeFunc}
+                        {item.NomeFunc}-{item.CodFunc}
                       </option>
                     ))}
 
@@ -389,7 +390,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
 
 
-                <Stack direction='column' spacing={0} width='300px'>
+                <Stack direction='column' spacing={0} maxW='380px'>
 
                   <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Unidade</FormLabel>
                   <DualList
@@ -416,6 +417,9 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
                   </RadioGroup>
 
                 </Stack>
+
+                <InputDataFiltros/>
+
 
               </Stack>
 
