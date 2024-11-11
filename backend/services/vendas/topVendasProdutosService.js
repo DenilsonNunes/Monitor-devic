@@ -8,10 +8,6 @@ class TopVendasProdutosService {
 
         const data  = await TopVendasProdutosRepository.consultaTopVendasProdutosGeral(userCodFunc, filtroRel);
 
-
-        console.log('no service do top 10', data);
-
-
         return data
         
     }

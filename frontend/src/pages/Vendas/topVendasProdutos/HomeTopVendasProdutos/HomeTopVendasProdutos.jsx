@@ -34,7 +34,12 @@ import { LuFilter, LuFileSearch } from "react-icons/lu";
 import ModalFiltroRelatorio from '../Modal/ModalFiltroRelatorio';
 import api from '../../../../helpers/api-instance';
 import Loader from '../../../../components/Loading/Loader';
+
+// Utils
+import obterPeriodo from '../../../../utils/obterPeriodoData';
 import formataDinheiro from '../../../../utils/formataDinheiro';
+import { useEffect, useState } from 'react';
+import formataDataDeAAAAMMDDParaDDMMAAAA from '../../../../utils/formataDataDeAAAAMMDDParaDDMMAAAA';
 
 
 
@@ -43,17 +48,73 @@ import formataDinheiro from '../../../../utils/formataDinheiro';
 const HomeTopVendasProdutos = () => {
 
   const { isOpen, onClose, onToggle } = useDisclosure();
-
   const [searchParams] = useSearchParams();
+
+  const [descrPeriodo, setDescrPeriodo] = useState('');
+  const [periodoDataInicioFim, setPeriodoDataInicioFim] = useState('');
+
+
+
 
   // Extrai os filtros da URL
   const empresa = searchParams.get('empresa');
   const top = searchParams.get('top') || 5;
   const codFunc = searchParams.get('CodFunc');
-  const dataInicio = searchParams.get('dataInicio') || '2024-08-01';
-  const dataFim = searchParams.get('dataFim') || '2999-01-01';
+  let dataInicio = searchParams.get('dataInicio') || obterPeriodo('ultimoMes').dataInicio;
+  let dataFim = searchParams.get('dataFim') || obterPeriodo('ultimoMes').dataFim;
   const undProd = searchParams.get('undProd');
   const calculaPor = searchParams.get('calculaPor') || "V";
+  const periodo = searchParams.get('periodo') || obterPeriodo('ultimoMes').descrPeriodo;
+
+
+  useEffect(() => {
+
+
+    switch (periodo) {
+
+      case 'hoje':
+        setDescrPeriodo('Hoje');
+        setPeriodoDataInicioFim({ dataInicio, dataFim })
+        break
+
+      case 'maiorOuIgual':
+        setDescrPeriodo('Maior ou igual a');
+        setPeriodoDataInicioFim({ dataInicio, dataFim })
+        break
+
+      case 'ontem':
+        console.log('Entrei no ontem')
+        setDescrPeriodo('Ontem');
+        setPeriodoDataInicioFim({ dataInicio, dataFim })
+        break
+
+      case 'ultimos7dias':
+        setDescrPeriodo('Últimos 7 dias');
+        setPeriodoDataInicioFim({ dataInicio, dataFim })
+        break
+
+      case 'esteMesAteHoje':
+        setDescrPeriodo('Este mês até hoje');
+        setPeriodoDataInicioFim({ dataInicio, dataFim })
+        break
+
+      case 'intervalo':
+        setDescrPeriodo('Intervalo');
+        setPeriodoDataInicioFim({ dataInicio, dataFim })
+        break
+
+        
+      default:
+        const obterPeriodoData = obterPeriodo('ultimoMes')
+        dataInicio =  obterPeriodoData.dataInicio
+        dataFim = obterPeriodoData.dataFim
+        setDescrPeriodo(obterPeriodoData.descrPeriodo);
+        setPeriodoDataInicioFim(obterPeriodoData)
+
+    }
+
+
+  }, [periodo, dataInicio])
 
 
 
@@ -77,10 +138,10 @@ const HomeTopVendasProdutos = () => {
 
   const { data, error, isLoading } = useQuery({
 
-    queryKey: ['TopVendasProdutos',codFunc, top, empresa, dataInicio, dataFim, undProd, calculaPor], // se os valore mudar, busca novamente
+    queryKey: ['TopVendasProdutos', codFunc, top, empresa, dataInicio, dataFim, undProd, calculaPor], // se os valore mudar, busca novamente
     queryFn: () => fetchTopVendasProdutos({
       top,
-      empresa, 
+      empresa,
       codFunc,
       dataInicio,
       dataFim,
@@ -90,10 +151,10 @@ const HomeTopVendasProdutos = () => {
     enabled: !!top
   });
 
-  console.log('Dados recebendo ?', data)
 
 
-  if (error) return <Box marginTop='200px'>Erro ao carregar dados: {error.response.data.message}</Box>;
+
+  if (error) return <PageLayout>Erro ao carregar dados: {error.response.data.message}</PageLayout>;
 
 
   return (
@@ -105,8 +166,18 @@ const HomeTopVendasProdutos = () => {
       <HStack justifyContent='space-between' marginBottom={2} marginTop={6}>
 
         <VStack spacing={0} alignItems='start'>
-          <Text fontSize='sm' fontWeight='bold' color='#4a5568'>Período venda:</Text>
-          <Text fontSize='sm' color='#4a5568'>Última semana({dataInicio} á {dataInicio})</Text>
+          <Text fontSize='sm' fontWeight='bold' color='#4a5568'>Período venda</Text>
+          <Text fontSize='sm' color='#4a5568'>
+            {descrPeriodo === 'Maior ou igual a'
+              ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
+              : descrPeriodo === 'Ontem'
+                ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
+                : descrPeriodo === 'Hoje'
+                  ? `${descrPeriodo} ${periodoDataInicioFim.dataInicio}`
+                  : `${descrPeriodo} ${periodoDataInicioFim.dataInicio} a ${periodoDataInicioFim.dataFim}`
+            }
+          </Text>
+
         </VStack>
 
         <Button
@@ -176,28 +247,39 @@ const HomeTopVendasProdutos = () => {
 
             </Tbody>
 
-            <Tfoot>
+            {data.data.length > 0 ? (
+              <Tfoot>
+                <Tr>
+                  <Th fontSize='14px'>Total</Th>
+                  <Th></Th>
+                  <Th></Th>
+                  <Th></Th>
+                  <Th></Th>
+                  <Th fontSize='16px'>256.987,25</Th>
+                  <Th></Th>
+                  <Th></Th>
+                </Tr>
+              </Tfoot>
+            ) : (
               <Tr>
-                <Th fontSize='14px'>Total</Th>
-                <Th></Th>
-                <Th></Th>
-                <Th></Th>
-                <Th></Th>
-                <Th fontSize='16px'>256.987,25</Th>
-                <Th></Th>
-                <Th></Th>
-
+                <Td colSpan="8" textAlign="center" style={{ pointerEvents: 'none' }} color='red'>Nenhum registro encontrado</Td>
               </Tr>
-            </Tfoot>
+            )}
           </Table>
+
         </TableContainer>
-    
+
       }
 
-      <HStack spacing={0} alignItems='start' marginTop={2}>
-        <Text fontSize='sm' fontWeight='bold' color='#4a5568'>Vendedor:</Text>
-        <Text fontSize='sm' color='#4a5568'>Todos</Text>
-      </HStack>
+      {data &&
+
+        <HStack spacing={0} alignItems='start' marginTop={2}>
+          <Text fontSize='sm' fontWeight='bold' color='#4a5568'>Vendedor:</Text>
+          <Text fontSize='sm' color='#4a5568'>{codFunc ? codFunc : 'Todos'}</Text>
+        </HStack>
+
+      }
+
 
       {data &&
         <ModalFiltroRelatorio

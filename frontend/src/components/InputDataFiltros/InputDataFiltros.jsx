@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import {
     VStack,
@@ -7,39 +7,140 @@ import {
     Input,
     Box,
     Select,
-    Fade
+    Fade,
 }  from '@chakra-ui/react'
 
 
 import dataAtualInputAAAAMMDD from '../../utils/dataAtualInputAAAAMMDD'
+import obterPeriodo from '../../utils/obterPeriodoData';
 
 
 
+const InputDataFiltros = ({onDateChange, title}) => {
 
 
-
-
-const InputDataFiltros = (tipoInputData) => {
-
-    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedPeriodData, setSelectedPeriodData] = useState('');
     const [dataInicio, setDataInicio] = useState("");
     const [dataFim, setDataFim] = useState("");
     const [dataHoje, setDataHoje] = useState(dataAtualInputAAAAMMDD());
+    const [dataPeriodoSelecionado, setDataPeriodoSelecionado] = useState("");
+
+
+
+
+
+
+
+    useEffect(() => {
+
+      let periodo;
+
+
+      if(!selectedPeriodData) {
+        setSelectedPeriodData('maiorOuIgual')
+      }
+
+
+      // Define os períodos com base no valor selecionado
+      switch (selectedPeriodData) {
+
+
+        case 'intervalo':
+          setDataInicio('')
+          setDataFim('');
+          periodo = 'intervalo';
+          setDataPeriodoSelecionado(periodo)
+          break;
+
+        case 'maiorOuIgual':
+          setDataInicio('')
+          setDataFim('2999-12-30');
+          periodo = 'maiorOuIgual';
+          setDataPeriodoSelecionado(periodo)
+          break;
+
+        case 'ultimos7dias':
+          periodo = obterPeriodo("ultimos7dias");
+          setDataInicio(periodo.dataInicio);
+          setDataFim(periodo.dataFim);
+          setDataPeriodoSelecionado(periodo.tipoPeriodo)
+          break;
+
+        case 'ontem':
+          console.log('enrei no ontem')
+          periodo = obterPeriodo("ontem");
+
+          console.log('no ontem', periodo)
+          setDataInicio(periodo.dataInicio);
+          setDataFim(periodo.dataFim);
+          setDataPeriodoSelecionado(periodo.tipoPeriodo)
+          break;
+
+        case 'hoje':
+          periodo = 'hoje'
+          setDataInicio(dataHoje)
+          setDataFim(dataHoje)
+          setDataPeriodoSelecionado(periodo)  
+          break;
+
+        case 'UltimoMes':
+          periodo = obterPeriodo("ultimoMes");
+          setDataInicio(periodo.dataInicio);
+          setDataFim(periodo.dataFim);
+          setDataPeriodoSelecionado(periodo.tipoPeriodo)
+          break;
+
+        case 'esteMesAteHoje':
+          periodo = obterPeriodo("esteMesAteHoje");
+          setDataInicio(periodo.dataInicio);
+          setDataFim(periodo.dataFim);
+          setDataPeriodoSelecionado(periodo.tipoPeriodo)
+          break;
+
+        case 'anoPassado':
+          periodo = obterPeriodo("anoPassado");
+          setDataInicio(periodo.dataInicio);
+          setDataFim(periodo.dataFim);
+          setDataPeriodoSelecionado(periodo.tipoPeriodo)
+          break;
+
+        // Outros casos, se necessário
+        default:
+          periodo = null;
+      }
+
+
+    
+    }, [selectedPeriodData]);
+  
+
+
+
+
+    useEffect(() => {
+
+      // Sempre que dataInicio ou dataFim mudarem, chama onDateChange para atualizar a data na página chamadora
+      onDateChange({ dataInicio, dataFim, dataPeriodoSelecionado});
+    }, [dataInicio, dataFim, dataPeriodoSelecionado]);
+
+
+
+
 
 
     const renderSwitchContent = (selecionado) => {
 
-        console.log('Qual selecionado no switch',  selecionado);
     
         if (selecionado === '') {
-          selecionado = 'MaiorOuIgual'
+          selecionado = 'maiorOuIgual'
+
         }
     
     
     
         switch (selecionado) {
     
-          case 'Intervalo':
+          case 'intervalo':
             return (
               <HStack marginTop={1}>
     
@@ -48,7 +149,8 @@ const InputDataFiltros = (tipoInputData) => {
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
                   <Input 
                     type='date' 
-                    size='sm' 
+                    size='sm'
+                    value={dataInicio} 
                     onChange={(e)=> setDataInicio(e.target.value)}
                     />
     
@@ -60,6 +162,7 @@ const InputDataFiltros = (tipoInputData) => {
                   <Input 
                     type='date' 
                     size='sm' 
+                    value={dataFim}
                     onChange={(e)=> setDataFim(e.target.value)}
                   />
     
@@ -68,23 +171,21 @@ const InputDataFiltros = (tipoInputData) => {
               </HStack>
             )
     
-          case 'MaiorOuIgual':
-    
-    
+          case 'maiorOuIgual': 
+
             return (
               <Input 
                 marginTop={6}  
                 maxW='150px' 
                 type='date' 
-                size='sm' 
+                size='sm'
+                value={dataInicio} 
                 onChange={(e)=> setDataInicio(e.target.value)}
               />
             )
     
     
-          case 'Hoje':
-    
-           
+          case 'hoje':        
             return (
               <Input 
                 marginTop={6} 
@@ -92,41 +193,69 @@ const InputDataFiltros = (tipoInputData) => {
                 maxW='150px' type='date' size='sm' 
                 />
             )
+
+
+          case 'ontem': 
+
+            return (
+              <Input 
+                marginTop={6} 
+                value={obterPeriodo('ontem').dataInicio}
+                maxW='150px' type='date' size='sm' 
+                />
+            )
     
     
-          case 'Ult7dias':
+          case 'ultimos7dias':
     
             return (
               <HStack marginTop={1}>
     
                 <VStack spacing={0} alignItems='start'>
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-                  <Input type='date' size='sm' />
+                  <Input 
+                    type='date' 
+                    size='sm' 
+                    value={dataInicio}
+                    />
                 </VStack>
                 <VStack spacing={0} alignItems='start'>
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-                  <Input type='date' size='sm' />
+                  <Input 
+                    type='date' 
+                    size='sm' 
+                    value={dataFim}
+                    />
                 </VStack>
     
               </HStack>
             )
     
-          case 'EsteMesAteHoje':
+          case 'esteMesAteHoje':
     
             return (
               <HStack marginTop={1}>
     
                 <VStack spacing={0} alignItems='start'>
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-                  <Input type='date' size='sm' />
+                  <Input 
+                    type='date' 
+                    size='sm'  
+                    value={dataInicio}
+                    />
                 </VStack>
                 <VStack spacing={0} alignItems='start'>
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-                  <Input type='date' size='sm' />
+                  <Input 
+                    type='date' 
+                    size='sm' 
+                    value={dataFim}
+                    />
                 </VStack>
     
               </HStack>
             )
+
           case 'UltimoMes':
     
             return (
@@ -134,28 +263,44 @@ const InputDataFiltros = (tipoInputData) => {
     
                 <VStack spacing={0} alignItems='start'>
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-                  <Input type='date' size='sm' />
+                  <Input 
+                    type='date' 
+                    size='sm' 
+                    value={dataInicio}
+                    />
                 </VStack>
                 <VStack spacing={0} alignItems='start'>
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-                  <Input type='date' size='sm' />
+                  <Input 
+                    type='date' 
+                    size='sm'
+                    value={dataFim} 
+                    />
                 </VStack>
     
               </HStack>
             )
     
-          case 'AnoPassado':
-    
+          case 'anoPassado':
+
             return (
               <HStack marginTop={1}>
     
                 <VStack spacing={0} alignItems='start'>
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-                  <Input type='date' size='sm' />
+                  <Input 
+                    type='date' 
+                    size='sm' 
+                    value={dataInicio}
+                    />
                 </VStack>
                 <VStack spacing={0} alignItems='start'>
                   <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-                  <Input type='date' size='sm' />
+                  <Input 
+                    type='date' 
+                    size='sm' 
+                    value={dataFim}
+                    />
                 </VStack>
     
               </HStack>
@@ -167,37 +312,46 @@ const InputDataFiltros = (tipoInputData) => {
 
 
 
-    const handleSelecionaTipoData = (selecionado) => {
-
-        setSelectedValue(selecionado);
-    
+    const handleSelectChange = (selecionado) => {
+      setSelectedPeriodData(selecionado);
+  
     }
-    
+  
 
 
     return (
-        <Box>
+        <HStack alignItems="end">
 
-            <Select size='sm' onChange={handleSelecionaTipoData}>
-                <option value='MaiorOuIgual'>Maior ou igual a</option>
-                <option value='Intervalo'>Intevalo</option>
-                <option value='Hoje'>Hoje</option>
-                <option value='Ult7dias'>Últimos 7 dias</option>
-                <option value='EsteMesAteHoje'>Este mês até hoje</option>
-                <option value='UltimoMes'>Último mês</option>
-                <option value='AnoPassado'>Ano passado</option>
-            </Select>
+            <VStack spacing={0} alignItems='start'>
+
+              <FormLabel margin={0} fontWeight='bold' color='#4a5568'>{title}</FormLabel>
+
+              <Select size='sm' onChange={(e) => handleSelectChange(e.target.value)}>
+                  <option value='maiorOuIgual'>Maior ou igual a</option>
+                  <option value='intervalo'>Intervalo</option>
+                  <option value='hoje'>Hoje</option>
+                  <option value='ontem'>Ontem</option>
+                  <option value='ultimos7dias'>Últimos 7 dias</option>
+                  <option value='esteMesAteHoje'>Este mês até hoje</option>
+                  <option value='UltimoMes'>Último mês</option>
+                  <option value='anoPassado'>Ano passado</option>
+              </Select>
+
+            </VStack>
+
 
             <Fade in={true}>
                 <Box
                 rounded='md'
                 minW='300px'
+                display="flex"
+                alignItems="end" 
                 >
-                {renderSwitchContent(selectedValue)}
+                {renderSwitchContent(selectedPeriodData)}
                 </Box>
             </Fade>
 
-        </Box>
+        </HStack>
 
     )
 

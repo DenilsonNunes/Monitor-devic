@@ -36,56 +36,52 @@ import DualList from '../../../../components/DualListBox/DualList';
 import InputDataFiltros from '../../../../components/InputDataFiltros/InputDataFiltros';
 
 
+
 const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
   let [searchParams, setSearchParams] = useSearchParams();
 
+
   const [calculaPor, setCalculaPor] = useState("V")
-
-  const [selectedValue, setSelectedValue] = useState('');
-
-
   const [empresa, setEmpresa] = useState("");
   const [top, setTop] = useState(10);
-  const [dataInicio, setDataInicio] = useState("");
-  const [dataFim, setDataFim] = useState("");
   const [dataHoje, setDataHoje] = useState(dataAtualInputAAAAMMDD());
-
   const [vendedor, setVendedor] = useState("");
-  const [periodo, setPeriodo] = useState("");
-
   const [unidadeProd, setUnidadeProd] = useState([]);
 
 
 
 
+  const [filtroDate, setFiltroDate] = useState({ dataInicio: '', dataFim: '', dataPeriodoSelecionado: '' });
+
+
+
+  const handleDateChange = ({ dataInicio, dataFim, dataPeriodoSelecionado }) => {
+
+      setFiltroDate({ dataInicio, dataFim, dataPeriodoSelecionado});
+
+  };
+
 
   const handleBuscar = () => {
 
+
     const params = {};
 
-
     if (empresa) {
-
       params.empresa = empresa;
-
+      
+      // Se nem uma empresa for selecionada, pega todas as empresas
     } else {
-
       const empresas = dataFiltroRel.codUndEmpr.map(empresa => `'${empresa.CodEmpr}'`).join(', ');
       params.empresa = empresas;
-
     }
 
+
     if (vendedor) params.CodFunc = vendedor;
+
     if (top) params.top = top;
 
-
-    if (dataHoje) {
-      params.dataInicio = dataHoje
-      params.dataFim = dataHoje
-    } 
-
-    if (dataInicio) params.dataInicio = dataInicio;
 
     if(unidadeProd.length > 0) {
       
@@ -96,26 +92,23 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
     
     if(calculaPor) params.calculaPor = calculaPor;
 
-    if(dataInicio && dataFim) {
-      params.dataFim = dataFim;
-    } 
 
+
+    //se existe um periodo de data informado, adiciona na URL Ex, ultimo mes, ultimos 7 dias, ano passado e etc
+    if(filtroDate.dataPeriodoSelecionado) {
+
+        params.periodo =  filtroDate.dataPeriodoSelecionado;
+        params.dataInicio = filtroDate.dataInicio;
+        params.dataFim = filtroDate.dataFim;
+
+   
+    } 
+    
 
     // Setando os parâmetros de busca com useSearchParams
     setSearchParams(params);
 
     onClose()
-
-  }
-
-
-
-
-
-
-  const handleSelectChange = (selecionado) => {
-
-    setSelectedValue(selecionado);
 
   }
 
@@ -127,144 +120,10 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
   }
 
-  
 
-  const renderSwitchContent = (selecionado) => {
-
-    console.log('Qual selecionado no switch',  selecionado);
-
-    if (selecionado === '') {
-      selecionado = 'MaiorOuIgual'
-    }
+ 
 
 
-
-    switch (selecionado) {
-
-      case 'Intervalo':
-        return (
-          <HStack marginTop={1}>
-
-            <VStack spacing={0} alignItems='start'>
-
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-              <Input 
-                type='date' 
-                size='sm' 
-                onChange={(e)=> setDataInicio(e.target.value)}
-                />
-
-            </VStack>
-
-            <VStack spacing={0} alignItems='start'>
-
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-              <Input 
-                type='date' 
-                size='sm' 
-                onChange={(e)=> setDataFim(e.target.value)}
-              />
-
-            </VStack>
-
-          </HStack>
-        )
-
-      case 'MaiorOuIgual':
-
-
-        return (
-          <Input 
-            marginTop={6}  
-            maxW='150px' 
-            type='date' 
-            size='sm' 
-            onChange={(e)=> setDataInicio(e.target.value)}
-          />
-        )
-
-
-      case 'Hoje':
-
-       
-        return (
-          <Input 
-            marginTop={6} 
-            value={dataHoje}
-            maxW='150px' type='date' size='sm' 
-            />
-        )
-
-
-      case 'Ult7dias':
-
-        return (
-          <HStack marginTop={1}>
-
-            <VStack spacing={0} alignItems='start'>
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-              <Input type='date' size='sm' />
-            </VStack>
-            <VStack spacing={0} alignItems='start'>
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-              <Input type='date' size='sm' />
-            </VStack>
-
-          </HStack>
-        )
-
-      case 'EsteMesAteHoje':
-
-        return (
-          <HStack marginTop={1}>
-
-            <VStack spacing={0} alignItems='start'>
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-              <Input type='date' size='sm' />
-            </VStack>
-            <VStack spacing={0} alignItems='start'>
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-              <Input type='date' size='sm' />
-            </VStack>
-
-          </HStack>
-        )
-      case 'UltimoMes':
-
-        return (
-          <HStack marginTop={1}>
-
-            <VStack spacing={0} alignItems='start'>
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-              <Input type='date' size='sm' />
-            </VStack>
-            <VStack spacing={0} alignItems='start'>
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-              <Input type='date' size='sm' />
-            </VStack>
-
-          </HStack>
-        )
-
-      case 'AnoPassado':
-
-        return (
-          <HStack marginTop={1}>
-
-            <VStack spacing={0} alignItems='start'>
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>De:</FormLabel>
-              <Input type='date' size='sm' />
-            </VStack>
-            <VStack spacing={0} alignItems='start'>
-              <FormLabel margin={0} fontSize='14px' color='#4a5568'>Até:</FormLabel>
-              <Input type='date' size='sm' />
-            </VStack>
-
-          </HStack>
-        )
-    }
-
-  }
 
   return (
     <>
@@ -310,44 +169,25 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
                     <option value="">--Todas--</option>
 
-                    {dataFiltroRel.codUndEmpr.map((item) => (
-                      <option value={item.CodEmpr}>
+                    {dataFiltroRel.codUndEmpr.map((item, index) => (
+                      <option value={item.CodEmpr} key={index}>
                         {item.CodEmpr}-{item.UndEmpr}
                       </option>
                     ))}
                   </Select>
                 </Stack>
-
-
-
+                                              
+                
                 <Stack direction='column' spacing={0}>
 
-                  <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Período de venda</FormLabel>
-
-                  <Select size='sm' onChange={(e) => handleSelectChange(e.target.value)}>
-                    <option value='MaiorOuIgual'>Maior ou igual a</option>
-                    <option value='Intervalo'>Intevalo</option>
-                    <option value='Hoje'>Hoje</option>
-                    <option value='Ult7dias'>Últimos 7 dias</option>
-                    <option value='EsteMesAteHoje'>Este mês até hoje</option>
-                    <option value='UltimoMes'>Último mês</option>
-                    <option value='AnoPassado'>Ano passado</option>
-                  </Select>
+                  <InputDataFiltros 
+                    onDateChange={handleDateChange} 
+                    title='Período de venda'
+                  />
 
                 </Stack>
-
-                <Stack spacing={0} >
-                  <Fade in={true}>
-                    <Box
-                      rounded='md'
-                      minW='300px'
-                    >
-                      {renderSwitchContent(selectedValue)}
-
-                    </Box>
-                  </Fade>
-                </Stack>
-
+  
+                
 
               </Stack>
 
@@ -363,8 +203,8 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
                     <option value='T'>--Todos--</option>
 
-                    {dataFiltroRel.codNomeFunc.map((item) => (
-                      <option value={item.CodFunc}>
+                    {dataFiltroRel.codNomeFunc.map((item, index) => (
+                      <option value={item.CodFunc} key={index}>
                         {item.NomeFunc}-{item.CodFunc}
                       </option>
                     ))}
@@ -376,8 +216,8 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
                   <Select size='sm' >
 
                     <option value='T'>--Todos--</option>
-                    {dataFiltroRel.codFuncaoFunc.map((item) => (
-                      <option >
+                    {dataFiltroRel.codFuncaoFunc.map((item, index) => (
+                      <option key={index}>
                         {item.NomeFuncaoFunc}
                       </option>
                     ))}
@@ -418,10 +258,9 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
                 </Stack>
 
-                <InputDataFiltros/>
-
 
               </Stack>
+
 
 
               <HStack>

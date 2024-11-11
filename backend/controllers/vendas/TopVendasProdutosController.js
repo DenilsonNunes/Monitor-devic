@@ -11,6 +11,8 @@ class TopVendasProdutosController {
 
         const userCodFunc = (req.userCodFunc)
 
+        console.log('Qual o usuario', userCodFunc)
+
         const filtrosRel = req.query;
 
 

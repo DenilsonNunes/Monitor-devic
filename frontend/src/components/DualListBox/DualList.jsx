@@ -8,8 +8,6 @@ const DualList = ({filtros, onSelectedChange}) => {
 
     const [selected, setSelected] = useState([]);
 
-    console.log('No dual list ', selected)
-
 
     // Atualiza o estado local e também chama a função passada pelo componente pai
     const handleChange = (newValue) => {

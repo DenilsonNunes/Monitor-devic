@@ -10,7 +10,7 @@ const authMiddleware = async (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1]
 
 
-    if (!token) return res.status(401).json({ error: 'Acesso negado' });
+    if (!token) return res.status(403).json({ error: 'Acesso negado' });
 
 
     try {

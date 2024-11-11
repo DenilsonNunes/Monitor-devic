@@ -6,13 +6,13 @@ class TopVendasProdutosRepository {
 
    
     static consultaTopVendasProdutosGeral = async (userCodFunc, filtroRel) => {
+        
 
         const { top, empresa, codFunc, dataInicio, dataFim, undProd, calculaPor } = filtroRel;
 
 
         let calcularPorAddFiltros = ''
         let queryAddFiltros = '';
-
 
 
 
@@ -58,9 +58,12 @@ class TopVendasProdutosRepository {
         // Se o plano de venda possui regras para exclusão, adiciona esse filtro na query
         if(planoVnd[0].ValorConfigText.length > 0) {
 
-            queryAddFiltros += `AND CodPlanoVnd NOT IN(${planoVnd[0].ValorConfigText})`;
+            queryAddFiltros += ` AND CodPlanoVnd NOT IN (${planoVnd[0].ValorConfigText})`;
             
         } 
+
+
+        console.log('No repository', queryAddFiltros)
 
 
         try {
