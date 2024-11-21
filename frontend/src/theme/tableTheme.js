@@ -19,6 +19,8 @@ const baseStyle = definePartsStyle({
   td: {
     padding: '8px 8px 8px 8px !important',
     border: '1px solid #cbd5e1 !important',
+    fontSize: '14px',
+    fontWeight: '500'
   },
   tr: {
     _hover: {

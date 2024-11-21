@@ -59,7 +59,8 @@ const HomeTopVendasProdutos = () => {
   // Extrai os filtros da URL
   const empresa = searchParams.get('empresa');
   const top = searchParams.get('top') || 5;
-  const codFunc = searchParams.get('CodFunc');
+  const codFunc = searchParams.get('codFuncVnd');
+  const vendedor = searchParams.get('vendedor');
   let dataInicio = searchParams.get('dataInicio') || obterPeriodo('ultimoMes').dataInicio;
   let dataFim = searchParams.get('dataFim') || obterPeriodo('ultimoMes').dataFim;
   const undProd = searchParams.get('undProd');
@@ -122,13 +123,13 @@ const HomeTopVendasProdutos = () => {
 
   const fetchTopVendasProdutos = async (filters) => {
 
-    console.log('Dentro do Fetch', filters)
-
     const response = await api.get('/vendas/top-vendas-produtos', {
 
       params: filters
 
     });
+
+    console.log('Chamando fetch', response.data)
 
     return response.data;
 
@@ -163,37 +164,42 @@ const HomeTopVendasProdutos = () => {
       <Heading size='md' color='#4a5568'>Top vendas produtos</Heading>
 
 
-      <HStack justifyContent='space-between' marginBottom={2} marginTop={6}>
+        {data && 
 
-        <VStack spacing={0} alignItems='start'>
-          <Text fontSize='sm' fontWeight='bold' color='#4a5568'>Período venda</Text>
-          <Text fontSize='sm' color='#4a5568'>
-            {descrPeriodo === 'Maior ou igual a'
-              ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
-              : descrPeriodo === 'Ontem'
-                ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
-                : descrPeriodo === 'Hoje'
-                  ? `${descrPeriodo} ${periodoDataInicioFim.dataInicio}`
-                  : `${descrPeriodo} ${periodoDataInicioFim.dataInicio} a ${periodoDataInicioFim.dataFim}`
-            }
-          </Text>
+          <HStack justifyContent='space-between' marginBottom={2} marginTop={6}>
+            
+              <VStack spacing={0} alignItems='start'>
+                <Text fontSize='sm' fontWeight='bold' color='#4a5568'>Período venda</Text>
+                <Text fontSize='sm' color='#4a5568'>
+                  {descrPeriodo === 'Maior ou igual a'
+                    ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
+                    : descrPeriodo === 'Ontem'
+                      ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
+                      : descrPeriodo === 'Hoje'
+                        ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
+                        : `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)} à ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataFim)}`
+                  }
+                </Text>
 
-        </VStack>
+              </VStack>
 
-        <Button
-          size='sm'
-          variant='outline'
-          borderColor='#B9BBC6'
-          colorScheme='gray'
-          onClick={onToggle}
-        >
-          <Flex align="center">
-            <LuFilter />
-            <Text ml={2}>Filtros</Text>
-          </Flex>
-        </Button>
+              <Button
+                size='sm'
+                variant='outline'
+                borderColor='#B9BBC6'
+                colorScheme='gray'
+                onClick={onToggle}
+              >
+                <Flex align="center">
+                  <LuFilter />
+                  <Text ml={2}>Filtros</Text>
+                </Flex>
+              </Button>
 
-      </HStack>
+            
+          </HStack>
+
+        }
 
       {isLoading ?
 
@@ -224,11 +230,11 @@ const HomeTopVendasProdutos = () => {
             <Tbody>
               {data && data.data.map((item, index) => (
                 <Tr key={index}>
-                  <Td textAlign='center'>{item.Ordem}</Td>
+                  <Td fontWeight='bold' textAlign='center'>{item.Ordem}</Td>
                   <Td textAlign='center'>{item.CodItem}</Td>
-                  <Td>{item.DescrItem}</Td>
+                  <Td >{item.DescrItem}</Td>
                   <Td textAlign='center'>{item.UndItem}</Td>
-                  <Td textAlign='center'>{item.QtdItem}</Td>
+                  <Td fontWeight='bold'  textAlign='center'>{item.QtdItem}</Td>
                   <Td textAlign='center' color='green' fontWeight='bold'>{formataDinheiro(item.TotalVnd)}</Td>
                   <Td textAlign='center'>10,03</Td>
                   <Td textAlign='center'>
@@ -274,8 +280,8 @@ const HomeTopVendasProdutos = () => {
       {data &&
 
         <HStack spacing={0} alignItems='start' marginTop={2}>
-          <Text fontSize='sm' fontWeight='bold' color='#4a5568'>Vendedor:</Text>
-          <Text fontSize='sm' color='#4a5568'>{codFunc ? codFunc : 'Todos'}</Text>
+          <Text fontSize='sm' fontWeight='bold' color='#4a5568'>Vendedor(a):</Text>
+          <Text fontSize='sm' color='#4a5568' marginLeft={1}>{vendedor ? vendedor : ' Todos'}</Text>
         </HStack>
 
       }

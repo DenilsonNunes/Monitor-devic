@@ -27,10 +27,6 @@ const InputDataFiltros = ({onDateChange, title}) => {
 
 
 
-
-
-
-
     useEffect(() => {
 
       let periodo;
@@ -67,10 +63,8 @@ const InputDataFiltros = ({onDateChange, title}) => {
           break;
 
         case 'ontem':
-          console.log('enrei no ontem')
           periodo = obterPeriodo("ontem");
 
-          console.log('no ontem', periodo)
           setDataInicio(periodo.dataInicio);
           setDataFim(periodo.dataFim);
           setDataPeriodoSelecionado(periodo.tipoPeriodo)
@@ -134,9 +128,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
         if (selecionado === '') {
           selecionado = 'maiorOuIgual'
 
-        }
-    
-    
+        }        
     
         switch (selecionado) {
     
@@ -190,6 +182,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
               <Input 
                 marginTop={6} 
                 value={dataHoje}
+                readOnly
                 maxW='150px' type='date' size='sm' 
                 />
             )
@@ -201,7 +194,8 @@ const InputDataFiltros = ({onDateChange, title}) => {
               <Input 
                 marginTop={6} 
                 value={obterPeriodo('ontem').dataInicio}
-                maxW='150px' type='date' size='sm' 
+                maxW='150px' type='date' size='sm'
+                readOnly 
                 />
             )
     
@@ -217,6 +211,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                     type='date' 
                     size='sm' 
                     value={dataInicio}
+                    readOnly
                     />
                 </VStack>
                 <VStack spacing={0} alignItems='start'>
@@ -225,6 +220,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                     type='date' 
                     size='sm' 
                     value={dataFim}
+                    readOnly
                     />
                 </VStack>
     
@@ -242,6 +238,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                     type='date' 
                     size='sm'  
                     value={dataInicio}
+                    readOnly
                     />
                 </VStack>
                 <VStack spacing={0} alignItems='start'>
@@ -250,6 +247,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                     type='date' 
                     size='sm' 
                     value={dataFim}
+                    readOnly
                     />
                 </VStack>
     
@@ -267,6 +265,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                     type='date' 
                     size='sm' 
                     value={dataInicio}
+                    readOnly
                     />
                 </VStack>
                 <VStack spacing={0} alignItems='start'>
@@ -274,7 +273,8 @@ const InputDataFiltros = ({onDateChange, title}) => {
                   <Input 
                     type='date' 
                     size='sm'
-                    value={dataFim} 
+                    value={dataFim}
+                    readOnly 
                     />
                 </VStack>
     

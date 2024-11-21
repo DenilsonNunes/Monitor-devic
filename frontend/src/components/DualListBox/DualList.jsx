@@ -18,7 +18,7 @@ const DualList = ({filtros, onSelectedChange}) => {
 
     const options = filtros.map(option => ({
         value: option.CodUnd,
-        label: option.CodUnd +'-'+ option.DescrUnd // Substitui todos os labels pelo valor de 'descUnidade'
+        label: option.CodUnd+ '- '+ option.DescrUnd // Substitui todos os labels pelo valor de 'descUnidade'
     }));
 
 

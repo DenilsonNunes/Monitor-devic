@@ -47,6 +47,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
   const [top, setTop] = useState(10);
   const [dataHoje, setDataHoje] = useState(dataAtualInputAAAAMMDD());
   const [vendedor, setVendedor] = useState("");
+  const [codFuncVnd, setCodFuncVnd] = useState("");
   const [unidadeProd, setUnidadeProd] = useState([]);
 
 
@@ -58,7 +59,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
   const handleDateChange = ({ dataInicio, dataFim, dataPeriodoSelecionado }) => {
 
-      setFiltroDate({ dataInicio, dataFim, dataPeriodoSelecionado});
+    setFiltroDate({ dataInicio, dataFim, dataPeriodoSelecionado });
 
   };
 
@@ -70,7 +71,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
     if (empresa) {
       params.empresa = empresa;
-      
+
       // Se nem uma empresa for selecionada, pega todas as empresas
     } else {
       const empresas = dataFiltroRel.codUndEmpr.map(empresa => `'${empresa.CodEmpr}'`).join(', ');
@@ -78,32 +79,35 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
     }
 
 
-    if (vendedor) params.CodFunc = vendedor;
+    if (codFuncVnd) {
+      params.codFuncVnd = codFuncVnd;
+      params.vendedor = vendedor;
+    }
 
     if (top) params.top = top;
 
 
-    if(unidadeProd.length > 0) {
-      
-      const undProd = unidadeProd.map(und => `'${und}'`).join(', '); 
+    if (unidadeProd.length > 0) {
+
+      const undProd = unidadeProd.map(und => `'${und}'`).join(', ');
       params.undProd = undProd;
 
     }
-    
-    if(calculaPor) params.calculaPor = calculaPor;
+
+    if (calculaPor) params.calculaPor = calculaPor;
 
 
 
     //se existe um periodo de data informado, adiciona na URL Ex, ultimo mes, ultimos 7 dias, ano passado e etc
-    if(filtroDate.dataPeriodoSelecionado) {
+    if (filtroDate.dataPeriodoSelecionado) {
 
-        params.periodo =  filtroDate.dataPeriodoSelecionado;
-        params.dataInicio = filtroDate.dataInicio;
-        params.dataFim = filtroDate.dataFim;
+      params.periodo = filtroDate.dataPeriodoSelecionado;
+      params.dataInicio = filtroDate.dataInicio;
+      params.dataFim = filtroDate.dataFim;
 
-   
-    } 
-    
+
+    }
+
 
     // Setando os parâmetros de busca com useSearchParams
     setSearchParams(params);
@@ -121,7 +125,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
   }
 
 
- 
+
 
 
 
@@ -135,7 +139,10 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
             color='white'
             paddingY={2}
             borderBottomRadius='10px'
-          >Filtros (Top vendas produtos)
+          >
+            <Text fontWeight='500'>
+              Filtros - top vendas produtos
+            </Text>
           </ModalHeader>
 
           <ModalCloseButton color='white' />
@@ -150,7 +157,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
                   <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Top</FormLabel>
 
-                  <NumberInput  onChange={(value) => setTop(value)}  value={top} min={1} max={30} size='sm' maxW={24}>
+                  <NumberInput onChange={(value) => setTop(value)} value={top} min={1} max={30} size='sm' maxW={24}>
                     <NumberInputField />
                     <NumberInputStepper>
                       <NumberIncrementStepper />
@@ -176,36 +183,44 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
                     ))}
                   </Select>
                 </Stack>
-                                              
-                
+
+
                 <Stack direction='column' spacing={0}>
 
-                  <InputDataFiltros 
-                    onDateChange={handleDateChange} 
+                  <InputDataFiltros
+                    onDateChange={handleDateChange}
                     title='Período de venda'
                   />
 
                 </Stack>
-  
-                
+
+
 
               </Stack>
 
 
 
-              <Stack direction='row' width='100%' spacing={0} marginTop={5} justifyContent='start' gap={2}>
+              <Stack direction='row' width='100%' spacing={0} marginTop={5} justifyContent='start' gap={2} >
 
-                <Stack direction='column' spacing={0}>
+                <Stack direction='column' spacing={0} >
 
                   <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Vendedor</FormLabel>
 
-                  <Select size='sm' onChange={(e) => setVendedor(e.target.value)}>
+                  <Select size="sm" onChange={(e) => {
+                    const selectedOption = e.target.options[e.target.selectedIndex];
+                    setCodFuncVnd(selectedOption.value); // Define o codFunc
+                    setVendedor(selectedOption.getAttribute('nome')); // Define o nomeFunc
+                  }}>
 
                     <option value='T'>--Todos--</option>
 
                     {dataFiltroRel.codNomeFunc.map((item, index) => (
-                      <option value={item.CodFunc} key={index}>
-                        {item.NomeFunc}-{item.CodFunc}
+                      <option 
+                        value={item.CodFunc} 
+                        key={index}
+                        nome={item.NomeFunc.split(' ').slice(0, 2).join(' ')} 
+                      >
+                        {item.NomeFunc.split(' ').slice(0, 2).join(' ')}- {item.CodFunc}
                       </option>
                     ))}
 
@@ -221,7 +236,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
                         {item.NomeFuncaoFunc}
                       </option>
                     ))}
-                  
+
                   </Select>
 
 
@@ -230,7 +245,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
 
 
-                <Stack direction='column' spacing={0} maxW='380px'>
+                <Stack direction='column' spacing={0} width='60%'>
 
                   <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Unidade</FormLabel>
                   <DualList
