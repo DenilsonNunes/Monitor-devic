@@ -9,7 +9,8 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Button
+  Button,
+  HStack
 } from "@chakra-ui/react";
 
 import { LuUserCircle } from "react-icons/lu";
@@ -47,7 +48,7 @@ const Navbar = () => {
 
     <Box className={styles.navbar} bg='primary'>
 
-      <Box display='flex' justifyContent='space-between' alignItems='center' w='100%' >
+      <Box display='flex' justifyContent='space-between' alignItems='center' w='100%'>
 
         <ul>
           <li>
@@ -76,11 +77,9 @@ const Navbar = () => {
 
         </ul>
 
-        <Box>
+        <HStack>
           {nameUser && <Heading size='sm' justifyContent='center' color='white'>Bem vindo, {nameUser}!</Heading>}
-        </Box>
-        
-        <Box>
+
           <Menu>
             <MenuButton>
               <IconButton
@@ -103,8 +102,8 @@ const Navbar = () => {
 
           </Menu>
 
-        </Box>
-
+        </HStack>
+        
       </Box>
 
     </Box>

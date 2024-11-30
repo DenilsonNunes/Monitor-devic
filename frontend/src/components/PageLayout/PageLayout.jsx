@@ -7,7 +7,12 @@ import {
   
     return (
 
-      <Box  marginTop='60px' marginLeft={2} marginRight={2} >
+      <Box  
+        marginTop='60px' 
+        marginLeft={2} 
+        marginRight={2} 
+        height="calc(100vh - 60px)"
+        >
        
         {children}
   

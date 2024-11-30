@@ -116,6 +116,17 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
   }
 
+  const handleLimparFiltros = () => {
+
+    console.log('fui chamadooooo')
+    setEmpresa("");
+    setVendedor("");
+    setCodFuncVnd("");
+    setTop(10);
+    setUnidadeProd([]);
+    setCalculaPor("V");
+
+  }
 
 
   const handleSelectedUndProd = (newValues) => {
@@ -133,6 +144,7 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size=''>
         <ModalOverlay />
+        
         <ModalContent width='fit-content'>
           <ModalHeader
             bg='primary'
@@ -149,95 +161,53 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
           <ModalBody marginTop={5}>
 
-            <VStack>
+            <form onSubmit={handleBuscar}>
 
-              <Stack direction='row' width='100%' spacing={0} justifyContent='start' gap={2} >
+              <VStack>
 
-                <Stack direction='column' spacing={0}>
+                <Stack direction='row' width='100%' spacing={0} justifyContent='start' gap={2} >
 
-                  <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Top</FormLabel>
+                  <Stack direction='column' spacing={0}>
 
-                  <NumberInput onChange={(value) => setTop(value)} value={top} min={1} max={30} size='sm' maxW={24}>
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
+                    <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Top</FormLabel>
 
-                </Stack>
+                    <NumberInput onChange={(value) => setTop(value)} value={top} min={1} max={30} size='sm' maxW={24}>
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
 
-
-                <Stack direction='column' spacing={0} >
-
-                  <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Empresa</FormLabel>
-
-                  <Select size='sm' onChange={(e) => setEmpresa(e.target.value)}>
-
-                    <option value="">--Todas--</option>
-
-                    {dataFiltroRel.codUndEmpr.map((item, index) => (
-                      <option value={item.CodEmpr} key={index}>
-                        {item.CodEmpr}-{item.UndEmpr}
-                      </option>
-                    ))}
-                  </Select>
-                </Stack>
+                  </Stack>
 
 
-                <Stack direction='column' spacing={0}>
+                  <Stack direction='column' spacing={0} >
 
-                  <InputDataFiltros
-                    onDateChange={handleDateChange}
-                    title='Período de venda'
-                  />
+                    <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Empresa</FormLabel>
 
-                </Stack>
+                    <Select size='sm' onChange={(e) => setEmpresa(e.target.value)}>
+
+                      <option value="">--Todas--</option>
+
+                      {dataFiltroRel.codUndEmpr.map((item, index) => (
+                        <option value={item.CodEmpr} key={index}>
+                          {item.CodEmpr}-{item.UndEmpr}
+                        </option>
+                      ))}
+                    </Select>
+                    
+                  </Stack>
 
 
+                  <Stack direction='column' spacing={0}>
 
-              </Stack>
+                    <InputDataFiltros
+                      onDateChange={handleDateChange}
+                      title='Período de venda'
+                    />
 
-
-
-              <Stack direction='row' width='100%' spacing={0} marginTop={5} justifyContent='start' gap={2} >
-
-                <Stack direction='column' spacing={0} >
-
-                  <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Vendedor</FormLabel>
-
-                  <Select size="sm" onChange={(e) => {
-                    const selectedOption = e.target.options[e.target.selectedIndex];
-                    setCodFuncVnd(selectedOption.value); // Define o codFunc
-                    setVendedor(selectedOption.getAttribute('nome')); // Define o nomeFunc
-                  }}>
-
-                    <option value='T'>--Todos--</option>
-
-                    {dataFiltroRel.codNomeFunc.map((item, index) => (
-                      <option 
-                        value={item.CodFunc} 
-                        key={index}
-                        nome={item.NomeFunc.split(' ').slice(0, 2).join(' ')} 
-                      >
-                        {item.NomeFunc.split(' ').slice(0, 2).join(' ')}- {item.CodFunc}
-                      </option>
-                    ))}
-
-                  </Select>
-
-                  <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Função do vendedor</FormLabel>
-
-                  <Select size='sm' >
-
-                    <option value='T'>--Todos--</option>
-                    {dataFiltroRel.codFuncaoFunc.map((item, index) => (
-                      <option key={index}>
-                        {item.NomeFuncaoFunc}
-                      </option>
-                    ))}
-
-                  </Select>
+                  </Stack>
 
 
 
@@ -245,67 +215,114 @@ const ModalFiltroRelatorio = ({ isOpen, onClose, dataFiltroRel }) => {
 
 
 
-                <Stack direction='column' spacing={0} width='60%'>
+                <Stack direction='row' width='100%' spacing={0} marginTop={5} justifyContent='start' gap={2} >
 
-                  <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Unidade</FormLabel>
-                  <DualList
-                    filtros={dataFiltroRel.unidadeProd}
-                    onSelectedChange={handleSelectedUndProd}
-                  />
+                  <Stack direction='column' spacing={0} >
+
+                    <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Vendedor</FormLabel>
+
+                    <Select size="sm" onChange={(e) => {
+                      const selectedOption = e.target.options[e.target.selectedIndex];
+                      setCodFuncVnd(selectedOption.value); // Define o codFunc
+                      setVendedor(selectedOption.getAttribute('nome')); // Define o nomeFunc
+                    }}>
+
+                      <option value='T'>--Todos--</option>
+
+                      {dataFiltroRel.codNomeFunc.map((item, index) => (
+                        <option 
+                          value={item.CodFunc} 
+                          key={index}
+                          nome={item.NomeFunc.split(' ').slice(0, 2).join(' ')} 
+                        >
+                          {item.NomeFunc.split(' ').slice(0, 2).join(' ')}- {item.CodFunc}
+                        </option>
+                      ))}
+
+                    </Select>
+
+                    <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Função do vendedor</FormLabel>
+
+                    <Select size='sm' >
+
+                      <option value='T'>--Todos--</option>
+                      {dataFiltroRel.codFuncaoFunc.map((item, index) => (
+                        <option key={index}>
+                          {item.NomeFuncaoFunc}
+                        </option>
+                      ))}
+
+                    </Select>
+
+
+
+                  </Stack>
+
+
+
+                  <Stack direction='column' spacing={0} width='60%'>
+
+                    <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Unidade</FormLabel>
+                    <DualList
+                      filtros={dataFiltroRel.unidadeProd}
+                      onSelectedChange={handleSelectedUndProd}
+                    />
+
+                  </Stack>
+
+
+
+                </Stack>
+
+                <Stack direction='row' width='100%' spacing={0} marginTop={5} justifyContent='start'>
+
+                  <Stack direction='column' spacing={0}>
+
+                    <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Calcular por</FormLabel>
+                    <RadioGroup onChange={setCalculaPor} value={calculaPor}>
+                      <Stack direction='column'>
+                        <Radio value='Q' size='sm'>Quantidade</Radio>
+                        <Radio value='V' size='sm'>Valor</Radio>
+                      </Stack>
+                    </RadioGroup>
+
+                  </Stack>
+
 
                 </Stack>
 
 
 
-              </Stack>
+                <HStack>
 
-              <Stack direction='row' width='100%' spacing={0} marginTop={5} justifyContent='start'>
+                  <Button
+                    size='sm'
+                    bg='primary'
+                    color='white'
+                    _hover={{ bg: '#0369a1' }}
+                    borderRadius={0}
+                    type='submit'
+                  >
+                    Buscar
+                  </Button>
 
-                <Stack direction='column' spacing={0}>
+                  <Button
+                    size='sm'
+                    bg='gray.400'
+                    color='white'
+                    _hover={{ bg: 'gray.500' }}
+                    borderRadius={0}
+                    onClick={handleLimparFiltros}
+                  >
+                    Limpar
+                  </Button>
 
-                  <FormLabel margin={0} fontWeight='bold' color='#4a5568'>Calcular por</FormLabel>
-                  <RadioGroup onChange={setCalculaPor} value={calculaPor}>
-                    <Stack direction='column'>
-                      <Radio value='Q' size='sm'>Quantidade</Radio>
-                      <Radio value='V' size='sm'>Valor</Radio>
-                    </Stack>
-                  </RadioGroup>
-
-                </Stack>
-
-
-              </Stack>
-
-
-
-              <HStack>
-
-                <Button
-                  size='sm'
-                  bg='primary'
-                  color='white'
-                  _hover={{ bg: '#0369a1' }}
-                  borderRadius={0}
-                  onClick={handleBuscar}
-                >
-                  Buscar
-                </Button>
-
-                <Button
-                  size='sm'
-                  bg='gray.400'
-                  color='white'
-                  _hover={{ bg: 'gray.500' }}
-                  borderRadius={0}
-                >
-                  Limpar
-                </Button>
-
-              </HStack>
+                </HStack>
 
 
-            </VStack>
+              </VStack>
 
+            </form>
 
           </ModalBody>
 

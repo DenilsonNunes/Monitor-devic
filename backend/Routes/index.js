@@ -7,6 +7,8 @@ const financeiroRoutes = require('./financeiro/index');
 const estoqueRoutes = require('./estoque/index');
 const authRoutes = require('./auth/authRoutes');
 const vendasRoutes = require('./vendas/index');
+const configuracoesRoutes = require('./configuracoes/index');
+
 
 
 
@@ -17,9 +19,9 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 
 // Define as rotas principais para cada rotina
-//router.use('/financeiro', authMiddleware, financeiroRoutes);
 router.use('/financeiro', financeiroRoutes);
 router.use('/estoque', estoqueRoutes);
+router.use('/configuracoes', configuracoesRoutes);
 router.use('/vendas', authMiddleware, vendasRoutes);
 
 

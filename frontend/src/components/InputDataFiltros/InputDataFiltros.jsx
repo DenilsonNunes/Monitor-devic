@@ -142,6 +142,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                   <Input 
                     type='date' 
                     size='sm'
+                    required
                     value={dataInicio} 
                     onChange={(e)=> setDataInicio(e.target.value)}
                     />
@@ -154,6 +155,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                   <Input 
                     type='date' 
                     size='sm' 
+                    required
                     value={dataFim}
                     onChange={(e)=> setDataFim(e.target.value)}
                   />
@@ -172,6 +174,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                 type='date' 
                 size='sm'
                 value={dataInicio} 
+                required
                 onChange={(e)=> setDataInicio(e.target.value)}
               />
             )
@@ -291,6 +294,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                   <Input 
                     type='date' 
                     size='sm' 
+                    readOnly 
                     value={dataInicio}
                     />
                 </VStack>
@@ -300,6 +304,7 @@ const InputDataFiltros = ({onDateChange, title}) => {
                     type='date' 
                     size='sm' 
                     value={dataFim}
+                    readOnly 
                     />
                 </VStack>
     

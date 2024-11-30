@@ -158,7 +158,27 @@ const HomeTopVendasProdutos = () => {
   if (error) return <PageLayout>Erro ao carregar dados: {error.response.data.message}</PageLayout>;
 
 
-  return (
+
+  if (isLoading) {
+
+    return (
+
+      <PageLayout >
+        
+        <Box display='flex' justifyContent='center' alignItems='center' h='100%'>
+
+          <Loader />
+
+        </Box>
+
+      </PageLayout>
+    ) 
+
+  } 
+
+
+
+  return (        
     <PageLayout>
 
       <Heading size='md' color='#4a5568'>Top vendas produtos</Heading>
@@ -176,8 +196,8 @@ const HomeTopVendasProdutos = () => {
                     : descrPeriodo === 'Ontem'
                       ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
                       : descrPeriodo === 'Hoje'
-                        ? `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)}`
-                        : `${descrPeriodo} ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataInicio)} à ${formataDataDeAAAAMMDDParaDDMMAAAA(periodoDataInicioFim.dataFim)}`
+                        ? `${descrPeriodo} ${periodoDataInicioFim.dataInicio}`
+                        : `${descrPeriodo} ${periodoDataInicioFim.dataInicio} à ${periodoDataInicioFim.dataFim}`
                   }
                 </Text>
 
@@ -201,15 +221,7 @@ const HomeTopVendasProdutos = () => {
 
         }
 
-      {isLoading ?
 
-        <Box display='flex' justifyContent='center'>
-
-          <Loader />
-
-        </Box>
-
-        :
         <TableContainer boxShadow='base'>
 
           <Table>
@@ -230,7 +242,7 @@ const HomeTopVendasProdutos = () => {
             <Tbody>
               {data && data.data.map((item, index) => (
                 <Tr key={index}>
-                  <Td fontWeight='bold' textAlign='center'>{item.Ordem}</Td>
+                  <Td fontWeight='bold' textAlign='center'>{item.Ordem}°</Td>
                   <Td textAlign='center'>{item.CodItem}</Td>
                   <Td >{item.DescrItem}</Td>
                   <Td textAlign='center'>{item.UndItem}</Td>
@@ -275,7 +287,6 @@ const HomeTopVendasProdutos = () => {
 
         </TableContainer>
 
-      }
 
       {data &&
 

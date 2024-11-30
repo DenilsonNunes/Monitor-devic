@@ -1,0 +1,108 @@
+// Services
+const UsuariosService  = require('../../services/configuracoes/usuariosService');
+
+
+
+
+class UsuariosController {
+    
+    async listarTodos(req, res) {
+
+        try {
+ 
+            const data = await UsuariosService.listarTodos();
+
+            res.status(200).json(data);
+ 
+        } catch(err) {
+ 
+            res.status(500).json({ message: err.message });
+ 
+        }
+        
+    }
+
+    async cadastrar(req, res) {
+
+        const userCodFunc = (req.userCodFunc)
+
+        console.log('Qual o usuario', userCodFunc)
+
+        const filtrosRel = req.query;
+
+
+        try {
+ 
+            const { data, dataFiltroRel } = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc, filtrosRel);
+
+            res.status(200).json({ data, dataFiltroRel });
+ 
+        } catch(err) {
+ 
+            res.status(500).json({ message: err.message });
+ 
+        }
+        
+     
+    }
+
+
+    async editar(req, res) {
+
+        const userCodFunc = (req.userCodFunc)
+
+        console.log('Qual o usuario', userCodFunc)
+
+        const filtrosRel = req.query;
+
+
+        try {
+ 
+            const { data, dataFiltroRel } = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc, filtrosRel);
+
+            res.status(200).json({ data, dataFiltroRel });
+ 
+        } catch(err) {
+ 
+            res.status(500).json({ message: err.message });
+ 
+        }
+        
+     
+    }
+
+
+    async excluir(req, res) {
+
+        const userCodFunc = (req.userCodFunc)
+
+        console.log('Qual o usuario', userCodFunc)
+
+        const filtrosRel = req.query;
+
+
+        try {
+ 
+            const { data, dataFiltroRel } = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc, filtrosRel);
+
+            res.status(200).json({ data, dataFiltroRel });
+ 
+        } catch(err) {
+ 
+            res.status(500).json({ message: err.message });
+ 
+        }
+        
+     
+    }
+
+
+
+}
+
+
+
+module.exports = new UsuariosController();
+
+
+

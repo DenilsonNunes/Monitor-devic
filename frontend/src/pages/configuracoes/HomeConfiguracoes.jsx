@@ -16,9 +16,8 @@ const HomeConfiguracoes = () => {
 
         <PageLayout>
 
-            <Box display='flex'  alignItems='center'>
-                <SettingsIcon w={5} h={5}/>
-                <Heading size='md' color='#4a5568'>Top vendas produtos</Heading>
+            <Box display='flex'  alignItems='center' marginTop={20}>
+                <Heading fontSize='24px' color='#0C3854'>Configurações do monitor</Heading>
             </Box>
 
 
