@@ -30,22 +30,24 @@ import { useState, useEffect } from 'react';
 import api from '../../../helpers/api-instance';
 
 
-
+// Modais
 import ModalCadastrarUsuario from './modal/ModalCadastrarUsuario';
+import ModalEditarUsuario from './modal/ModalEditarUsuario';
+import ModalDeletarUsuario from './modal/ModalDeletarUsuario';
 
 
 
 
 const HomeConfigUsuario = () => {
 
-    const { isOpen, onClose, onToggle } = useDisclosure();
 
     const [searchQuery, setSearchQuery] = useState('');
-
     const [filteredData, setFilteredData] = useState([]);
 
 
-
+    const { isOpen: isCreateUserOpen, onOpen: onCreateUserOpen, onClose: onCreateUserClose } = useDisclosure();
+    const { isOpen: isDeleteUserOpen, onOpen: onDeleteUserOpen, onClose: onDeleteUserClose } = useDisclosure();
+    const { isOpen: isEditUserOpen, onOpen: onEditUserOpen, onClose: onEditUserClose } = useDisclosure();
 
 
 
@@ -93,6 +95,18 @@ const HomeConfigUsuario = () => {
         setSearchQuery(e.target.value); // Atualiza o termo da busca
     };
 
+    const handleEditarAcessoUsuario = (userId) => {
+
+        
+        onEditUserOpen();
+
+    }
+
+    const handleDeletarUsuario = (userId) => {
+
+
+        onDeleteUserOpen();
+    };
 
 
 
@@ -124,7 +138,8 @@ const HomeConfigUsuario = () => {
                         variant='solid'
                         fontWeight='200'
                         size='sm'
-                        onClick={onToggle}
+                        boxShadow='base'
+                        onClick={onCreateUserOpen}
                     >
                         Cadastrar usuário
                     </Button>
@@ -170,6 +185,8 @@ const HomeConfigUsuario = () => {
                                             icon={<EditIcon/>}
                                             color="white"
                                             _hover={false}
+                                            onClick={() => handleEditarAcessoUsuario(item.CodFunc)}
+
                                         />
                                     </Tooltip>
 
@@ -183,6 +200,7 @@ const HomeConfigUsuario = () => {
                                             color="white"
                                             _hover={false}
                                             icon={<DeleteIcon />}
+                                            onClick={() => handleDeletarUsuario(item.CodFunc)}
                                         />
                                     </Tooltip>
 
@@ -218,8 +236,18 @@ const HomeConfigUsuario = () => {
 
 
             <ModalCadastrarUsuario
-                isOpen={isOpen}
-                onClose={onClose}
+                isOpen={isCreateUserOpen} 
+                onClose={onCreateUserClose}
+            />
+
+            <ModalEditarUsuario
+                isOpen={isEditUserOpen} 
+                onClose={onEditUserClose}
+            />
+
+            <ModalDeletarUsuario
+                isOpen={isDeleteUserOpen} 
+                onClose={onDeleteUserClose}
             />
 
         </Box>

@@ -23,7 +23,7 @@ const Financeiro = () => {
       
       <Heading marginTop={5} size='md'>Analise anual</Heading>
   
-      <Box marginTop={5} boxShadow='md'>
+      <Box marginTop={5} boxShadow='md' bg='white'>
           <Grafico/>
       </Box>
  

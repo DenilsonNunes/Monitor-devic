@@ -41,7 +41,7 @@ import api from '../../../../helpers/api-instance';
 
 
 
-const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
+const ModalEditarUsuario = ({ isOpen, onClose }) => {
 
 
 
@@ -101,7 +101,7 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
             borderBottomRadius='10px'
           >
             <Text fontWeight='500'>
-              Cadastro de acesso usuário
+              Editar acesso de usuário
             </Text>
 
           </ModalHeader>
@@ -178,10 +178,8 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
                       {data && data.empresa.map((item, index) => (
 
                         <HStack marginLeft={1}>
-                          <Checkbox colorScheme='green'  value={item.CodEmpr}>
-                            <Text fontSize='sm'>
+                          <Checkbox colorScheme='green' value={item.CodEmpr}>
                             {item.CodEmpr} - {item.NomeFantEmpr}
-                            </Text>
                           </Checkbox>
                         </HStack>
 
@@ -239,6 +237,16 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
                   <Button
                     size='sm'
+                    variant='outline'
+                    colorScheme='red'
+                    type='submit'
+                    fontWeight='bold'
+                  >
+                    Cancelar
+                  </Button>
+
+                  <Button
+                    size='sm'
                     colorScheme='green'
                     color='white'
                     type='submit'
@@ -262,5 +270,5 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
     </>
   )
 }
-
-export default ModalCadastrarUsuario
+7
+export default ModalEditarUsuario

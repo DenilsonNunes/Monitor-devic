@@ -22,9 +22,9 @@ const HomeConfiguracoes = () => {
 
 
               
-            <Tabs  sx={{ position: 'static', display: 'initial' }}>
+            <Tabs  sx={{ position: 'static', display: 'initial' }} > 
 
-                <TabList borderWidth="1px" borderColor="#cbd5e1" marginTop={5} >
+                <TabList  border='1px solid #cbd5e1'  marginTop={5} bg='white' boxShadow='base' >
                         
                     <Tab display='flex' alignItems='center'>
                         <Icon as={FcBusinessman}/>
@@ -41,7 +41,7 @@ const HomeConfiguracoes = () => {
 
 
 
-                <TabPanels borderWidth="1px" borderColor="#cbd5e1" marginTop={2}>
+                <TabPanels border='1px solid #cbd5e1' marginTop={2}  bg='white' boxShadow='base'>
                     <TabPanel>
                         <HomeConfigUsuario/>
                     </TabPanel>
