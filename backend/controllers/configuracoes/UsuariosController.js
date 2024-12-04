@@ -72,26 +72,27 @@ class UsuariosController {
     }
 
 
-    async excluir(req, res) {
+    async deletar(req, res) {
 
-        const userCodFunc = (req.userCodFunc)
+        const { codFunc } = req.params
 
-        console.log('Qual o usuario', userCodFunc)
-
-        const filtrosRel = req.query;
-
-
+        
         try {
  
-            const { data, dataFiltroRel } = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc, filtrosRel);
+            const data = await UsuariosService.deletar(codFunc);
 
-            res.status(200).json({ data, dataFiltroRel });
+            if(!data) {
+                res.status(404).json({ message: 'Usuário não encontrado'})
+            }
+ 
+            res.status(200).json(data);
  
         } catch(err) {
  
             res.status(500).json({ message: err.message });
  
         }
+        
         
      
     }

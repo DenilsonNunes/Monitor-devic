@@ -19,7 +19,10 @@ import {
     Input,
     InputGroup,
     InputLeftAddon,
-    InputRightElement
+    Text,
+    Select,
+    InputRightElement,
+    Tag
 } from '@chakra-ui/react'
 
 import { AddIcon, EditIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons'
@@ -43,6 +46,7 @@ const HomeConfigUsuario = () => {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+    const [usuario, setUsuario] = useState(null);
 
 
     const { isOpen: isCreateUserOpen, onOpen: onCreateUserOpen, onClose: onCreateUserClose } = useDisclosure();
@@ -95,16 +99,17 @@ const HomeConfigUsuario = () => {
         setSearchQuery(e.target.value); // Atualiza o termo da busca
     };
 
-    const handleEditarAcessoUsuario = (userId) => {
 
-        
+    const handleEditarAcessoUsuario = (usuario) => {
+
+        setUsuario(usuario);
         onEditUserOpen();
 
     }
 
-    const handleDeletarUsuario = (userId) => {
+    const handleDeletarUsuario = (usuario) => {
 
-
+        setUsuario(usuario);
         onDeleteUserOpen();
     };
 
@@ -116,17 +121,35 @@ const HomeConfigUsuario = () => {
             <HStack justifyContent='space-between'>
 
                 <HStack spacing={0}>
-                    <InputGroup size='sm'>
-                      <Input 
-                        width={340}
-                        borderColor='#B9BBC6'
-                        placeholder='Pesquise pelo usuário ou nome do funcionário'
-                        onChange={handleSearchQuery}
-                      />
-                      <InputRightElement>
-                        <SearchIcon color='gray.300' />
-                      </InputRightElement>
-                    </InputGroup>
+
+                    <Box>
+
+                        <InputGroup size='sm'>
+                            <Input
+                                width={340}
+                                placeholder='Pesquise pelo usuário ou nome do funcionário'
+                                onChange={handleSearchQuery}
+                            />
+                            <InputRightElement>
+                                <SearchIcon color='gray.300' />
+                            </InputRightElement>
+                        </InputGroup>
+
+                    </Box>
+
+                    <HStack marginLeft={2}>
+
+                        <Text fontSize='14px' whiteSpace="nowrap">Mostrar Inativos</Text>
+                        <Select
+                            size='sm'
+                            marginLeft={2}
+                        >
+                            <option value='N'>Não</option>
+                            <option value='S'>Sim</option>
+                        </Select>
+                        
+                    </HStack>
+
 
                 </HStack>
 
@@ -156,6 +179,7 @@ const HomeConfigUsuario = () => {
                     <Thead >
                         <Tr>
                             <Th fontSize='14px'>Codigo</Th>
+                            <Th fontSize='14px'>status</Th>
                             <Th fontSize='14px'>Usuário</Th>
                             <Th fontSize='14px'>Nome Funcionário</Th>
                             <Th fontSize='14px'>Tela Inicial</Th>
@@ -168,8 +192,13 @@ const HomeConfigUsuario = () => {
 
                         {filteredData && filteredData.map((item, index) => (
 
-                            <Tr key={index}>
+                            <Tr key={index} >
                                 <Td textAlign='center'>{item.CodFunc}</Td>
+                                <Td textAlign='center'>
+                                    <Tag colorScheme={item.AtivoBlue === 'N' ? 'red' : 'green'} fontWeight='bold'>
+                                        {item.AtivoBlue === 'N' ? 'INATIVO' : 'ATIVO'}
+                                    </Tag>
+                                </Td>
                                 <Td>{item.IdFunc}</Td>
                                 <Td>{item.NomeFunc}</Td>
                                 <Td textAlign='center'>{item.descrAplicacao}</Td>
@@ -182,10 +211,10 @@ const HomeConfigUsuario = () => {
                                             fontSize="14px"
                                             aria-label="Editar"
                                             bg='orange'
-                                            icon={<EditIcon/>}
+                                            icon={<EditIcon />}
                                             color="white"
                                             _hover={false}
-                                            onClick={() => handleEditarAcessoUsuario(item.CodFunc)}
+                                            onClick={() => handleEditarAcessoUsuario(item)}
 
                                         />
                                     </Tooltip>
@@ -200,7 +229,7 @@ const HomeConfigUsuario = () => {
                                             color="white"
                                             _hover={false}
                                             icon={<DeleteIcon />}
-                                            onClick={() => handleDeletarUsuario(item.CodFunc)}
+                                            onClick={() => handleDeletarUsuario(item)}
                                         />
                                     </Tooltip>
 
@@ -222,10 +251,11 @@ const HomeConfigUsuario = () => {
                                 <Th></Th>
                                 <Th></Th>
                                 <Th></Th>
+                                <Th></Th>
                             </Tr>
                             :
                             <Tr>
-                                <Td colSpan="6" textAlign="center" style={{ pointerEvents: 'none' }} color='red'>Nenhum registro encontrado</Td>
+                                <Td colSpan="7" textAlign="center" style={{ pointerEvents: 'none' }} color='red'>Nenhum registro encontrado</Td>
                             </Tr>
                         }
 
@@ -235,20 +265,32 @@ const HomeConfigUsuario = () => {
 
 
 
-            <ModalCadastrarUsuario
-                isOpen={isCreateUserOpen} 
-                onClose={onCreateUserClose}
-            />
+            {data &&
+                (
+                    <>
 
-            <ModalEditarUsuario
-                isOpen={isEditUserOpen} 
-                onClose={onEditUserClose}
-            />
+                        <ModalCadastrarUsuario
+                            isOpen={isCreateUserOpen}
+                            onClose={onCreateUserClose}
+                        />
 
-            <ModalDeletarUsuario
-                isOpen={isDeleteUserOpen} 
-                onClose={onDeleteUserClose}
-            />
+                        <ModalEditarUsuario
+                            isOpen={isEditUserOpen}
+                            onClose={onEditUserClose}
+                            usuario={usuario}
+                        />
+
+                        <ModalDeletarUsuario
+                            isOpen={isDeleteUserOpen}
+                            onClose={onDeleteUserClose}
+                            usuario={usuario}
+                        />
+
+
+                    </>
+                )
+
+            }
 
         </Box>
     )

@@ -9,6 +9,7 @@ const FiltrosRelatorioConfiguracaoController = require('../../controllers/config
 
 
 router.get('/', UsuariosController.listarTodos);
+router.delete('/:codFunc', UsuariosController.deletar);
 router.get('/filtros-relatorio', FiltrosRelatorioConfiguracaoController.listarTodos);
 
 

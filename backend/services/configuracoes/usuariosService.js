@@ -12,6 +12,14 @@ class UsuariosService {
         
     }
 
+
+
+    static deletar = async (codFunc) => {
+
+        return await UsuariosRepository.deletar(codFunc);
+
+    }
+
    
 
 

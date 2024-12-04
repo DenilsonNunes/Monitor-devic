@@ -41,13 +41,13 @@ import api from '../../../../helpers/api-instance';
 
 
 
-const ModalEditarUsuario = ({ isOpen, onClose }) => {
+const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
 
 
 
 
-
+  console.log('chamei a tela de edição', usuario);
 
 
 
@@ -114,22 +114,12 @@ const ModalEditarUsuario = ({ isOpen, onClose }) => {
 
               <VStack>
 
-
                 <Stack direction='row' width='100%' spacing={0} justifyContent='start' gap={2}>
-
                   <Stack direction='column' spacing={0} width='100%'>
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Funcionário(a)</FormLabel>
 
-                    <Select size='sm' >
-                      <option value='T'>--Selecione--</option>
-
-                      {data && data.funcionarios.map((item, index) => (
-
-                        <option value={item.CodFunc} key={index}>{item.NomeFunc}</option>
-
-                      ))}
-                    </Select>
+                    <Input type='text'size='sm' value='Funcionario teste' isReadOnly/>
 
                   </Stack>
 
@@ -139,6 +129,7 @@ const ModalEditarUsuario = ({ isOpen, onClose }) => {
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Tela Inicial</FormLabel>
 
                     <Select size='sm' >
+
                       <option value='T'>--Selecione--</option>
 
                       {data && data.telaInicial.map((item, index) => (
@@ -177,7 +168,7 @@ const ModalEditarUsuario = ({ isOpen, onClose }) => {
 
                       {data && data.empresa.map((item, index) => (
 
-                        <HStack marginLeft={1}>
+                        <HStack marginLeft={1} key={index}>
                           <Checkbox colorScheme='green' value={item.CodEmpr}>
                             {item.CodEmpr} - {item.NomeFantEmpr}
                           </Checkbox>

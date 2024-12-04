@@ -177,8 +177,8 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
                       {data && data.empresa.map((item, index) => (
 
-                        <HStack marginLeft={1}>
-                          <Checkbox colorScheme='green'  value={item.CodEmpr}>
+                        <HStack marginLeft={1} key={index}>
+                          <Checkbox colorScheme='green'   value={item.CodEmpr}>
                             <Text fontSize='sm'>
                             {item.CodEmpr} - {item.NomeFantEmpr}
                             </Text>

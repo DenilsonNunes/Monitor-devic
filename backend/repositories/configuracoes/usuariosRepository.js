@@ -1,4 +1,6 @@
 const sqlQuery = require('../../db/SQL/query/query');
+const sqlQueryDelete = require('../../db/SQL/query/queryDelete');
+
 
 
 class UsuariosRepository {
@@ -12,6 +14,7 @@ class UsuariosRepository {
                 SELECT
                     C.CodFunc,
                     F.IdFunc,
+                    F.Ativo as AtivoBlue,
                     F.NomeFunc,
                     C.CustoRel,
                     C.SomenteVendaSuperVnd,
@@ -83,11 +86,69 @@ class UsuariosRepository {
     } 
     
 
+    static deletar = async (codFunc) => {
+        
+
+        const data = await sqlQueryDelete(
+            `                   
+                DELETE FROM 
+                    tmConfigFuncEmpr 
+                WHERE 
+                    CodFunc = ${codFunc} 
+
+                DELETE FROM 
+                    tmConfigFunc
+                WHERE 
+                    CodFunc = ${codFunc} 
+            `
+        );
+
+        return data
+
+    }
+    
+    static editar = async (codFunc) => {
+        
+
+        const data = await sqlQuery(
+            `                   
+                DELETE FROM 
+                    tmConfigFuncEmpr 
+                WHERE 
+                    CodFunc = ${codFunc} 
+                AND CodEmpr = '3'
+
+            `
+        );
+
+        return data
+
+    }
+    
+    
 
  
 }
 
+/*
 
+			SELECT 
+				t1.CodEmpr,
+				CASE 
+					WHEN EXISTS (
+						SELECT 
+							1 
+						FROM 
+							tmConfigFuncEmpr t2 
+						WHERE t2.CodEmpr = t1.CodEmpr and t2.CodFunc = 00001) THEN 'S'
+					ELSE 'N'
+				END AS ExisteEmTabela2
+			FROM TbEmpr t1
+			order by t1.CodEmpr
+
+
+
+*/
 
 
 module.exports = UsuariosRepository;

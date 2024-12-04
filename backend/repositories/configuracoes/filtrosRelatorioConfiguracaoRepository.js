@@ -18,9 +18,18 @@ class FiltrosRelatorioConfiguracaoRepository {
                         NomeFunc  
                     FROM 
                         TbFunc  
-                    Where 
-                        Ativo = 'S' 
-                    ORDER BY NomeFunc
+                    WHERE 
+                        Ativo = 'S'
+                        AND CodFunc NOT IN (
+                            SELECT CodFunc
+                            FROM tmConfigFunc
+                            WHERE CodFunc NOT IN (
+                                SELECT CodFunc
+                                FROM TbFunc
+                                WHERE Ativo = 'N'
+                            )
+                        )
+                    ORDER BY nomefunc
                 
                 `
             );
