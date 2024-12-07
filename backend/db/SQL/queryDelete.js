@@ -1,5 +1,5 @@
 const sql = require('mssql');
-const configDb = require('../../connection/conn');
+const configDb = require('../connection/conn');
 
 
 

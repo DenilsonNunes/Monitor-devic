@@ -1,5 +1,5 @@
 const sqlQuery = require('../../db/SQL/query/query');
-const sqlQueryDelete = require('../../db/SQL/query/queryDelete');
+const sqlQueryDelete = require('../../db/SQL/queryDelete');
 
 
 class TopVendasProdutosRepository {

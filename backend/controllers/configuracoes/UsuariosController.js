@@ -81,15 +81,20 @@ class UsuariosController {
  
             const data = await UsuariosService.deletar(codFunc);
 
-            if(!data) {
-                res.status(404).json({ message: 'Usuário não encontrado'})
+            if(data.sucesso) {
+
+                res.status(200).json({ message: "Usuário deletado com sucesso"})
+
+            } else {
+
+                res.status(404).json({message: data.message });
+                
             }
  
-            res.status(200).json(data);
  
-        } catch(err) {
+        } catch(error) {
  
-            res.status(500).json({ message: err.message });
+            return res.status(500).json({ error: "Erro ao tentar deletar o usuário" });
  
         }
         

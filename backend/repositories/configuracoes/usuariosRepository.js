@@ -1,5 +1,5 @@
 const sqlQuery = require('../../db/SQL/query/query');
-const sqlQueryDelete = require('../../db/SQL/query/queryDelete');
+const sqlQueryDelete = require('../../db/SQL/queryDelete');
 
 
 
@@ -89,7 +89,7 @@ class UsuariosRepository {
     static deletar = async (codFunc) => {
         
 
-        const data = await sqlQueryDelete(
+        const result = await sqlQueryDelete(
             `                   
                 DELETE FROM 
                     tmConfigFuncEmpr 
@@ -103,7 +103,7 @@ class UsuariosRepository {
             `
         );
 
-        return data
+        return result
 
     }
     
