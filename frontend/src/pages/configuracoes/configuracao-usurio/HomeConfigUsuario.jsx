@@ -172,7 +172,12 @@ const HomeConfigUsuario = () => {
             </HStack>
 
 
-            <TableContainer boxShadow='base' marginTop={5}>
+            <TableContainer 
+                boxShadow='base' 
+                marginTop={5}  
+                maxH='500px'
+                overflowY='scroll'
+            >
 
                 <Table>
 
@@ -262,6 +267,29 @@ const HomeConfigUsuario = () => {
                     </Tfoot>
                 </Table>
             </TableContainer>
+
+
+            <HStack marginTop={5} justifyContent='center'>
+                <Button>
+                    voltar
+                </Button>
+                <Button>
+                    1
+                </Button>
+        
+                <Button>
+                    2
+                </Button>
+        
+                <Button>
+                    3
+                </Button>
+
+                <Button>
+                    proximo
+                </Button>
+        
+            </HStack>
 
 
 

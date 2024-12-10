@@ -17,7 +17,7 @@ const HomeConfiguracoes = () => {
         <PageLayout>
 
             <Box display='flex'  alignItems='center' marginTop={20}>
-                <Heading fontSize='24px' color='#0C3854'>Configurações do monitor</Heading>
+                <Heading fontSize='24px' color='#0C3854'>Configurações</Heading>
             </Box>
 
 
