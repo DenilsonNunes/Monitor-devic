@@ -8,11 +8,25 @@ class UsuariosController {
     
     async listarTodos(req, res) {
 
-        try {
- 
-            const data = await UsuariosService.listarTodos();
+        const { page, pageSize }= req.query;
 
-            res.status(200).json(data);
+        try {
+
+ 
+            const data = await UsuariosService.listarTodos(page, pageSize);
+
+
+
+            if(data !== 0) { 
+
+                res.status(200).json(data);
+                
+            } else {
+                
+                res.status(400).json({message: "Nenhum usuário encontrado"});
+            }
+
+
  
         } catch(err) {
  

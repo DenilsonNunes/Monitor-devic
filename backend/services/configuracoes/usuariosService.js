@@ -4,11 +4,58 @@ const UsuariosRepository = require('../../repositories/configuracoes/usuariosRep
 class UsuariosService {
 
 
-    static listarTodos = async () => {
+    static listarTodos = async (page, pageSize) => {
 
-        const data  = await UsuariosRepository.listarTodos();
+        
+        // Receber o numero da pagina, quando não é enviado atribui o numero da pagina 1
+        const currentPage = parseInt(page) || 1;
+        console.log('SERVICE: Qual o valor da pagina', currentPage)
 
-        return data
+
+
+        // Limite de registro por pagina
+        const limitPage = parseInt(pageSize) || 10;
+        console.log('SERVICE: Qual o valor do tamanho da pagina', limitPage)
+
+
+
+        // Desvio da paginação
+        const offSet = (currentPage - 1) * limitPage;
+        console.log('SERVICE: Qual o valor do desvio das paginas', offSet)
+
+
+        // Variavel com o número da ultima pagina
+
+
+
+
+
+        // contar a quantidade de registros no banco
+        let countUsers = await UsuariosRepository.listarTodos();
+        countUsers = countUsers.length
+
+        console.log('SERVICE: Quantos registros tem no banco', countUsers)
+
+
+
+
+        if(countUsers !== 0) {
+            // Calulcar ultima pagina
+            const lastPage = Math.ceil((countUsers / limitPage))
+            console.log('SERVICE: Calculo ultima pagina', lastPage)
+
+        }
+
+
+       
+
+        
+        //const users = await UsuariosRepository.listarTodos(limitPage, offSet);
+        
+
+      
+
+        return users
         
     }
 
