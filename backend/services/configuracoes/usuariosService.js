@@ -11,51 +11,44 @@ class UsuariosService {
         const currentPage = parseInt(page) || 1;
         console.log('SERVICE: Qual o valor da pagina', currentPage)
 
-
-
+        
         // Limite de registro por pagina
         const limitPage = parseInt(pageSize) || 10;
         console.log('SERVICE: Qual o valor do tamanho da pagina', limitPage)
-
-
-
-        // Desvio da paginação
-        const offSet = (currentPage - 1) * limitPage;
-        console.log('SERVICE: Qual o valor do desvio das paginas', offSet)
-
-
-        // Variavel com o número da ultima pagina
-
-
-
-
-
-        // contar a quantidade de registros no banco
+        
+        
+    
+        // Contar a quantidade de registros no banco
         let countUsers = await UsuariosRepository.listarTodos();
         countUsers = countUsers.length
 
         console.log('SERVICE: Quantos registros tem no banco', countUsers)
 
-
-
-
+        let lastPage
         if(countUsers !== 0) {
             // Calulcar ultima pagina
-            const lastPage = Math.ceil((countUsers / limitPage))
+            lastPage = Math.ceil((countUsers / limitPage))
             console.log('SERVICE: Calculo ultima pagina', lastPage)
 
         }
 
+    
+        // Desvio da paginação  (1 * 10)=10    (10-10)=0
+        const offSet = (currentPage * limitPage) - limitPage;
+        console.log('SERVICE: Qual o valor do desvio das paginas', offSet)
 
-       
 
-        
-        //const users = await UsuariosRepository.listarTodos(limitPage, offSet);
-        
+        const users = await UsuariosRepository.listarTodos(offSet, limitPage);
 
-      
+        const data = {
+            currentPage,
+            lastPage,
+            prev_pag: currentPage - 1 >= 1 ? currentPage -1 : false,
+            next_page: currentPage + 1 <= lastPage ? currentPage + 1 : false,
+            users
+        }
 
-        return users
+        return data 
         
     }
 

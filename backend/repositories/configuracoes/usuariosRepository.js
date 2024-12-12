@@ -6,22 +6,15 @@ const sqlQueryDelete = require('../../db/SQL/queryDelete');
 class UsuariosRepository {
 
    
-    static listarTodos = async (limitPage, offSet ) => {
+    static listarTodos = async (offSet, limitPage) => {
 
         let queryAddFiltros = '';
 
-
-        if (limitPage && offSet) {
-
-            console.log('Tem filtros?', limitPage, offSet)
+        if (limitPage >= 0 && offSet >= 0) {
 
             queryAddFiltros += `OFFSET ${offSet} ROWS FETCH NEXT ${limitPage} ROWS ONLY`;
 
         }
-
-        console.log('passei aqui', queryAddFiltros)
-
-        
 
         const data = await sqlQuery(
             `                   
@@ -40,7 +33,6 @@ class UsuariosRepository {
                 INNER JOIN tmAplicacoes as A ON A.idAplicacao = C.TelaInicial
                 ORDER BY NomeFunc 
                 ${queryAddFiltros}
-
             `
         );
 

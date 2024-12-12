@@ -25,7 +25,7 @@ import {
     Tag
 } from '@chakra-ui/react'
 
-import { AddIcon, EditIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons'
+import { AddIcon, EditIcon, DeleteIcon, SearchIcon, ChevronRightIcon,ChevronLeftIcon } from '@chakra-ui/icons'
 
 import { useState, useEffect } from 'react';
 
@@ -80,8 +80,8 @@ const HomeConfigUsuario = () => {
     // Efeito para filtrar os dados sempre que os dados ou o searchQuery mudarem
     useEffect(() => {
 
-        if (data && data.length > 0) {
-            const results = data.filter(item =>
+        if (data && data.users.length > 0) {
+            const results = data.users.filter(item =>
                 item.NomeFunc.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 item.IdFunc.toLowerCase().includes(searchQuery.toLowerCase())
             );
@@ -112,6 +112,9 @@ const HomeConfigUsuario = () => {
         setUsuario(usuario);
         onDeleteUserOpen();
     };
+
+
+    console.log('Oq vem no data', data)
 
 
 
@@ -147,7 +150,7 @@ const HomeConfigUsuario = () => {
                             <option value='N'>Não</option>
                             <option value='S'>Sim</option>
                         </Select>
-                        
+
                     </HStack>
 
 
@@ -172,9 +175,9 @@ const HomeConfigUsuario = () => {
             </HStack>
 
 
-            <TableContainer 
-                boxShadow='base' 
-                marginTop={5}  
+            <TableContainer
+                boxShadow='base'
+                marginTop={5}
                 maxH='500px'
                 overflowY='scroll'
             >
@@ -270,25 +273,20 @@ const HomeConfigUsuario = () => {
 
 
             <HStack marginTop={5} justifyContent='center'>
-                <Button>
-                    voltar
-                </Button>
-                <Button>
-                    1
-                </Button>
-        
-                <Button>
-                    2
-                </Button>
-        
-                <Button>
-                    3
-                </Button>
 
-                <Button>
-                    proximo
-                </Button>
-        
+                <IconButton icon={<ChevronLeftIcon/>}/>
+
+                {data && Array.from({ length: data.lastPage }).map((_, index) => (
+                    <Button 
+                        key={index + 1} 
+                        bg={data.currentPage === index + 1 ? 'gray.300' : ''}
+                    >
+                    {index + 1}
+                    </Button>
+                ))}
+
+                <IconButton icon={<ChevronRightIcon />}/>
+
             </HStack>
 
 

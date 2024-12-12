@@ -17,7 +17,7 @@ class UsuariosController {
 
 
 
-            if(data !== 0) { 
+            if(data.users.length !== 0) { 
 
                 res.status(200).json(data);
                 
