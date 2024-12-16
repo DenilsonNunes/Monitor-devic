@@ -10,6 +10,10 @@ class UsuariosController {
 
         const { page, pageSize }= req.query;
 
+
+        console.log('O que vem da pagina e e tamanho pagina', page, pageSize);
+        
+
         try {
 
  

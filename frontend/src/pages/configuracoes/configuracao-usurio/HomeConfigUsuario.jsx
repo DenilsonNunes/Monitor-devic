@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { useSearchParams } from "react-router-dom";
+
 import {
     Tabs,
     Tfoot,
@@ -25,7 +27,7 @@ import {
     Tag
 } from '@chakra-ui/react'
 
-import { AddIcon, EditIcon, DeleteIcon, SearchIcon, ChevronRightIcon,ChevronLeftIcon } from '@chakra-ui/icons'
+import { AddIcon, EditIcon, DeleteIcon, SearchIcon, ChevronRightIcon, ChevronLeftIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
 
 import { useState, useEffect } from 'react';
 
@@ -33,10 +35,12 @@ import { useState, useEffect } from 'react';
 import api from '../../../helpers/api-instance';
 
 
+
 // Modais
 import ModalCadastrarUsuario from './modal/ModalCadastrarUsuario';
 import ModalEditarUsuario from './modal/ModalEditarUsuario';
 import ModalDeletarUsuario from './modal/ModalDeletarUsuario';
+import Pagination from '../../../components/Pagination/Pagination';
 
 
 
@@ -54,11 +58,17 @@ const HomeConfigUsuario = () => {
     const { isOpen: isEditUserOpen, onOpen: onEditUserOpen, onClose: onEditUserClose } = useDisclosure();
 
 
+    const [searchParams] = useSearchParams();
+
+
+    const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
+
+    console.log('qual pagina pega do parametro', page)
 
 
     const fetchUsuarios = async (filters) => {
 
-        const response = await api.get('/configuracoes/usuarios')
+        const response = await api.get(`/configuracoes/usuarios?page=1&pageSize=3`)
 
         console.log('Chamando fetch', response.data)
 
@@ -114,7 +124,6 @@ const HomeConfigUsuario = () => {
     };
 
 
-    console.log('Oq vem no data', data)
 
 
 
@@ -272,20 +281,10 @@ const HomeConfigUsuario = () => {
             </TableContainer>
 
 
-            <HStack marginTop={5} justifyContent='center'>
 
-                <IconButton icon={<ChevronLeftIcon/>}/>
+            <HStack marginTop={5} justifyContent='space-between'>
 
-                {data && Array.from({ length: data.lastPage }).map((_, index) => (
-                    <Button 
-                        key={index + 1} 
-                        bg={data.currentPage === index + 1 ? 'gray.300' : ''}
-                    >
-                    {index + 1}
-                    </Button>
-                ))}
-
-                <IconButton icon={<ChevronRightIcon />}/>
+                {data && <Pagination pages={data.lastPage} currentPage={data.currentPage}/> }
 
             </HStack>
 

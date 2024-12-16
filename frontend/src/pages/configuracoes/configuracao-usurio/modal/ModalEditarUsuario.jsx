@@ -45,14 +45,6 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
 
 
-
-
-  console.log('chamei a tela de edição', usuario);
-
-
-
-
-
   const handleCadastrarUsuario = () => {
 
 
@@ -61,6 +53,8 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
   }
 
 
+
+  
   const fetchCarregarFiltros = async () => {
 
     const response = await api.get('/configuracoes/usuarios/filtros-relatorio')
