@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 
 import {
@@ -25,6 +25,13 @@ import Loader from '../../../../components/Loading/Loader';
 
 
 const ModalDeletarUsuario = ({ isOpen, onClose, usuario }) => {
+
+  const queryClient = useQueryClient();
+
+
+
+
+
 
   if (!usuario) {
     return null;  // Retorna null caso o dado não exista
@@ -52,6 +59,7 @@ const ModalDeletarUsuario = ({ isOpen, onClose, usuario }) => {
     onSuccess: (data) => {
 
       console.log('Deu sucesso', data)
+      queryClient.invalidateQueries('usuarios')
 
     },
     onError: () => {

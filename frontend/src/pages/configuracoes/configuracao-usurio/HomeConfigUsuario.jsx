@@ -80,10 +80,10 @@ const HomeConfigUsuario = () => {
 
     const { data, error, isLoading } = useQuery({
 
-        queryKey: ['Usuarios', page], // se os valore mudar, busca novamente
-        queryFn: () => fetchUsuarios()
-
-    });
+        queryKey: ['usuarios', page], // se os valore mudar, busca novamente
+        queryFn: () => fetchUsuarios(),
+        refetchOnWindowFocus: false
+    }, );
 
 
 
