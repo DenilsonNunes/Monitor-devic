@@ -66,9 +66,9 @@ const HomeConfigUsuario = () => {
     console.log('qual pagina pega do parametro', page)
 
 
-    const fetchUsuarios = async (filters) => {
+    const fetchUsuarios = async () => {
 
-        const response = await api.get(`/configuracoes/usuarios?page=1&pageSize=3`)
+        const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=10`)
 
         console.log('Chamando fetch', response.data)
 
@@ -80,7 +80,7 @@ const HomeConfigUsuario = () => {
 
     const { data, error, isLoading } = useQuery({
 
-        queryKey: ['Usuarios'], // se os valore mudar, busca novamente
+        queryKey: ['Usuarios', page], // se os valore mudar, busca novamente
         queryFn: () => fetchUsuarios()
 
     });
@@ -89,6 +89,8 @@ const HomeConfigUsuario = () => {
 
     // Efeito para filtrar os dados sempre que os dados ou o searchQuery mudarem
     useEffect(() => {
+
+        console.log("fui chamado")
 
         if (data && data.users.length > 0) {
             const results = data.users.filter(item =>
@@ -284,7 +286,7 @@ const HomeConfigUsuario = () => {
 
             <HStack marginTop={5} justifyContent='space-between'>
 
-                {data && <Pagination pages={data.lastPage} currentPage={data.currentPage}/> }
+                {data && <Pagination pages={data.lastPage} currentPage={page} /> }
 
             </HStack>
 

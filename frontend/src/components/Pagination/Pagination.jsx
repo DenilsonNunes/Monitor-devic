@@ -1,3 +1,7 @@
+import { useSearchParams } from "react-router-dom";
+
+
+
 import { 
   HStack, 
   Text, 
@@ -14,7 +18,58 @@ import { ChevronRightIcon, ChevronLeftIcon, ArrowLeftIcon, ArrowRightIcon } from
 
 const Pagination = ({pages, currentPage}) => {
 
+  const [, setSearchParams] = useSearchParams();
+
   console.log('PAge e currentpage', pages, currentPage)
+
+  const firstPage = () => {
+    setSearchParams(params => {
+      params.set('page','1')
+
+      return params;
+    })
+  }
+
+  const nextPage = () => {
+    
+    if (currentPage + 1 > pages) {
+      return 
+    }
+
+    setSearchParams(params => {
+      params.set('page', String(currentPage + 1))
+
+      return params;
+    })
+
+  }
+
+  const previousPage = () => {
+    if (currentPage - 1 < 0) {
+      return 
+    }
+
+    setSearchParams(params => {
+      params.set('page', String(currentPage - 1))
+
+      return params;
+    })
+
+  }
+
+
+  const lastPage = () => {
+    setSearchParams(params => {
+      params.set('page', String(pages))
+
+      return params;
+    })
+  }
+
+
+
+
+
 
   return (
 
@@ -40,12 +95,26 @@ const Pagination = ({pages, currentPage}) => {
         <span>Página {currentPage} de {pages}</span>
 
 
-        <IconButton icon={<ArrowLeftIcon />} />
+        <IconButton 
+          onClick={firstPage}
+          icon={<ArrowLeftIcon />} 
+        />
 
-        <IconButton icon={<ChevronLeftIcon />} />
-        <IconButton icon={<ChevronRightIcon />} />
+        <IconButton 
+          isDisabled={currentPage - 1 <= 0}
+          onClick={previousPage}
+          icon={<ChevronLeftIcon />} 
+        />
+        <IconButton
+          isDisabled={currentPage + 1 > pages}
+          onClick={nextPage}
+          icon={<ChevronRightIcon />} 
+        />
 
-        <IconButton icon={<ArrowRightIcon />} />
+        <IconButton
+          onClick={lastPage}
+          icon={<ArrowRightIcon />} 
+        />
 
 
       </HStack>
