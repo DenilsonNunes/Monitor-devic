@@ -59,8 +59,6 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
     const response = await api.get('/configuracoes/usuarios/filtros-relatorio')
 
-    console.log('Chamando fetch no cadastro de usuarios', response.data)
-
     return response.data;
 
   };

@@ -1,19 +1,30 @@
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, Link } from "react-router-dom";
+import { useBreakpointValue, VStack } from "@chakra-ui/react";
 
-
-import { 
-  Box, 
-  Heading, 
+import {
+  Box,
+  Heading,
   IconButton,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   Button,
-  HStack
+  HStack,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Input,
+  Text
 } from "@chakra-ui/react";
 
 import { LuUserCircle } from "react-icons/lu";
+import { HamburgerIcon } from '@chakra-ui/icons'
 
 import styles from './Navbar.module.css';
 
@@ -28,8 +39,10 @@ import { useAuth } from "../../hooks/auth";
 
 const Navbar = () => {
 
-  const { nameUser, signOut  } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
+
+  const { nameUser, signOut } = useAuth();
   const navigate = useNavigate();
 
 
@@ -41,13 +54,96 @@ const Navbar = () => {
 
   }
 
+  const rotas = [
+    {
+      nameRota: 'Vendas',
+      rota: '/vendas'
+    },
+    {
+      nameRota: 'Financeiro',
+      rota: '/financeiro'
+    },
+    {
+      nameRota: 'Estoque',
+      rota: '/estoque'
+    },
+    {
+      nameRota: 'Fiscal/Contábil',
+      rota: '/fiscal-contabil'
+    },
+    {
+      nameRota: 'Configuracoes',
+      rota: '/configuracoes'
+    },
+  ]
 
+  const display = useBreakpointValue({
+    base: (
+      <>
+        <Box display='flex' justifyContent='space-between' marginLeft={2} alignItems='center' w='100%'>
+          {/* MENU HAMBURGUER PARA TELAS MENORES */}
+          <IconButton
+            size="md"
+            icon={<HamburgerIcon />}
+            aria-label="Open Menu"
+            onClick={onOpen}
+          />
 
+          {nameUser && 
+            <Heading 
+              size='sm' 
+              justifyContent='center' 
+              color='white'
+            >
+              Bem vindo, {nameUser}!
+            </Heading>
+          }
 
-  return (
+        </Box>
 
-    <Box className={styles.navbar} bg='primary'>
+        <Drawer
+          isOpen={isOpen}
+          placement='left'
+          onClose={onClose}
+        >
+          <DrawerOverlay />
+          <DrawerContent >
+            <DrawerCloseButton  />
 
+            <DrawerBody marginTop={10} padding={0}>
+              <VStack spacing={2} align="stretch" marginTop={5}>
+                {rotas.map((item) => (
+                  <>
+                    <Button
+                      borderRadius='none'
+                      _hover='none'
+                      as={Link}
+                      to={item.rota}
+                      width='100%'
+                      justifyContent="start"
+                      onClick={onClose}
+                    >
+                      {item.nameRota}
+                    </Button>
+                  </>
+
+                ))}
+
+              </VStack>
+            </DrawerBody>
+
+            <DrawerFooter padding={4}>
+              <Button variant='outline'  onClick={handleSignOut}>
+                Sair
+              </Button>
+            </DrawerFooter>
+
+          </DrawerContent>
+        </Drawer>
+
+      </>
+    ),
+    md: (
       <Box display='flex' justifyContent='space-between' alignItems='center' w='100%'>
 
         <ul>
@@ -83,9 +179,9 @@ const Navbar = () => {
           <Menu>
             <MenuButton>
               <IconButton
-              borderRadius={20}
-              fontSize="24px"
-              icon={<LuUserCircle />}
+                borderRadius={20}
+                fontSize="24px"
+                icon={<LuUserCircle />}
               />
             </MenuButton>
 
@@ -103,8 +199,18 @@ const Navbar = () => {
           </Menu>
 
         </HStack>
-        
+
       </Box>
+    )
+  })
+
+  return (
+
+
+
+    <Box className={styles.navbar} bg='primary'>
+
+      {display}
 
     </Box>
   )

@@ -128,10 +128,16 @@ class UsuariosRepository {
                 VALUES ('${codFunc}', ${telaInicial}, '${custoRel}', '${somenteVendaSuperVnd}')
 
                 
-                INSERT INTO tmConfigFuncEmpr (CodFunc, CodEmpr) 
-                VALUES ('${codFunc}', '${telaInicial}')
+  
             `
         );
+        /*
+        
+                      INSERT INTO tmConfigFuncEmpr (CodFunc, CodEmpr) 
+                VALUES ('${codFunc}', '${telaInicial}')
+        
+        
+        */
 
 
         return result

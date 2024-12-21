@@ -289,34 +289,22 @@ const HomeConfigUsuario = () => {
 
             </HStack>
 
+            <ModalCadastrarUsuario
+                isOpen={isCreateUserOpen}
+                onClose={onCreateUserClose}
+            />
 
+            <ModalEditarUsuario
+                isOpen={isEditUserOpen}
+                onClose={onEditUserClose}
+                usuario={usuario}
+            />
 
-            {data &&
-                (
-                    <>
-
-                        <ModalCadastrarUsuario
-                            isOpen={isCreateUserOpen}
-                            onClose={onCreateUserClose}
-                        />
-
-                        <ModalEditarUsuario
-                            isOpen={isEditUserOpen}
-                            onClose={onEditUserClose}
-                            usuario={usuario}
-                        />
-
-                        <ModalDeletarUsuario
-                            isOpen={isDeleteUserOpen}
-                            onClose={onDeleteUserClose}
-                            usuario={usuario}
-                        />
-
-
-                    </>
-                )
-
-            }
+            <ModalDeletarUsuario
+                isOpen={isDeleteUserOpen}
+                onClose={onDeleteUserClose}
+                usuario={usuario}
+            />
 
         </Box>
     )
