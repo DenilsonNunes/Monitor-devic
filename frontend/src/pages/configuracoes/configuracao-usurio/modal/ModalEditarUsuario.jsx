@@ -72,7 +72,8 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
   const { data, error, isLoading } = useQuery({
 
     queryKey: ['CarregarFiltros'], // se os valore mudar, busca novamente
-    queryFn: () => fetchCarregarFiltros()
+    queryFn: () => fetchCarregarFiltros(),
+    refetchOnWindowFocus: false
 
   });
 

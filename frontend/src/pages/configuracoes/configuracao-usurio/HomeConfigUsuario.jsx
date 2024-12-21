@@ -171,7 +171,7 @@ const HomeConfigUsuario = () => {
 
                     <Button
                         leftIcon={<AddIcon />}
-                        colorScheme='blue'
+                        colorScheme='green'
                         variant='solid'
                         fontWeight='200'
                         size='sm'
@@ -190,7 +190,6 @@ const HomeConfigUsuario = () => {
                 boxShadow='base'
                 marginTop={5}
                 maxH='500px'
-                overflowY='scroll'
             >
 
                 <Table>

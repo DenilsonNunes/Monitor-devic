@@ -1,7 +1,5 @@
 import { useSearchParams } from "react-router-dom";
 
-
-
 import { 
   HStack, 
   Text, 
@@ -15,12 +13,12 @@ import { ChevronRightIcon, ChevronLeftIcon, ArrowLeftIcon, ArrowRightIcon } from
 
 
 
-
 const Pagination = ({pages, currentPage}) => {
 
   const [, setSearchParams] = useSearchParams();
 
-  console.log('PAge e currentpage', pages, currentPage)
+
+
 
   const firstPage = () => {
     setSearchParams(params => {
@@ -29,6 +27,7 @@ const Pagination = ({pages, currentPage}) => {
       return params;
     })
   }
+
 
   const nextPage = () => {
     
@@ -44,6 +43,9 @@ const Pagination = ({pages, currentPage}) => {
 
   }
 
+
+
+
   const previousPage = () => {
     if (currentPage - 1 < 0) {
       return 
@@ -58,6 +60,8 @@ const Pagination = ({pages, currentPage}) => {
   }
 
 
+
+
   const lastPage = () => {
     setSearchParams(params => {
       params.set('page', String(pages))
@@ -65,7 +69,6 @@ const Pagination = ({pages, currentPage}) => {
       return params;
     })
   }
-
 
 
 
@@ -97,7 +100,7 @@ const Pagination = ({pages, currentPage}) => {
 
         <IconButton 
           onClick={firstPage}
-          icon={<ArrowLeftIcon />} 
+          icon={<ArrowLeftIcon boxSize={2}/>} 
         />
 
         <IconButton 
@@ -113,7 +116,7 @@ const Pagination = ({pages, currentPage}) => {
 
         <IconButton
           onClick={lastPage}
-          icon={<ArrowRightIcon />} 
+          icon={<ArrowRightIcon boxSize={2}/>} 
         />
 
 

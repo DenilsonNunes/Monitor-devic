@@ -10,6 +10,7 @@ const FiltrosRelatorioConfiguracaoController = require('../../controllers/config
 
 router.get('/', UsuariosController.listarTodos);
 router.delete('/:codFunc', UsuariosController.deletar);
+router.post('/cadastrar', UsuariosController.cadastrar);
 router.get('/filtros-relatorio', FiltrosRelatorioConfiguracaoController.listarTodos);
 
 

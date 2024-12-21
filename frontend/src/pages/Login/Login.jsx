@@ -58,7 +58,7 @@ const Login = () => {
       toast({
         title: "Login realizado com sucesso.",
         status: "success",
-        duration: 5000,
+        duration: 2000,
         isClosable: true,
       });
 
@@ -78,7 +78,7 @@ const Login = () => {
       toast({
         title: error.data.message, // A mensagem de erro da API
         status: "error",
-        duration: 5000,
+        duration: 2000,
         isClosable: true,
       });
     }

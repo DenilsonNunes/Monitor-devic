@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation  } from '@tanstack/react-query';
 
 
 import {
@@ -26,6 +26,7 @@ import {
   Checkbox
 } from '@chakra-ui/react'
 
+
 import { CheckIcon, SearchIcon } from '@chakra-ui/icons'
 
 
@@ -43,11 +44,24 @@ import api from '../../../../helpers/api-instance';
 
 const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
+  const [func, setFunc] = useState('')
+  const [telaInicial, setTelainicial] = useState('')
+  const [empresas, setEmpresas] = useState([])
+  const [visualizarCustoProd, setVisualizarCustoProd] = useState('')
+  const [visualizarVendas, setVisualizarVendas] = useState('')
 
 
 
 
 
+
+  const handleCheckboxEmpresas = (e) => {
+    const { value, checked } = e.target;
+
+    setEmpresas((prev) =>
+      checked ? [...prev, value] : prev.filter((empresa) => empresa !== value)
+    );
+  };
 
 
 
@@ -55,8 +69,7 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
   const handleCadastrarUsuario = () => {
 
-
-    onClose()
+    mutate();
 
   }
 
@@ -65,22 +78,50 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
     const response = await api.get('/configuracoes/usuarios/filtros-relatorio')
 
-    console.log('Chamando fetch no cadastro de usuarios', response.data)
-
     return response.data;
 
   };
 
 
 
-
-
   const { data, error, isLoading } = useQuery({
 
     queryKey: ['CarregarFiltros'], // se os valore mudar, busca novamente
-    queryFn: () => fetchCarregarFiltros()
-
+    queryFn: () => fetchCarregarFiltros(),
+    refetchOnWindowFocus: false
+  
   });
+
+
+
+  
+  const { mutate, isPending, isSuccess, isError, reset } = useMutation({
+
+    mutationFn: async () => {
+
+      const response = await api.post('/configuracoes/usuarios/cadastrar', {
+        codFunc: func, 
+        telaInicial, 
+        custoRel: visualizarCustoProd, 
+        somenteVendaSuperVnd: visualizarVendas, 
+        empresas
+      })
+      return response.data
+      
+    },
+    onSuccess: (data) => {
+
+      console.log('Deu sucesso', data)
+
+    },
+    onError: (error) => {
+
+      console.log('Deu erro', error.response.data)
+
+    }
+
+
+  })
 
 
 
@@ -110,7 +151,7 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
           <ModalBody marginTop={5}>
 
-            <form onSubmit={handleCadastrarUsuario}>
+
 
               <VStack>
 
@@ -121,9 +162,11 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Funcionário(a)</FormLabel>
 
-                    <Select size='sm' >
-                      <option value='T'>--Selecione--</option>
-
+                    <Select 
+                      size='sm' 
+                      placeholder='--Selecione--'
+                      onChange={(e) => setFunc(e.target.value)}   
+                    >
                       {data && data.funcionarios.map((item, index) => (
 
                         <option value={item.CodFunc} key={index}>{item.NomeFunc}</option>
@@ -138,12 +181,20 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Tela Inicial</FormLabel>
 
-                    <Select size='sm' >
-                      <option value='T'>--Selecione--</option>
+                    <Select 
+                      size='sm' 
+                      placeholder='--Selecione--'
+                      onChange={(e) => setTelainicial(e.target.value)}
+                    >
 
                       {data && data.telaInicial.map((item, index) => (
 
-                        <option value={item.idAplicacao} key={index}>{item.NomeAmigavelAplic}</option>
+                        <option 
+                          value={item.idAplicacao} 
+                          key={index}                  
+                          >
+                            {item.NomeAmigavelAplic}
+                          </option>
 
                       ))}
 
@@ -173,15 +224,20 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
                       overflowY="auto"   
                       border='1px'
                       borderColor='gray.300'                   
-                      >
+                    >
 
                       {data && data.empresa.map((item, index) => (
 
                         <HStack marginLeft={1} key={index}>
-                          <Checkbox colorScheme='green'   value={item.CodEmpr}>
+                          <Checkbox 
+                            colorScheme='green'  
+                            value={item.CodEmpr}
+                            onChange={handleCheckboxEmpresas}                       
+                          >
                             <Text fontSize='sm'>
                             {item.CodEmpr} - {item.NomeFantEmpr}
                             </Text>
+
                           </Checkbox>
                         </HStack>
 
@@ -201,10 +257,10 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
                   <Stack direction='column' spacing={0} >
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualiza custos dos produtos?</FormLabel>
-                    <RadioGroup >
-                      <Stack direction='row'>
-                        <Radio value='Q' size='sm'>Sim</Radio>
-                        <Radio value='V' size='sm'>Não</Radio>
+                    <RadioGroup>
+                      <Stack direction='row'onChange={(e) => setVisualizarCustoProd(e.target.value)} value={visualizarCustoProd}>
+                        <Radio value='S' size='sm'>Sim</Radio>
+                        <Radio value='N' size='sm'>Não</Radio>
                       </Stack>
                     </RadioGroup>
 
@@ -220,9 +276,9 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualizar vendas?</FormLabel>
 
                     <RadioGroup >
-                      <Stack direction='row'>
-                        <Radio value='Q' size='sm'>Sim</Radio>
-                        <Radio value='V' size='sm'>Apenas vendedores do supervisor</Radio>
+                      <Stack direction='row' onChange={(e) => setVisualizarVendas(e.target.value)}>
+                        <Radio value='S' size='sm'>Sim</Radio>
+                        <Radio value='N' size='sm'>Apenas vendedores do supervisor</Radio>
                       </Stack>
                     </RadioGroup>
 
@@ -243,6 +299,7 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
                     color='white'
                     type='submit'
                     fontWeight='none'
+                    onClick={handleCadastrarUsuario}
                   >
                     Salvar
                   </Button>
@@ -252,7 +309,7 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
               </VStack>
 
-            </form>
+
 
           </ModalBody>
 

@@ -1,5 +1,7 @@
 const sqlQuery = require('../../db/SQL/query/query');
 const sqlQueryDelete = require('../../db/SQL/queryDelete');
+const sqlQueryInsert = require('../../db/SQL/queryInsert');
+
 
 
 
@@ -114,6 +116,28 @@ class UsuariosRepository {
         return result
 
     }
+
+    
+    static cadastrar = async (codFunc, telaInicial, custoRel, somenteVendaSuperVnd) => {
+        
+        console.log('Cheguei no repository  ', codFunc, telaInicial, custoRel, somenteVendaSuperVnd)
+
+        const result = await sqlQueryInsert(
+            `                   
+                INSERT INTO tmConfigFunc (CodFunc, TelaInicial, CustoRel, SomenteVendaSuperVnd) 
+                VALUES ('${codFunc}', ${telaInicial}, '${custoRel}', '${somenteVendaSuperVnd}')
+
+                
+                INSERT INTO tmConfigFuncEmpr (CodFunc, CodEmpr) 
+                VALUES ('${codFunc}', '${telaInicial}')
+            `
+        );
+
+
+        return result
+
+    }
+    
     
     static editar = async (codFunc) => {
         

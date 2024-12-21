@@ -1,67 +1,71 @@
 // Services
-const UsuariosService  = require('../../services/configuracoes/usuariosService');
+const UsuariosService = require('../../services/configuracoes/usuariosService');
 
 
 
 
 class UsuariosController {
-    
+
     async listarTodos(req, res) {
 
-        const { page, pageSize }= req.query;
+        const { page, pageSize } = req.query;
 
 
         console.log('O que vem da pagina e e tamanho pagina', page, pageSize);
-        
+
 
         try {
 
- 
+
             const data = await UsuariosService.listarTodos(page, pageSize);
 
 
 
-            if(data.users.length !== 0) { 
+            if (data.users.length !== 0) {
 
                 res.status(200).json(data);
-                
+
             } else {
-                
-                res.status(400).json({message: "Nenhum usuário encontrado"});
+
+                res.status(400).json({ message: "Nenhum usuário encontrado" });
             }
 
 
- 
-        } catch(err) {
- 
+
+        } catch (err) {
+
             res.status(500).json({ message: err.message });
- 
+
         }
-        
+
     }
+
+
+
 
     async cadastrar(req, res) {
 
-        const userCodFunc = (req.userCodFunc)
-
-        console.log('Qual o usuario', userCodFunc)
-
-        const filtrosRel = req.query;
+        const { codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas } = req.body
 
 
         try {
- 
-            const { data, dataFiltroRel } = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc, filtrosRel);
 
-            res.status(200).json({ data, dataFiltroRel });
- 
-        } catch(err) {
- 
+            const result = await UsuariosService.cadastrar(codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas);
+
+            // Verifica se houve erro no retorno
+            if (!result.sucesso) {
+                return res.status(400).json({ error: result.message });
+            }
+
+            res.status(201).json(result);
+
+        } catch (err) {
+
             res.status(500).json({ message: err.message });
- 
+
         }
-        
-     
+
+
     }
 
 
@@ -75,18 +79,18 @@ class UsuariosController {
 
 
         try {
- 
+
             const { data, dataFiltroRel } = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc, filtrosRel);
 
             res.status(200).json({ data, dataFiltroRel });
- 
-        } catch(err) {
- 
+
+        } catch (err) {
+
             res.status(500).json({ message: err.message });
- 
+
         }
-        
-     
+
+
     }
 
 
@@ -94,30 +98,30 @@ class UsuariosController {
 
         const { codFunc } = req.params
 
-        
+
         try {
- 
+
             const data = await UsuariosService.deletar(codFunc);
 
-            if(data.sucesso) {
+            if (data.sucesso) {
 
-                res.status(200).json({ message: "Usuário deletado com sucesso"})
+                res.status(200).json({ message: "Usuário deletado com sucesso" })
 
             } else {
 
-                res.status(404).json({message: data.message });
-                
+                res.status(404).json({ message: data.message });
+
             }
- 
- 
-        } catch(error) {
- 
+
+
+        } catch (error) {
+
             return res.status(500).json({ error: "Erro ao tentar deletar o usuário" });
- 
+
         }
-        
-        
-     
+
+
+
     }
 
 

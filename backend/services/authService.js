@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken');
 
 class AuthService {
 
+  
   async login(user, password) {
-
 
     // Verifica se usuário existe
     const userIdFunc = await userRepository.findByUser(user);
