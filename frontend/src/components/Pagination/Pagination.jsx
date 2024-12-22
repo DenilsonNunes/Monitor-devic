@@ -13,12 +13,13 @@ import { useState } from "react";
 
 
 
-
 const Pagination = ({pages, currentPage}) => {
 
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [perPage, setPerPage] = useState(10)
+
+  // Inicializa o estado de perPage com o valor dos parâmetros da URL ou um valor padrão
+  const [perPage, setPerPage] = useState(searchParams.get("pageSize") || "10");
 
 
   const firstPage = () => {
@@ -38,13 +39,10 @@ const Pagination = ({pages, currentPage}) => {
 
     setSearchParams(params => {
       params.set('page', String(currentPage + 1))
-
       return params;
     })
 
   }
-
-
 
 
   const previousPage = () => {
@@ -62,7 +60,6 @@ const Pagination = ({pages, currentPage}) => {
 
 
 
-
   const lastPage = () => {
     setSearchParams(params => {
       params.set('page', String(pages))
@@ -73,17 +70,22 @@ const Pagination = ({pages, currentPage}) => {
 
   const handlePerPage = (e) => {
 
+    setPerPage(e.target.value)
+
     setSearchParams(params => {
       params.set('pageSize', String(e.target.value))
 
       return params;
     })
 
+    setSearchParams(params => {
+      params.set('page','1')
+
+      return params;
+    })
+
 
   }
-
-
-
 
 
   return (
@@ -94,6 +96,7 @@ const Pagination = ({pages, currentPage}) => {
 
         <Text fontSize='14px' whiteSpace="nowrap">Exibir</Text>
         <Select
+          bg='white'
           size='sm'
           onChange={handlePerPage}
           value={perPage}
@@ -106,29 +109,32 @@ const Pagination = ({pages, currentPage}) => {
       </HStack>
 
 
-
       <HStack>
 
         <span>Página {currentPage} de {pages}</span>
 
 
         <IconButton 
+          bg='gray.300'
           onClick={firstPage}
           icon={<ArrowLeftIcon boxSize={2}/>} 
         />
 
         <IconButton 
+          bg='gray.300'
           isDisabled={currentPage - 1 <= 0}
           onClick={previousPage}
           icon={<ChevronLeftIcon />} 
         />
         <IconButton
+          bg='gray.300'
           isDisabled={currentPage + 1 > pages}
           onClick={nextPage}
           icon={<ChevronRightIcon />} 
         />
 
         <IconButton
+          bg='gray.300'
           onClick={lastPage}
           icon={<ArrowRightIcon boxSize={2}/>} 
         />

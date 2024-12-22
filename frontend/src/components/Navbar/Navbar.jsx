@@ -168,7 +168,7 @@ const Navbar = () => {
           </li>
 
           <li>
-            <NavLink to="/configuracoes">Configurações</NavLink>
+            <NavLink to="/configuracoes/usuarios">Configurações</NavLink>
           </li>
 
         </ul>

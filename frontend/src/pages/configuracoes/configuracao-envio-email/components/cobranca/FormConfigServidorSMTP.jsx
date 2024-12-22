@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import api from '../../../helpers/api-instance'
+import api from '../../../../../helpers/api-instance'
 
 import {
     FormControl,
@@ -9,12 +9,13 @@ import {
     Button,
     useToast,
     Stack,
+    HStack,
 }
     from '@chakra-ui/react'
 
 
 
-const FormConfigEmail = () => {
+const FormConfigServidorSMTP = () => {
 
     const toast = useToast();
 
@@ -158,7 +159,7 @@ const FormConfigEmail = () => {
 
         <form onSubmit={handleSalvarDados}>
 
-            <FormControl px={30} p="2" width="100%" borderWidth="1px" borderColor="#cbd5e1" borderRadius='5px'>
+            <FormControl px={30} p="2" width="100%" borderWidth="1px" borderColor="#cbd5e1" borderRadius='5px' marginBottom={2}>
 
                 <Stack direction='row' width='100%'>
 
@@ -166,7 +167,10 @@ const FormConfigEmail = () => {
                     <Stack direction='column' spacing={0} width='30%'>
 
                         <FormLabel>SMTP Server</FormLabel>
-                        <Input type='text' border='1px' borderColor='#cbd5e1' isDisabled={emEdicao}
+                        <Input 
+                            size='sm'
+                            type='text' 
+                            isDisabled={emEdicao}
                             value={server}
                             onChange={(e) => setServer(e.target.value)}
                             placeholder="Informe o servidor SMTP"
@@ -177,7 +181,13 @@ const FormConfigEmail = () => {
                     <Stack direction='column' spacing={0} width='30%'>
 
                         <FormLabel >SMTP Usuário</FormLabel>
-                        <Input type='e-mail' border='1px' borderColor='#cbd5e1' marginBottom={2} isDisabled={emEdicao}
+                        <Input
+                            size='sm' 
+                            type='e-mail' 
+                            border='1px' 
+                            borderColor='#cbd5e1' 
+                            marginBottom={2} 
+                            isDisabled={emEdicao}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Informe o e-mail"
@@ -188,7 +198,10 @@ const FormConfigEmail = () => {
                     <Stack direction='column' spacing={0} width='30%'>
 
                         <FormLabel >SMTP Senha</FormLabel>
-                        <Input type='password' border='1px' borderColor='#cbd5e1' marginBottom={2} isDisabled={emEdicao}
+                        <Input 
+                            size='sm'
+                            type='password'         
+                            isDisabled={emEdicao}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Informe a Senha"
@@ -200,7 +213,11 @@ const FormConfigEmail = () => {
                     <Stack direction='column' spacing={0}>
 
                         <FormLabel >Porta</FormLabel>
-                        <Input type='text' border='1px' borderColor='#cbd5e1' marginBottom={5} width="4rem" padding={2} isDisabled={emEdicao}
+                        <Input 
+                            size='sm'
+                            type='text'  
+                            width="4rem"  
+                            sDisabled={emEdicao}
                             value={port}
                             onChange={(e) => setPort(e.target.value)}
                         />
@@ -211,9 +228,9 @@ const FormConfigEmail = () => {
 
                 </Stack>
 
-               
 
-                <FormLabel>
+
+                <HStack marginTop={2}>
 
                     <Button type='submit' size='sm' isLoading={loading} colorScheme='blue'  isDisabled={botaoHabilitado} onClick={handleTestarConexao}>
                         Testar Conexão
@@ -226,8 +243,9 @@ const FormConfigEmail = () => {
                     <Button type='submit' size='sm' colorScheme='green' marginLeft={2} isDisabled={desabilitarCampos} onClick={handleSalvarDados}>Salvar</Button>
         
                     {!emEdicao && <p style={{color: 'red'}}>Alterando...</p>}
+        
+                </HStack>
 
-                </FormLabel>
 
 
             </FormControl>
@@ -238,6 +256,6 @@ const FormConfigEmail = () => {
     )
 }
 
-export default FormConfigEmail;
+export default FormConfigServidorSMTP;
 
 

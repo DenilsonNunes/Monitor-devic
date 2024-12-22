@@ -56,9 +56,14 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
   const handleCheckboxEmpresas = (e) => {
     const { value, checked } = e.target;
 
+    const trimmedValue = value.trim(); // Remove espaços em branco extras
+
     setEmpresas((prev) =>
-      checked ? [...prev, value] : prev.filter((empresa) => empresa !== value)
+      checked 
+        ? [...prev, trimmedValue] 
+        : prev.filter((empresa) => empresa !== trimmedValue)
     );
+    console.log('Como fica quando aperta', empresas)
   };
 
 
@@ -95,7 +100,9 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
   const { mutate, isPending, isSuccess, isError, reset } = useMutation({
 
     mutationFn: async () => {
-
+      
+      console.log('Como vai no mutate', empresas)
+    
       // Um atraso de 2 seguntos para exibir o loading na tela
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -112,11 +119,14 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
     onSuccess: () => {
       // Se der sucesso, recagerra os filtros e atualiza a lista de usuarios cadastrados
       queryClient.invalidateQueries('Filtros-Cadastro-Usuarios', 'usuarios')
+      setEmpresas('');
 
     },
     onError: (error) => {
       // Se der erro, exibi erro na tela
       console.log('Deu erro', error.response.data)
+      setEmpresas('');
+
 
     }
 

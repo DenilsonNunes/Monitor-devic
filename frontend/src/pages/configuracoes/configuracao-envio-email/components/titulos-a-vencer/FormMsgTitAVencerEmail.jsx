@@ -11,6 +11,8 @@ import {
     Radio,
     Box,
     useDisclosure,
+    HStack,
+    Divider,
 
 } from '@chakra-ui/react'
 
@@ -19,12 +21,12 @@ import ModalEnviarEmailTeste from './ModalEnviarEmailTeste';
 
 
 // instacia API
-import api from '../../../helpers/api-instance'
-import MyEditor from '../../EditorDeTexto/MyEditor';
+import api from '../../../../../helpers/api-instance'
+import MyEditor from '../../../../../components/EditorDeTexto/MyEditor';
 
 
 
-const FormConfigMsgEmail = () => {
+const FormMsgTitAVencerEmail = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -90,44 +92,6 @@ const FormConfigMsgEmail = () => {
 
         event.preventDefault();
         onOpen();
-
-        /*
-        
-         event.preventDefault();
-
-        setEnviandoemail(true);
-
-        api.post('configuracoes/envio-email/teste-titulos-a-vencer')
-
-            .then((response) => {
-
-                console.log('Email Teste Realizado com sucesso: ', response.data)
-
-                setEnviandoemail(false);
-                
-                toast({
-                    title: response.data.message,
-                    status: 'success',
-                    duration: 4000,
-                    isClosable: true,
-                })
-            })
-            .catch((error) => {
-                // Adicione aqui a lógica para exibir uma mensagem de erro ou qualquer outra ação desejada em caso de falha no teste de conexão
-                console.log('Erro ao Enviar Email Teste:', error.response);
-
-                setEnviandoemail(false);
-               
-                toast({
-                    title: 'Erro ao enviar e-mail teste !!!',
-                    status: 'error',
-                    duration: 4000,
-                    isClosable: true,
-                })
-            });
-        
-        
-        */
        
         
     };
@@ -176,33 +140,33 @@ const FormConfigMsgEmail = () => {
 
         <form onSubmit={handleSalvarDados}>
 
-            <FormControl px={30} p="2" width="100%" borderWidth="1px" borderColor="#cbd5e1" borderRadius='5px' marginTop={10}>
+            <FormControl px={30} p="2" width="100%" borderWidth="1px" borderColor="#cbd5e1" borderRadius='5px' >
 
-                <Stack direction='row' width='100%'>
+                <HStack width='100%' alignItems='start' marginBottom={5} gap={5}>
 
-
-                    <Stack direction='column' spacing={0} >
+                    <Stack direction='column' spacing={0}>
 
                         <FormLabel>Enviar e-mail automatico?</FormLabel>
-                        <Box height='40px' display='flex' alignItems='center'>
-                            <RadioGroup value={EnvEmailAutAVenc} onChange={setEnvEmailAutAVenc} isDisabled={!emEdicao}>
-                                <Stack direction='row'>
-                                    <Radio borderColor='#cbd5e1' value='N'>Não</Radio>
-                                    <Radio borderColor='#cbd5e1' value='D'>Diário</Radio>
-                                    <Radio borderColor='#cbd5e1' value='H'>Horas</Radio>
-                                </Stack>
-                            </RadioGroup>
-
-                        </Box>
-
+                 
+                        <RadioGroup value={EnvEmailAutAVenc} onChange={setEnvEmailAutAVenc} isDisabled={!emEdicao}>
+                            <Stack direction='row'>
+                                <Radio borderColor='#cbd5e1' value='N'>Não</Radio>
+                                <Radio borderColor='#cbd5e1' value='D'>Diário</Radio>
+                                <Radio borderColor='#cbd5e1' value='H'>Horas</Radio>
+                            </Stack>
+                        </RadioGroup>
 
                     </Stack>
 
-
+                 
                     <Stack direction='column' spacing={0} >
 
                         <FormLabel >Intervalo para repetir Dia/Horas</FormLabel>
-                        <Input type='text' border='1px' borderColor='#cbd5e1' width="4rem" marginBottom={2} isDisabled={!emEdicao}
+                        <Input 
+                            size='sm'
+                            type='text' 
+                            width="4rem"  
+                            isDisabled={!emEdicao}
                             value={HsIntEmailAutAVenc}
                             onChange={(e) => setHsIntEmailAutAVenc(e.target.value)}
                         />
@@ -212,7 +176,11 @@ const FormConfigMsgEmail = () => {
                     <Stack direction='column' spacing={0} >
 
                         <FormLabel >Horário agendamento</FormLabel>
-                        <Input type='time' border='1px' borderColor='#cbd5e1' marginBottom={2} width="7rem" isDisabled={!emEdicao}
+                        <Input 
+                            type='time' 
+                            size='sm' 
+                            width="7rem" 
+                            isDisabled={!emEdicao}
                             value={HsIniEmailAutAVenc}
                             onChange={(e) => setHsIniEmailAutAVenc(e.target.value)}
                         />
@@ -223,7 +191,11 @@ const FormConfigMsgEmail = () => {
                     <Stack direction='column' spacing={0} >
 
                         <FormLabel >Dias Antes do vencimento</FormLabel>
-                        <Input type='text' border='1px' borderColor='#cbd5e1' marginBottom={2} width="4rem" isDisabled={!emEdicao}
+                        <Input 
+                            size='sm'
+                            type='text' 
+                            width="4rem" 
+                            isDisabled={!emEdicao}
                             value={DiasAVencEmailAutAVenc}
                             onChange={(e) => setDiasAVencEmailAutAVenc(e.target.value)}
                         />
@@ -232,23 +204,28 @@ const FormConfigMsgEmail = () => {
 
 
 
-                </Stack>
+                </HStack>
 
-                <Stack direction='column' spacing={0} width='23rem'>
+                <Divider/>
 
+
+                <Stack direction='column' spacing={0} width='23rem' marginY={5}>
                     <FormLabel >Assunto do e-mail titulos a vencer</FormLabel>
-                    <Input type='text' border='1px' borderColor='#cbd5e1' marginBottom={2} isDisabled={!emEdicao}
+                    <Input 
+                        type='text'
+                        size='sm'
+                        isDisabled={!emEdicao}
                         value={MailAssuntoTitAVenc}
                         onChange={(e) => setMailAssuntoTitAVenc(e.target.value)}
                         placeholder="Informe o assunto do E-mail"
                     />
-
                 </Stack>
 
+                <Divider/>
 
-                <Stack direction='column' spacing={0} width='100%'>
+                <Stack direction='column' spacing={0} width='100%' marginTop={5} marginBottom={5}>
 
-                    <FormLabel >Mensagem padrão titulos a vencer</FormLabel>
+                    <FormLabel fontSize='xsmd'>Mensagem padrão titulos a vencer</FormLabel>
 
                     <MyEditor onChange={handleEditorChange} initialValue={MailMsgTitAVenc} emAlteracao={!emEdicao}></MyEditor>
 
@@ -290,8 +267,8 @@ const FormConfigMsgEmail = () => {
 
 
             </FormControl>
+
             <ModalEnviarEmailTeste
-              
                 isOpen={isOpen}
                 onClose={onClose}
             />
@@ -301,4 +278,4 @@ const FormConfigMsgEmail = () => {
     )
 }
 
-export default FormConfigMsgEmail;
+export default FormMsgTitAVencerEmail;

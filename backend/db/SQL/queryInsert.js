@@ -12,11 +12,12 @@ const queryInsert = async (dados) => {
         const result = await pool.request()
             .query(dados);
 
-        if (result.rowsAffected > 0) {
+
+        if (result.rowsAffected.length > 0) {
 
             return "insert realizado com sucesso"
 
-        } else {
+        }  else {
 
             return "Não foi possível realizar o insert"
 

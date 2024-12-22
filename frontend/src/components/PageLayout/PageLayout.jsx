@@ -8,7 +8,7 @@ import {
     return (
 
       <Box  
-        marginTop='60px' 
+        marginTop='80px' 
         marginLeft={2} 
         marginRight={2} 
         height="calc(100vh - 60px)"

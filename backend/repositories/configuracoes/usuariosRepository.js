@@ -38,61 +38,8 @@ class UsuariosRepository {
             `
         );
 
-
-        // Preenche os dados de filtros do relatório no front
-        const filtroRel = async () => {
-
-            const codUndEmpr = await sqlQuery(
-            `                   
-                SELECT 
-                    rtrim(ltrim(Convert(Varchar, CodEmpr))) as CodEmpr, 
-                    UndEmpr  
-                FROM TbEmpr  
-                    ORDER BY CodEmpr                
-            `);
-
-            const codNomeFunc = await sqlQuery(
-            `                   
-                select 
-                    CodFunc, 
-                    NomeFunc
-                from 
-                    TbFunc 
-                where 
-                    CodFunc in ( Select CodFunc from TbFuncVnd) 
-                    and  Ativo = 'S' order by NomeFunc            
-            `);
-
-            const codFuncaoFunc = await sqlQuery(
-            `                   
-                SELECT 
-                    CodFuncaoFunc, 
-                    NomeFuncaoFunc  
-                FROM 
-                    TbFuncaoFunc  
-                ORDER BY 
-                    NomeFuncaoFunc         
-            `);
-
-            const unidadeProd = await sqlQuery(
-            `           
-                SELECT 
-                    CodUnd, 
-                    DescrUnd  
-                FROM
-                    TbUnd  
-                ORDER BY DescrUnd      
-            `);
-
-            return { codUndEmpr, codNomeFunc, codFuncaoFunc, unidadeProd }
-
-        }
-
-
         return data
-
-            
- 
+       
     } 
     
 
@@ -118,27 +65,37 @@ class UsuariosRepository {
     }
 
     
-    static cadastrar = async (codFunc, telaInicial, custoRel, somenteVendaSuperVnd) => {
+    static cadastrar = async (codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas) => {
         
-        console.log('Cheguei no repository  ', codFunc, telaInicial, custoRel, somenteVendaSuperVnd)
+        let queryAddFuncEmpr = '';
+
+        if(empresas.length > 1) {
+
+            empresas.forEach((codEmpr) => {
+                queryAddFuncEmpr += `
+                  INSERT INTO tmConfigFuncEmpr (CodFunc, CodEmpr) 
+                  VALUES ('${codFunc}', '${codEmpr}');
+                `;
+            });
+               
+        } else {
+
+            queryAddFuncEmpr += `
+                INSERT INTO tmConfigFuncEmpr (CodFunc, CodEmpr) 
+                VALUES ('${codFunc}', '${empresas[0]}');
+            `;
+        }
+
 
         const result = await sqlQueryInsert(
             `                   
                 INSERT INTO tmConfigFunc (CodFunc, TelaInicial, CustoRel, SomenteVendaSuperVnd) 
                 VALUES ('${codFunc}', ${telaInicial}, '${custoRel}', '${somenteVendaSuperVnd}')
 
-                
+                ${queryAddFuncEmpr}
   
             `
         );
-        /*
-        
-                      INSERT INTO tmConfigFuncEmpr (CodFunc, CodEmpr) 
-                VALUES ('${codFunc}', '${telaInicial}')
-        
-        
-        */
-
 
         return result
 

@@ -20,7 +20,7 @@ import {
     useDisclosure,
     Input,
     InputGroup,
-    InputLeftAddon,
+    Heading,
     Text,
     Select,
     InputRightElement,
@@ -44,12 +44,13 @@ import ModalDeletarUsuario from './modal/ModalDeletarUsuario';
 import Pagination from '../../../components/Pagination/Pagination';
 
 import PageLayout from '../../../components/PageLayout/PageLayout';
+import TabListConfiguracoes from '../components/TabListConfiguracoes';
 
 
 
 
 
-const HomeConfigUsuario = () => {
+const ConfigUsuario = () => {
 
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -69,30 +70,24 @@ const HomeConfigUsuario = () => {
     const pageSize = searchParams.get('pageSize') ? Number(searchParams.get('pageSize')) : 10
 
 
-    console.log('qual pagina pega do parametro', page)
 
-
+    // Chamada para buscar os usuários do banco de dados
     const fetchUsuarios = async () => {
-
         const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=${pageSize}`)
-
-        console.log('Chamando fetch', response.data)
-
         return response.data;
-
     };
-
-
 
     const { data, error, isLoading } = useQuery({
 
         queryKey: ['usuarios', page, pageSize], // se os valore mudar, busca novamente
         queryFn: () => fetchUsuarios(),
         refetchOnWindowFocus: false
-    }, );
+    },);
 
 
 
+
+    
     // Efeito para filtrar os dados sempre que os dados ou o searchQuery mudarem
     useEffect(() => {
 
@@ -134,17 +129,27 @@ const HomeConfigUsuario = () => {
 
     return (
 
+        <PageLayout>
 
+            <Button 
+                colorScheme='blue'
+                position="fixed"
+                bottom="4"
+                right="4"
+                zIndex="9999"
+                borderRadius='full'
+            
+            >Voltar ao topo</Button>
+            
+            <TabListConfiguracoes/>
 
-        <Box>
-
-            <HStack justifyContent='space-between'>
+            <HStack justifyContent='space-between' marginTop={5}>
 
                 <HStack spacing={0}>
 
                     <Box>
 
-                        <InputGroup size='sm'>
+                        <InputGroup size='sm' bg='white'>
                             <Input
                                 width={340}
                                 placeholder='Pesquise pelo usuário ou nome do funcionário'
@@ -163,6 +168,7 @@ const HomeConfigUsuario = () => {
                         <Select
                             size='sm'
                             marginLeft={2}
+                            bg='white'
                         >
                             <option value='N'>Não</option>
                             <option value='S'>Sim</option>
@@ -289,7 +295,7 @@ const HomeConfigUsuario = () => {
 
 
 
-            <HStack marginTop={5} justifyContent='space-between'>
+            <HStack marginTop={5} justifyContent='center'>
 
                 {data && <Pagination pages={data.lastPage} currentPage={page} /> }
 
@@ -312,8 +318,8 @@ const HomeConfigUsuario = () => {
                 usuario={usuario}
             />
 
-        </Box>
+        </PageLayout>
     )
 }
 
-export default HomeConfigUsuario
+export default ConfigUsuario

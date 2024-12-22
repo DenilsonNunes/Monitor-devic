@@ -11,14 +11,9 @@ class UsuariosController {
         const { page, pageSize } = req.query;
 
 
-        console.log('O que vem da pagina e e tamanho pagina', page, pageSize);
-
-
         try {
 
-
             const data = await UsuariosService.listarTodos(page, pageSize);
-
 
 
             if (data.users.length !== 0) {

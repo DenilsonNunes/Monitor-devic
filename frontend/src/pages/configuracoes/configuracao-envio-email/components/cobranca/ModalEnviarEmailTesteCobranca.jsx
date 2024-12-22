@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  FormLabel,
   Spinner,
   Input,
   Box,
@@ -22,7 +21,7 @@ import {
 } from '@chakra-ui/react'
 
 
-import api from '../../../helpers/api-instance'
+import api from '../../../../../helpers/api-instance'
 
 
 const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
@@ -67,23 +66,6 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
 
     setIsLoading(true);
 
-    /*
-      setTimeout(() => {
-      setIsLoading(false);
-      setEmailenviado(true);
-    }, 2000);
-
-
-    setTimeout(() => {
-      // Simula uma requisição de envio de e-mail
-      setEmailenviado(false);
-      console.log('Email enviado:', emailEnviado);
-
-    }, 3000);
-
-    
-    
-    */
     api.post('configuracoes/envio-email/teste-titulos-a-vencer', {
       emailDestino,
     })
@@ -167,7 +149,9 @@ const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
 
             <ModalBody pb={2}>
 
-              <Input type='email' border='1px' borderColor='#cbd5e1'
+              <Input 
+                size='sm'
+                type='email'
                 value={emailDestino}
                 required
                 onChange={(e) => setEmaildestino(e.target.value)}
