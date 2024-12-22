@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react"
 
 import { ChevronRightIcon, ChevronLeftIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import { useState } from "react";
 
 
 
@@ -17,7 +18,7 @@ const Pagination = ({pages, currentPage}) => {
 
   const [, setSearchParams] = useSearchParams();
 
-
+  const [perPage, setPerPage] = useState(10)
 
 
   const firstPage = () => {
@@ -70,6 +71,17 @@ const Pagination = ({pages, currentPage}) => {
     })
   }
 
+  const handlePerPage = (e) => {
+
+    setSearchParams(params => {
+      params.set('pageSize', String(e.target.value))
+
+      return params;
+    })
+
+
+  }
+
 
 
 
@@ -83,6 +95,8 @@ const Pagination = ({pages, currentPage}) => {
         <Text fontSize='14px' whiteSpace="nowrap">Exibir</Text>
         <Select
           size='sm'
+          onChange={handlePerPage}
+          value={perPage}
         >
           <option value='10'>10</option>
           <option value='20'>20</option>

@@ -24,7 +24,8 @@ import {
     Text,
     Select,
     InputRightElement,
-    Tag
+    Tag,
+    useBreakpointValue
 } from '@chakra-ui/react'
 
 import { AddIcon, EditIcon, DeleteIcon, SearchIcon, ChevronRightIcon, ChevronLeftIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
@@ -41,6 +42,9 @@ import ModalCadastrarUsuario from './modal/ModalCadastrarUsuario';
 import ModalEditarUsuario from './modal/ModalEditarUsuario';
 import ModalDeletarUsuario from './modal/ModalDeletarUsuario';
 import Pagination from '../../../components/Pagination/Pagination';
+
+import PageLayout from '../../../components/PageLayout/PageLayout';
+
 
 
 
@@ -62,13 +66,15 @@ const HomeConfigUsuario = () => {
 
 
     const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
+    const pageSize = searchParams.get('pageSize') ? Number(searchParams.get('pageSize')) : 10
+
 
     console.log('qual pagina pega do parametro', page)
 
 
     const fetchUsuarios = async () => {
 
-        const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=10`)
+        const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=${pageSize}`)
 
         console.log('Chamando fetch', response.data)
 
@@ -80,7 +86,7 @@ const HomeConfigUsuario = () => {
 
     const { data, error, isLoading } = useQuery({
 
-        queryKey: ['usuarios', page], // se os valore mudar, busca novamente
+        queryKey: ['usuarios', page, pageSize], // se os valore mudar, busca novamente
         queryFn: () => fetchUsuarios(),
         refetchOnWindowFocus: false
     }, );
@@ -89,8 +95,6 @@ const HomeConfigUsuario = () => {
 
     // Efeito para filtrar os dados sempre que os dados ou o searchQuery mudarem
     useEffect(() => {
-
-        console.log("fui chamado")
 
         if (data && data.users.length > 0) {
             const results = data.users.filter(item =>
@@ -128,8 +132,10 @@ const HomeConfigUsuario = () => {
 
 
 
-
     return (
+
+
+
         <Box>
 
             <HStack justifyContent='space-between'>
@@ -189,7 +195,7 @@ const HomeConfigUsuario = () => {
             <TableContainer
                 boxShadow='base'
                 marginTop={5}
-                maxH='500px'
+                overflowY
             >
 
                 <Table>

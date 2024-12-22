@@ -36,7 +36,7 @@ class UsuariosService {
         const offSet = (currentPage * limitPage) - limitPage;
 
 
-
+        console.log('Quanto esta indo na pesquisa', offSet, limitPage)
         const users = await UsuariosRepository.listarTodos(offSet, limitPage);
 
         const data = {
