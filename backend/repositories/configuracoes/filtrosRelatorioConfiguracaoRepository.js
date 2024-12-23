@@ -4,7 +4,7 @@ const sqlQuery = require('../../db/SQL/query/query');
 class FiltrosRelatorioConfiguracaoRepository {
 
    
-    static listarTodos = async ( ) => {
+    static listarTodos = async (codFunc) => {
 
 
         try {
@@ -55,6 +55,26 @@ class FiltrosRelatorioConfiguracaoRepository {
                     FROM 
                         TbEmpr
                     order by CodEmpr             
+                `
+            )
+
+            const empresaAcessoFunc = await sqlQuery(
+                `
+                SELECT 
+                    t1.CodEmpr,
+                    t1.NomeFantEmpr,
+                    CASE 
+                        WHEN EXISTS (
+                            SELECT 
+                                1 
+                            FROM 
+                                tmConfigFuncEmpr t2 
+                            WHERE t2.CodEmpr = t1.CodEmpr and t2.CodFunc = ${codFunc}) THEN 'S'
+                        ELSE 'N'
+                    END AS acessoEmpresa
+                FROM TbEmpr t1
+                order by t1.CodEmpr
+                
                 `
             )
 

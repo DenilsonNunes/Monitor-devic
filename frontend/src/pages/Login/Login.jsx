@@ -10,7 +10,9 @@ import {
   FormErrorMessage,
   Box,
   Text,
-  useToast
+  useToast,
+  HStack,
+  VStack
 }
 from '@chakra-ui/react'
 
@@ -46,7 +48,7 @@ const Login = () => {
 
   const handleSignIn = async (event) => {
 
-  event.preventDefault();
+    event.preventDefault();
 
     setLoading(true);
 
@@ -89,62 +91,78 @@ const Login = () => {
 
   
     return (
-      <Box 
+      <HStack 
         height='100vh'
-        Width='100vh' 
-        display='flex' 
-        flexDirection='column' 
-        justifyContent='center' 
-        alignItems='center'
-        bg='#020617'
-        color='white'
       >
-        <Text fontSize={80}>DeVIC</Text>
 
-        <form onSubmit={handleSignIn}>
-          <FormControl width={400} >
-            
-            <FormLabel  margin={0}>Usuário</FormLabel>
-            <Input 
-              variant='flushed'
-              isDisabled={loading}
-              type='text' 
-              placeholder='Digite seu usuário Ex: João'
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
+        <Box 
+          bg='primary'
+          height='100%' 
+          flex='7'
+          display='flex'
+          alignItems='end'
+          justifyContent='start'
+        >
+          <Text fontSize='sm'color='white' ><strong>Versão:</strong> 2.5.8</Text>
+        </Box>
 
-            />
-            {/*isErrorEmail && <FormErrorMessage>Email is required.</FormErrorMessage> */}
-              
-            <Box marginTop={2}>
+        <VStack flex='3' height='100%' align='center' justify='center'>
 
-              <FormLabel margin={0} >Senha</FormLabel>
-              <Input
-                variant='flushed'
-                isDisabled={loading}
-                type='password' 
-                placeholder='Digite sua senha'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {/*isErrorSenha && <FormErrorMessage>Informe a Senha</FormErrorMessage> */}
-            </Box>
+          <Text fontSize={80} color='primary'>DeVIC</Text>
 
-              <Button 
-                marginTop={10} 
-                isLoading={loading}
-                type='submit' 
-                width='100%'  
-                colorScheme='blue'
-              >
-                ENTRAR
-              </Button>
+          <Box>
+
+            <form onSubmit={handleSignIn}>
+                <FormLabel margin={0} fontWeight='bold'>Usuário</FormLabel>
+                <Input
+                  required
+                  borderBottom='1px'
+                  borderColor='primary'
+                  focusBorderColor="primary"
+                  variant='flushed'
+                  isDisabled={loading}
+                  type='text' 
+                  placeholder='Digite seu usuário Ex: João'
+                  value={user}
+                  onChange={(e) => setUser(e.target.value)}
+
+                />
         
-          </FormControl>
-        </form>
+                  <FormLabel margin={0} fontWeight='bold' marginTop={6}>Senha</FormLabel>
+                  <Input
+                    required
+                    borderBottom='1px'
+                    borderColor='primary'
+                    focusBorderColor="primary"
+                    variant='flushed'
+                    isDisabled={loading}
+                    type='password' 
+                    placeholder='Digite sua senha'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+          
+                  <Button 
+                    marginTop={10} 
+                    isLoading={loading}
+                    type='submit' 
+                    width='100%'  
+                    bg='primary'
+                    color='white'
+                  >
+                    ENTRAR
+                  </Button>
+            
+            </form>
+
+          </Box>
 
 
-      </Box>
+        </VStack>
+
+      </HStack>
+
+
       
     )
   }

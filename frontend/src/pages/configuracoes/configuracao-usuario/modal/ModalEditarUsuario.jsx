@@ -45,41 +45,35 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
 
 
-  const handleCadastrarUsuario = () => {
-
-
-    onClose()
-
-  }
-
-
-
+  console.log('Qual funcionário esta vindo', usuario);
   
+  // Carrega os filtros para edição do usuário
   const fetchCarregarFiltros = async () => {
-
+    
     const response = await api.get('/configuracoes/usuarios/filtros-relatorio')
-
+    
     return response.data;
-
+    
   };
-
-
-
-
-
+  
   const { data, error, isLoading } = useQuery({
 
     queryKey: ['CarregarFiltros'], // se os valore mudar, busca novamente
     queryFn: () => fetchCarregarFiltros(),
     refetchOnWindowFocus: false
-
+    
   });
+  
+  
 
 
+  
 
-
-
-
+  const handleEditarUsuario = () => {
+    onClose()
+  }
+  
+  
   return (
     <>
       <Modal closeOnOverlayClick={false} onClose={onClose} isOpen={isOpen} isCentered size='' >
@@ -103,16 +97,16 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
           <ModalBody marginTop={5}>
 
-            <form onSubmit={handleCadastrarUsuario}>
+            <form onSubmit={handleEditarUsuario}>
 
               <VStack>
 
                 <Stack direction='row' width='100%' spacing={0} justifyContent='start' gap={2}>
                   <Stack direction='column' spacing={0} width='100%'>
 
-                    <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Funcionário(a)</FormLabel>
+                    <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Usuário</FormLabel>
 
-                    <Input type='text'size='sm' value='Funcionario teste' isReadOnly/>
+                    <Input type='text'size='sm' value='' isReadOnly/>
 
                   </Stack>
 
@@ -123,11 +117,11 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
                     <Select size='sm' >
 
-                      <option value='T'>--Selecione--</option>
-
                       {data && data.telaInicial.map((item, index) => (
 
-                        <option value={item.idAplicacao} key={index}>{item.NomeAmigavelAplic}</option>
+                        <option value='' key={index}>
+                          {item.NomeAmigavelAplic}
+                        </option>
 
                       ))}
 
@@ -163,7 +157,9 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
                         <HStack marginLeft={1} key={index}>
                           <Checkbox colorScheme='green' value={item.CodEmpr}>
-                            {item.CodEmpr} - {item.NomeFantEmpr}
+                            <Text fontSize='sm'>
+                              {item.CodEmpr} - {item.NomeFantEmpr}
+                            </Text>
                           </Checkbox>
                         </HStack>
 

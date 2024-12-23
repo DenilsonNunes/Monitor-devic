@@ -305,12 +305,16 @@ const ConfigUsuario = () => {
                 isOpen={isCreateUserOpen}
                 onClose={onCreateUserClose}
             />
-
-            <ModalEditarUsuario
-                isOpen={isEditUserOpen}
-                onClose={onEditUserClose}
-                usuario={usuario}
-            />
+            {data &&
+            
+                <ModalEditarUsuario
+                    isOpen={isEditUserOpen}
+                    onClose={onEditUserClose}
+                    usuario={usuario}
+                />
+            
+            
+            }
 
             <ModalDeletarUsuario
                 isOpen={isDeleteUserOpen}

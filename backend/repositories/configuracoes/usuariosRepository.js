@@ -125,25 +125,7 @@ class UsuariosRepository {
  
 }
 
-/*
 
-			SELECT 
-				t1.CodEmpr,
-				CASE 
-					WHEN EXISTS (
-						SELECT 
-							1 
-						FROM 
-							tmConfigFuncEmpr t2 
-						WHERE t2.CodEmpr = t1.CodEmpr and t2.CodFunc = 00001) THEN 'S'
-					ELSE 'N'
-				END AS ExisteEmTabela2
-			FROM TbEmpr t1
-			order by t1.CodEmpr
-
-
-
-*/
 
 
 module.exports = UsuariosRepository;
