@@ -5,7 +5,7 @@ const sqlQueryInsert = require('../../db/SQL/queryInsert');
 
 
 
-class UsuariosRepository {
+class ConfigUsuariosRepository {
 
    
     static listarTodos = async (offSet, limitPage) => {
@@ -28,12 +28,24 @@ class UsuariosRepository {
                     C.CustoRel,
                     C.SomenteVendaSuperVnd,
                     A.idAplicacao,
-                    A.NomeAmigavelAplic as descrAplicacao
+                    A.NomeAmigavelAplic as descrAplicacao,
+                    STRING_AGG(CAST(FE.CodEmpr AS VARCHAR), ', ') AS EmpresasAcesso
                 FROM 
                     tmConfigFunc as C
                 INNER JOIN TbFunc as F ON C.CodFunc = F.CodFunc
                 INNER JOIN tmAplicacoes as A ON A.idAplicacao = C.TelaInicial
-                ORDER BY NomeFunc 
+                INNER JOIN tmConfigFuncEmpr as FE ON C.CodFunc = FE.CodFunc
+                GROUP BY
+                    C.CodFunc,
+                    F.IdFunc,
+                    F.Ativo,
+                    F.NomeFunc,
+                    C.CustoRel,
+                    C.SomenteVendaSuperVnd,
+                    A.idAplicacao,
+                    A.NomeAmigavelAplic
+                ORDER BY 
+                    F.NomeFunc
                 ${queryAddFiltros}
             `
         );
@@ -128,7 +140,7 @@ class UsuariosRepository {
 
 
 
-module.exports = UsuariosRepository;
+module.exports = ConfigUsuariosRepository;
 
 
 

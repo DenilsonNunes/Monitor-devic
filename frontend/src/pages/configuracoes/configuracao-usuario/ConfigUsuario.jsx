@@ -232,7 +232,7 @@ const ConfigUsuario = () => {
                                 <Td>{item.IdFunc}</Td>
                                 <Td>{item.NomeFunc}</Td>
                                 <Td textAlign='center'>{item.descrAplicacao}</Td>
-                                <Td textAlign='center'>1,3,4,5</Td>
+                                <Td textAlign='center'>{item.EmpresasAcesso}</Td>
                                 <Td textAlign='center'>
 
                                     <Tooltip label='Editar'>
@@ -301,20 +301,21 @@ const ConfigUsuario = () => {
 
             </HStack>
 
-            <ModalCadastrarUsuario
-                isOpen={isCreateUserOpen}
-                onClose={onCreateUserClose}
-            />
-            {data &&
-            
+            {isCreateUserOpen &&
+                <ModalCadastrarUsuario
+                    isOpen={isCreateUserOpen}
+                    onClose={onCreateUserClose}
+                />
+            }
+     
+            {isEditUserOpen &&  
                 <ModalEditarUsuario
                     isOpen={isEditUserOpen}
                     onClose={onEditUserClose}
                     usuario={usuario}
                 />
-            
-            
             }
+    
 
             <ModalDeletarUsuario
                 isOpen={isDeleteUserOpen}

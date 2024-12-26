@@ -43,14 +43,29 @@ import api from '../../../../helpers/api-instance';
 
 const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
+  console.log("Usuarios.......", usuario)
 
 
-  console.log('Qual funcionário esta vindo', usuario);
-  
+  const [func, setFunc] = useState('')
+  const [telaInicial, setTelaInicial] = useState('')
+  const [empresas, setEmpresas] = useState([])
+  const [visualizarCustoProd, setVisualizarCustoProd] = useState('')
+  const [visualizarVendas, setVisualizarVendas] = useState('')
+
+
+
+
+
+
+
+
+
+
+
   // Carrega os filtros para edição do usuário
   const fetchCarregarFiltros = async () => {
     
-    const response = await api.get('/configuracoes/usuarios/filtros-relatorio')
+    const response = await api.get(`/configuracoes/usuarios/filtros-relatorio/${usuario.CodFunc}`)
     
     return response.data;
     
@@ -66,7 +81,7 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
   
   
 
-
+  console.log('Como vem os filtros', data)
   
 
   const handleEditarUsuario = () => {
@@ -102,34 +117,52 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
               <VStack>
 
                 <Stack direction='row' width='100%' spacing={0} justifyContent='start' gap={2}>
+
+
+                  <Stack direction='column' spacing={0} minW='10%'>
+
+                    <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Codigo</FormLabel>
+
+                    <Input type='text'size='sm' value={usuario.CodFunc} isReadOnly/>
+
+                  </Stack>
+
                   <Stack direction='column' spacing={0} width='100%'>
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Usuário</FormLabel>
 
-                    <Input type='text'size='sm' value='' isReadOnly/>
+                    <Input type='text'size='sm' value={usuario.NomeFunc} isReadOnly/>
 
                   </Stack>
 
-
-                  <Stack direction='column' spacing={0} width='100%'>
-
-                    <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Tela Inicial</FormLabel>
-
-                    <Select size='sm' >
-
-                      {data && data.telaInicial.map((item, index) => (
-
-                        <option value='' key={index}>
-                          {item.NomeAmigavelAplic}
-                        </option>
-
-                      ))}
-
-                    </Select>
-
-                  </Stack>
 
                 </Stack>
+
+
+                <Stack direction='column' spacing={0} width='100%'>
+
+                  <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Tela Inicial</FormLabel>
+
+                  <Select 
+                    size='sm' 
+                    placeholder={usuario.descrAplicacao} 
+                    onChange={(e) => setTelaInicial(e.target.value)} 
+                  >
+
+                    {data && data.telaInicial.map((item, index) => (
+
+                      <option value={item.idAplicacao} key={index}>
+                        {item.NomeAmigavelAplic}
+                      </option>
+
+                    ))}
+
+                  </Select>
+
+                </Stack>
+
+
+
 
                 <Stack direction='row' width='100%' spacing={0} marginTop={2} justifyContent='start' >
 
@@ -153,13 +186,20 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
                       borderColor='gray.300'                   
                       >
 
-                      {data && data.empresa.map((item, index) => (
+                      {data && data.empresaAcessoFunc.map((item, index) => (
 
                         <HStack marginLeft={1} key={index}>
-                          <Checkbox colorScheme='green' value={item.CodEmpr}>
+
+                          <Checkbox 
+                            colorScheme='green' 
+                            value={item.CodEmpr}
+                            defaultChecked={item.acessoEmpresa === 'S'}
+                          >
+
                             <Text fontSize='sm'>
                               {item.CodEmpr} - {item.NomeFantEmpr}
                             </Text>
+
                           </Checkbox>
                         </HStack>
 
@@ -179,11 +219,16 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
                   <Stack direction='column' spacing={0} >
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualiza custos dos produtos?</FormLabel>
-                    <RadioGroup >
-                      <Stack direction='row'>
-                        <Radio value='Q' size='sm'>Sim</Radio>
-                        <Radio value='V' size='sm'>Não</Radio>
-                      </Stack>
+
+                    <RadioGroup 
+                    value='N'
+                      onChange={(e) => setVisualizarCustoProd(e.target.value)}
+                    >
+                      <Stack 
+                        direction='row'>
+                        <Radio value='S' size='sm'>Sim</Radio>
+                        <Radio value='N' size='sm'>Não</Radio>
+                        </Stack>
                     </RadioGroup>
 
                   </Stack>
@@ -197,10 +242,13 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualizar vendas?</FormLabel>
 
-                    <RadioGroup >
-                      <Stack direction='row'>
-                        <Radio value='Q' size='sm'>Sim</Radio>
-                        <Radio value='V' size='sm'>Apenas vendedores do supervisor</Radio>
+                    <RadioGroup 
+                      value='N' 
+                      onChange={(e) => setVisualizarVendas(e.target.value)}
+                    >
+                      <Stack direction='row'  >
+                        <Radio value='S' size='sm'>Sim</Radio>
+                        <Radio value='N' size='sm'>Apenas vendedores do supervisor</Radio>
                       </Stack>
                     </RadioGroup>
 

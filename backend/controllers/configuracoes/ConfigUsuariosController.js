@@ -1,10 +1,10 @@
 // Services
-const UsuariosService = require('../../services/configuracoes/usuariosService');
+const ConfigUsuariosService = require('../../services/configuracoes/ConfigUsuariosService');
 
 
 
 
-class UsuariosController {
+class ConfigUsuariosController {
 
     async listarTodos(req, res) {
 
@@ -13,7 +13,7 @@ class UsuariosController {
 
         try {
 
-            const data = await UsuariosService.listarTodos(page, pageSize);
+            const data = await ConfigUsuariosService.listarTodos(page, pageSize);
 
 
             if (data.users.length !== 0) {
@@ -45,7 +45,7 @@ class UsuariosController {
 
         try {
 
-            const result = await UsuariosService.cadastrar(codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas);
+            const result = await ConfigUsuariosService.cadastrar(codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas);
 
             // Verifica se houve erro no retorno
             if (!result.sucesso) {
@@ -93,10 +93,11 @@ class UsuariosController {
 
         const { codFunc } = req.params
 
+     
 
         try {
 
-            const data = await UsuariosService.deletar(codFunc);
+            const data = await ConfigUsuariosService.deletar(codFunc);
 
             if (data.sucesso) {
 
@@ -125,7 +126,7 @@ class UsuariosController {
 
 
 
-module.exports = new UsuariosController();
+module.exports = new ConfigUsuariosController();
 
 
 

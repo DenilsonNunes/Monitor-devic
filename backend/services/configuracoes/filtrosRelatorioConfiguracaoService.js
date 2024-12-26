@@ -6,9 +6,15 @@ const FiltrosRelatorioConfiguracaoRepository = require('../../repositories/confi
 class FiltrosRelatorioConfiguracaoService {
 
 
-    static listarTodos = async () => {
+    static editarUsuario = async (codFunc) => {
 
-        return await FiltrosRelatorioConfiguracaoRepository.listarTodos();
+        return await FiltrosRelatorioConfiguracaoRepository.editarUsuario(codFunc);
+        
+    }
+
+    static cadastroUsuario = async () => {
+
+        return await FiltrosRelatorioConfiguracaoRepository.cadastroUsuario();
         
     }
 

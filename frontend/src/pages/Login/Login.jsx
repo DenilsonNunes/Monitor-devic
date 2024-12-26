@@ -12,9 +12,16 @@ import {
   Text,
   useToast,
   HStack,
-  VStack
+  VStack,
+  InputGroup,
+  InputRightElement,
+  Icon
 }
 from '@chakra-ui/react'
+
+
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+
 
 
 import { useAuth } from '../../hooks/auth';
@@ -22,6 +29,14 @@ import { useAuth } from '../../hooks/auth';
 
 
 const Login = () => {
+
+  const [show, setShow] = useState(false)
+  const handleClick = () => setShow(!show)
+
+
+
+
+
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -35,8 +50,8 @@ const Login = () => {
 
   useEffect(() => {
 
-    
-    if(isAuthenticated()) {
+
+    if (isAuthenticated()) {
 
       navigate("/home");
       return;
@@ -52,7 +67,7 @@ const Login = () => {
 
     setLoading(true);
 
-  
+
     try {
 
       await signIn({ user, password })
@@ -89,82 +104,103 @@ const Login = () => {
 
   }
 
-  
-    return (
-      <HStack 
-        height='100vh'
-      >
 
-        <Box 
-          bg='primary'
-          height='100%' 
-          flex='7'
-          display='flex'
-          alignItems='end'
-          justifyContent='start'
-        >
-          <Text fontSize='sm'color='white' ><strong>Versão:</strong> 2.5.8</Text>
+  return (
+    <HStack
+      height='100vh'
+    >
+
+      <Box
+        bg='primary'
+        height='100%'
+        flex='7'
+        display='flex'
+        alignItems='end'
+        justifyContent='start'
+      >
+        <Text fontSize='sm' color='white' ><strong>Versão:</strong> 2.5.8</Text>
+      </Box>
+
+      <VStack flex='3' height='100%' align='center' justify='center'>
+
+        <Text fontSize={80} color='primary'>DeVIC</Text>
+
+        <Box width='80%'>
+
+          <form onSubmit={handleSignIn}>
+            <FormLabel margin={0} fontWeight='bold'>Usuário</FormLabel>
+            <Input
+              required
+              borderBottom='1px'
+              borderColor='primary'
+              focusBorderColor="primary"
+              variant='flushed'
+              isDisabled={loading}
+              type='text'
+              placeholder='Digite seu usuário Ex: João'
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+
+            />
+
+            <FormLabel margin={0} fontWeight='bold' marginTop={6}>Senha</FormLabel>
+            
+            <InputGroup >
+              <Input
+                required
+                borderBottom='1px'
+                borderColor='primary'
+                focusBorderColor="primary"
+                variant='flushed'
+                isDisabled={loading}
+                type={show ? 'text' : 'password'}
+                placeholder='Digite sua senha'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+
+              <InputRightElement>
+
+                <Button  
+                  size='sm' 
+                  onClick={handleClick} 
+                  _hover='none' 
+                  _active={{bg:'transparent'}}
+                >
+                  {show ? <Icon as={ViewIcon} /> : <Icon as={ViewOffIcon}/>}
+                </Button>
+
+              </InputRightElement>
+
+            </InputGroup>
+
+
+            <Button
+              marginTop={10}
+              isLoading={loading}
+              type='submit'
+              width='100%'
+              bg='primary'
+              color='white'
+              _hover='none'
+              _active={{bg: '#112D9C'}}
+            >
+              ENTRAR
+            </Button>
+
+
+          </form>
+
         </Box>
 
-        <VStack flex='3' height='100%' align='center' justify='center'>
 
-          <Text fontSize={80} color='primary'>DeVIC</Text>
+      </VStack>
 
-          <Box>
-
-            <form onSubmit={handleSignIn}>
-                <FormLabel margin={0} fontWeight='bold'>Usuário</FormLabel>
-                <Input
-                  required
-                  borderBottom='1px'
-                  borderColor='primary'
-                  focusBorderColor="primary"
-                  variant='flushed'
-                  isDisabled={loading}
-                  type='text' 
-                  placeholder='Digite seu usuário Ex: João'
-                  value={user}
-                  onChange={(e) => setUser(e.target.value)}
-
-                />
-        
-                  <FormLabel margin={0} fontWeight='bold' marginTop={6}>Senha</FormLabel>
-                  <Input
-                    required
-                    borderBottom='1px'
-                    borderColor='primary'
-                    focusBorderColor="primary"
-                    variant='flushed'
-                    isDisabled={loading}
-                    type='password' 
-                    placeholder='Digite sua senha'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-          
-                  <Button 
-                    marginTop={10} 
-                    isLoading={loading}
-                    type='submit' 
-                    width='100%'  
-                    bg='primary'
-                    color='white'
-                  >
-                    ENTRAR
-                  </Button>
-            
-            </form>
-
-          </Box>
+    </HStack>
 
 
-        </VStack>
 
-      </HStack>
-
-
-      
-    )
-  }
+  )
+}
 
 export default Login

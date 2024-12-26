@@ -1,7 +1,7 @@
-const UsuariosRepository = require('../../repositories/configuracoes/usuariosRepository');
+const ConfigUsuariosRepository = require('../../repositories/configuracoes/ConfigUsuariosRepository');
 
 
-class UsuariosService {
+class ConfigUsuariosService {
 
 
     static listarTodos = async (page, pageSize) => {
@@ -19,7 +19,7 @@ class UsuariosService {
         
     
         // Contar a quantidade de registros no banco
-        let countUsers = await UsuariosRepository.listarTodos();
+        let countUsers = await ConfigUsuariosRepository.listarTodos();
         countUsers = countUsers.length
 
 
@@ -37,7 +37,7 @@ class UsuariosService {
 
 
         console.log('Quanto esta indo na pesquisa', offSet, limitPage)
-        const users = await UsuariosRepository.listarTodos(offSet, limitPage);
+        const users = await ConfigUsuariosRepository.listarTodos(offSet, limitPage);
 
         const data = {
             currentPage,
@@ -59,7 +59,7 @@ class UsuariosService {
         
         try {
 
-            const result  = await UsuariosRepository.deletar(codFunc);
+            const result  = await ConfigUsuariosRepository.deletar(codFunc);
             
             if(result.includes('sucesso')){
 
@@ -111,7 +111,7 @@ class UsuariosService {
 
         try {
 
-            const result  = await UsuariosRepository.cadastrar(codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas);
+            const result  = await ConfigUsuariosRepository.cadastrar(codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas);
 
             if(result.includes('sucesso')){
 
@@ -142,7 +142,7 @@ class UsuariosService {
 
 
 
-module.exports = UsuariosService;
+module.exports = ConfigUsuariosService;
 
 
 
