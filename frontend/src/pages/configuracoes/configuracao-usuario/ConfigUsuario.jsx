@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from "react-router-dom";
 
 import {
-    Tabs,
     Tfoot,
     Td,
     Tbody,
@@ -25,7 +24,12 @@ import {
     Select,
     InputRightElement,
     Tag,
-    useBreakpointValue
+    useBreakpointValue,
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    VStack
 } from '@chakra-ui/react'
 
 import { AddIcon, EditIcon, DeleteIcon, SearchIcon, ChevronRightIcon, ChevronLeftIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
@@ -87,7 +91,7 @@ const ConfigUsuario = () => {
 
 
 
-    
+
     // Efeito para filtrar os dados sempre que os dados ou o searchQuery mudarem
     useEffect(() => {
 
@@ -126,204 +130,352 @@ const ConfigUsuario = () => {
 
 
 
+    console.log('Como vem usuarios', usuario)
 
-    return (
+    const display = useBreakpointValue({
 
-        <PageLayout>
+        base: (
+            <PageLayout>
 
-            <Button 
-                colorScheme='blue'
-                position="fixed"
-                bottom="4"
-                right="4"
-                zIndex="9999"
-                borderRadius='full'
-            
-            >Voltar ao topo</Button>
-            
-            <TabListConfiguracoes/>
+                <Button
+                    leftIcon={<AddIcon />}
+                    colorScheme='green'
+                    position="fixed"
+                    bottom="4"
+                    right="4"
+                    zIndex="9999"
+                    borderRadius='full'
+                    onClick={onCreateUserOpen}
+                >
+                    Cadastrar usuário
+                </Button>
 
-            <HStack justifyContent='space-between' marginTop={5}>
+                <TabListConfiguracoes />
 
-                <HStack spacing={0}>
+                <HStack marginY={2}>
+                 
+                    <InputGroup size='sm' bg='white'>
+                        <Input
+                        
+                            placeholder='Pesquise pelo usuário ou nome do funcionário'
+                            onChange={handleSearchQuery}
+                        />
+                        <InputRightElement>
+                            <SearchIcon color='gray.300' />
+                        </InputRightElement>
+                    </InputGroup>
+                       
+                </HStack>
 
-                    <Box>
+                {filteredData && filteredData.map((item, index) => (
 
-                        <InputGroup size='sm' bg='white'>
-                            <Input
-                                width={340}
-                                placeholder='Pesquise pelo usuário ou nome do funcionário'
-                                onChange={handleSearchQuery}
-                            />
-                            <InputRightElement>
-                                <SearchIcon color='gray.300' />
-                            </InputRightElement>
-                        </InputGroup>
+                    <Card marginBottom={2}>
 
-                    </Box>
-
-                    <HStack marginLeft={2}>
-
-                        <Text fontSize='14px' whiteSpace="nowrap">Mostrar Inativos</Text>
-                        <Select
-                            size='sm'
-                            marginLeft={2}
-                            bg='white'
+                        <CardBody
+                            padding={2}
+                            display='flex'
+                            justifyContent='space-between'
                         >
-                            <option value='N'>Não</option>
-                            <option value='S'>Sim</option>
-                        </Select>
+                            <VStack align='start' width='100%' spacing={0}>
+
+                                <HStack width='100%'>
+
+                                    <Tag
+                                        colorScheme={item.AtivoBlue === 'N' ? 'red' : 'green'}
+                                        fontWeight='bold'
+                                        size='sm'
+                                    >
+                                        {item.AtivoBlue === 'N' ? 'INATIVO' : 'ATIVO'}
+                                    </Tag>
+
+
+                                </HStack>
+
+                                <Text fontSize='sm'><strong>Codigo: </strong>{item.CodFunc}</Text>
+
+                                <Text fontSize='sm'><strong>Usuário: </strong>{item.IdFunc}</Text>    
+
+                                <Text fontSize='sm'><strong>Nome: </strong>{item.NomeFunc}</Text>
+                            
+                                <Text fontSize='sm'><strong>Tela Inicial: </strong>{item.descrAplicacao}</Text>
+
+                                <Text fontSize='sm'><strong>Acesso empresa(s): </strong>{item.EmpresasAcesso}</Text>
+                         
+
+                            </VStack>
+
+
+
+                            <VStack justifyContent='center'>
+
+                                <IconButton
+                                    fontSize="18px"
+                                    aria-label="Editar"
+                                    bg='orange'
+                                    icon={<EditIcon />}
+                                    color="white"
+                                    _hover={false}
+                                    onClick={() => handleEditarAcessoUsuario(item)}
+
+                                />
+
+                                <IconButton
+                                    fontSize="18px"
+                                    aria-label="Editar"
+                                    bg='red'
+                                    color="white"
+                                    _hover={false}
+                                    icon={<DeleteIcon />}
+                                    onClick={() => handleDeletarUsuario(item)}
+                                />
+
+                            </VStack>
+
+                        </CardBody>
+
+                    </Card>
+
+
+                ))}
+
+                <HStack marginTop={5}  justifyContent='center'>
+
+                    {data && <Pagination pages={data.lastPage} currentPage={page} />}
+
+                </HStack>
+
+                {isCreateUserOpen &&
+                    <ModalCadastrarUsuario
+                        isOpen={isCreateUserOpen}
+                        onClose={onCreateUserClose}
+                    />
+                }
+
+                {isEditUserOpen &&
+                    <ModalEditarUsuario
+                        isOpen={isEditUserOpen}
+                        onClose={onEditUserClose}
+                        usuario={usuario}
+                    />
+                }
+
+
+                <ModalDeletarUsuario
+                    isOpen={isDeleteUserOpen}
+                    onClose={onDeleteUserClose}
+                    usuario={usuario}
+                />
+
+            </PageLayout>
+        ),
+
+        md: (
+            <PageLayout>
+
+                <Button
+                    colorScheme='blue'
+                    position="fixed"
+                    bottom="4"
+                    right="4"
+                    zIndex="9999"
+                    borderRadius='full'
+
+                >Voltar ao topo</Button>
+
+                <TabListConfiguracoes />
+
+                <HStack justifyContent='space-between' marginTop={5}>
+
+                    <HStack spacing={0}>
+
+                        <Box>
+
+                            <InputGroup size='sm' bg='white'>
+                                <Input
+                                    width={340}
+                                    placeholder='Pesquise pelo usuário ou nome do funcionário'
+                                    onChange={handleSearchQuery}
+                                />
+                                <InputRightElement>
+                                    <SearchIcon color='gray.300' />
+                                </InputRightElement>
+                            </InputGroup>
+
+                        </Box>
+
+                        <HStack marginLeft={2}>
+
+                            <Text fontSize='14px' whiteSpace="nowrap">Mostrar Inativos</Text>
+                            <Select
+                                size='sm'
+                                marginLeft={2}
+                                bg='white'
+                            >
+                                <option value='N'>Não</option>
+                                <option value='S'>Sim</option>
+                            </Select>
+
+                        </HStack>
+
 
                     </HStack>
 
+                    <HStack>
+
+                        <Button
+                            leftIcon={<AddIcon />}
+                            colorScheme='green'
+                            variant='solid'
+                            fontWeight='200'
+                            size='sm'
+                            boxShadow='base'
+                            onClick={onCreateUserOpen}
+                        >
+                            Cadastrar usuário
+                        </Button>
+
+                    </HStack>
 
                 </HStack>
 
-                <HStack>
 
-                    <Button
-                        leftIcon={<AddIcon />}
-                        colorScheme='green'
-                        variant='solid'
-                        fontWeight='200'
-                        size='sm'
-                        boxShadow='base'
-                        onClick={onCreateUserOpen}
-                    >
-                        Cadastrar usuário
-                    </Button>
+                <TableContainer
+                    boxShadow='base'
+                    marginTop={5}
+                    overflowY
+                >
+
+                    <Table>
+
+                        <Thead >
+                            <Tr>
+                                <Th fontSize='14px'>Codigo</Th>
+                                <Th fontSize='14px'>status</Th>
+                                <Th fontSize='14px'>Usuário</Th>
+                                <Th fontSize='14px'>Nome Funcionário</Th>
+                                <Th fontSize='14px'>Tela Inicial</Th>
+                                <Th fontSize='14px'>Acesso empresa(s)</Th>
+                                <Th fontSize='14px'>Ações</Th>
+                            </Tr>
+                        </Thead>
+
+                        <Tbody>
+
+                            {filteredData && filteredData.map((item, index) => (
+
+                                <Tr key={index} >
+                                    <Td textAlign='center'>{item.CodFunc}</Td>
+                                    <Td textAlign='center'>
+                                        <Tag colorScheme={item.AtivoBlue === 'N' ? 'red' : 'green'} fontWeight='bold'>
+                                            {item.AtivoBlue === 'N' ? 'INATIVO' : 'ATIVO'}
+                                        </Tag>
+                                    </Td>
+                                    <Td>{item.IdFunc}</Td>
+                                    <Td>{item.NomeFunc}</Td>
+                                    <Td textAlign='center'>{item.descrAplicacao}</Td>
+                                    <Td textAlign='center'>{item.EmpresasAcesso}</Td>
+                                    <Td textAlign='center'>
+
+                                        <Tooltip label='Editar'>
+                                            <IconButton
+                                                size='xs'
+                                                fontSize="14px"
+                                                aria-label="Editar"
+                                                bg='orange'
+                                                icon={<EditIcon />}
+                                                color="white"
+                                                _hover={false}
+                                                onClick={() => handleEditarAcessoUsuario(item)}
+
+                                            />
+                                        </Tooltip>
+
+                                        <Tooltip label='Deletar Usuário'>
+                                            <IconButton
+                                                size='xs'
+                                                marginLeft={2}
+                                                fontSize="14px"
+                                                aria-label="Editar"
+                                                bg='red'
+                                                color="white"
+                                                _hover={false}
+                                                icon={<DeleteIcon />}
+                                                onClick={() => handleDeletarUsuario(item)}
+                                            />
+                                        </Tooltip>
+
+                                    </Td>
+                                </Tr>
+
+
+                            ))}
+
+
+                        </Tbody>
+
+                        <Tfoot>
+                            {filteredData.length > 0 ?
+                                <Tr>
+                                    <Th></Th>
+                                    <Th></Th>
+                                    <Th></Th>
+                                    <Th></Th>
+                                    <Th></Th>
+                                    <Th></Th>
+                                    <Th></Th>
+                                </Tr>
+                                :
+                                <Tr>
+                                    <Td colSpan="7" textAlign="center" style={{ pointerEvents: 'none' }} color='red'>Nenhum registro encontrado</Td>
+                                </Tr>
+                            }
+
+                        </Tfoot>
+                    </Table>
+                </TableContainer>
+
+
+
+                <HStack marginTop={5} justifyContent='center'>
+
+                    {data && <Pagination pages={data.lastPage} currentPage={page} />}
 
                 </HStack>
 
-            </HStack>
+                {isCreateUserOpen &&
+                    <ModalCadastrarUsuario
+                        isOpen={isCreateUserOpen}
+                        onClose={onCreateUserClose}
+                    />
+                }
+
+                {isEditUserOpen &&
+                    <ModalEditarUsuario
+                        isOpen={isEditUserOpen}
+                        onClose={onEditUserClose}
+                        usuario={usuario}
+                    />
+                }
 
 
-            <TableContainer
-                boxShadow='base'
-                marginTop={5}
-                overflowY
-            >
-
-                <Table>
-
-                    <Thead >
-                        <Tr>
-                            <Th fontSize='14px'>Codigo</Th>
-                            <Th fontSize='14px'>status</Th>
-                            <Th fontSize='14px'>Usuário</Th>
-                            <Th fontSize='14px'>Nome Funcionário</Th>
-                            <Th fontSize='14px'>Tela Inicial</Th>
-                            <Th fontSize='14px'>Acesso empresa(s)</Th>
-                            <Th fontSize='14px'>Ações</Th>
-                        </Tr>
-                    </Thead>
-
-                    <Tbody>
-
-                        {filteredData && filteredData.map((item, index) => (
-
-                            <Tr key={index} >
-                                <Td textAlign='center'>{item.CodFunc}</Td>
-                                <Td textAlign='center'>
-                                    <Tag colorScheme={item.AtivoBlue === 'N' ? 'red' : 'green'} fontWeight='bold'>
-                                        {item.AtivoBlue === 'N' ? 'INATIVO' : 'ATIVO'}
-                                    </Tag>
-                                </Td>
-                                <Td>{item.IdFunc}</Td>
-                                <Td>{item.NomeFunc}</Td>
-                                <Td textAlign='center'>{item.descrAplicacao}</Td>
-                                <Td textAlign='center'>{item.EmpresasAcesso}</Td>
-                                <Td textAlign='center'>
-
-                                    <Tooltip label='Editar'>
-                                        <IconButton
-                                            size='xs'
-                                            fontSize="14px"
-                                            aria-label="Editar"
-                                            bg='orange'
-                                            icon={<EditIcon />}
-                                            color="white"
-                                            _hover={false}
-                                            onClick={() => handleEditarAcessoUsuario(item)}
-
-                                        />
-                                    </Tooltip>
-
-                                    <Tooltip label='Deletar Usuário'>
-                                        <IconButton
-                                            size='xs'
-                                            marginLeft={2}
-                                            fontSize="14px"
-                                            aria-label="Editar"
-                                            bg='red'
-                                            color="white"
-                                            _hover={false}
-                                            icon={<DeleteIcon />}
-                                            onClick={() => handleDeletarUsuario(item)}
-                                        />
-                                    </Tooltip>
-
-                                </Td>
-                            </Tr>
-
-
-                        ))}
-
-
-                    </Tbody>
-
-                    <Tfoot>
-                        {filteredData.length > 0 ?
-                            <Tr>
-                                <Th></Th>
-                                <Th></Th>
-                                <Th></Th>
-                                <Th></Th>
-                                <Th></Th>
-                                <Th></Th>
-                                <Th></Th>
-                            </Tr>
-                            :
-                            <Tr>
-                                <Td colSpan="7" textAlign="center" style={{ pointerEvents: 'none' }} color='red'>Nenhum registro encontrado</Td>
-                            </Tr>
-                        }
-
-                    </Tfoot>
-                </Table>
-            </TableContainer>
-
-
-
-            <HStack marginTop={5} justifyContent='center'>
-
-                {data && <Pagination pages={data.lastPage} currentPage={page} /> }
-
-            </HStack>
-
-            {isCreateUserOpen &&
-                <ModalCadastrarUsuario
-                    isOpen={isCreateUserOpen}
-                    onClose={onCreateUserClose}
-                />
-            }
-     
-            {isEditUserOpen &&  
-                <ModalEditarUsuario
-                    isOpen={isEditUserOpen}
-                    onClose={onEditUserClose}
+                <ModalDeletarUsuario
+                    isOpen={isDeleteUserOpen}
+                    onClose={onDeleteUserClose}
                     usuario={usuario}
                 />
-            }
-    
 
-            <ModalDeletarUsuario
-                isOpen={isDeleteUserOpen}
-                onClose={onDeleteUserClose}
-                usuario={usuario}
-            />
+            </PageLayout>
+        )
+    })
 
-        </PageLayout>
+
+
+
+    return (
+
+        <>
+            {display}
+        </>
     )
 }
 

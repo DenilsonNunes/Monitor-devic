@@ -88,7 +88,7 @@ const CardRotinasFinanceiro = () => {
 
             <Link to={item.path}>
 
-                <Card bg='white' height='100%' >
+                <Card bg='white' height='100%' _hover={{ cursor: 'not-allowed'}}>
 
                     <CardHeader display='flex' justifyContent='center' padding={2}>
                         <Image src={item.image} maxH='4rem' maxW='4rem'  alt='Clientes em debito' />

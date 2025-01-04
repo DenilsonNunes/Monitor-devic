@@ -1,22 +1,28 @@
-import PageLayout from "../../components/PageLayout/PageLayout";
-
-
 
 import {
-  Box,
-}
-from '@chakra-ui/react'
+  Heading,
+} from '@chakra-ui/react'
+
+
+import PageLayout from '../../components/PageLayout/PageLayout';
+import CardRotinasComissaoOutros from './card-rotinas-comissao-outros/CardRotinasComissaoOutros';
+
 
 const HomeComissaoOutros = () => {
 
-  return (
-    <PageLayout>
-      <Box> 
-        <h1>Pagina Comisso outros</h1>
-      </Box>
-    </PageLayout>
-  )
+return (
 
+  <PageLayout>
+                  
+    <Heading marginBottom={4} size='md'>Monitor Fiscal/Contábil</Heading>
+    <CardRotinasComissaoOutros/>
+
+  </PageLayout>
+
+     
+)
 }
 
+
 export default HomeComissaoOutros;
+

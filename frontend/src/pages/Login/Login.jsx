@@ -117,6 +117,7 @@ const Login = () => {
         display='flex'
         alignItems='end'
         justifyContent='start'
+        // borderRightRadius={20}
       >
         <Text fontSize='sm' color='white' ><strong>Versão:</strong> 2.5.8</Text>
       </Box>

@@ -61,7 +61,9 @@ class FiltrosRelatorioConfiguracaoRepository {
             
             
             const empresaAcessoFunc = await sqlQuery(
-                `
+                `   
+                /*
+                
                     SELECT 
                         t1.CodEmpr,
                         t1.NomeFantEmpr,
@@ -76,6 +78,12 @@ class FiltrosRelatorioConfiguracaoRepository {
                         END AS acessoEmpresa
                     FROM TbEmpr t1
                     order by t1.CodEmpr
+            
+                
+                */
+
+                    select * from tmConfigFuncEmpr
+					where CodFunc = ${codFunc}
                 
                 `
             )

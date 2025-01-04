@@ -19,6 +19,8 @@ import { CheckCircleIcon, WarningTwoIcon } from '@chakra-ui/icons'
 
 // API INSTANCE
 import api from '../../../../helpers/api-instance';
+
+// COMPONETS
 import Loader from '../../../../components/Loading/Loader';
 
 

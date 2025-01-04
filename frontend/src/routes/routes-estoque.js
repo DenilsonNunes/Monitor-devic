@@ -18,6 +18,5 @@ export const routesEstoque = [
       title: 'Home'
     },
 
-
     
 ]

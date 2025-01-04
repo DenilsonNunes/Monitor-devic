@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query';
 
 
@@ -46,19 +46,11 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
   console.log("Usuarios.......", usuario)
 
 
-  const [func, setFunc] = useState('')
+  const [func, setFunc] = useState(usuario.CodFunc)
   const [telaInicial, setTelaInicial] = useState('')
   const [empresas, setEmpresas] = useState([])
-  const [visualizarCustoProd, setVisualizarCustoProd] = useState('')
-  const [visualizarVendas, setVisualizarVendas] = useState('')
-
-
-
-
-
-
-
-
+  const [visualizarCustoProd, setVisualizarCustoProd] = useState(usuario.CustoRel)
+  const [visualizarVendas, setVisualizarVendas] = useState(usuario.SomenteVendaSuperVnd)
 
 
 
@@ -66,8 +58,8 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
   const fetchCarregarFiltros = async () => {
     
     const response = await api.get(`/configuracoes/usuarios/filtros-relatorio/${usuario.CodFunc}`)
-    
     return response.data;
+
     
   };
   
@@ -78,20 +70,60 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
     refetchOnWindowFocus: false
     
   });
-  
-  
 
-  console.log('Como vem os filtros', data)
-  
 
-  const handleEditarUsuario = () => {
-    onClose()
+
+
+
+
+
+  const handleCheckboxEmpresas = (e) => {
+    const { value, checked } = e.target;
+
+    const trimmedValue = value.trim(); // Remove espaços em branco extras
+
+    setEmpresas((prev) =>
+      checked 
+        ? [...prev, trimmedValue] 
+        : prev.filter((empresa) => empresa !== trimmedValue)
+    );
+    console.log('Como fica quando aperta', empresas)
+  };
+
+
+
+  
+  const handleCloseModal = () => {
+    onClose();
+  }
+
+
+  const handleEditarUsuario = (e) => {
+
+    e.preventDefault()
+
+    console.log("Valor de func..:", func)
+    console.log("Valor de empresas..:", empresas)
+    console.log("Valor de tela Inicial..:", telaInicial)
+    console.log("Valor de custo produto..:", visualizarCustoProd)
+    console.log("Valor de visualizar vendas.:", visualizarVendas)
+
   }
   
+
+
+
+
+
   
   return (
     <>
-      <Modal closeOnOverlayClick={false} onClose={onClose} isOpen={isOpen} isCentered size='' >
+      <Modal 
+        closeOnOverlayClick={false} 
+        onClose={handleCloseModal} 
+        isOpen={isOpen} 
+        isCentered size='' 
+      >
 
         <ModalOverlay />
 
@@ -119,18 +151,17 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
                 <Stack direction='row' width='100%' spacing={0} justifyContent='start' gap={2}>
 
 
-                  <Stack direction='column' spacing={0} minW='10%'>
+                  <Stack direction='column' spacing={0} maxW='15%'>
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Codigo</FormLabel>
-
                     <Input type='text'size='sm' value={usuario.CodFunc} isReadOnly/>
 
                   </Stack>
 
-                  <Stack direction='column' spacing={0} width='100%'>
+
+                  <Stack direction='column' spacing={0} width='85%'>
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Usuário</FormLabel>
-
                     <Input type='text'size='sm' value={usuario.NomeFunc} isReadOnly/>
 
                   </Stack>
@@ -167,20 +198,12 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
                 <Stack direction='row' width='100%' spacing={0} marginTop={2} justifyContent='start' >
 
 
-                  <Stack direction='column' spacing={0} >
+                  <Stack direction='column' spacing={0} width='100%'>
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Empresa(s) para acesso</FormLabel>
 
-                    <InputGroup size='sm'>
-                      <Input placeholder='Digite a empresa' />
-                      <InputRightElement>
-                        <SearchIcon color='gray.300' />
-                      </InputRightElement>
-                    </InputGroup>
-
                     <Box
-                      marginTop={1}
-                      maxHeight="100px" 
+                      marginTop={1} 
                       overflowY="auto"   
                       border='1px'
                       borderColor='gray.300'                   
@@ -194,6 +217,7 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
                             colorScheme='green' 
                             value={item.CodEmpr}
                             defaultChecked={item.acessoEmpresa === 'S'}
+                            onChange={handleCheckboxEmpresas}  
                           >
 
                             <Text fontSize='sm'>
@@ -220,15 +244,13 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualiza custos dos produtos?</FormLabel>
 
-                    <RadioGroup 
-                    value='N'
-                      onChange={(e) => setVisualizarCustoProd(e.target.value)}
-                    >
+                    <RadioGroup value={visualizarCustoProd}>
                       <Stack 
+                        onChange={(e) => setVisualizarCustoProd(e.target.value)}
                         direction='row'>
                         <Radio value='S' size='sm'>Sim</Radio>
                         <Radio value='N' size='sm'>Não</Radio>
-                        </Stack>
+                      </Stack>
                     </RadioGroup>
 
                   </Stack>
@@ -242,11 +264,8 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
 
                     <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualizar vendas?</FormLabel>
 
-                    <RadioGroup 
-                      value='N' 
-                      onChange={(e) => setVisualizarVendas(e.target.value)}
-                    >
-                      <Stack direction='row'  >
+                    <RadioGroup value={visualizarVendas}>
+                      <Stack direction='row' value='N' onChange={(e) => setVisualizarVendas(e.target.value)}>
                         <Radio value='S' size='sm'>Sim</Radio>
                         <Radio value='N' size='sm'>Apenas vendedores do supervisor</Radio>
                       </Stack>
@@ -269,6 +288,7 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
                     colorScheme='red'
                     type='submit'
                     fontWeight='bold'
+                    onClick={handleCloseModal}
                   >
                     Cancelar
                   </Button>

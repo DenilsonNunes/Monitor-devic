@@ -46,14 +46,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
 
-  const handleSignOut = () => {
-
-    signOut();
-
-    navigate('/login');
-
-  }
-
+  
   const rotas = [
     {
       nameRota: 'Vendas',
@@ -68,14 +61,32 @@ const Navbar = () => {
       rota: '/estoque'
     },
     {
-      nameRota: 'Fiscal/Contábil',
+      nameRota: 'Fiscal / Contábil',
       rota: '/fiscal-contabil'
     },
     {
-      nameRota: 'Configuracoes',
-      rota: '/configuracoes'
+      nameRota: 'Comissão / Outros',
+      rota: '/fiscal-contabil'
+    },
+    {
+      nameRota: 'Configuracões',
+      rota: '/configuracoes/usuarios'
     },
   ]
+
+
+
+  const handleSignOut = () => {
+
+    signOut();
+
+    navigate('/login');
+
+  }
+
+
+
+
 
   const display = useBreakpointValue({
     base: (
@@ -83,7 +94,9 @@ const Navbar = () => {
         <Box display='flex' justifyContent='space-between' marginLeft={2} alignItems='center' w='100%'>
           {/* MENU HAMBURGUER PARA TELAS MENORES */}
           <IconButton
-            size="md"
+            bg='#112D9C'
+            color='white'
+            fontSize='24px'
             icon={<HamburgerIcon />}
             aria-label="Open Menu"
             onClick={onOpen}
@@ -165,6 +178,9 @@ const Navbar = () => {
 
           <li>
             <NavLink to="/fiscal-contabil">Fiscal/Contábil</NavLink>
+          </li>
+          <li>
+            <NavLink to="/fiscal-contabil">Comissao/Outros</NavLink>
           </li>
 
           <li>

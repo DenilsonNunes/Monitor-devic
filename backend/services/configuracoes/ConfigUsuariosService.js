@@ -11,13 +11,10 @@ class ConfigUsuariosService {
         const currentPage = parseInt(page) || 1;
 
 
-        
         // Limite de registro por pagina
         const limitPage = parseInt(pageSize) || 10;
 
         
-        
-    
         // Contar a quantidade de registros no banco
         let countUsers = await ConfigUsuariosRepository.listarTodos();
         countUsers = countUsers.length

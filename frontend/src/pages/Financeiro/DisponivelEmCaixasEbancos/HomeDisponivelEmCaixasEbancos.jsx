@@ -36,6 +36,7 @@ import { AddIcon, MinusIcon, ChevronRightIcon, ChevronDownIcon } from '@chakra-u
 // Instancia API
 import api from '../../../helpers/api-instance'
 import formataDinheiro from '../../../utils/formataDinheiro';
+import PageLayout from '../../../components/PageLayout/PageLayout';
 
 const HomeDisponivelEmCaixasEbancos = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -151,9 +152,9 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
 
   return (
-    <Box marginTop='60px' marginX={2} key={1}>
+    <PageLayout>
 
-      <Text>Disponivel em caixas e bancos</Text>
+      <Heading fontSize='18px' color='primary'>Disponivel em caixas e bancos</Heading>
 
       <Box display='flex' justifyContent='center'>
 
@@ -178,7 +179,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
             shadow='md'
             border='1px solid #e2e8f0'
           >
-           
+          
             <VStack>
 
                 <Stack direction='row' width='100%' spacing={0} justifyContent='center'>
@@ -240,7 +241,7 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
             </VStack>
 
-           
+          
           </Box>
         </Collapse>
       </Box>
@@ -248,10 +249,10 @@ const HomeDisponivelEmCaixasEbancos = () => {
 
       {data && data.map((item, index) => (
 
-        <Box display='flex' key={index} justifyContent='center'>
+        <Box display='flex' key={index} justifyContent='center' width='100%'>
 
 
-          <Card w='90%' marginTop={10}  borderTopRadius={10} borderBottomRadius={10}>
+          <Card width='100%' marginTop={2}  borderTopRadius={10} borderBottomRadius={10}>
             <CardHeader paddingY={2} bg='#0369a1' borderTopRadius={10}>
               <Heading size='md' color='white'>{item.UndEmpresa}</Heading>
             </CardHeader>
@@ -368,7 +369,10 @@ const HomeDisponivelEmCaixasEbancos = () => {
       ))}
 
 
-    </Box>
+ 
+
+    </PageLayout>
+
   )
 
 
