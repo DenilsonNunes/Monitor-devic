@@ -18,6 +18,8 @@ class ConfigUsuariosRepository {
 
         }
 
+        console.log('Como vai filtros', queryAddFiltros);
+
         const data = await sqlQuery(
             `                   
                 SELECT
@@ -114,21 +116,59 @@ class ConfigUsuariosRepository {
     }
     
     
-    static editar = async (codFunc) => {
+    static editar = async (codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas) => {
+        
+        let queryAddFuncEmpr = '';
+
+        if(empresas.length > 1) {
+
+            empresas.forEach((codEmpr) => {
+                queryAddFuncEmpr += `
+                  INSERT INTO tmConfigFuncEmpr (CodFunc, CodEmpr) 
+                  VALUES ('${codFunc}', '${codEmpr}');
+                `;
+            });
+               
+        } else {
+
+            queryAddFuncEmpr += `
+                INSERT INTO tmConfigFuncEmpr (CodFunc, CodEmpr) 
+                VALUES ('${codFunc}', '${empresas[0]}');
+            `;
+        }
+
+        console.log('Como chega o func', codFunc, telaInicial)
+
         
 
-        const data = await sqlQuery(
-            `                   
+        const result = await sqlQueryInsert(
+
+            `
+                BEGIN TRANSACTION;
+
+
+                DELETE FROM 
+                    tmConfigFunc
+                WHERE 
+                    CodFunc = ${codFunc} 
+
                 DELETE FROM 
                     tmConfigFuncEmpr 
                 WHERE 
                     CodFunc = ${codFunc} 
-                AND CodEmpr = '3'
 
+
+                INSERT INTO tmConfigFunc (CodFunc, TelaInicial, CustoRel, SomenteVendaSuperVnd) 
+                VALUES ('${codFunc}', ${telaInicial}, '${custoRel}', '${somenteVendaSuperVnd}')
+
+                ${queryAddFuncEmpr}
+
+                COMMIT;
+  
             `
         );
 
-        return data
+        return result
 
     }
     

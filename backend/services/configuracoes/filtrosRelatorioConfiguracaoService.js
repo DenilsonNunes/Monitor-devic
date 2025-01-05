@@ -10,19 +10,28 @@ class FiltrosRelatorioConfiguracaoService {
 
         const data = await FiltrosRelatorioConfiguracaoRepository.editarUsuario(codFunc);
 
+        /*
+        
+        
         console.log('Como vem o data', data);
-
-
-        const empresaAcessoFunc = data.empresaAcessoFunc.map(item => item.CodEmpr.trim())
-
-
+ 
+ 
+        const empresaAcessoFunc = data.empresaAcessoFunc.map(({ CodFunc, ...rest }) => rest)  //.empresaAcessoFunc.map(item => item.CodEmpr.trim()) //   
+ 
+ 
         console.log('Qual o tipo de empresaAcesso func', empresaAcessoFunc)
-
+ 
     
         return { 
             codFunc: codFunc,
-            empresaAcessoFunc 
+            empresaAcessoFunc,
+            telaInicial: data.telaInicial, 
         }
+        
+        */
+
+        return data
+
         
     }
 

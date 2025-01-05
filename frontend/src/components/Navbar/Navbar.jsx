@@ -180,7 +180,7 @@ const Navbar = () => {
             <NavLink to="/fiscal-contabil">Fiscal/Contábil</NavLink>
           </li>
           <li>
-            <NavLink to="/fiscal-contabil">Comissao/Outros</NavLink>
+            <NavLink to="/comissao-outros">Comissao/Outros</NavLink>
           </li>
 
           <li>

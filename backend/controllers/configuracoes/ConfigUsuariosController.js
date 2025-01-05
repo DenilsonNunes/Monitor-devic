@@ -63,37 +63,42 @@ class ConfigUsuariosController {
 
     }
 
-
     async editar(req, res) {
 
-        const userCodFunc = (req.userCodFunc)
-
-        console.log('Qual o usuario', userCodFunc)
-
-        const filtrosRel = req.query;
+        const codFunc = req.params.codFunc
+        const { telaInicial, custoRel, somenteVendaSuperVnd, empresas } = req.body
 
 
-        try {
+            try {
+    
+                const result = await ConfigUsuariosService.editar(codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas);
+    
+                // Verifica se houve erro no retorno
+                if (!result.sucesso) {
+                    return res.status(400).json({ error: result.message });
+                }
+    
+                res.status(201).json(result);
+    
+            } catch (err) {
+    
+                res.status(500).json({ message: err.message });
+    
+            }
+        
+       
 
-            const { data, dataFiltroRel } = await TopVendasProdutosService.consultaTopVendasProdutosGeral(userCodFunc, filtrosRel);
 
-            res.status(200).json({ data, dataFiltroRel });
-
-        } catch (err) {
-
-            res.status(500).json({ message: err.message });
-
-        }
 
 
     }
+
 
 
     async deletar(req, res) {
 
         const { codFunc } = req.params
 
-     
 
         try {
 

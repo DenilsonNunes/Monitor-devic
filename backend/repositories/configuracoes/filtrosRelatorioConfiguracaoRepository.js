@@ -64,27 +64,29 @@ class FiltrosRelatorioConfiguracaoRepository {
                 `   
                 /*
                 
-                    SELECT 
-                        t1.CodEmpr,
-                        t1.NomeFantEmpr,
-                        CASE 
-                            WHEN EXISTS (
-                                SELECT 
-                                    1 
-                                FROM 
-                                    tmConfigFuncEmpr t2 
-                                WHERE t2.CodEmpr = t1.CodEmpr and t2.CodFunc = ${codFunc}) THEN 'S'
-                            ELSE 'N'
-                        END AS acessoEmpresa
-                    FROM TbEmpr t1
-                    order by t1.CodEmpr
-            
+                
+                select * from tmConfigFuncEmpr
+                where CodFunc = ${codFunc}
+                
+                
                 
                 */
-
-                    select * from tmConfigFuncEmpr
-					where CodFunc = ${codFunc}
-                
+               
+               SELECT 
+                   t1.CodEmpr,
+                   t1.NomeFantEmpr,
+                   CASE 
+                       WHEN EXISTS (
+                           SELECT 
+                               1 
+                           FROM 
+                               tmConfigFuncEmpr t2 
+                           WHERE t2.CodEmpr = t1.CodEmpr and t2.CodFunc = ${codFunc}) THEN 'S'
+                       ELSE 'N'
+                   END AS acessoEmpresa
+               FROM TbEmpr t1
+               order by t1.CodEmpr
+               
                 `
             )
             

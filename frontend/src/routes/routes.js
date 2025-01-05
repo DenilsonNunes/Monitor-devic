@@ -6,6 +6,7 @@ import { routesFiscalContabil } from "./routes-fiscal-contabil"
 import { routesHome } from "./routes-home"
 import { routesLogin } from "./routes-login"
 import { routesVendas } from "./routes-vendas"
+import { routesComissaoOutros } from "./routes-comissao-outros"
 
 
 
@@ -20,6 +21,7 @@ export const routes = [
     ...routesLogin, 
     ...routesHome, 
     ...routesFiscalContabil, 
+    ...routesComissaoOutros,
     ...routesConfiguracoes
 
 ]

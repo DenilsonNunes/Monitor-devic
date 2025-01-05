@@ -49,7 +49,6 @@ class ConfigUsuariosService {
     }
 
 
-
     static deletar = async (codFunc) => {
 
         
@@ -76,8 +75,6 @@ class ConfigUsuariosService {
 
 
     }
-
-
 
 
     static cadastrar = async (codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas) => {
@@ -123,6 +120,46 @@ class ConfigUsuariosService {
         } catch (error){
 
             throw new Error("Erro ao cadastrar o usuário: " + error.message)
+
+        }
+    
+       
+     
+
+    }
+    
+
+    static editar = async (codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas) => {
+
+        if (!codFunc) {
+            return { sucesso: false, message: "O 'codigo do funcionário' é obrigatório." };
+        }
+
+        if (!empresas) {
+            return { sucesso: false, message: "A 'empresa dos funcionário' é obrigatório." };
+        }
+
+
+
+
+
+        try {
+
+            const result  = await ConfigUsuariosRepository.editar(codFunc, telaInicial, custoRel, somenteVendaSuperVnd, empresas);
+
+            if(result.includes('sucesso')){
+
+                return {sucesso: true, message: result}
+
+            } else {
+
+                return { sucesso: false, message: 'Houve um erro ao Editar usuario usuário!!!'}
+
+            }
+
+        } catch (error){
+
+            throw new Error("Erro ao editar o usuário: " + error.message)
 
         }
     

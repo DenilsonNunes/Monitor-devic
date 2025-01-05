@@ -19,12 +19,11 @@ import {
   Radio,
   RadioGroup,
   InputGroup,
-  InputLeftElement,
   Input,
   InputRightElement,
   Box,
   Checkbox,
-  isStyleProp
+  useBreakpointValue
 } from '@chakra-ui/react'
 
 
@@ -67,11 +66,7 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
   };
 
 
-  const handleCadastrarUsuario = (e) => {
-    e.preventDefault();
-    mutate();
 
-  }
 
   const handleCloseModal = () => {
     reset(); // Reseta o estado da mutação
@@ -127,19 +122,29 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
       console.log('Deu erro', error.response.data)
       setEmpresas('');
 
-
     }
 
 
   })
 
 
+  const handleCadastrarUsuario = (e) => {
+    e.preventDefault();
+    mutate();
+
+  }
 
 
 
 
-  return (
-    <>
+
+
+
+
+
+
+  const display = useBreakpointValue({
+    base: (
       <Modal 
         closeOnOverlayClick={false} 
         onClose={handleCloseModal}
@@ -150,7 +155,7 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
         <ModalOverlay />
 
-        <ModalContent width='50%'>
+        <ModalContent>
           <ModalHeader
             bg='primary'
             color='white'
@@ -165,7 +170,7 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
           <ModalCloseButton color='white' />
 
-          <ModalBody marginTop={5}>
+          <ModalBody marginTop={5} padding={2}>
 
               {!isPending && !isSuccess && !isError &&
 
@@ -173,30 +178,26 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
                   <VStack>
 
+                    <Stack direction='column' spacing={0} width='100%'>
 
-                    <Stack direction='row' width='100%' spacing={0} justifyContent='start' gap={2}>
+                      <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Funcionário(a)</FormLabel>
 
-                      <Stack direction='column' spacing={0} width='100%'>
+                      <Select 
+                        size='sm'
+                        required
+                        placeholder='--Selecione--'
+                        onChange={(e) => setFunc(e.target.value)}   
+                      >
+                        {data && data.funcionarios.map((item, index) => (
 
-                        <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Funcionário(a)</FormLabel>
+                          <option value={item.CodFunc} key={index}>{item.NomeFunc}</option>
 
-                        <Select 
-                          size='sm'
-                          required
-                          placeholder='--Selecione--'
-                          onChange={(e) => setFunc(e.target.value)}   
-                        >
-                          {data && data.funcionarios.map((item, index) => (
+                        ))}
+                      </Select>
 
-                            <option value={item.CodFunc} key={index}>{item.NomeFunc}</option>
+                    </Stack>
 
-                          ))}
-                        </Select>
-
-                      </Stack>
-
-
-                      <Stack direction='column' spacing={0} width='100%'>
+                    <Stack direction='column' spacing={0} width='100%'>
 
                         <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Tela Inicial</FormLabel>
 
@@ -220,14 +221,9 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
                         </Select>
 
-                      </Stack>
-
                     </Stack>
-
-                    <Stack direction='row' width='100%' spacing={0} marginTop={2} justifyContent='start' >
-
-
-                      <Stack direction='column' spacing={0} >
+              
+                    <Stack direction='column' spacing={0} width='100%'>
 
                         <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Empresa(s) para acesso</FormLabel>
 
@@ -265,53 +261,37 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
                         </Box>
 
-                      </Stack>
+                    </Stack>
+             
+                    <Stack direction='column' spacing={0} width='100%'>
 
+                      <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualiza custos dos produtos?</FormLabel>
+                      <RadioGroup>
+                        <Stack 
+                          direction='row'
+                          onChange={(e) => setVisualizarCustoProd(e.target.value)}
+                          >
+                          <Radio value='S' size='sm'>Sim</Radio>
+                          <Radio value='N' size='sm'>Não</Radio>
+                        </Stack>
+                      </RadioGroup>
 
                     </Stack>
 
+                    <Stack direction='column' spacing={0} width='100%'>
 
+                      <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualizar vendas?</FormLabel>
 
-                    <Stack direction='row' width='100%' spacing={0} marginTop={2} justifyContent='start' gap={2} >
-
-                      <Stack direction='column' spacing={0} >
-
-                        <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualiza custos dos produtos?</FormLabel>
-                        <RadioGroup>
-                          <Stack 
-                            direction='row'
-                            onChange={(e) => setVisualizarCustoProd(e.target.value)}
-                            >
-                            <Radio value='S' size='sm'>Sim</Radio>
-                            <Radio value='N' size='sm'>Não</Radio>
-                          </Stack>
-                        </RadioGroup>
-
-                      </Stack>
+                      <RadioGroup >
+                        <Stack direction='row' onChange={(e) => setVisualizarVendas(e.target.value)}>
+                          <Radio value='S' size='sm'>Sim</Radio>
+                          <Radio value='N' size='sm'>Apenas vendedores do supervisor</Radio>
+                        </Stack>
+                      </RadioGroup>
 
                     </Stack>
 
-                    <Stack direction='row' width='100%' spacing={0} marginTop={2} justifyContent='start' gap={2} >
-
-
-                      <Stack direction='column' spacing={0} >
-
-                        <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualizar vendas?</FormLabel>
-
-                        <RadioGroup >
-                          <Stack direction='row' onChange={(e) => setVisualizarVendas(e.target.value)}>
-                            <Radio value='S' size='sm'>Sim</Radio>
-                            <Radio value='N' size='sm'>Apenas vendedores do supervisor</Radio>
-                          </Stack>
-                        </RadioGroup>
-
-                      </Stack>
-
-
-                    </Stack>
-
-
-
+               
 
                     <HStack width='100%' justifyContent='end'>
 
@@ -362,6 +342,239 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
         </ModalContent>
 
       </Modal>
+    ),
+    md: (
+      <Modal 
+      closeOnOverlayClick={false} 
+      onClose={handleCloseModal}
+      isOpen={isOpen} 
+      isCentered 
+      size='' 
+    >
+
+      <ModalOverlay />
+
+      <ModalContent width='50%'>
+        <ModalHeader
+          bg='primary'
+          color='white'
+          paddingY={2}
+          borderBottomRadius='10px'
+        >
+          <Text fontWeight='500'>
+            Cadastro de acesso usuário
+          </Text>
+
+        </ModalHeader>
+
+        <ModalCloseButton color='white' />
+
+        <ModalBody marginTop={5}>
+
+            {!isPending && !isSuccess && !isError &&
+
+              <form onSubmit={handleCadastrarUsuario}>
+
+                <VStack>
+
+
+                  <Stack direction='row' width='100%' spacing={0} justifyContent='start' gap={2}>
+
+                    <Stack direction='column' spacing={0} width='100%'>
+
+                      <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Funcionário(a)</FormLabel>
+
+                      <Select 
+                        size='sm'
+                        required
+                        placeholder='--Selecione--'
+                        onChange={(e) => setFunc(e.target.value)}   
+                      >
+                        {data && data.funcionarios.map((item, index) => (
+
+                          <option value={item.CodFunc} key={index}>{item.NomeFunc}</option>
+
+                        ))}
+                      </Select>
+
+                    </Stack>
+
+
+                    <Stack direction='column' spacing={0} width='100%'>
+
+                      <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Tela Inicial</FormLabel>
+
+                      <Select 
+                        size='sm' 
+                        required
+                        placeholder='--Selecione--'
+                        onChange={(e) => setTelainicial(e.target.value)}
+                      >
+
+                        {data && data.telaInicial.map((item, index) => (
+
+                          <option 
+                            value={item.idAplicacao} 
+                            key={index}                  
+                            >
+                              {item.NomeAmigavelAplic}
+                            </option>
+
+                        ))}
+
+                      </Select>
+
+                    </Stack>
+
+                  </Stack>
+
+                  <Stack direction='row' width='100%' spacing={0} marginTop={2} justifyContent='start' >
+
+
+                    <Stack direction='column' spacing={0} >
+
+                      <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Empresa(s) para acesso</FormLabel>
+
+                      <InputGroup size='sm'>
+                        <Input placeholder='Digite a empresa' />
+                        <InputRightElement>
+                          <SearchIcon color='gray.300' />
+                        </InputRightElement>
+                      </InputGroup>
+
+                      <Box
+                        marginTop={1}
+                        maxHeight="100px" 
+                        overflowY="auto"   
+                        border='1px'
+                        borderColor='gray.300'                   
+                      >
+
+                        {data && data.empresa.map((item, index) => (
+
+                          <HStack marginLeft={1} key={index}>
+                            <Checkbox 
+                              colorScheme='green'  
+                              value={item.CodEmpr}
+                              onChange={handleCheckboxEmpresas}                       
+                            >
+                              <Text fontSize='sm'>
+                              {item.CodEmpr} - {item.NomeFantEmpr}
+                              </Text>
+
+                            </Checkbox>
+                          </HStack>
+
+                        ))}
+
+                      </Box>
+
+                    </Stack>
+
+
+                  </Stack>
+
+
+
+                  <Stack direction='row' width='100%' spacing={0} marginTop={2} justifyContent='start' gap={2} >
+
+                    <Stack direction='column' spacing={0} >
+
+                      <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualiza custos dos produtos?</FormLabel>
+                      <RadioGroup>
+                        <Stack 
+                          direction='row'
+                          onChange={(e) => setVisualizarCustoProd(e.target.value)}
+                          >
+                          <Radio value='S' size='sm'>Sim</Radio>
+                          <Radio value='N' size='sm'>Não</Radio>
+                        </Stack>
+                      </RadioGroup>
+
+                    </Stack>
+
+                  </Stack>
+
+                  <Stack direction='row' width='100%' spacing={0} marginTop={2} justifyContent='start' gap={2} >
+
+
+                    <Stack direction='column' spacing={0} >
+
+                      <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualizar vendas?</FormLabel>
+
+                      <RadioGroup >
+                        <Stack direction='row' onChange={(e) => setVisualizarVendas(e.target.value)}>
+                          <Radio value='S' size='sm'>Sim</Radio>
+                          <Radio value='N' size='sm'>Apenas vendedores do supervisor</Radio>
+                        </Stack>
+                      </RadioGroup>
+
+                    </Stack>
+
+
+                  </Stack>
+
+
+
+
+                  <HStack width='100%' justifyContent='end'>
+
+
+                    <Button
+                      size='sm'
+                      colorScheme='green'
+                      color='white'
+                      type='submit'
+                      fontWeight='none'
+                      isLoading={isPending}
+                    >
+                      Salvar
+                    </Button>
+
+                  </HStack>
+
+
+                </VStack>              
+
+              </form>
+                                    
+            }
+
+            {isPending &&
+            
+              <Loader/>
+            
+            }
+
+            {isSuccess &&
+              <VStack>
+                <CheckCircleIcon boxSize={28} color="green.500" />
+                <Text color='green'>Usuário cadastrado com sucesso !!!</Text>
+              </VStack>
+            }
+
+            {isError &&
+              <VStack>
+                <WarningTwoIcon boxSize={28} color="red.500" />
+                <Text color='red'>Erro ao cadastrar usuário, tente novamente mais tarde.</Text>
+              </VStack>
+            }
+
+
+        </ModalBody>
+
+      </ModalContent>
+
+      </Modal>
+
+    )
+  })
+
+
+
+  return (
+    <>
+      {display}
     </>
   )
 }

@@ -19,20 +19,17 @@ import {
     useDisclosure,
     Input,
     InputGroup,
-    Heading,
     Text,
     Select,
     InputRightElement,
     Tag,
     useBreakpointValue,
     Card,
-    CardHeader,
     CardBody,
-    CardFooter,
     VStack
 } from '@chakra-ui/react'
 
-import { AddIcon, EditIcon, DeleteIcon, SearchIcon, ChevronRightIcon, ChevronLeftIcon, ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
+import { AddIcon, EditIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons'
 
 import { useState, useEffect } from 'react';
 
@@ -130,33 +127,35 @@ const ConfigUsuario = () => {
 
 
 
-    console.log('Como vem usuarios', usuario)
+
 
     const display = useBreakpointValue({
 
         base: (
             <PageLayout>
-
-                <Button
-                    leftIcon={<AddIcon />}
-                    colorScheme='green'
-                    position="fixed"
-                    bottom="4"
-                    right="4"
-                    zIndex="9999"
-                    borderRadius='full'
-                    onClick={onCreateUserOpen}
-                >
-                    Cadastrar usuário
-                </Button>
+                {!isCreateUserOpen && !isEditUserOpen && !isDeleteUserOpen &&
+                
+                    <Button
+                        leftIcon={<AddIcon />}
+                        colorScheme='green'
+                        position="fixed"
+                        bottom="4"
+                        right="4"
+                        zIndex="9999"
+                        borderRadius='full'
+                        onClick={onCreateUserOpen}
+                    >
+                        Cadastrar usuário
+                    </Button>
+                }
 
                 <TabListConfiguracoes />
 
                 <HStack marginY={2}>
-                 
+
                     <InputGroup size='sm' bg='white'>
                         <Input
-                        
+
                             placeholder='Pesquise pelo usuário ou nome do funcionário'
                             onChange={handleSearchQuery}
                         />
@@ -164,81 +163,84 @@ const ConfigUsuario = () => {
                             <SearchIcon color='gray.300' />
                         </InputRightElement>
                     </InputGroup>
-                       
+
                 </HStack>
 
-                {filteredData && filteredData.map((item, index) => (
+                <Box border='1px solid red'>
+                    {filteredData && filteredData.map((item, index) => (
 
-                    <Card marginBottom={2}>
+                        <Card marginBottom={2} key={index} height='100%'>
 
-                        <CardBody
-                            padding={2}
-                            display='flex'
-                            justifyContent='space-between'
-                        >
-                            <VStack align='start' width='100%' spacing={0}>
-
-                                <HStack width='100%'>
-
-                                    <Tag
-                                        colorScheme={item.AtivoBlue === 'N' ? 'red' : 'green'}
-                                        fontWeight='bold'
-                                        size='sm'
+                                <CardBody
+                                        padding={2}
+                                        display='flex'
+                                        justifyContent='space-between'
                                     >
-                                        {item.AtivoBlue === 'N' ? 'INATIVO' : 'ATIVO'}
-                                    </Tag>
+                                        <VStack align='start' width='100%' spacing={0}>
+
+                                            <HStack width='100%'>
+
+                                                <Tag
+                                                    colorScheme={item.AtivoBlue === 'N' ? 'red' : 'green'}
+                                                    fontWeight='bold'
+                                                    size='sm'
+                                                >
+                                                    {item.AtivoBlue === 'N' ? 'INATIVO' : 'ATIVO'}
+                                                </Tag>
 
 
-                                </HStack>
+                                            </HStack>
 
-                                <Text fontSize='sm'><strong>Codigo: </strong>{item.CodFunc}</Text>
+                                            <Text fontSize='sm'><strong>Codigo: </strong>{item.CodFunc}</Text>
 
-                                <Text fontSize='sm'><strong>Usuário: </strong>{item.IdFunc}</Text>    
+                                            <Text fontSize='sm'><strong>Usuário: </strong>{item.IdFunc}</Text>
 
-                                <Text fontSize='sm'><strong>Nome: </strong>{item.NomeFunc}</Text>
-                            
-                                <Text fontSize='sm'><strong>Tela Inicial: </strong>{item.descrAplicacao}</Text>
+                                            <Text fontSize='sm'><strong>Nome: </strong>{item.NomeFunc}</Text>
 
-                                <Text fontSize='sm'><strong>Acesso empresa(s): </strong>{item.EmpresasAcesso}</Text>
-                         
+                                            <Text fontSize='sm'><strong>Tela Inicial: </strong>{item.descrAplicacao}</Text>
 
-                            </VStack>
+                                            <Text fontSize='sm'><strong>Acesso empresa(s): </strong>{item.EmpresasAcesso}</Text>
 
 
-
-                            <VStack justifyContent='center'>
-
-                                <IconButton
-                                    fontSize="18px"
-                                    aria-label="Editar"
-                                    bg='orange'
-                                    icon={<EditIcon />}
-                                    color="white"
-                                    _hover={false}
-                                    onClick={() => handleEditarAcessoUsuario(item)}
-
-                                />
-
-                                <IconButton
-                                    fontSize="18px"
-                                    aria-label="Editar"
-                                    bg='red'
-                                    color="white"
-                                    _hover={false}
-                                    icon={<DeleteIcon />}
-                                    onClick={() => handleDeletarUsuario(item)}
-                                />
-
-                            </VStack>
-
-                        </CardBody>
-
-                    </Card>
+                                        </VStack>
 
 
-                ))}
 
-                <HStack marginTop={5}  justifyContent='center'>
+                                        <VStack justifyContent='center'>
+
+                                            <IconButton
+                                                fontSize="18px"
+                                                aria-label="Editar"
+                                                bg='orange'
+                                                icon={<EditIcon />}
+                                                color="white"
+                                                _hover={false}
+                                                onClick={() => handleEditarAcessoUsuario(item)}
+
+                                            />
+
+                                            <IconButton
+                                                fontSize="18px"
+                                                aria-label="Editar"
+                                                bg='red'
+                                                color="white"
+                                                _hover={false}
+                                                icon={<DeleteIcon />}
+                                                onClick={() => handleDeletarUsuario(item)}
+                                            />
+
+                                        </VStack>
+
+                                </CardBody>
+            
+                        </Card>
+
+                    ))}
+
+                </Box>
+
+
+                <HStack marginTop={5} justifyContent='center'>
 
                     {data && <Pagination pages={data.lastPage} currentPage={page} />}
 

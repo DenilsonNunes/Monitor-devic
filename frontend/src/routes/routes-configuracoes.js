@@ -2,7 +2,6 @@
 import ConfigEnvioEmail from '../pages/configuracoes/configuracao-envio-email/ConfigEnvioEmail';
 import ConfigUsuario from '../pages/configuracoes/configuracao-usuario/ConfigUsuario';
 import ConfigMonitor from '../pages/configuracoes/configuracoes-monitor/ConfigMonitor';
-import HomeConfiguracoes from '../pages/configuracoes/HomeConfiguracoes';
 
 
 
