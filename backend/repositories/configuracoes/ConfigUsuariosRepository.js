@@ -8,9 +8,26 @@ const sqlQueryInsert = require('../../db/SQL/queryInsert');
 class ConfigUsuariosRepository {
 
    
-    static listarTodos = async (offSet, limitPage) => {
+    static listarTodos = async (offSet, limitPage, funcAtivo) => {
 
+        console.log("Como chega funcAtivo repository", funcAtivo)
+
+        let queryAddFiltrosFuncAtivo = '';
         let queryAddFiltros = '';
+
+
+        if (funcAtivo === 'N' || funcAtivo === 'S') {
+
+            queryAddFiltrosFuncAtivo += `WHERE Ativo = '${funcAtivo}' `;
+
+        }
+
+        if (funcAtivo === undefined) {
+
+            queryAddFiltrosFuncAtivo += '';
+
+        }
+
 
         if (limitPage >= 0 && offSet >= 0) {
 
@@ -18,7 +35,10 @@ class ConfigUsuariosRepository {
 
         }
 
-        console.log('Como vai filtros', queryAddFiltros);
+
+
+
+        console.log('Como vai filtros', queryAddFiltros, queryAddFiltrosFuncAtivo);
 
         const data = await sqlQuery(
             `                   
@@ -37,6 +57,7 @@ class ConfigUsuariosRepository {
                 INNER JOIN TbFunc as F ON C.CodFunc = F.CodFunc
                 INNER JOIN tmAplicacoes as A ON A.idAplicacao = C.TelaInicial
                 INNER JOIN tmConfigFuncEmpr as FE ON C.CodFunc = FE.CodFunc
+                    ${queryAddFiltrosFuncAtivo}
                 GROUP BY
                     C.CodFunc,
                     F.IdFunc,

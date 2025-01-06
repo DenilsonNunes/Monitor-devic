@@ -8,12 +8,13 @@ class ConfigUsuariosController {
 
     async listarTodos(req, res) {
 
-        const { page, pageSize } = req.query;
+        const { page, pageSize,  mostrarInativos: funcAtivo } = req.query;
 
+    
 
         try {
 
-            const data = await ConfigUsuariosService.listarTodos(page, pageSize);
+            const data = await ConfigUsuariosService.listarTodos(page, pageSize, funcAtivo);
 
 
             if (data.users.length !== 0) {

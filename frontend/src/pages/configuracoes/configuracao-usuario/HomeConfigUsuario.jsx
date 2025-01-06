@@ -42,11 +42,11 @@ import api from '../../../helpers/api-instance';
 import ModalCadastrarUsuario from './modal/ModalCadastrarUsuario';
 import ModalEditarUsuario from './modal/ModalEditarUsuario';
 import ModalDeletarUsuario from './modal/ModalDeletarUsuario';
-import Pagination from '../../../components/Pagination/Pagination';
 
+
+import Pagination from '../../../components/Pagination/Pagination';
 import PageLayout from '../../../components/PageLayout/PageLayout';
 import TabListConfiguracoes from '../components/TabListConfiguracoes';
-import Loader from '../../../components/Loading/Loader';
 import ScrollToTopButton from '../../../components/ScrollToTopButton/ScrollToTopButton';
 
 
@@ -59,6 +59,8 @@ const ConfigUsuario = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [usuario, setUsuario] = useState(null);
+    const [exibirFuncInativo, setExibirFuncInativo] = useState('');
+
 
 
     const { isOpen: isCreateUserOpen, onOpen: onCreateUserOpen, onClose: onCreateUserClose } = useDisclosure();
@@ -66,24 +68,27 @@ const ConfigUsuario = () => {
     const { isOpen: isEditUserOpen, onOpen: onEditUserOpen, onClose: onEditUserClose } = useDisclosure();
 
 
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
 
     const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
     const pageSize = searchParams.get('pageSize') ? Number(searchParams.get('pageSize')) : 10
+    const funcAtivo = searchParams.get('mostrarInativos') || 'N'
 
 
 
     // Chamada para buscar os usuários do banco de dados
     const fetchUsuarios = async () => {
 
-        const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=${pageSize}`)
+        console.log('Como chama os usuarios', funcAtivo);
+
+        const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=${pageSize}&mostrarInativos=${funcAtivo}`)
         return response.data;
     };
 
     const { data, error, isLoading } = useQuery({
 
-        queryKey: ['usuarios', page, pageSize], // se os valore mudar, busca novamente
+        queryKey: ['usuarios', page, pageSize, funcAtivo], // se os valore mudar, busca novamente
         queryFn: () => fetchUsuarios(),
         refetchOnWindowFocus: false
     },);
@@ -114,6 +119,21 @@ const ConfigUsuario = () => {
         setSearchQuery(e.target.value); // Atualiza o termo da busca
     };
 
+
+    
+    const handleMostrarInativos = (e) => {
+
+        const value = e.target.value; // Obtém o valor do evento
+
+        // Atualiza o parâmetro de consulta na URL
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set('mostrarInativos', value); // Adiciona ou atualiza o parâmetro
+        setSearchParams(newParams); // Atualiza a URL com os novos parâmetros
+
+        
+        console.log('mostrar inativos', exibirFuncInativo)
+
+    };
 
     const handleEditarAcessoUsuario = (usuario) => {
 
@@ -307,9 +327,12 @@ const ConfigUsuario = () => {
                                 size='sm'
                                 marginLeft={2}
                                 bg='white'
+                                value={exibirFuncInativo}
+                                onChange={handleMostrarInativos}
                             >
-                                <option value='N'>Não</option>
-                                <option value='S'>Sim</option>
+                                <option value='S'>Não</option>
+                                <option value='N'>Sim</option>
+                                <option value='I'>Somente Inativos</option>
                             </Select>
 
                         </HStack>

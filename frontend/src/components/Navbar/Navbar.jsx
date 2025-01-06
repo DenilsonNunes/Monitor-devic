@@ -125,8 +125,10 @@ const Navbar = () => {
 
             <DrawerBody marginTop={10} padding={0}>
               <VStack spacing={2} align="stretch" marginTop={5}>
-                {rotas.map((item) => (
-                  <>
+
+                {rotas.map((item, index) => (
+
+                  <Box key={index}>
                     <Button
                       borderRadius='none'
                       _hover='none'
@@ -138,7 +140,7 @@ const Navbar = () => {
                     >
                       {item.nameRota}
                     </Button>
-                  </>
+                  </Box>
 
                 ))}
 

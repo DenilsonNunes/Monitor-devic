@@ -166,7 +166,7 @@ const FormConfigServidorSMTP = () => {
 
                     <Stack direction='column' spacing={0} width='30%'>
 
-                        <FormLabel>SMTP Server</FormLabel>
+                        <FormLabel fontSize='sm'>SMTP Server</FormLabel>
                         <Input 
                             size='sm'
                             type='text' 
@@ -180,7 +180,7 @@ const FormConfigServidorSMTP = () => {
 
                     <Stack direction='column' spacing={0} width='30%'>
 
-                        <FormLabel >SMTP Usuário</FormLabel>
+                        <FormLabel fontSize='sm' >SMTP Usuário</FormLabel>
                         <Input
                             size='sm' 
                             type='e-mail' 
@@ -197,7 +197,7 @@ const FormConfigServidorSMTP = () => {
 
                     <Stack direction='column' spacing={0} width='30%'>
 
-                        <FormLabel >SMTP Senha</FormLabel>
+                        <FormLabel fontSize='sm' >SMTP Senha</FormLabel>
                         <Input 
                             size='sm'
                             type='password'         
@@ -212,7 +212,7 @@ const FormConfigServidorSMTP = () => {
 
                     <Stack direction='column' spacing={0}>
 
-                        <FormLabel >Porta</FormLabel>
+                        <FormLabel fontSize='sm' >Porta</FormLabel>
                         <Input 
                             size='sm'
                             type='text'  

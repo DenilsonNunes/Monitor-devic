@@ -146,7 +146,7 @@ const FormMsgTitAVencerEmail = () => {
 
                     <Stack direction='column' spacing={0}>
 
-                        <FormLabel>Enviar e-mail automatico?</FormLabel>
+                        <FormLabel fontSize='sm'>Enviar e-mail automatico?</FormLabel>
                  
                         <RadioGroup value={EnvEmailAutAVenc} onChange={setEnvEmailAutAVenc} isDisabled={!emEdicao}>
                             <Stack direction='row'>
@@ -161,7 +161,7 @@ const FormMsgTitAVencerEmail = () => {
                  
                     <Stack direction='column' spacing={0} >
 
-                        <FormLabel >Intervalo para repetir Dia/Horas</FormLabel>
+                        <FormLabel fontSize='sm' >Intervalo para repetir Dia/Horas</FormLabel>
                         <Input 
                             size='sm'
                             type='text' 
@@ -175,7 +175,7 @@ const FormMsgTitAVencerEmail = () => {
 
                     <Stack direction='column' spacing={0} >
 
-                        <FormLabel >Horário agendamento</FormLabel>
+                        <FormLabel fontSize='sm' >Horário agendamento</FormLabel>
                         <Input 
                             type='time' 
                             size='sm' 
@@ -190,7 +190,7 @@ const FormMsgTitAVencerEmail = () => {
 
                     <Stack direction='column' spacing={0} >
 
-                        <FormLabel >Dias Antes do vencimento</FormLabel>
+                        <FormLabel fontSize='sm' >Dias Antes do vencimento</FormLabel>
                         <Input 
                             size='sm'
                             type='text' 
@@ -210,7 +210,7 @@ const FormMsgTitAVencerEmail = () => {
 
 
                 <Stack direction='column' spacing={0} width='23rem' marginY={5}>
-                    <FormLabel >Assunto do e-mail titulos a vencer</FormLabel>
+                    <FormLabel fontSize='sm' >Assunto do e-mail titulos a vencer</FormLabel>
                     <Input 
                         type='text'
                         size='sm'
@@ -225,7 +225,7 @@ const FormMsgTitAVencerEmail = () => {
 
                 <Stack direction='column' spacing={0} width='100%' marginTop={5} marginBottom={5}>
 
-                    <FormLabel fontSize='xsmd'>Mensagem padrão titulos a vencer</FormLabel>
+                    <FormLabel fontSize='sm'>Mensagem padrão titulos a vencer</FormLabel>
 
                     <MyEditor onChange={handleEditorChange} initialValue={MailMsgTitAVenc} emAlteracao={!emEdicao}></MyEditor>
 
@@ -233,7 +233,7 @@ const FormMsgTitAVencerEmail = () => {
 
 
 
-                <FormLabel>
+                <FormLabel fontSize='sm'>
 
                     <Box display='flex' justifyContent='space-between'>
 

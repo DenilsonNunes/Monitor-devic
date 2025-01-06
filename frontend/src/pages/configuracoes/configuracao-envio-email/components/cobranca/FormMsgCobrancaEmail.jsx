@@ -146,7 +146,7 @@ const FormMsgCobrancaEmail = () => {
 
                     <Stack direction='column' spacing={0}>
 
-                        <FormLabel>Enviar e-mail automatico?</FormLabel>
+                        <FormLabel >Enviar e-mail automatico?</FormLabel>
                  
                         <RadioGroup value={EnvEmailAutAVenc} onChange={setEnvEmailAutAVenc} isDisabled={!emEdicao}>
                             <Stack direction='row'>

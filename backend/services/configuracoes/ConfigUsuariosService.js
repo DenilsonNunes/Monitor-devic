@@ -4,7 +4,9 @@ const ConfigUsuariosRepository = require('../../repositories/configuracoes/Confi
 class ConfigUsuariosService {
 
 
-    static listarTodos = async (page, pageSize) => {
+    static listarTodos = async (page, pageSize, funcAtivo) => {
+
+        console.log('Como chega funcAtivo service', funcAtivo)
 
         
         // Receber o numero da pagina, quando não é enviado atribui o numero da pagina 1
@@ -19,7 +21,7 @@ class ConfigUsuariosService {
         let countUsers = await ConfigUsuariosRepository.listarTodos();
         countUsers = countUsers.length
 
-
+        console.log('passa pelo contador ?..........', funcAtivo)
 
         let lastPage
         if(countUsers !== 0) {
@@ -34,7 +36,7 @@ class ConfigUsuariosService {
 
 
         console.log('Quanto esta indo na pesquisa', offSet, limitPage)
-        const users = await ConfigUsuariosRepository.listarTodos(offSet, limitPage);
+        const users = await ConfigUsuariosRepository.listarTodos(offSet, limitPage, funcAtivo);
 
         const data = {
             currentPage,

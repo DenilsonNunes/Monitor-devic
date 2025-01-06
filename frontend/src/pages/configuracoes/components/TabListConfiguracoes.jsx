@@ -25,12 +25,13 @@ const TabListConfiguracoes = () => {
                 <Heading fontSize='24px' color='#0C3854'>Configurações</Heading>
             </Box>
 
-            <HStack boxShadow='base' border='1px solid #cbd5e1' bg='white' overflowX='auto' marginTop={5}>
+            <HStack boxShadow='base' border='1px solid #cbd5e1' bg='white' overflowX='auto' marginTop={5} >
 
-                {rotasConfiguracoes.map((item) => (
+                {rotasConfiguracoes.map((item, index) => (
                     
-                    <>
-                        <Button
+                    <Box key={index}>
+                        
+                        <Button                    
                             bg={location.pathname === item.rota ? 'primary' : ''}
                             color={location.pathname === item.rota ? 'white' : ''}
                             borderRadius='none'
@@ -42,7 +43,7 @@ const TabListConfiguracoes = () => {
                             {item.name}
                         </Button>
 
-                    </>
+                    </Box>
 
                 ))}
             </HStack>      
