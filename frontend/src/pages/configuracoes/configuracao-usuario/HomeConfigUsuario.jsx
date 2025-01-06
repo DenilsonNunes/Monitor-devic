@@ -46,6 +46,8 @@ import Pagination from '../../../components/Pagination/Pagination';
 
 import PageLayout from '../../../components/PageLayout/PageLayout';
 import TabListConfiguracoes from '../components/TabListConfiguracoes';
+import Loader from '../../../components/Loading/Loader';
+import ScrollToTopButton from '../../../components/ScrollToTopButton/ScrollToTopButton';
 
 
 
@@ -74,6 +76,7 @@ const ConfigUsuario = () => {
 
     // Chamada para buscar os usuários do banco de dados
     const fetchUsuarios = async () => {
+
         const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=${pageSize}`)
         return response.data;
     };
@@ -274,15 +277,7 @@ const ConfigUsuario = () => {
         md: (
             <PageLayout>
 
-                <Button
-                    colorScheme='blue'
-                    position="fixed"
-                    bottom="4"
-                    right="4"
-                    zIndex="9999"
-                    borderRadius='full'
-
-                >Voltar ao topo</Button>
+                <ScrollToTopButton/>
 
                 <TabListConfiguracoes />
 
@@ -342,100 +337,99 @@ const ConfigUsuario = () => {
 
 
                 <TableContainer
-                    boxShadow='base'
-                    marginTop={5}
-                    overflowY
-                >
+                        boxShadow='base'
+                        marginTop={5}
+                        overflowY
+                    >
 
-                    <Table>
+                        <Table>
 
-                        <Thead >
-                            <Tr>
-                                <Th fontSize='14px'>Codigo</Th>
-                                <Th fontSize='14px'>status</Th>
-                                <Th fontSize='14px'>Usuário</Th>
-                                <Th fontSize='14px'>Nome Funcionário</Th>
-                                <Th fontSize='14px'>Tela Inicial</Th>
-                                <Th fontSize='14px'>Acesso empresa(s)</Th>
-                                <Th fontSize='14px'>Ações</Th>
-                            </Tr>
-                        </Thead>
-
-                        <Tbody>
-
-                            {filteredData && filteredData.map((item, index) => (
-
-                                <Tr key={index} >
-                                    <Td textAlign='center'>{item.CodFunc}</Td>
-                                    <Td textAlign='center'>
-                                        <Tag colorScheme={item.AtivoBlue === 'N' ? 'red' : 'green'} fontWeight='bold'>
-                                            {item.AtivoBlue === 'N' ? 'INATIVO' : 'ATIVO'}
-                                        </Tag>
-                                    </Td>
-                                    <Td>{item.IdFunc}</Td>
-                                    <Td>{item.NomeFunc}</Td>
-                                    <Td textAlign='center'>{item.descrAplicacao}</Td>
-                                    <Td textAlign='center'>{item.EmpresasAcesso}</Td>
-                                    <Td textAlign='center'>
-
-                                        <Tooltip label='Editar'>
-                                            <IconButton
-                                                size='xs'
-                                                fontSize="14px"
-                                                aria-label="Editar"
-                                                bg='orange'
-                                                icon={<EditIcon />}
-                                                color="white"
-                                                _hover={false}
-                                                onClick={() => handleEditarAcessoUsuario(item)}
-
-                                            />
-                                        </Tooltip>
-
-                                        <Tooltip label='Deletar Usuário'>
-                                            <IconButton
-                                                size='xs'
-                                                marginLeft={2}
-                                                fontSize="14px"
-                                                aria-label="Editar"
-                                                bg='red'
-                                                color="white"
-                                                _hover={false}
-                                                icon={<DeleteIcon />}
-                                                onClick={() => handleDeletarUsuario(item)}
-                                            />
-                                        </Tooltip>
-
-                                    </Td>
-                                </Tr>
-
-
-                            ))}
-
-
-                        </Tbody>
-
-                        <Tfoot>
-                            {filteredData.length > 0 ?
+                            <Thead >
                                 <Tr>
-                                    <Th></Th>
-                                    <Th></Th>
-                                    <Th></Th>
-                                    <Th></Th>
-                                    <Th></Th>
-                                    <Th></Th>
-                                    <Th></Th>
+                                    <Th fontSize='14px'>Codigo</Th>
+                                    <Th fontSize='14px'>status</Th>
+                                    <Th fontSize='14px'>Usuário</Th>
+                                    <Th fontSize='14px'>Nome Funcionário</Th>
+                                    <Th fontSize='14px'>Tela Inicial</Th>
+                                    <Th fontSize='14px'>Acesso empresa(s)</Th>
+                                    <Th fontSize='14px'>Ações</Th>
                                 </Tr>
-                                :
-                                <Tr>
-                                    <Td colSpan="7" textAlign="center" style={{ pointerEvents: 'none' }} color='red'>Nenhum registro encontrado</Td>
-                                </Tr>
-                            }
+                            </Thead>
 
-                        </Tfoot>
-                    </Table>
+                            <Tbody>
+
+                                {filteredData && filteredData.map((item, index) => (
+
+                                    <Tr key={index} >
+                                        <Td textAlign='center'>{item.CodFunc}</Td>
+                                        <Td textAlign='center'>
+                                            <Tag colorScheme={item.AtivoBlue === 'N' ? 'red' : 'green'} fontWeight='bold'>
+                                                {item.AtivoBlue === 'N' ? 'INATIVO' : 'ATIVO'}
+                                            </Tag>
+                                        </Td>
+                                        <Td>{item.IdFunc}</Td>
+                                        <Td>{item.NomeFunc}</Td>
+                                        <Td textAlign='center'>{item.descrAplicacao}</Td>
+                                        <Td textAlign='center'>{item.EmpresasAcesso}</Td>
+                                        <Td textAlign='center'>
+
+                                            <Tooltip label='Editar'>
+                                                <IconButton
+                                                    size='xs'
+                                                    fontSize="14px"
+                                                    aria-label="Editar"
+                                                    bg='orange'
+                                                    icon={<EditIcon />}
+                                                    color="white"
+                                                    _hover={false}
+                                                    onClick={() => handleEditarAcessoUsuario(item)}
+
+                                                />
+                                            </Tooltip>
+
+                                            <Tooltip label='Deletar Usuário'>
+                                                <IconButton
+                                                    size='xs'
+                                                    marginLeft={2}
+                                                    fontSize="14px"
+                                                    aria-label="Editar"
+                                                    bg='red'
+                                                    color="white"
+                                                    _hover={false}
+                                                    icon={<DeleteIcon />}
+                                                    onClick={() => handleDeletarUsuario(item)}
+                                                />
+                                            </Tooltip>
+
+                                        </Td>
+                                    </Tr>
+
+
+                                ))}
+
+
+                            </Tbody>
+
+                            <Tfoot>
+                                {filteredData.length > 0 ?
+                                    <Tr>
+                                        <Th></Th>
+                                        <Th></Th>
+                                        <Th></Th>
+                                        <Th></Th>
+                                        <Th></Th>
+                                        <Th></Th>
+                                        <Th></Th>
+                                    </Tr>
+                                    :
+                                    <Tr>
+                                        <Td colSpan="7" textAlign="center" style={{ pointerEvents: 'none' }} color='red'>Nenhum registro encontrado</Td>
+                                    </Tr>
+                                }
+
+                            </Tfoot>
+                        </Table>
                 </TableContainer>
-
 
 
                 <HStack marginTop={5} justifyContent='center'>

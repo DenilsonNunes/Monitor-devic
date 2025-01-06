@@ -88,6 +88,7 @@ const ModalDeletarUsuario = ({ isOpen, onClose, usuario }) => {
         isOpen={isOpen}
         onClose={handleCloseModal}
         closeOnOverlayClick={false}
+        isCentered
       >
         <AlertDialogOverlay>
 
