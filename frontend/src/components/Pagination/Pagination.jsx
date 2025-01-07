@@ -116,6 +116,7 @@ const Pagination = ({pages, currentPage}) => {
 
         <IconButton 
           bg='gray.300'
+          isDisabled={currentPage - 1 <= 0}
           onClick={firstPage}
           icon={<ArrowLeftIcon boxSize={2}/>} 
         />
@@ -135,6 +136,7 @@ const Pagination = ({pages, currentPage}) => {
 
         <IconButton
           bg='gray.300'
+          isDisabled={currentPage + 1 > pages}
           onClick={lastPage}
           icon={<ArrowRightIcon boxSize={2}/>} 
         />

@@ -125,7 +125,8 @@ const HomeTopVendasProdutos = () => {
 
     const response = await api.get('/vendas/top-vendas-produtos', {
 
-      params: filters
+      params: filters,
+      timeout: 20000, // Configura 20 segundos de timeout
 
     });
 

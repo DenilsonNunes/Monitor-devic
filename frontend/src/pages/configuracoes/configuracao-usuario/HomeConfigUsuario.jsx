@@ -73,7 +73,7 @@ const ConfigUsuario = () => {
 
     const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
     const pageSize = searchParams.get('pageSize') ? Number(searchParams.get('pageSize')) : 10
-    const funcAtivo = searchParams.get('mostrarInativos') || 'N'
+    const funcAtivo = searchParams.get('status') || 'Todos'
 
 
 
@@ -82,7 +82,7 @@ const ConfigUsuario = () => {
 
         console.log('Como chama os usuarios', funcAtivo);
 
-        const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=${pageSize}&mostrarInativos=${funcAtivo}`)
+        const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=${pageSize}&status=${funcAtivo}`)
         return response.data;
     };
 
@@ -121,13 +121,14 @@ const ConfigUsuario = () => {
 
 
     
-    const handleMostrarInativos = (e) => {
+    const handleStatusUsuarios = (e) => {
 
         const value = e.target.value; // Obtém o valor do evento
 
         // Atualiza o parâmetro de consulta na URL
         const newParams = new URLSearchParams(searchParams);
-        newParams.set('mostrarInativos', value); // Adiciona ou atualiza o parâmetro
+        newParams.set('page', '1');
+        newParams.set('status', value); // Adiciona ou atualiza o parâmetro
         setSearchParams(newParams); // Atualiza a URL com os novos parâmetros
 
         
@@ -322,17 +323,17 @@ const ConfigUsuario = () => {
 
                         <HStack marginLeft={2}>
 
-                            <Text fontSize='14px' whiteSpace="nowrap">Mostrar Inativos</Text>
+                            <Text fontSize='14px' whiteSpace="nowrap">Filtrar usuários</Text>
                             <Select
                                 size='sm'
                                 marginLeft={2}
                                 bg='white'
                                 value={exibirFuncInativo}
-                                onChange={handleMostrarInativos}
-                            >
-                                <option value='S'>Não</option>
-                                <option value='N'>Sim</option>
-                                <option value='I'>Somente Inativos</option>
+                                onChange={handleStatusUsuarios}
+                            >                               
+                                <option value='Todos'>Todos</option>
+                                <option value='Ativo'>Ativos</option>
+                                <option value='Inativo'>Inativos</option>
                             </Select>
 
                         </HStack>

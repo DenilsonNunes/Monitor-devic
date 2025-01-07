@@ -14,6 +14,7 @@ const TabListConfiguracoes = () => {
         { name: 'Usuários', rota: '/configuracoes/usuarios', componente: <ConfigUsuario /> },
         { name: 'Monitor', rota: '/configuracoes/monitor', componente: <ConfigMonitor /> },
         { name: 'Envio de Email', rota: '/configuracoes/envio-de-emails', componente: <ConfigEnvioEmail /> },
+        { name: 'Integrações', rota: '/configuracoes/integracoes', componente: <ConfigEnvioEmail /> },
     ];
 
 

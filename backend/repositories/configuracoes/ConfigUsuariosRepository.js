@@ -8,12 +8,13 @@ const sqlQueryInsert = require('../../db/SQL/queryInsert');
 class ConfigUsuariosRepository {
 
    
-    static listarTodos = async (offSet, limitPage, funcAtivo) => {
+    static listarTodos = async ({offSet, limitPage, funcAtivo}) => {
 
-        console.log("Como chega funcAtivo repository", funcAtivo)
+        console.log("Como chega funcAtivo repository", offSet, limitPage, funcAtivo)
+        
 
         let queryAddFiltrosFuncAtivo = '';
-        let queryAddFiltros = '';
+        let queryAddFiltrosPaginacao = '';
 
 
         if (funcAtivo === 'N' || funcAtivo === 'S') {
@@ -22,23 +23,23 @@ class ConfigUsuariosRepository {
 
         }
 
-        if (funcAtivo === undefined) {
+        if (funcAtivo === undefined || funcAtivo === 'T') {
 
             queryAddFiltrosFuncAtivo += '';
 
         }
-
+   
 
         if (limitPage >= 0 && offSet >= 0) {
 
-            queryAddFiltros += `OFFSET ${offSet} ROWS FETCH NEXT ${limitPage} ROWS ONLY`;
+            queryAddFiltrosPaginacao += `OFFSET ${offSet} ROWS FETCH NEXT ${limitPage} ROWS ONLY`;
 
         }
 
 
 
 
-        console.log('Como vai filtros', queryAddFiltros, queryAddFiltrosFuncAtivo);
+        console.log('Como vai filtros', queryAddFiltrosPaginacao, queryAddFiltrosFuncAtivo);
 
         const data = await sqlQuery(
             `                   
@@ -69,7 +70,7 @@ class ConfigUsuariosRepository {
                     A.NomeAmigavelAplic
                 ORDER BY 
                     F.NomeFunc
-                ${queryAddFiltros}
+                ${queryAddFiltrosPaginacao}
             `
         );
 

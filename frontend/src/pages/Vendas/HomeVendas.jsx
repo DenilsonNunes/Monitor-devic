@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import {
     Card,
     CardHeader,
-    Box,
     Heading,
     CardBody,
     SimpleGrid,
@@ -14,9 +13,6 @@ import {
 
 
 import PageLayout from '../../components/PageLayout/PageLayout';
-
-
-
 
 
 
@@ -131,7 +127,7 @@ const HomeVendas = () => {
 
                     <Link to={item.path} key={index}>
 
-                        <Card bg='#f1f5f9' height='100%' >
+                        <Card bg='white' height='100%' >
 
                             <CardHeader display='flex' justifyContent='center' padding={2}>
                                 <Image src={item.image} maxH='4rem' maxW='4rem' alt='Clientes em debito' />
