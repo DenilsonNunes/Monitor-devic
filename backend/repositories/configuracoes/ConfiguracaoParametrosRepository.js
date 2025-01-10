@@ -11,7 +11,7 @@ class ConfiguracaoParametrosRepository {
 
         const data = await sqlQuery(
             `                   
-                SELECT * FROM tmConfig
+                SELECT * FROM tmConfigteste
                 
             `
         );

@@ -387,7 +387,10 @@ const ClientesEmDebito = () => {
                                     <Checkbox border='0.3px' borderColor='#cbd5e1' />
                                 </Th>
                             </Tooltip>
-                            <Th >Cod Cliente</Th>
+                            <Th>
+                                <Text>Cod</Text>
+                                <Text>Cliente</Text>
+                            </Th>
                             <Th >Cliente</Th>
                             <Th>Status</Th>
                             <Th >Total Vencido</Th>

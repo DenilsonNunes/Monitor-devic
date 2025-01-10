@@ -10,27 +10,13 @@ import {
   ModalCloseButton,
   Button,
   Text,
-  Heading,
-  Box,
   TableContainer,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  Checkbox,
-  IconButton,
-  Tag,
-  TagLabel,
-  Tooltip,
-  Input,
-  Stack,
-  VStack,
-  Select,
-  Icon,
-  useDisclosure
 } from '@chakra-ui/react'
 
 
@@ -101,7 +87,7 @@ const ModalTitulosEmDebito = ({ isOpen, onClose, cliente }) => {
             <Text fontSize='md'><b>Cliente: </b>{cliente.cliente}</Text>
 
             <TableContainer 
-              maxHeight="600px"   // Define a altura máxima da tabela
+              maxHeight="400px"   // Define a altura máxima da tabela
               maxWidth="100%"     // Define a largura máxima da tabela
               overflowX="auto"    // Ativa o scroll horizontal
               overflowY="auto"    // Ativa o scroll vertical

@@ -16,7 +16,7 @@ import {
   AccordionPanel,
   AccordionIcon,
   Text,
-  TableCaption,
+  Divider,
   VStack
 } from "@chakra-ui/react"
 
@@ -87,37 +87,65 @@ const HomeParametros = () => {
                 <AccordionIcon />
               </AccordionButton>
             </h2>
-            <AccordionPanel pb={4} border='1px solid red'>
+            <AccordionPanel>
 
-              <VStack>
-              {data && data.map((item, index) => (
+              <TableContainer
+                boxShadow='base'
+                overflowY
+              >
 
-                <>
-                
-                  <VStack>
-                    <Text>Código</Text>  
-                    <Text>{item.idConfig}</Text>  
-                  </VStack>
+                <Table>
 
-                  <VStack>
-                    <Text>Descrição</Text>  
-                    <Text>{item.DescrConfig}</Text>  
-                  </VStack>
+                  <Thead >
+                    <Tr>
+                      <Th fontSize='14px'>Código</Th>
+                      <Th fontSize='14px'>Descrição</Th>
+                      <Th fontSize='14px'>
+                        <Text>Valor</Text>
+                        <Text>texto</Text>
+                      </Th>
+                      <Th fontSize='14px'>Valor Data</Th>
+                      <Th fontSize='14px'>
+                        <Text>Valor</Text>
+                        <Text>inteiro</Text>
+                      </Th>
+                    </Tr>
+                  </Thead>
 
-                  <Text></Text>
-                
-                
-                </>
+                  <Tbody>
+
+                    {data && data.map((item, index) => (
+
+                      <Tr key={index} >
+                        <Td textAlign='center'>{item.idConfig}</Td>
+                        <Td maxW="800px" whiteSpace="normal" wordBreak="break-word">{item.DescrConfig}</Td>
+                        <Td>{item.ValorConfigText}</Td>
+                        <Td>{item.ValorConfigDate}</Td>
+                        <Td>{item.ValorConfigInt}</Td>
+                      </Tr>
+
+                    ))}
 
 
+                  </Tbody>
 
-              ))}
+                  <Tfoot>
 
-   
-              </VStack>
-              
+                    <Tr>
+                      <Th></Th>
+                      <Th></Th>
+                      <Th></Th>
+                      <Th></Th>
+                      <Th></Th>
+                    </Tr>
+
+                  </Tfoot>
+                </Table>
+              </TableContainer>
+  
             </AccordionPanel>
           </AccordionItem>
+
 
           <AccordionItem>
             <h2>
@@ -129,84 +157,34 @@ const HomeParametros = () => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-              commodo consequat.
+ 
+
+
             </AccordionPanel>
           </AccordionItem>
+
+
+
+
+          <AccordionItem>
+            <h2>
+              <AccordionButton>
+                <Box as='span' flex='1' textAlign='left'>
+                  Estoque
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+ 
+
+
+            </AccordionPanel>
+          </AccordionItem>
+
+
+
         </Accordion>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <TableContainer
-          boxShadow='base'
-          overflowY
-        >
-
-          <Table>
-
-            <Thead >
-              <Tr>
-                <Th fontSize='14px'>ID</Th>
-                <Th fontSize='14px'>Descrição</Th>
-                <Th fontSize='14px'>Descrição</Th>
-                <Th fontSize='14px'>Descrição</Th>
-                <Th fontSize='14px'>Ações</Th>
-              </Tr>
-            </Thead>
-
-            <Tbody>
-
-              {data && data.map((item, index) => (
-
-                <Tr key={index} >
-                  <Td textAlign='center'>{item.idConfig}</Td>
-                  <Td maxW="800px" isTruncated>{item.DescrConfig}</Td>
-                  <Td>{item.ValorConfigText}</Td>
-                  <Td>{item.ValorConfigDate}</Td>
-                  <Td>{item.ValorConfigInt}</Td>
-                  <Td>{item.NomeFunc}</Td>
-                </Tr>
-
-              ))}
-
-
-            </Tbody>
-
-            <Tfoot>
-
-              <Tr>
-                <Th></Th>
-                <Th></Th>
-                <Th></Th>
-              </Tr>
-
-            </Tfoot>
-          </Table>
-        </TableContainer>
-
-
-
 
       </Box>
 
