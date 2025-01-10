@@ -103,6 +103,8 @@ const HomeParametros = () => {
                     <Text>Descrição</Text>  
                     <Text>{item.DescrConfig}</Text>  
                   </VStack>
+
+                  <Text></Text>
                 
                 
                 </>
