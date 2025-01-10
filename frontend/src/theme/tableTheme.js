@@ -4,11 +4,12 @@ import { createMultiStyleConfigHelpers } from '@chakra-ui/react'
 const { definePartsStyle, defineMultiStyleConfig } =
   createMultiStyleConfigHelpers(tableAnatomy.keys)
 
-const baseStyle = definePartsStyle({
 
+// Variantes personalizadas
+const customVariant = definePartsStyle({
   table: {
     borderColor: 'gray.300',
-    bg:'white'
+    bg: 'white',
   },
   th: {
     bg: 'gray.300',
@@ -20,7 +21,7 @@ const baseStyle = definePartsStyle({
     padding: '8px 8px 8px 8px !important',
     border: '1px solid #cbd5e1 !important',
     fontSize: '14px',
-    fontWeight: '500'
+    fontWeight: '500',
   },
   tr: {
     _hover: {
@@ -28,6 +29,15 @@ const baseStyle = definePartsStyle({
       cursor: 'pointer',
     },
   },
-})
+});
 
-export const tableTheme = defineMultiStyleConfig({ baseStyle })
+
+
+
+
+// Configuração do tema de tabela
+export const tableTheme = defineMultiStyleConfig({
+  variants: {
+    custom: customVariant,
+  },
+});

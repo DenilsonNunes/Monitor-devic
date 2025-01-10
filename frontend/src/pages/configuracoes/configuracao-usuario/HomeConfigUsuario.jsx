@@ -363,7 +363,7 @@ const ConfigUsuario = () => {
                         overflowY
                     >
 
-                        <Table>
+                        <Table variant='custom'>
 
                             <Thead >
                                 <Tr>

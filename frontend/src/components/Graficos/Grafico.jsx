@@ -3,6 +3,7 @@ import ApexChart from 'react-apexcharts';
 const Grafico = () => {
 
     const options = {
+        
         chart: {
             id: 'apexchart-example'
         },

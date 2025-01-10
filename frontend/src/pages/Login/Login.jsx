@@ -124,7 +124,13 @@ const Login = () => {
 
       <VStack flex='3' height='100%' align='center' justify='center'>
 
-        <Text fontSize={80} color='primary'>DeVIC</Text>
+        <Text 
+          fontSize={80} 
+          bgGradient='linear(86deg, rgba(3,0,59,1) 0%, rgba(30,64,175,1) 69%)'
+          bgClip="text"
+        >
+          DeVIC
+        </Text>
 
         <Box width='80%'>
 
@@ -181,7 +187,7 @@ const Login = () => {
               isLoading={loading}
               type='submit'
               width='100%'
-              bg='primary'
+              bgGradient='linear(86deg, rgba(3,0,59,1) 0%, rgba(30,64,175,1) 69%)'
               color='white'
               _hover='none'
               _active={{bg: '#112D9C'}}

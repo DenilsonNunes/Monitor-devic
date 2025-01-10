@@ -12,6 +12,7 @@ class ConfiguracaoParametrosRepository {
         const data = await sqlQuery(
             `                   
                 SELECT * FROM tmConfigteste
+                WHERE Modulo = 'Vendas'
                 
             `
         );

@@ -4,7 +4,7 @@ import {
     Heading,
 } from '@chakra-ui/react'
 
-import Grafico from "../../../components/Financeiro/Grafico";
+import Grafico from "../../../components/Graficos/Grafico";
 import CardRotinasFinanceiro from "../CardRotinasFinanceiro/CardRotinasFinanceiro";
 
 import PageLayout from '../../../components/PageLayout/PageLayout';
