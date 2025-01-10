@@ -4,7 +4,8 @@ import {Box, Heading, HStack, Button } from '@chakra-ui/react'
 
 import ConfigUsuario from "../configuracao-usuario/HomeConfigUsuario";
 import ConfigEnvioEmail from "../configuracao-envio-email/ConfigEnvioEmail";
-import ConfigMonitor from "../configuracoes-monitor/ConfigMonitor";
+import ConfigMonitor from "../configuracao-parametros/HomeParametros";
+import HomeParametros from "../configuracao-parametros/HomeParametros";
 
 const TabListConfiguracoes = () => {
 
@@ -12,7 +13,7 @@ const TabListConfiguracoes = () => {
 
     const rotasConfiguracoes = [
         { name: 'Usuários', rota: '/configuracoes/usuarios', componente: <ConfigUsuario /> },
-        { name: 'Monitor', rota: '/configuracoes/monitor', componente: <ConfigMonitor /> },
+        { name: 'Parâmetros', rota: '/configuracoes/parametros', componente: <HomeParametros/> },
         { name: 'Envio de Email', rota: '/configuracoes/envio-de-emails', componente: <ConfigEnvioEmail /> },
         { name: 'Integrações', rota: '/configuracoes/integracoes', componente: <ConfigEnvioEmail /> },
     ];

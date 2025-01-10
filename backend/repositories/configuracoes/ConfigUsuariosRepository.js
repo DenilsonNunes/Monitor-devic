@@ -10,7 +10,6 @@ class ConfigUsuariosRepository {
    
     static listarTodos = async ({offSet, limitPage, funcAtivo}) => {
 
-        console.log("Como chega funcAtivo repository", offSet, limitPage, funcAtivo)
         
 
         let queryAddFiltrosFuncAtivo = '';
@@ -37,9 +36,6 @@ class ConfigUsuariosRepository {
         }
 
 
-
-
-        console.log('Como vai filtros', queryAddFiltrosPaginacao, queryAddFiltrosFuncAtivo);
 
         const data = await sqlQuery(
             `                   

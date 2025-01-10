@@ -1,6 +1,8 @@
 import {
   Heading,
   Box,
+  Image,
+  VStack
 
 } from '@chakra-ui/react'
 
@@ -8,19 +10,44 @@ import {
 import Navbar from '../../components/Navbar/Navbar'
 import { Link } from 'react-router-dom'
 
+
+import  notFound  from '../../../src/assets/images/not-found-404.png'
+import PageLayout from '../../components/PageLayout/PageLayout'
+
+
 const NotFound = () => {
   return (
-    <Box marginLeft={5} marginRight={5}>
+
+    <PageLayout>
+
       <Navbar/>
-      <Box marginTop={20}>
-        <Heading marginBottom={4} size='md'>Pagina não encontrada</Heading>
+      
+      <Box  display='flex' justifyContent='center'>
+
+        <VStack>
+
+          <Image 
+            src={notFound} alt='Not Found' 
+            boxSize={['200px', '400px']}
+          />
+          <Heading size='xl' color='orange'>Pagina não encontrada!</Heading>
+
+
 
         <Link to='/home' style={{ color: 'blue', textDecoration: 'underline' }}>
           Voltar para home
         </Link>
+
+
+        </VStack>
+
+
+
         
       </Box>
-    </Box>
+
+    </PageLayout>
+
   )
 }
 

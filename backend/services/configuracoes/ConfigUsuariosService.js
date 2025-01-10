@@ -30,7 +30,7 @@ class ConfigUsuariosService {
         let countUsers = await ConfigUsuariosRepository.listarTodos({funcAtivo});
         countUsers = countUsers.length
         
-        console.log('Quantidade de usuarios....... ', countUsers)
+ 
 
 
         let lastPage
@@ -40,7 +40,7 @@ class ConfigUsuariosService {
 
         }
 
-        console.log('Quantidade por pagina....... ', lastPage)
+
 
     
         // Desvio da paginação  (1 * 10)=10    (10-10)=0

@@ -1,8 +1,7 @@
 
 import ConfigEnvioEmail from '../pages/configuracoes/configuracao-envio-email/ConfigEnvioEmail';
+import HomeParametros from '../pages/configuracoes/configuracao-parametros/HomeParametros';
 import HomeConfigUsuario from '../pages/configuracoes/configuracao-usuario/HomeConfigUsuario';
-import ConfigMonitor from '../pages/configuracoes/configuracoes-monitor/ConfigMonitor';
-
 
 
 
@@ -15,8 +14,8 @@ export const routesConfiguracoes = [
       title: 'Home'
     },
     {
-      path: '/configuracoes/monitor',
-      component: ConfigMonitor,
+      path: '/configuracoes/parametros',
+      component: HomeParametros,
       private: true,
       title: 'Home'
     },

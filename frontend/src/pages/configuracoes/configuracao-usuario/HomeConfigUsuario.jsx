@@ -80,10 +80,9 @@ const ConfigUsuario = () => {
     // Chamada para buscar os usuários do banco de dados
     const fetchUsuarios = async () => {
 
-        console.log('Como chama os usuarios', funcAtivo);
-
         const response = await api.get(`/configuracoes/usuarios?page=${page}&pageSize=${pageSize}&status=${funcAtivo}`)
         return response.data;
+
     };
 
     const { data, error, isLoading } = useQuery({
@@ -132,7 +131,6 @@ const ConfigUsuario = () => {
         setSearchParams(newParams); // Atualiza a URL com os novos parâmetros
 
         
-        console.log('mostrar inativos', exibirFuncInativo)
 
     };
 
@@ -328,7 +326,6 @@ const ConfigUsuario = () => {
                                 size='sm'
                                 marginLeft={2}
                                 bg='white'
-                                value={exibirFuncInativo}
                                 onChange={handleStatusUsuarios}
                             >                               
                                 <option value='Todos'>Todos</option>
