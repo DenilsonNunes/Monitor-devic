@@ -44,7 +44,7 @@ const SelectOption = ({ onDateChange }) => {
                 return (
                     <>
 
-                        <NumberInput defaultValue={2024} min={1900} max={2999} size='sm' width={20} isDisabled>
+                        <NumberInput defaultValue={2024} min={1900} max={2999} size='sm' width={20} >
                             <NumberInputField />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
@@ -59,13 +59,13 @@ const SelectOption = ({ onDateChange }) => {
 
             case 'data':
                 return (
-                    <Input type="date" size='sm' isDisabled/>
+                    <Input type="date" size='sm' />
                 )
 
             case 'numero_dias':
 
                 return (
-                    <Input type="number" size='sm' isDisabled/>
+                    <Input type="number" size='sm' />
                 )
 
 
@@ -92,7 +92,6 @@ const SelectOption = ({ onDateChange }) => {
                     size='sm' 
                     onChange={(e) => handleSelectChange(e.target.value)}
                     placeholder='--selecione--'
-                    isDisabled
                 >
                     <option value='mesAtual'>Mês Atual</option>
                     <option value='ano'>Ano</option>
