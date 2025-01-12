@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 
 import {
     VStack,
-    FormLabel,
     HStack,
     Input,
     Box,
@@ -15,36 +14,87 @@ import {
     NumberDecrementStepper
 } from '@chakra-ui/react'
 
+// Utils
+import obterAnoAtual from '../../../../utils/obterAnoAtual';
 
 
 
-const SelectOption = ({ onDateChange }) => {
+
+const SelectOption = ({ onDateChange, disableInput, disableInputOption }) => {
 
 
+    const [date, setDate] = useState('');
+    const [ano, setAno] = useState(obterAnoAtual());
+    const [numeroDias, setNumeroDias] = useState('');
     const [selectedOption, setSelectdOption] = useState('');
 
 
 
 
+/*--------------------------Eventos dos inputs--------------------------------*/
+    const handleDateChange = (value) => {
+        setDate(value);
+        onDateChange({ type: 'date', value }); // Envia para o pai
+    };
 
+    const handleNumeroDiasChange = (value) => {
+        setNumeroDias(value);
+        onDateChange({ type: 'numero_dias', value }); // Envia para o pai
+    };
+
+    const handleAnoChange = (value) => {
+        onDateChange({ type: 'ano', value }); // Envia para o pai
+    };
+
+/*----------------------------------FIM---------------------------------------*/
+
+
+
+/*-----------------------Eventos da opção que selecionei-------------------------*/
+
+    const handleSelectChange = (selecionado) => {
+
+        setSelectdOption(selecionado);
+
+        if (selecionado === 'ano') {
+
+            onDateChange({ type: 'ano', value: ano});
+
+        } else if (selecionado === 'mes_atual') {
+
+            onDateChange({ type: 'mes_atual', value: 'M' });
+        }
+        
+    }
+
+/*-------------------------------------FIM---------------------------------------*/
+
+
+
+/*---------------Renderiza a opção que selecionei------------------------*/
 
     const renderSwitchContent = (selecionado) => {
 
 
         switch (selecionado) {
 
-            case 'mes_Atual':
-
-                return (
-                    <></>
-                )
-
+            case 'mes_atual':
+                return null
+               
             case 'ano':
 
                 return (
                     <>
 
-                        <NumberInput defaultValue={2024} min={1900} max={2999} size='sm' width={20} >
+                        <NumberInput 
+                            defaultValue={ano} 
+                            min={1900} 
+                            max={2999} 
+                            size='sm' 
+                            width={20} 
+                            isDisabled={!disableInputOption}
+                            onChange={(valueString) => handleAnoChange(valueString)}
+                        >
                             <NumberInputField />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
@@ -59,13 +109,24 @@ const SelectOption = ({ onDateChange }) => {
 
             case 'data':
                 return (
-                    <Input type="date" size='sm' />
+                    <Input 
+                        type="date" 
+                        size='sm'
+                        isDisabled={!disableInputOption}
+                        onChange={(e)=> handleDateChange(e.target.value)}  
+                    />
                 )
 
             case 'numero_dias':
 
                 return (
-                    <Input type="number" size='sm' />
+                    <Input 
+                        type="number" 
+                        size='sm' 
+                        width={24} 
+                        onChange={(e) => handleNumeroDiasChange(e.target.value)} 
+                        isDisabled={!disableInputOption}
+                    />
                 )
 
 
@@ -76,11 +137,6 @@ const SelectOption = ({ onDateChange }) => {
 
 
 
-    const handleSelectChange = (selecionado) => {
-        setSelectdOption(selecionado);
-
-    }
-
 
 
     return (
@@ -89,13 +145,15 @@ const SelectOption = ({ onDateChange }) => {
             <VStack spacing={0} alignItems='start'>
 
                 <Select 
+                    placeholder='--selecione--'
                     size='sm' 
                     onChange={(e) => handleSelectChange(e.target.value)}
-                    placeholder='--selecione--'
+                    isDisabled={!disableInputOption}
                 >
-                    <option value='mesAtual'>Mês Atual</option>
+                    <option value='mes_atual'>Mês Atual</option>
                     <option value='ano'>Ano</option>
                     <option value='data'>Data</option>
+                    <option value='numero_dias'>Número "X" Dias</option>
                 </Select>
 
             </VStack>

@@ -6,6 +6,7 @@ const ConfiguracaoParametrosController = require('../../controllers/configuracoe
 
 
 router.get('/', ConfiguracaoParametrosController.getAllParameters);
+router.put('/editar/:codParametro', ConfiguracaoParametrosController.updateParameterById);
 
 
 

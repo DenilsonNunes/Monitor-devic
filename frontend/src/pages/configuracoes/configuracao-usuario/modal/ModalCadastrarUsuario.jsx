@@ -96,8 +96,6 @@ const ModalCadastrarUsuario = ({ isOpen, onClose }) => {
 
     mutationFn: async () => {
       
- 
-
       const response = await api.post('/configuracoes/usuarios/cadastrar', {
         codFunc: func, 
         telaInicial, 
