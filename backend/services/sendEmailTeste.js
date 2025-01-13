@@ -15,6 +15,7 @@ class SendEmailTeste {
 
     }
     
+    
     static titulosAvencer = async (emailDestino) => {
 
         // Query nas consfigurações de e-mail

@@ -75,6 +75,7 @@ const HomeParametros = () => {
     queryKey: ['parametros'], // se os valore mudar, busca novamente
     queryFn: () => fetchParametros(),
     refetchOnWindowFocus: false
+    
   },);
   /*-----------------------------------FIM------------------------------------------ */
 
@@ -84,6 +85,7 @@ const HomeParametros = () => {
 
   const { mutate, isPending, isSuccess, isError, reset } = useMutation({
     
+
     mutationFn: async () => {
 
       const response = await api.put(`/configuracoes/parametros/editar/${codParametro}`, {
@@ -101,7 +103,6 @@ const HomeParametros = () => {
     onSuccess: (data) => {
       // Se der sucesso, atualiza a lista de parametros
       queryClient.invalidateQueries('parametros')
-
       toast({
         title: data.message,
         status: 'success',
@@ -132,9 +133,6 @@ const HomeParametros = () => {
  
     }
     
-  
-
-
   })
 
 
@@ -173,7 +171,6 @@ const HomeParametros = () => {
 
     setParametroEmEdicao(item);
     setOptionParametroEmEdicao(item);
-
 
   }
 
@@ -279,6 +276,7 @@ const HomeParametros = () => {
                             </Tooltip>
 
                           )}
+                          
 
 
                           {parametroEmEdicao === item.idConfig && (
@@ -294,9 +292,7 @@ const HomeParametros = () => {
                                 color="white"
                                 isLoading={isPending}
                                 _hover={false}
-                                isDisabled={
-                                  parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig
-                                }  
+                                isDisabled={parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig}  
                                 icon={<LuSave />}
                               />
                             </Tooltip>

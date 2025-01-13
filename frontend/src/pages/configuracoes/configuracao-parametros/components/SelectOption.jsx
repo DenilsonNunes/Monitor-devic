@@ -20,7 +20,7 @@ import obterAnoAtual from '../../../../utils/obterAnoAtual';
 
 
 
-const SelectOption = ({ onDateChange, disableInput, disableInputOption }) => {
+const SelectOption = ({ onDateChange, disableInputOption }) => {
 
 
     const [date, setDate] = useState('');
@@ -136,9 +136,6 @@ const SelectOption = ({ onDateChange, disableInput, disableInputOption }) => {
 
 
 
-
-
-
     return (
         <HStack alignItems="end">
 
@@ -157,7 +154,6 @@ const SelectOption = ({ onDateChange, disableInput, disableInputOption }) => {
                 </Select>
 
             </VStack>
-
 
             <Fade in={true}>
                 <Box
