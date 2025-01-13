@@ -1,10 +1,8 @@
-const sqlQuery = require('../db/SQL/query/query')
+const sqlQuery = require('../db/SQL/query')
 
 
 // Select configuações e-mail
 const { SelectConfigEnvEmail } = require('../db/SQL/Configurações/Configurações-de-Email/SELECT/configuracoesEnvEmail');
-// Select contas a receber
-const queryContasAreceber = require('../db/SQL/Financeiro/SELECT/contasAreceber');
 
 
 //const dataAtual = require('../utils/Formats/dataAtualMMDDAAAA');

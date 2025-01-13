@@ -17,7 +17,7 @@ const query = async (dados) => {
 
     } else {
 
-        return 'A update não afetou nenhuma linha no banco de dados.';
+        return 'O update não afetou nenhuma linha no banco de dados.';
 
     }
 

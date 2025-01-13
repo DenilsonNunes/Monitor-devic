@@ -1,7 +1,7 @@
 const sql = require('mssql');
-const configDb = require('../../connection/conn');
+const configDb = require('../connection/conn');
 
-const filtraChaves = require('../../../utils/Formats/filtraChaveObj');
+const filtraChaves = require('../../utils/Formats/filtraChaveObj');
 
 
 const query = async (dados, filtros) => {

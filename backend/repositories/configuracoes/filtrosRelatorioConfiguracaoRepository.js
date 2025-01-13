@@ -1,4 +1,4 @@
-const sqlQuery = require('../../db/SQL/query/query');
+const sqlQuery = require('../../db/SQL/query');
 
 
 class FiltrosRelatorioConfiguracaoRepository {

@@ -1,6 +1,6 @@
 const cron = require('node-cron');
 
-const sqlQuery = require('../db/SQL/query/query');
+const sqlQuery = require('../db/SQL/query');
 
 const filtraHoraMinutosDoDateTime = require('../utils/Formats/filtraHoraMinutosDoDateTime')
 

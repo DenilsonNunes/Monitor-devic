@@ -1,4 +1,4 @@
-const sqlQuery = require('../../db/SQL/query/query');
+const sqlQuery = require('../../db/SQL/query');
 const sqlQueryDelete = require('../../db/SQL/queryDelete');
 const sqlQueryInsert = require('../../db/SQL/queryInsert');
 
