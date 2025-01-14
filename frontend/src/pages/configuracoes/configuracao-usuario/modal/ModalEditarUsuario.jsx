@@ -318,7 +318,7 @@ const ModalEditarUsuario = ({ isOpen, onClose, usuario }) => {
                   <FormLabel fontWeight='bold' color='#4a5568' margin={0}>Visualizar vendas?</FormLabel>
 
                   <RadioGroup value={visualizarVendas}>
-                    <Stack direction='row' value='N' onChange={(e) => setVisualizarVendas(e.target.value)}>
+                    <Stack direction='row'  onChange={(e) => setVisualizarVendas(e.target.value)}>
                       <Radio value='S' size='sm'>Sim</Radio>
                       <Radio value='N' size='sm'>Apenas vendedores do supervisor</Radio>
                     </Stack>
