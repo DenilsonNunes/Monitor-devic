@@ -7,7 +7,6 @@ const app = express();
 // Importa rotas principais
 const routes = require('./routes/index');
 
-const verificaServicoAtivo = require('../backend/services/verificaServicoAtivo');
 
 
 // Config JSON response
@@ -22,7 +21,7 @@ app.use(cors({
 
 }));
 
-//verificaServicoAtivo();
+
 
 //Rota principal
 app.use('/api', routes);

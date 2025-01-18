@@ -1,4 +1,6 @@
-const ConfigEmailCobrancaService= require('../../../services/configuracoes/configuracoes-email/configEmailCobrancaService');
+const ConfigEmailCobrancaService = require('../../../services/configuracoes/configuracoes-email/configEmailCobrancaService');
+
+
 
 
 class ConfigEmailCobrancaController {
@@ -9,7 +11,7 @@ class ConfigEmailCobrancaController {
         
         try {
 
-            const result = await testConnectionSMTP();
+            const result = await ConfigEmailCobrancaService.testConnection();
 
             res.status(200).json({ message: result });
 

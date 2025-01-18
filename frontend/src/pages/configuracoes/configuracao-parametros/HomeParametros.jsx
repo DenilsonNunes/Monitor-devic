@@ -47,6 +47,7 @@ import api from '../../../helpers/api-instance';
 
 
 const HomeParametros = () => {
+
   const toast = useToast()
   const queryClient = useQueryClient();
 
@@ -55,11 +56,24 @@ const HomeParametros = () => {
   const [parametroEmEdicao, setParametroEmEdicao] = useState(null);
   const [parameterOptionSelected, setParameterOptionSelected] = useState('');
 
+
+
   const [codParametro, setCodParametro] = useState('');
   const [valorParametro, setValorParametro] = useState('');
   const [tipoParametro, setTipoParametro] = useState('');
 
 
+
+
+
+
+
+
+
+
+
+
+  
 
 
 
@@ -170,6 +184,8 @@ const HomeParametros = () => {
 
   const handleEditarParametro = (item) => {
 
+    console.log('Qual o parametro em edicao??', item);
+
     setParametroEmEdicao(item);
     setOptionParametroEmEdicao(item);
 
@@ -257,6 +273,7 @@ const HomeParametros = () => {
                                   <Select 
                                       placeholder='--selecione--'
                                       size='sm'
+                                      isDisabled={parametroEmEdicao === null && parametroEmEdicao !== item.idConfig}
                                       value={
                                         item.ValorConfigText === 'D' && item.ValorConfigDate ? 'data' : 
                                         item.ValorConfigText === 'Dias' && item.ValorConfigDate === null && item.ValorConfigInt ? 'numero_dias' : 
@@ -280,7 +297,8 @@ const HomeParametros = () => {
                                         alignItems="end"
                                     >
                                         <SelectOption
-                                          teste={parameterOptionSelected}
+                                          disableInputOption={parametroEmEdicao !== null  &&  parametroEmEdicao === item.idConfig}
+                                          optionSelected={parameterOptionSelected}
                                         />
                                         
                                     </Box>

@@ -11,8 +11,14 @@ class ConfigEmailCobrancaRepository {
 
         const data = await sqlQuery(
             `                   
-                SELECT * FROM tmConfigteste
-                WHERE Modulo = 'Vendas'
+                SELECT 
+                    SMTPServerCobr,
+                    SMTPUsuarioCobr,
+                    SMTPSenhaCobr,
+                    PortaCobr,
+                    TpConexaoCobr     
+                FROM 
+                    tmConfigEmail
              `
         );
 

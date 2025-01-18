@@ -20,9 +20,9 @@ import obterAnoAtual from '../../../../utils/obterAnoAtual';
 
 
 
-const SelectOption = ({ onDateChange, disableInputOption, teste }) => {
+const SelectOption = ({ disableInputOption, optionSelected }) => {
     
-    console.log("Como vem o teste",  teste )
+ 
 
     const [date, setDate] = useState('');
     const [ano, setAno] = useState(obterAnoAtual());
@@ -30,6 +30,8 @@ const SelectOption = ({ onDateChange, disableInputOption, teste }) => {
     const [selectedOption, setSelectdOption] = useState('');
 
 
+
+    console.log('Como vem o disable..:', !disableInputOption)
 
 /*---------------Renderiza a opção que selecionei------------------------*/
     const renderSwitchContent = (option) => {
@@ -50,6 +52,7 @@ const SelectOption = ({ onDateChange, disableInputOption, teste }) => {
                             max={2999} 
                             size='sm' 
                             width={20} 
+                            isDisabled={!disableInputOption}
                         >
                             <NumberInputField />
                             <NumberInputStepper>
@@ -90,7 +93,7 @@ const SelectOption = ({ onDateChange, disableInputOption, teste }) => {
     return (
 
        <>
-        {renderSwitchContent(teste)}
+        {renderSwitchContent(optionSelected)}
        </>
 
     )
