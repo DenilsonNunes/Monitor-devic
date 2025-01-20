@@ -23,7 +23,7 @@ import {
   Text
 } from "@chakra-ui/react";
 
-import { LuUserCircle } from "react-icons/lu";
+import { LuUserCircle, LuLogOut } from "react-icons/lu";
 import { HamburgerIcon } from '@chakra-ui/icons'
 
 import styles from './Navbar.module.css';
@@ -209,7 +209,12 @@ const Navbar = () => {
               <MenuItem
                 onClick={handleSignOut}
               >
-                Sair
+                <Box>
+                  <LuLogOut/>
+                  Sair
+                </Box>
+
+                
               </MenuItem>
 
             </MenuList>

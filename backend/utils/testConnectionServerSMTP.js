@@ -2,15 +2,15 @@ const nodemailer = require('nodemailer');
 
 
 
-const testConnectionSMTP = async () => {
+const testConnectionServerSMTP = async (host, port, userEmail, password) => {
   // Configurações do transporte SMTP para o Gmail
   const transporter = nodemailer.createTransport({
-    host: process.env.SERVER_EMAIL,
-    port: process.env.SERVER_PORT,
+    host: host,
+    port: port,
     //secure: true,
     auth: {
-      user: process.env.EMAIL_USER, 
-      pass: process.env.EMAIL_PASSWORD
+      user: userEmail, 
+      pass: password
     },
   });
 
@@ -27,4 +27,4 @@ const testConnectionSMTP = async () => {
 
 
 
-module.exports = testConnectionSMTP;
+module.exports = testConnectionServerSMTP;

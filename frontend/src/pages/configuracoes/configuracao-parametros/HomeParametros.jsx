@@ -1,5 +1,5 @@
-import { useState,  } from 'react'
-import { useQuery, useMutation, useQueryClient  } from '@tanstack/react-query';
+import { useState, } from 'react'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
   Box,
@@ -22,12 +22,14 @@ import {
   Select,
   Input,
   useToast,
-  IconButton
+  IconButton,
+  Fade,
+  HStack
 } from "@chakra-ui/react"
 
 // Icones
 import { EditIcon } from '@chakra-ui/icons'
-import { LuSave, LuX  } from "react-icons/lu";
+import { LuSave, LuX } from "react-icons/lu";
 
 // Components
 import PageLayout from "../../../components/PageLayout/PageLayout"
@@ -45,24 +47,38 @@ import api from '../../../helpers/api-instance';
 
 
 const HomeParametros = () => {
+
   const toast = useToast()
   const queryClient = useQueryClient();
 
   const [selectedData, setSelectedData] = useState(null);
 
   const [parametroEmEdicao, setParametroEmEdicao] = useState(null);
-  const [optionParametroEmEdicao, setOptionParametroEmEdicao] = useState(false);
+  const [parameterOptionSelected, setParameterOptionSelected] = useState('');
+
+
 
   const [codParametro, setCodParametro] = useState('');
   const [valorParametro, setValorParametro] = useState('');
   const [tipoParametro, setTipoParametro] = useState('');
 
 
+
+
+
+
+
+
+
+
+
+
   
 
 
 
-/*-----------------Chamada para buscar os usuários do banco de dados--------------- */
+
+  /*-----------------Chamada para buscar os usuários do banco de dados--------------- */
   const fetchParametros = async () => {
 
     const response = await api.get(`/configuracoes/parametros`)
@@ -75,15 +91,17 @@ const HomeParametros = () => {
     queryKey: ['parametros'], // se os valore mudar, busca novamente
     queryFn: () => fetchParametros(),
     refetchOnWindowFocus: false
+
   },);
   /*-----------------------------------FIM------------------------------------------ */
 
 
 
 
-
+  /*------------------------------Ação de alteração no BD---------------------------- */
   const { mutate, isPending, isSuccess, isError, reset } = useMutation({
-    
+
+
     mutationFn: async () => {
 
       const response = await api.put(`/configuracoes/parametros/editar/${codParametro}`, {
@@ -91,22 +109,21 @@ const HomeParametros = () => {
         tipoParametro
 
       })
- 
+
       // Um atraso de 2 seguntos para exibir o loading na tela
       await new Promise((resolve) => setTimeout(resolve, 2000));
-  
+
       return response.data;
 
     },
     onSuccess: (data) => {
       // Se der sucesso, atualiza a lista de parametros
       queryClient.invalidateQueries('parametros')
-
       toast({
         title: data.message,
         status: 'success',
         variant: 'left-accent',
-        position:'bottom-center',
+        position: 'bottom-center',
         isClosable: true,
       })
 
@@ -115,13 +132,13 @@ const HomeParametros = () => {
 
     },
     onError: (error) => {
-      
+
       // Se der erro, exibi erro na tela
       toast({
         title: error.response.data.message,
         status: 'error',
         variant: 'left-accent',
-        position:'bottom-center',
+        position: 'bottom-center',
         isClosable: true,
         containerStyle: {
           display: 'inline-block', // Faz com que o tamanho seja ajustado ao conteúdo
@@ -129,11 +146,8 @@ const HomeParametros = () => {
           whiteSpace: 'normal',   // Permite quebra de linha se o texto for longo
         },
       })
- 
-    }
-    
-  
 
+    }
 
   })
 
@@ -147,33 +161,33 @@ const HomeParametros = () => {
 
 
 
-  
 
-  const handleDateChange = (data) => {
 
-      setCodParametro('')
-      setValorParametro('')
-      setTipoParametro('')
-      setSelectedData(data);
+  const handleParameterOptionSelected = (option) => {
+
+    console.log('Qual parametro estou selecionando', option )
+
+    setParameterOptionSelected(option)
 
   };
 
 
   const handleSalvarParametro = (item) => {
-    
+
     setCodParametro(item)
     setValorParametro(selectedData.value)
     setTipoParametro(selectedData.type)
 
     mutate();
-   
+
   }
 
   const handleEditarParametro = (item) => {
 
+    console.log('Qual o parametro em edicao??', item);
+
     setParametroEmEdicao(item);
     setOptionParametroEmEdicao(item);
-
 
   }
 
@@ -195,7 +209,7 @@ const HomeParametros = () => {
     <PageLayout>
       <TabListConfiguracoes />
 
-      
+
 
       <Box marginTop={5} boxShadow='base' bg='white'>
 
@@ -241,26 +255,71 @@ const HomeParametros = () => {
                         <Td paddingY={2}>
                           {
                             [14, 15, 22, 23, 24, 25, 26, 27].includes(item.idConfig)
-                              ? <Input 
-                                  size="sm" 
-                                  type="number" 
-                                  isDisabled={parametroEmEdicao !== item.idConfig}                                                                 
-                                />
-                              : <SelectOption
+                              ? <Input
+                                size="sm"
+                                type="number"
+                                isDisabled={parametroEmEdicao !== item.idConfig}
+                              />
+                              : /*                                
+                                <SelectOption
                                   disableInputOption={optionParametroEmEdicao === item.idConfig} 
                                   disableInput={parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig}
                                   onDateChange={handleDateChange}
-                                />
+                                />                                                 
+                                */
+
+                                <HStack>
+
+                                  <Select 
+                                      placeholder='--selecione--'
+                                      size='sm'
+                                      isDisabled={parametroEmEdicao === null && parametroEmEdicao !== item.idConfig}
+                                      value={
+                                        item.ValorConfigText === 'D' && item.ValorConfigDate ? 'data' : 
+                                        item.ValorConfigText === 'Dias' && item.ValorConfigDate === null && item.ValorConfigInt ? 'numero_dias' : 
+                                        item.ValorConfigText === 'M' && item.ValorConfigDate === null && item.ValorConfigInt === null ? 'mes_atual' : 
+                                        item.ValorConfigText === 'MESES' && item.ValorConfigDate === null && item.ValorConfigInt ? 'meses' : null
+                                      }
+                                      onChange={(e) => handleParameterOptionSelected(e.target.value)}                                         
+                                  >
+                                      <option value='mes_atual'>Mês Atual</option>
+                                      <option value='meses'>Meses</option>
+                                      <option value='ano'>Ano</option>
+                                      <option value='data'>Data</option>
+                                      <option value='numero_dias'>Número "X" Dias</option>
+                                  </Select>
+                                  
+                                  <Fade in={true}>
+                                    <Box
+                                        rounded='md'
+                                        minW='150px'
+                                        display="flex"
+                                        alignItems="end"
+                                    >
+                                        <SelectOption
+                                          disableInputOption={parametroEmEdicao !== null  &&  parametroEmEdicao === item.idConfig}
+                                          optionSelected={parameterOptionSelected}
+                                        />
+                                        
+                                    </Box>
+                                  </Fade>
+                                
+                                </HStack>
+
+
+
+
+
                           }
 
                         </Td>
 
                         <Td textAlign='center' paddingY={2}>
 
-                          {parametroEmEdicao !== item.idConfig && ( 
+                          {parametroEmEdicao !== item.idConfig && (
 
-                            <Tooltip 
-                              label='Editar' 
+                            <Tooltip
+                              label='Editar'
                               isDisabled={parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig}
                               bg='orange'
                             >
@@ -269,8 +328,8 @@ const HomeParametros = () => {
                                 fontSize="14px"
                                 aria-label="Editar"
                                 onClick={() => handleEditarParametro(item.idConfig)}
-                                bg='orange'                             
-                                isDisabled={parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig}                              
+                                bg='orange'
+                                isDisabled={parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig}
                                 icon={<EditIcon />}
                                 color="white"
                                 _hover={false}
@@ -281,11 +340,12 @@ const HomeParametros = () => {
                           )}
 
 
+
                           {parametroEmEdicao === item.idConfig && (
 
                             <Tooltip label='Salvar' bg='green.400'>
                               <IconButton
-                                onClick={()=> handleSalvarParametro(item.idConfig)}
+                                onClick={() => handleSalvarParametro(item.idConfig)}
                                 size='xs'
                                 marginLeft={2}
                                 fontSize="16px"
@@ -294,9 +354,7 @@ const HomeParametros = () => {
                                 color="white"
                                 isLoading={isPending}
                                 _hover={false}
-                                isDisabled={
-                                  parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig
-                                }  
+                                isDisabled={parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig}
                                 icon={<LuSave />}
                               />
                             </Tooltip>
@@ -317,12 +375,12 @@ const HomeParametros = () => {
                                 borderColor='red'
                                 color="red"
                                 _hover={false}
-                                icon={<LuX/>}
+                                icon={<LuX />}
                                 onClick={handleCancelarEdicaoParametro}
                                 isLoading={isPending}
                                 isDisabled={
                                   parametroEmEdicao !== null && parametroEmEdicao !== item.idConfig
-                                }  
+                                }
                               />
                             </Tooltip>
 
@@ -349,7 +407,7 @@ const HomeParametros = () => {
           <AccordionItem>
             <h2>
               <AccordionButton>
-                <AccordionIcon/>
+                <AccordionIcon />
                 <Box as='span' flex='1' textAlign='left' fontWeight='bold'>
                   Financeiro
                 </Box>
