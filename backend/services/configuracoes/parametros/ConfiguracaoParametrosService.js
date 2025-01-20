@@ -35,7 +35,7 @@ class ConfiguracaoParametrosService {
 
             if(result.includes('não')){
 
-                return { sucesso: false, message: 'Houve um erro ao editar o paranetro!'}
+                return { sucesso: false, message: 'Houve um erro ao editar o parametro!'}
                 
             } else {
                 
