@@ -10,7 +10,7 @@ class ConfigEmailCobrancaService {
 
     static testConnection = async () => {
 
-        const data= await ConfigEmailCobrancaRepository.testConnection();
+        const data = await ConfigEmailCobrancaRepository.testConnection();
 
         console.log('REsult', data)
 

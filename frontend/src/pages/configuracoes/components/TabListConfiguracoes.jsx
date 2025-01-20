@@ -3,7 +3,7 @@ import {Link, useLocation } from "react-router-dom";
 import {Box, Heading, HStack, Button } from '@chakra-ui/react'
 
 import ConfigUsuario from "../configuracao-usuario/HomeConfigUsuario";
-import ConfigEnvioEmail from "../configuracao-envio-email/ConfigEnvioEmail";
+import ConfigEnvioEmail from "../configuracao-envio-email/HomeConfigEnvioEmail";
 import ConfigMonitor from "../configuracao-parametros/HomeParametros";
 import HomeParametros from "../configuracao-parametros/HomeParametros";
 

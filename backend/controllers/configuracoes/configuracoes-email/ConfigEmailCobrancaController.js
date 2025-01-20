@@ -53,21 +53,12 @@ class ConfigEmailCobrancaController {
 
         try {
             
-            const data = await query(SelectConfigEnvEmail.configTitulosAvencer());
+            const data = await ConfigEmailCobrancaService.getConfig();
 
-            // Converte o DateTime  em Horas e minutos
-            const newData = data.map((item)=>{
-                return {
-                    ...item,
-                    HsIniEmailAutAVenc: filtraHoraMinutosDoDateTime(item.HsIniEmailAutAVenc)
-                }
-            })
-            
-
-            res.status(200).json(newData);
+            res.status(200).json(data);
 
         } catch(err) {
-            console.log(err);
+
             res.status(500).json({ message: err.message });
         }
     }

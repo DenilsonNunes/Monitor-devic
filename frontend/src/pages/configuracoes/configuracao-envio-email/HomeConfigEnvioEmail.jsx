@@ -10,11 +10,10 @@ import {
 
 import PageLayout from "../../../components/PageLayout/PageLayout"
 import TabListConfiguracoes from "../components/TabListConfiguracoes"
-import FormMsgTitAVencerEmail from "./components/titulos-a-vencer/FormMsgTitAVencerEmail"
-import FormConfigServidorSMTP from "./components/titulos-a-vencer/FormConfigServidorSMTP"
+import ConfiguracaoCobranca from "./cobranca/ConfiguracaoCobranca"
 
 
-const ConfigEnvioEmail = () => {
+const HomeConfigEnvioEmail = () => {
 
 
   return (
@@ -23,6 +22,7 @@ const ConfigEnvioEmail = () => {
       <TabListConfiguracoes />
 
       <Tabs bg='white' boxShadow='base' marginTop={5}>
+
         <TabList justifyContent='center'>
           <Tab>Cobrança</Tab>
           <Tab>Titulos a vencer</Tab>
@@ -33,17 +33,19 @@ const ConfigEnvioEmail = () => {
           <Tab>Gestor</Tab>
         </TabList>
 
+
+
+
         <TabPanels>
 
-          {/* Cobrnaça */}
+          {/* Cobranaça */}
           <TabPanel>
-            <p>one!</p>
+            <ConfiguracaoCobranca/>
           </TabPanel>
 
           {/*Titulos a Vencer */}
           <TabPanel>
-            <FormConfigServidorSMTP/>
-            <FormMsgTitAVencerEmail/>
+          <p>Titulos a vencer</p>
           </TabPanel>
 
           {/*Titulos Vencidos*/}
@@ -57,10 +59,11 @@ const ConfigEnvioEmail = () => {
           </TabPanel>
 
         </TabPanels>
+        
       </Tabs>
 
     </PageLayout>
   )
 }
 
-export default ConfigEnvioEmail
+export default HomeConfigEnvioEmail

@@ -1,5 +1,5 @@
 
-import ConfigEnvioEmail from '../pages/configuracoes/configuracao-envio-email/ConfigEnvioEmail';
+import HomeConfigEnvioEmail from '../pages/configuracoes/configuracao-envio-email/HomeConfigEnvioEmail';
 import HomeParametros from '../pages/configuracoes/configuracao-parametros/HomeParametros';
 import HomeConfigUsuario from '../pages/configuracoes/configuracao-usuario/HomeConfigUsuario';
 
@@ -21,7 +21,7 @@ export const routesConfiguracoes = [
     },
     {
       path: '/configuracoes/envio-de-emails',
-      component: ConfigEnvioEmail,
+      component: HomeConfigEnvioEmail,
       private: true,
       title: 'Home'
     },

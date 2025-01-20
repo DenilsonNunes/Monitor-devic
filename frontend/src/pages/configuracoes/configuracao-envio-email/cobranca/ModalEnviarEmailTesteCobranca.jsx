@@ -21,7 +21,7 @@ import {
 } from '@chakra-ui/react'
 
 
-import api from '../../../../../helpers/api-instance'
+import api from '../../../../helpers/api-instance'
 
 
 const ModalEnviarEmailTeste = ({ isOpen, onClose }) => {
