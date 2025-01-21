@@ -16,7 +16,16 @@ const theme = extendTheme({
   },
 
   components: {
-    Table: tableTheme
+
+    Table: tableTheme,
+
+    FormLabel: {
+      baseStyle: {
+        marginBottom: 1
+      },
+    },
+
+
   },
 
   fonts: {

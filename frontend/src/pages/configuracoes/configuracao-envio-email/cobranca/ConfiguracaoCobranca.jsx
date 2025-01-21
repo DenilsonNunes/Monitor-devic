@@ -42,6 +42,7 @@ const ConfiguracaoCobranca = () => {
     const [portSMTP, setPortSMTP] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     const [envEmailAutCobr, setEnvEmailAutCobr] = useState('');
     const [hrsIniEmailAutCobr, setHrsIniEmailAutCobr] = useState('');
     const [hrsIntEmailAutCobr, setHrsIntEmailAutCobr] = useState('');
@@ -81,18 +82,32 @@ const ConfiguracaoCobranca = () => {
 
     useEffect(() => {
 
+
         if (data) {
+
+
+
             setEmail(data.SMTPUsuarioCobr)
             setPassword(data.SMTPSenhaCobr || '');
             setServerSMTP(data.SMTPServerCobr || '');
             setPortSMTP(data.PortaCobr || '');
+
+
+            setMailAssuntoCobr(data.MailAssuntoCobr || '');
+            setEnvEmailAutCobr(data.EnvEmailAutCobr || '');
+            setHrsIntEmailAutCobr(data.HsIntEmailAutCobr || '');
+            setHrsIniEmailAutCobr(data.HrsIniEmailAutCobr || '');
+            setDiasVencEmailAutCobr(data.DiasVencEmailAutCobr || '');
+            setMailMsgCobr(data.MailMsgCobr || '');
+
+
         }
 
     }, [data]);
 
 
 
-
+    
 
 
     const handleTestarConexao = async () => {
@@ -112,7 +127,7 @@ const ConfiguracaoCobranca = () => {
           } catch (err) { 
 
             toast({
-                title: 'Erro ao realizar teste de conexão server SMTP',
+                title: 'Erro ao conectar com o servidor SMTP',
                 variant: 'left-accent',
                 status: 'error',
                 isClosable: true,
@@ -289,11 +304,11 @@ const ConfiguracaoCobranca = () => {
 
                             <FormLabel fontSize='sm' >Enviar e-mail automático ?</FormLabel>
 
-                            <RadioGroup value={envEmailAutCobr} onChange={setEnvEmailAutCobr} size='md'>
+                            <RadioGroup value={envEmailAutCobr} onChange={setEnvEmailAutCobr} size='md' isDisabled={!emEdicaoConfigMensagem}>
                                 <Stack direction='row'>
-                                    <Radio fontSize='sm' value='N'>Não</Radio>
-                                    <Radio fontSize='sm' value='D'>Diário</Radio>
-                                    <Radio  value='H'>Horas</Radio>
+                                    <Radio size='sm' value='N'>Não</Radio>
+                                    <Radio size='sm' value='D'>Diário</Radio>
+                                    <Radio size='sm' value='H'>Horas</Radio>
                                 </Stack>
                             </RadioGroup>
 
@@ -307,8 +322,9 @@ const ConfiguracaoCobranca = () => {
                                 size='sm'
                                 type='text'
                                 width="4rem"
-                                value={hrsIniEmailAutCobr}
-                                onChange={(e) => setHrsIniEmailAutCobr(e.target.value)}
+                                isDisabled={!emEdicaoConfigMensagem}
+                                value={hrsIntEmailAutCobr}
+                                onChange={(e) => setHrsIntEmailAutCobr(e.target.value)}
                             />
 
                         </Stack>
@@ -320,8 +336,9 @@ const ConfiguracaoCobranca = () => {
                                 type='time'
                                 size='sm'
                                 width="100%"
-                                value={hrsIntEmailAutCobr}
-                                onChange={(e) => setHrsIntEmailAutCobr(e.target.value)}
+                                isDisabled={!emEdicaoConfigMensagem}
+                                value={hrsIniEmailAutCobr}
+                                onChange={(e) => setHrsIniEmailAutCobr(e.target.value)}
                             />
 
                         </Stack>
@@ -332,8 +349,9 @@ const ConfiguracaoCobranca = () => {
                             <FormLabel fontSize='sm'>Dias vencido</FormLabel>
                             <Input
                                 size='sm'
-                                type='text'
+                                type='number'
                                 width="4rem"
+                                isDisabled={!emEdicaoConfigMensagem}
                                 value={diasVencEmailAutCobr}
                                 onChange={(e) => setDiasVencEmailAutCobr(e.target.value)}
                             />
@@ -348,10 +366,11 @@ const ConfiguracaoCobranca = () => {
 
 
                     <Stack direction='column' spacing={0} width='30rem' marginY={5}>
-                        <FormLabel fontSize='sm' >Assunto do e-mail titulos a vencer</FormLabel>
+                        <FormLabel fontSize='sm' >Assunto do e-mail cobrança</FormLabel>
                         <Input
                             type='text'
                             size='sm'
+                            isDisabled={!emEdicaoConfigMensagem}
                             value={mailAssuntoCobr}
                             onChange={(e) => setMailAssuntoCobr(e.target.value)}
                             placeholder="Informe o assunto do E-mail"
@@ -362,9 +381,12 @@ const ConfiguracaoCobranca = () => {
 
                     <Stack direction='column' spacing={0} width='100%' marginTop={5} marginBottom={5}>
 
-                        <FormLabel fontSize='sm'>Mensagem padrão titulos a vencer</FormLabel>
+                        <FormLabel fontSize='sm'>Mensagem padrão cobrança</FormLabel>
 
-                        <MyEditor  initialValue={mailMsgCobr}></MyEditor>
+                        <MyEditor  
+                            initialValue={mailMsgCobr}
+                            emAlteracao={!emEdicaoConfigMensagem} 
+                        />
 
                     </Stack>
 
@@ -377,6 +399,7 @@ const ConfiguracaoCobranca = () => {
                             size='sm'
                             colorScheme='blue'
                             marginTop={2} marginLeft={2}
+                            isDisabled={emEdicaoConfigMensagem}
                             loadingText='Enviando...'
                             onClick={handleEnviarEmailTeste}
                         >

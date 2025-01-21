@@ -3,6 +3,7 @@ const ConfigEmailCobrancaRepository= require('../../../repositories/configuracoe
 
 // UTILS
 const testConnectionServerSMTP = require('../../../utils/testConnectionServerSMTP')
+const filtraHoraMinutosDoDateTime = require('../../../utils/Formats/filtraHoraMinutosDoDateTime')
 
 
 class ConfigEmailCobrancaService {
@@ -43,8 +44,14 @@ class ConfigEmailCobrancaService {
 
     static getConfig = async () => {
 
-        return await ConfigEmailCobrancaRepository.getConfig();
-        
+
+        const data = await ConfigEmailCobrancaRepository.getConfig();
+
+
+        return data.map(item => ({
+            ...item,
+            HsIniEmailAutCobr: filtraHoraMinutosDoDateTime(item.HsIniEmailAutCobr),
+        }));
     }
 
 
