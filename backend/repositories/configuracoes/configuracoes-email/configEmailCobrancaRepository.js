@@ -33,20 +33,7 @@ class ConfigEmailCobrancaRepository {
         
         const data = await sqlQuery(
             `      
-                SELECT 
-                    SMTPServerCobr,
-                    SMTPUsuarioCobr,
-                    SMTPSenhaCobr,
-                    PortaCobr,
-                    TpConexaoCobr,
-                    MailAssuntoCobr,
-                    MailMsgCobr,
-                    HsIniEmailAutCobr,
-                    HsIntEmailAutCobr,
-                    EnvEmailAutCobr,
-                    DiasVencEmailAutCobr        
-                FROM 
-                    tmConfigEmail
+
              `
         );
 
@@ -63,8 +50,20 @@ class ConfigEmailCobrancaRepository {
 
         const data = await sqlQuery(
             `                   
-                SELECT * FROM tmConfigteste
-                WHERE Modulo = 'Vendas'
+                SELECT 
+                    SMTPServerCobr,
+                    SMTPUsuarioCobr,
+                    SMTPSenhaCobr,
+                    PortaCobr,
+                    TpConexaoCobr,
+                    MailAssuntoCobr,
+                    MailMsgCobr,
+                    HsIniEmailAutCobr,
+                    HsIntEmailAutCobr,
+                    EnvEmailAutCobr,
+                    DiasVencEmailAutCobr        
+                FROM 
+                    tmConfigEmail
              `
         );
 

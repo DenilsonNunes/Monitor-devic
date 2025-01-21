@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
@@ -12,7 +12,8 @@ import {
     Box,
     RadioGroup,
     Radio,
-    Divider
+    Divider,
+    useToast
 }
 from '@chakra-ui/react'
 
@@ -25,23 +26,35 @@ import api from '../../../../helpers/api-instance'
 // Components
 import MyEditor from '../../../../components/EditorDeTexto/MyEditor'
 import ModalEnviarEmailTeste from './ModalEnviarEmailTesteCobranca'
+import ErrorServer from '../../../../components/Error/ErrorServer';
 
 
 
 const ConfiguracaoCobranca = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [emEdicao, setEmEdicao] = useState('');
+    const toast = useToast();
+
+    const [emEdicaoConfigMensagem, setEmEdicaoConfigMensagem] = useState(false);
+    const [emEdicaoServerSMTP, setEmEdicaoServerSMTP] = useState(false);
 
     const [serverSMTP, setServerSMTP] = useState('');
     const [portSMTP, setPortSMTP] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [envEmailAutAVenc, setEnvEmailAutAVenc] = useState('');
-    const [hrsIntEmailAutAVenc, setHrsIntEmailAutAVenc] = useState('');
-    const [diasAVencEmailAutAVenc, setDiasAVencEmailAutAVenc] = useState('');
-    const [mailAssuntoTitAVenc, setMailAssuntoTitAVenc] = useState('');
-    const [mailMsgTitAVenc, setmailMsgTitAVenc] = useState('');
+    const [envEmailAutCobr, setEnvEmailAutCobr] = useState('');
+    const [hrsIniEmailAutCobr, setHrsIniEmailAutCobr] = useState('');
+    const [hrsIntEmailAutCobr, setHrsIntEmailAutCobr] = useState('');
+    const [diasVencEmailAutCobr, setDiasVencEmailAutCobr] = useState('');
+    const [mailAssuntoCobr, setMailAssuntoCobr] = useState('');
+    const [mailMsgCobr, setMailMsgCobr] = useState('');
+
+
+
+ 
+
+
+
 
 
 
@@ -53,44 +66,99 @@ const ConfiguracaoCobranca = () => {
     
 
   /*-----------------Chamada para buscar as configurações de envio de email cobranca do banco de dados--------------- */
-
-  const { data, error, isLoading } = useQuery({
-
-    queryKey: ['configuracao-titulos-vencer'], // Atualiza os dados se a chave mudar
-    queryFn: async () => {
-
-      const response = await api.get('/configuracoes/envio-de-emails/titulos-a-vencer');
-      return response.data;
-
-    },
-    refetchOnWindowFocus: false,
-  });
+    const { data, error, isLoading } = useQuery({
+        queryKey: ['configuracao-cobranca'],
+        queryFn: async () => {
+            const response = await api.get('/configuracoes/envio-de-emails/cobranca');
+            return response.data[0];
+        },
+        refetchOnWindowFocus: false,
+    });
   /*-----------------------------------FIM------------------------------------------ */
 
 
+ 
+
+    useEffect(() => {
+
+        if (data) {
+            setEmail(data.SMTPUsuarioCobr)
+            setPassword(data.SMTPSenhaCobr || '');
+            setServerSMTP(data.SMTPServerCobr || '');
+            setPortSMTP(data.PortaCobr || '');
+        }
+
+    }, [data]);
 
 
 
 
 
 
+    const handleTestarConexao = async () => {
 
+        try {
 
+            const response = await api.get('/configuracoes/envio-de-emails/cobranca/teste-conexao-server');
 
+            toast({
+                title: response.data.message,
+                variant: 'left-accent',
+                status: 'success',
+                isClosable: true,
+            })
+            
 
-    const handleTestarConexao = () => {
+          } catch (err) { 
 
+            toast({
+                title: 'Erro ao realizar teste de conexão server SMTP',
+                variant: 'left-accent',
+                status: 'error',
+                isClosable: true,
+            })
+
+          }
+   
     }
-
 
     const handleEnviarEmailTeste = () => {
 
     }
 
 
-    const handleSalvarDados = () => {
+
+
+    const handleSalvarConexaoSMTP = () => {
 
     }
+
+    const handleEditarConexaoSMTP = () => {
+
+        setEmEdicaoServerSMTP(!emEdicaoServerSMTP);
+        
+
+    }
+
+
+
+
+
+    const handleSalvarConfigMensagem = () => {
+
+    }
+
+    const handleEditarConfigMensagem = () => {
+        setEmEdicaoConfigMensagem(!emEdicaoConfigMensagem);
+
+    }
+    
+    
+
+
+
+
+    if (error) return <ErrorServer mensagem='Ocorreu um erro e não foi possível carregar as configurações'/>;
 
 
 
@@ -101,7 +169,7 @@ const ConfiguracaoCobranca = () => {
         <Box>
 
             {/*--------------------------- CONFIGURAÇÕES DE SERVIDOR SMTP -------------------------- */}
-            <form>
+            <form onSubmit={handleSalvarConexaoSMTP}>
                 <FormControl  p="2" width="100%" borderWidth="1px" borderColor="#cbd5e1" borderRadius='5px' marginBottom={2}>
 
                     <Stack direction='row' width='100%'>
@@ -112,7 +180,7 @@ const ConfiguracaoCobranca = () => {
                             <Input
                                 size='sm'
                                 type='text'
-                                isDisabled={emEdicao}
+                                isDisabled={!emEdicaoServerSMTP}
                                 value={serverSMTP}
                                 onChange={(e) => setServerSMTP(e.target.value)}
                                 placeholder="Informe o servidor SMTP"
@@ -122,10 +190,11 @@ const ConfiguracaoCobranca = () => {
 
                         <Stack direction='column' spacing={0} width='30%'>
 
-                            <FormLabel fontSize='sm' >SMTP Usuário</FormLabel>
+                            <FormLabel fontSize='sm'>SMTP Usuário</FormLabel>
                             <Input
                                 size='sm'
                                 type='e-mail'
+                                isDisabled={!emEdicaoServerSMTP}
                                 border='1px'
                                 borderColor='#cbd5e1'
                                 value={email}
@@ -141,6 +210,7 @@ const ConfiguracaoCobranca = () => {
                             <Input
                                 size='sm'
                                 type='password'
+                                isDisabled={!emEdicaoServerSMTP}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Informe a Senha"
@@ -151,10 +221,11 @@ const ConfiguracaoCobranca = () => {
 
                         <Stack direction='column' spacing={0}>
 
-                            <FormLabel fontSize='sm' >Porta</FormLabel>
+                            <FormLabel fontSize='sm'>Porta</FormLabel>
                             <Input
                                 size='sm'
                                 type='text'
+                                isDisabled={!emEdicaoServerSMTP}
                                 width="4rem"
                                 value={portSMTP}
                                 onChange={(e) => setPortSMTP(e.target.value)}
@@ -168,14 +239,37 @@ const ConfiguracaoCobranca = () => {
 
 
 
-                    <HStack marginTop={6}>
+                    <HStack marginTop={6} justifyContent='end'>
 
-                        <Button type='submit' size='sm' colorScheme='blue' onClick={handleTestarConexao}>
+                        <Button 
+                            fontWeight='none'
+                            size='sm' 
+                            colorScheme='blue' 
+                            onClick={handleTestarConexao}
+                            isDisabled={emEdicaoServerSMTP}
+                        >
                             Testar Conexão
                         </Button>
 
+                        <Button  
+                            fontWeight='none'
+                            size='sm' 
+                            colorScheme={emEdicaoServerSMTP ? 'red' : 'yellow'} 
+                            marginLeft={2} 
+                            onClick={handleEditarConexaoSMTP}
+                        >
+                            {emEdicaoServerSMTP ? 'Cancelar' : 'Editar'}
+                        </Button>
 
-                        <Button type='submit' size='sm' colorScheme='green' marginLeft={2} onClick={handleSalvarDados}>Salvar</Button>
+                        <Button  
+                            fontWeight='none'
+                            size='sm' 
+                            colorScheme='green'
+                            isDisabled={!emEdicaoServerSMTP}
+                            onClick={handleSalvarConexaoSMTP}
+                        >
+                            Salvar
+                        </Button>
 
                     </HStack>
 
@@ -195,7 +289,7 @@ const ConfiguracaoCobranca = () => {
 
                             <FormLabel fontSize='sm' >Enviar e-mail automático ?</FormLabel>
 
-                            <RadioGroup value={envEmailAutAVenc} onChange={setEnvEmailAutAVenc} size='md'>
+                            <RadioGroup value={envEmailAutCobr} onChange={setEnvEmailAutCobr} size='md'>
                                 <Stack direction='row'>
                                     <Radio fontSize='sm' value='N'>Não</Radio>
                                     <Radio fontSize='sm' value='D'>Diário</Radio>
@@ -213,35 +307,35 @@ const ConfiguracaoCobranca = () => {
                                 size='sm'
                                 type='text'
                                 width="4rem"
-                                value={hrsIntEmailAutAVenc}
-                                onChange={(e) => setHrsIntEmailAutAVenc(e.target.value)}
+                                value={hrsIniEmailAutCobr}
+                                onChange={(e) => setHrsIniEmailAutCobr(e.target.value)}
                             />
 
                         </Stack>
 
                         <Stack direction='column' spacing={0} >
 
-                            <FormLabel fontSize='sm' >Horário agendamento</FormLabel>
+                            <FormLabel fontSize='sm'>Horário agendamento</FormLabel>
                             <Input
                                 type='time'
                                 size='sm'
-                                width="7rem"
-                                value={hrsIntEmailAutAVenc}
-                                onChange={(e) => setHrsIntEmailAutAVenc(e.target.value)}
+                                width="100%"
+                                value={hrsIntEmailAutCobr}
+                                onChange={(e) => setHrsIntEmailAutCobr(e.target.value)}
                             />
 
                         </Stack>
 
 
-                        <Stack direction='column' spacing={0} >
+                        <Stack direction='column' spacing={0}>
 
-                            <FormLabel fontSize='sm' >Dias Antes do vencimento</FormLabel>
+                            <FormLabel fontSize='sm'>Dias vencido</FormLabel>
                             <Input
                                 size='sm'
                                 type='text'
                                 width="4rem"
-                                value={diasAVencEmailAutAVenc}
-                                onChange={(e) => setDiasAVencEmailAutAVenc(e.target.value)}
+                                value={diasVencEmailAutCobr}
+                                onChange={(e) => setDiasVencEmailAutCobr(e.target.value)}
                             />
 
                         </Stack>
@@ -258,8 +352,8 @@ const ConfiguracaoCobranca = () => {
                         <Input
                             type='text'
                             size='sm'
-                            value={mailAssuntoTitAVenc}
-                            onChange={(e) => setMailAssuntoTitAVenc(e.target.value)}
+                            value={mailAssuntoCobr}
+                            onChange={(e) => setMailAssuntoCobr(e.target.value)}
                             placeholder="Informe o assunto do E-mail"
                         />
                     </Stack>
@@ -270,39 +364,57 @@ const ConfiguracaoCobranca = () => {
 
                         <FormLabel fontSize='sm'>Mensagem padrão titulos a vencer</FormLabel>
 
-                        <MyEditor  initialValue={mailMsgTitAVenc}></MyEditor>
+                        <MyEditor  initialValue={mailMsgCobr}></MyEditor>
 
                     </Stack>
 
 
 
-                    <FormLabel fontSize='sm'>
+                    <HStack justifyContent='space-between'>
 
-                        <Box display='flex' justifyContent='space-between'>
+                        <Button
+                            fontWeight='none'
+                            size='sm'
+                            colorScheme='blue'
+                            marginTop={2} marginLeft={2}
+                            loadingText='Enviando...'
+                            onClick={handleEnviarEmailTeste}
+                        >
+                            Enviar e-mail Teste
+                        </Button>
 
-                            <Box>
-                                <Button size='sm' width='5.2rem' colorScheme={emEdicao ? 'red' : 'yellow'} marginTop={2}>
-                                    {emEdicao ? 'Cancelar' : 'Editar'}
-                                </Button>
 
-                                <Button type='submit' size='sm' colorScheme='green' marginTop={2} marginLeft={2} isDisabled={!emEdicao} onClick={handleSalvarDados}>Salvar</Button>
-                            </Box>
+                        <Box>
 
-                            <Button
-
-                                size='sm'
-                                width='9.2rem'
-                                colorScheme='blue'
-                                marginTop={2} marginLeft={2}
-                                loadingText='Enviando...'
-                                onClick={handleEnviarEmailTeste}
+                            <Button 
+                                fontWeight='none'
+                                size='sm' 
+                                width='5.2rem' 
+                                colorScheme={emEdicaoConfigMensagem ? 'red' : 'yellow'} 
+                                marginTop={2}
+                                onClick={handleEditarConfigMensagem}
                             >
-                                Enviar e-mail Teste
+                                {emEdicaoConfigMensagem ? 'Cancelar' : 'Editar'}
                             </Button>
 
+                            <Button 
+                                type='submit' 
+                                fontWeight='none'
+                                size='sm' 
+                                colorScheme='green' 
+                                marginTop={2} 
+                                marginLeft={2} 
+                                isDisabled={!emEdicaoConfigMensagem} 
+                                onClick={handleSalvarConfigMensagem}
+                            >
+                                Salvar
+                            </Button>
                         </Box>
 
-                    </FormLabel>
+
+                    </HStack>
+
+                 
 
 
                 </FormControl>

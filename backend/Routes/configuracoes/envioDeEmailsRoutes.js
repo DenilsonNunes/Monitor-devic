@@ -10,6 +10,7 @@ const ConfigEmailCobrancaController = require('../../controllers/configuracoes/c
 /*------------------------------- COBRANCA --------------------------------- */
 
 router.get('/cobranca/teste-conexao-server', ConfigEmailCobrancaController.testConnection);
+router.get('/cobranca', ConfigEmailCobrancaController.getConfig);
 
 
 /*---------------------------------- FIM ----------------------------------- */
