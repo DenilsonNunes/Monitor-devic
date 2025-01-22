@@ -28,7 +28,7 @@ const HomeConfigEnvioEmail = () => {
           <Tab>Titulos a vencer</Tab>
           <Tab>Titulos vencidos</Tab>
           <Tab>Promoções</Tab>
-          <Tab>Anivesário</Tab>
+          <Tab>Aniversário</Tab>
           <Tab>Marketing</Tab>
           <Tab>Gestor</Tab>
         </TabList>

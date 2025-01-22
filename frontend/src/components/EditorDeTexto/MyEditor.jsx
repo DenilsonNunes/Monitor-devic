@@ -16,9 +16,10 @@ const MyEditor = ({initialValue, emAlteracao, onChange}) => {
 
     // Função para lidar com mudanças no editor
     const handleChange = (content) => {
-      console.log('como vem a msg: ',content);
+
       setValue(content);
       onChange(content); // Chama a função de callback passada como prop
+      
     };
 
 

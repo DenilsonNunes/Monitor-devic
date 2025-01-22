@@ -13,9 +13,10 @@ import {
     RadioGroup,
     Radio,
     Divider,
-    useToast
+    useToast,
+    Select
 }
-from '@chakra-ui/react'
+    from '@chakra-ui/react'
 
 
 // API
@@ -32,16 +33,21 @@ import ErrorServer from '../../../../components/Error/ErrorServer';
 
 const ConfiguracaoCobranca = () => {
 
+    const queryClient = useQueryClient();
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast();
 
     const [emEdicaoConfigMensagem, setEmEdicaoConfigMensagem] = useState(false);
     const [emEdicaoServerSMTP, setEmEdicaoServerSMTP] = useState(false);
+    const [loadingTesteConexao, setLoadingTesteConexao] = useState(false)
+
 
     const [serverSMTP, setServerSMTP] = useState('');
     const [portSMTP, setPortSMTP] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
 
     const [envEmailAutCobr, setEnvEmailAutCobr] = useState('');
     const [hrsIniEmailAutCobr, setHrsIniEmailAutCobr] = useState('');
@@ -52,7 +58,6 @@ const ConfiguracaoCobranca = () => {
 
 
 
- 
 
 
 
@@ -64,28 +69,70 @@ const ConfiguracaoCobranca = () => {
 
 
 
-    
 
-  /*-----------------Chamada para buscar as configurações de envio de email cobranca do banco de dados--------------- */
+
+
+    /*-----------------Chamada para buscar as configurações de envio de email cobranca do banco de dados--------------- */
     const { data, error, isLoading } = useQuery({
-        queryKey: ['configuracao-cobranca'],
+        queryKey: ['configuracao-email-cobranca'],
         queryFn: async () => {
             const response = await api.get('/configuracoes/envio-de-emails/cobranca');
             return response.data[0];
         },
-        refetchOnWindowFocus: false,
     });
-  /*-----------------------------------FIM------------------------------------------ */
+    /*-----------------------------------FIM------------------------------------------ */
 
 
- 
+
+    /*----------------- Realiza o update no banco de dados--------------- */
+    const { mutate, isPending, isSuccess, isError, reset } = useMutation({
+
+        mutationFn: async () => {
+
+            // Um atraso de 2 seguntos para exibir o loading na tela
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
+            const response = await api.patch('configuracoes/envio-de-emails/cobranca/server-smtp', {
+                serverSMTP,
+                portSMTP,
+                email,
+                password
+            })
+
+            return response.data;
+
+        },
+        onSuccess: () => {
+            // Se der sucesso, recagerra os filtros e atualiza os dados a serem exibidos
+            queryClient.invalidateQueries('configuracao-email-cobranca');
+
+            toast({
+                title: 'As alterações foram realizadas com sucesso!!!',
+                variant: 'left-accent',
+                status: 'success',
+                position: 'bottom-right',
+                isClosable: true,
+            })
+
+        },
+        onError: (error) => {
+
+            // Se der erro, exibi erro na tela
+
+        }
+
+    })
+
+
+
+
+
+
 
     useEffect(() => {
 
 
         if (data) {
-
-
 
             setEmail(data.SMTPUsuarioCobr)
             setPassword(data.SMTPSenhaCobr || '');
@@ -96,10 +143,9 @@ const ConfiguracaoCobranca = () => {
             setMailAssuntoCobr(data.MailAssuntoCobr || '');
             setEnvEmailAutCobr(data.EnvEmailAutCobr || '');
             setHrsIntEmailAutCobr(data.HsIntEmailAutCobr || '');
-            setHrsIniEmailAutCobr(data.HrsIniEmailAutCobr || '');
+            setHrsIniEmailAutCobr(data.HsIniEmailAutCobr || '');
             setDiasVencEmailAutCobr(data.DiasVencEmailAutCobr || '');
             setMailMsgCobr(data.MailMsgCobr || '');
-
 
         }
 
@@ -107,10 +153,12 @@ const ConfiguracaoCobranca = () => {
 
 
 
-    
+
 
 
     const handleTestarConexao = async () => {
+
+        setLoadingTesteConexao(true);
 
         try {
 
@@ -120,21 +168,27 @@ const ConfiguracaoCobranca = () => {
                 title: response.data.message,
                 variant: 'left-accent',
                 status: 'success',
+                position: 'bottom-right',
                 isClosable: true,
             })
-            
 
-          } catch (err) { 
+            setLoadingTesteConexao(false);
+
+
+        } catch (err) {
 
             toast({
                 title: 'Erro ao conectar com o servidor SMTP',
                 variant: 'left-accent',
                 status: 'error',
+                position: 'bottom-right',
                 isClosable: true,
             })
 
-          }
-   
+            setLoadingTesteConexao(false);
+
+        }
+
     }
 
     const handleEnviarEmailTeste = () => {
@@ -144,14 +198,19 @@ const ConfiguracaoCobranca = () => {
 
 
 
-    const handleSalvarConexaoSMTP = () => {
+    const handleSalvarConexaoSMTP = (e) => {
+
+        e.preventDefault();
+
+        console.log("Como vai salvar..:", email, password, serverSMTP, portSMTP);
+        mutate();
 
     }
 
     const handleEditarConexaoSMTP = () => {
 
         setEmEdicaoServerSMTP(!emEdicaoServerSMTP);
-        
+
 
     }
 
@@ -167,13 +226,13 @@ const ConfiguracaoCobranca = () => {
         setEmEdicaoConfigMensagem(!emEdicaoConfigMensagem);
 
     }
-    
-    
 
 
 
 
-    if (error) return <ErrorServer mensagem='Ocorreu um erro e não foi possível carregar as configurações'/>;
+
+
+    if (error) return <ErrorServer mensagem='Ocorreu um erro e não foi possível carregar as configurações' />;
 
 
 
@@ -185,7 +244,7 @@ const ConfiguracaoCobranca = () => {
 
             {/*--------------------------- CONFIGURAÇÕES DE SERVIDOR SMTP -------------------------- */}
             <form onSubmit={handleSalvarConexaoSMTP}>
-                <FormControl  p="2" width="100%" borderWidth="1px" borderColor="#cbd5e1" borderRadius='5px' marginBottom={2}>
+                <FormControl p="2" width="100%" borderWidth="1px" borderColor="#cbd5e1" borderRadius='5px' marginBottom={2}>
 
                     <Stack direction='row' width='100%'>
 
@@ -195,6 +254,7 @@ const ConfiguracaoCobranca = () => {
                             <Input
                                 size='sm'
                                 type='text'
+                                required
                                 isDisabled={!emEdicaoServerSMTP}
                                 value={serverSMTP}
                                 onChange={(e) => setServerSMTP(e.target.value)}
@@ -208,7 +268,8 @@ const ConfiguracaoCobranca = () => {
                             <FormLabel fontSize='sm'>SMTP Usuário</FormLabel>
                             <Input
                                 size='sm'
-                                type='e-mail'
+                                type='email'
+                                required
                                 isDisabled={!emEdicaoServerSMTP}
                                 border='1px'
                                 borderColor='#cbd5e1'
@@ -225,6 +286,7 @@ const ConfiguracaoCobranca = () => {
                             <Input
                                 size='sm'
                                 type='password'
+                                required
                                 isDisabled={!emEdicaoServerSMTP}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -239,7 +301,8 @@ const ConfiguracaoCobranca = () => {
                             <FormLabel fontSize='sm'>Porta</FormLabel>
                             <Input
                                 size='sm'
-                                type='text'
+                                type='number'
+                                required
                                 isDisabled={!emEdicaoServerSMTP}
                                 width="4rem"
                                 value={portSMTP}
@@ -249,6 +312,22 @@ const ConfiguracaoCobranca = () => {
                         </Stack>
 
 
+                        <Stack direction='column' spacing={0}>
+
+                            <FormLabel fontSize='sm'>Tipo Conexão</FormLabel>
+                            <Select 
+                                size='sm' 
+                                placeholder='--selecione--'
+                                isDisabled={!emEdicaoServerSMTP}
+                            >
+                                <option value='S'>SSL</option>
+                                <option value='T'>TLS</option>
+                            </Select>
+
+                        </Stack>
+
+
+
 
                     </Stack>
 
@@ -256,29 +335,32 @@ const ConfiguracaoCobranca = () => {
 
                     <HStack marginTop={6} justifyContent='end'>
 
-                        <Button 
+                        <Button
                             fontWeight='none'
-                            size='sm' 
-                            colorScheme='blue' 
+                            size='sm'
+                            colorScheme='blue'
                             onClick={handleTestarConexao}
                             isDisabled={emEdicaoServerSMTP}
+                            isLoading={loadingTesteConexao}
                         >
                             Testar Conexão
                         </Button>
 
-                        <Button  
+                        <Button
                             fontWeight='none'
-                            size='sm' 
-                            colorScheme={emEdicaoServerSMTP ? 'red' : 'yellow'} 
-                            marginLeft={2} 
+                            size='sm'
+                            colorScheme={emEdicaoServerSMTP ? 'red' : 'yellow'}
+                            marginLeft={2}
                             onClick={handleEditarConexaoSMTP}
+                            isDisabled={loadingTesteConexao}
                         >
                             {emEdicaoServerSMTP ? 'Cancelar' : 'Editar'}
                         </Button>
 
-                        <Button  
+                        <Button
+                            type='submit'
                             fontWeight='none'
-                            size='sm' 
+                            size='sm'
                             colorScheme='green'
                             isDisabled={!emEdicaoServerSMTP}
                             onClick={handleSalvarConexaoSMTP}
@@ -337,7 +419,7 @@ const ConfiguracaoCobranca = () => {
                                 size='sm'
                                 width="100%"
                                 isDisabled={!emEdicaoConfigMensagem}
-                                value={hrsIniEmailAutCobr}
+                                value="15:55"
                                 onChange={(e) => setHrsIniEmailAutCobr(e.target.value)}
                             />
 
@@ -383,9 +465,9 @@ const ConfiguracaoCobranca = () => {
 
                         <FormLabel fontSize='sm'>Mensagem padrão cobrança</FormLabel>
 
-                        <MyEditor  
+                        <MyEditor
                             initialValue={mailMsgCobr}
-                            emAlteracao={!emEdicaoConfigMensagem} 
+                            emAlteracao={!emEdicaoConfigMensagem}
                         />
 
                     </Stack>
@@ -409,25 +491,25 @@ const ConfiguracaoCobranca = () => {
 
                         <Box>
 
-                            <Button 
+                            <Button
                                 fontWeight='none'
-                                size='sm' 
-                                width='5.2rem' 
-                                colorScheme={emEdicaoConfigMensagem ? 'red' : 'yellow'} 
+                                size='sm'
+                                width='5.2rem'
+                                colorScheme={emEdicaoConfigMensagem ? 'red' : 'yellow'}
                                 marginTop={2}
                                 onClick={handleEditarConfigMensagem}
                             >
                                 {emEdicaoConfigMensagem ? 'Cancelar' : 'Editar'}
                             </Button>
 
-                            <Button 
-                                type='submit' 
+                            <Button
+                                type='submit'
                                 fontWeight='none'
-                                size='sm' 
-                                colorScheme='green' 
-                                marginTop={2} 
-                                marginLeft={2} 
-                                isDisabled={!emEdicaoConfigMensagem} 
+                                size='sm'
+                                colorScheme='green'
+                                marginTop={2}
+                                marginLeft={2}
+                                isDisabled={!emEdicaoConfigMensagem}
                                 onClick={handleSalvarConfigMensagem}
                             >
                                 Salvar
@@ -437,7 +519,7 @@ const ConfiguracaoCobranca = () => {
 
                     </HStack>
 
-                 
+
 
 
                 </FormControl>

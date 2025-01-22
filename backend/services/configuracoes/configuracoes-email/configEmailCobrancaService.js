@@ -13,17 +13,15 @@ class ConfigEmailCobrancaService {
 
         const data = await ConfigEmailCobrancaRepository.testConnection();
 
-        console.log('REsult', data)
-
-        const host = data[0].SMTPServerCobr
-        const port = data[0].PoraCobr
-        const userEmail = data[0].SMTPUsuarioCobr
-        const password = data[0].SMTPSenhaCobr
+        const host = data[0].SMTPServerCobr;
+        const port = data[0].PoraCobr;
+        const userEmail = data[0].SMTPUsuarioCobr;
+        const password = data[0].SMTPSenhaCobr;
 
 
         const result = await testConnectionServerSMTP(host, port, userEmail, password);
 
-        console.log('Rsult...:', result)
+        console.log('Rsult...:', result);
 
         return result;
 
@@ -44,10 +42,9 @@ class ConfigEmailCobrancaService {
 
     static getConfig = async () => {
 
-
         const data = await ConfigEmailCobrancaRepository.getConfig();
 
-
+        // Retorna novo objeto com a horas ja formatada, ex: 12:12
         return data.map(item => ({
             ...item,
             HsIniEmailAutCobr: filtraHoraMinutosDoDateTime(item.HsIniEmailAutCobr),
@@ -56,9 +53,27 @@ class ConfigEmailCobrancaService {
 
 
 
-    static updateConfigServerSmtp = async () => {
+    static updateConfigServerSmtp = async (serverSMTP, portSMTP, email, password) => {
 
-        return await ConfigEmailCobrancaRepository.updateConfigServerSmtp();
+        if (!serverSMTP || !portSMTP || !email || !password) {
+
+            return {
+                success: false,
+                message: 'Todos os campos (serverSMTP, portSMTP, email, password) são obrigatórios.',
+            };
+
+        } else {
+            
+            const data = await ConfigEmailCobrancaRepository.updateConfigServerSmtp(serverSMTP, portSMTP, email, password);
+
+            return {
+                success: true,
+                data
+            }
+
+        }
+
+
         
     }
 

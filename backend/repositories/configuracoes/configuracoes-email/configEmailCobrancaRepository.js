@@ -74,14 +74,17 @@ class ConfigEmailCobrancaRepository {
 
 
 
-    static updateConfigServerSmtp = async () => {
+    static updateConfigServerSmtp = async (serverSMTP, portSMTP, email, password) => {
 
         
 
-        const data = await sqlQuery(
+        const data = await sqlQueryUpate(
             `                   
-                SELECT * FROM tmConfigteste
-                WHERE Modulo = 'Vendas'
+                UPDATE tmConfigEmail
+                SET SMTPServerCobr = '${serverSMTP}',
+                    SMTPUsuarioCobr = '${email}',
+                    SMTPSenhaCobr = '${password}',
+                    PortaCobr = ${portSMTP}
              `
         );
 

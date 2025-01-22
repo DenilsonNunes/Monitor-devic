@@ -67,20 +67,34 @@ class ConfigEmailCobrancaController {
     // Edita as configurações do servidor SMTP
     async updateConfigServerSmtp(req, res) {
 
-        const data = req.body;
+        const {
+            serverSMTP, 
+            portSMTP, 
+            email, 
+            password
+        } = req.body;
        
+
         try {
 
-            await sqlUpdate(UpdateConfigEnvEmail.titulosAvencer(data));
+            const result = await ConfigEmailCobrancaService.updateConfigServerSmtp(serverSMTP, portSMTP, email, password);
 
-            res.status(200).json({message: 'Alteração realizada com sucesso!'});
+            if (!result.success) {
+          
+                return res.status(400).json({ success: false, message: result.message });
 
-        } catch (e) {
+            }
 
-            console.log('Erro no controller: ', e.message);
-            res.status(500).json({ "Erro ao alterar as configurações de email: ": e.message });
+            res.status(200).json(result);
+
+        } catch (err) {
+
+            res.status(500).json({ message: err.message });
 
         }
+        
+        
+
 
 
     }
